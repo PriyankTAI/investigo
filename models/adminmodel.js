@@ -4,15 +4,8 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const createError = require('http-errors');
 
-const userSchema = new mongoose.Schema({
-    googleid: {
-        type: String
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    email: {
+const adminSchema = new mongoose.Schema({
+       email: {
         type: String,
         required: true,
         unique: true,
@@ -24,14 +17,11 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-    },
-    phone: {
-        type: String,
-    },
+    }
 })
 
 // generating tokens
-userSchema.methods.generateAuthToken = async function () {
+adminSchema.methods.generateAuthToken = async function () {
     try {
         // console.log(this._id);
         const token = jwt.sign({ _id: this._id.toString() }, process.env.SECRET_KEY, { expiresIn: '90d' });
@@ -43,7 +33,7 @@ userSchema.methods.generateAuthToken = async function () {
 }
 
 // converting password into hash
-userSchema.pre("save", async function (next) {
+adminSchema.pre("save", async function (next) {
 
     if (this.isModified("password")) {
         this.password = await bcrypt.hash(this.password, 10);
@@ -51,4 +41,4 @@ userSchema.pre("save", async function (next) {
     next();
 })
 
-module.exports = new mongoose.model("User", userSchema);
+module.exports = new mongoose.model("Admin", adminSchema);
