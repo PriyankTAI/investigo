@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<!-- BEGIN: Head-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <!-- <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google."> -->
+    <!-- <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template, eCommerce dashboard, analytic dashboard"> -->
+    <!-- <meta name="author" content="ThemeSelect"> -->
+    <title>Dashboard</title>
+    <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/favicon/favicon-32x32.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- BEGIN: VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
+    <!-- END: VENDOR CSS-->
+    <!-- BEGIN: Page Level CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/style.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/dashboard.css">
+    <!-- END: Page Level CSS-->
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/custom/custom.css">
+    <!-- END: Custom CSS-->
+</head>
+<!-- END: Head-->
+
+<body
+    class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns"
+    data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <header class="page-topbar" id="header">
+        <div class="navbar navbar-fixed">
+            <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-light">
+                <div class="nav-wrapper">
+                    <div class="header-search-wrapper hide-on-med-and-down"><i class="material-icons">search</i>
+                        <input class="header-search-input z-depth-2" type="text" name="Search"
+                            placeholder="Search..." data-search="template-list">
+                        <!-- <ul class="search-list collection display-none"></ul> -->
+                    </div>
+                    <ul class="navbar-list right">
+                        <li class="hide-on-large-only search-input-wrapper"><a
+                                class="waves-effect waves-block waves-light search-button" href="javascript:void(0);"><i
+                                    class="material-icons">search</i></a></li>
+                    </ul>
+                </div>
+                <nav class="display-none search-sm">
+                    <div class="nav-wrapper">
+                        <form id="navbarForm">
+                            <div class="input-field search-input-sm">
+                                <input class="search-box-sm mb-0" type="search" required="" id="search"
+                                    placeholder="Search..." data-search="template-list">
+                                <label class="label-icon" for="search"><i
+                                        class="material-icons search-sm-icon">search</i></label><i
+                                    class="material-icons search-sm-close">close</i>
+                                <ul class="search-list collection search-list-sm display-none"></ul>
+                            </div>
+                        </form>
+                    </div>
+                </nav>
+            </nav>
+        </div>
+    </header>
+    <!-- END: Header-->
+    <!-- BEGIN: SideNav-->
+    <aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-dark sidenav-active-rounded">
+        <div class="brand-sidebar">
+            <h1 class="logo-wrapper"><a class="brand-logo darken-1" href="/admin"><img class="hide-on-med-and-down "
+                        src="/app-assets/images/logo/materialize-logo.png" alt="materialize logo" /><img
+                        class="show-on-medium-and-down hide-on-med-and-up"
+                        src="/app-assets/images/logo/materialize-logo-color.png" alt="materialize logo" /><span
+                        class="logo-text hide-on-med-and-down">Materialize</span></a><a class="navbar-toggler"
+                    href="#"><i class="material-icons">radio_button_checked</i></a></h1>
+        </div>
+        <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out"
+            data-menu="menu-navigation" data-collapsible="accordion">
+            <li class="active bold"><a class="waves-effect waves-cyan " href="/admin"><i
+                        class="material-icons">settings_input_svideo</i><span class="menu-title"
+                        data-i18n="Dashboard">Dashboard</span></a>
+            </li>
+            <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i
+                        class="material-icons">dvr</i><span class="menu-title"
+                        data-i18n="Templates">Templates</span></a>
+                <div class="collapsible-body">
+                    <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                        <li><a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)"><i
+                                    class="material-icons">radio_button_unchecked</i><span
+                                    data-i18n="Vertical">Vertical</span></a>
+                            <div class="collapsible-body">
+                                <ul class="collapsible" data-collapsible="accordion">
+                                    <li><a href="../vertical-modern-menu-template/"><i
+                                                class="material-icons">radio_button_unchecked</i><span
+                                                data-i18n="Modern Menu">Modern Menu</span></a>
+                                    </li>
+                                    <li><a href="../vertical-menu-nav-dark-template/"><i
+                                                class="material-icons">radio_button_unchecked</i><span
+                                                data-i18n="Navbar Dark">Navbar Dark</span></a>
+                                    </li>
+                                    <li><a href="../vertical-gradient-menu-template/"><i
+                                                class="material-icons">radio_button_unchecked</i><span
+                                                data-i18n="Gradient Menu">Gradient Menu</span></a>
+                                    </li>
+                                    <li><a href="../vertical-dark-menu-template/"><i
+                                                class="material-icons">radio_button_unchecked</i><span
+                                                data-i18n="Dark Menu">Dark Menu</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)"><i
+                                    class="material-icons">radio_button_unchecked</i><span
+                                    data-i18n="Horizontal">Horizontal</span></a>
+                            <div class="collapsible-body">
+                                <ul class="collapsible" data-collapsible="accordion">
+                                    <li><a href="../horizontal-menu-template/"><i
+                                                class="material-icons">radio_button_unchecked</i><span
+                                                data-i18n="Horizontal Menu">Horizontal Menu</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="navigation-header"><a class="navigation-header-text">Applications</a><i
+                    class="navigation-header-icon material-icons">more_horiz</i>
+            </li>
+        </ul>
+        <div class="navigation-background"></div><a
+            class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only"
+            href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
+    </aside>
+    <!-- END: SideNav-->
