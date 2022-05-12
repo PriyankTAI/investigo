@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
+
 const checkUser = require('../middleware/authMiddleware');
 
 const User = require('../models/usermodel');
@@ -29,7 +30,7 @@ router.post("/register", async (req, res, next) => {
         })
         const token = await user.generateAuthToken();
         await user.save();
-        res.status(200).json({status: "success",token})
+        res.status(200).json({ status: "success", token })
     } catch (error) {
         // console.log(error);
         next(error)
@@ -52,7 +53,7 @@ router.post("/login", async (req, res, next) => {
             return next(createError.BadRequest(`Invalid  email or password`));
         }
         const token = await userExist.generateAuthToken();
-        res.status(200).json({status: "success",token})
+        res.status(200).json({ status: "success", token })
     } catch (error) {
         console.log(error);
         next(error);
@@ -60,7 +61,7 @@ router.post("/login", async (req, res, next) => {
 })
 
 // POST Change Pass
-router.post("/changepass",checkUser, async (req, res,next) => {
+router.post("/changepass", checkUser, async (req, res, next) => {
     try {
         const user = req.user;
         if (user == null) {
@@ -82,11 +83,11 @@ router.post("/changepass",checkUser, async (req, res,next) => {
         }
         if (currentpass == newpass) {
             return next(createError.BadRequest(`New password can not be same as current password`));
-            
+
         }
         if (newpass != cfnewpass) {
             return next(createError.BadRequest(`Password and confirm password do not match`));
-            
+
         }
         user.password = newpass;
         await user.save();

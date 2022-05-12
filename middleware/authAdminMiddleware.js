@@ -22,7 +22,7 @@ const checkAdmin = function (req, res, next) {
                     if (!admin) {
                         req.flash('red', 'Please login as admin first!');
                         return res.redirect('/admin/login');
-                    } 
+                    }
                     req.admin = admin;
                     req.session.checkAdminSuccess = undefined;
                     next();

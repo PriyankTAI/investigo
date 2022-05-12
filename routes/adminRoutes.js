@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const createError = require('http-errors');
 
 const User = require('../models/usermodel');
 const Admin = require('../models/adminmodel');
@@ -63,7 +62,6 @@ router.post("/login", async (req, res) => {
             httpOnly: true,
             // secure:true
         });
-        // req.flash('green', 'success!');
         res.redirect('/admin');
     } catch (error) {
         console.log(error);

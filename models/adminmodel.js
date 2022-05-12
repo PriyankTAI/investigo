@@ -5,7 +5,7 @@ const validator = require("validator");
 const createError = require('http-errors');
 
 const adminSchema = new mongoose.Schema({
-       email: {
+    email: {
         type: String,
         required: true,
         unique: true,
@@ -23,7 +23,6 @@ const adminSchema = new mongoose.Schema({
 // generating tokens
 adminSchema.methods.generateAuthToken = async function () {
     try {
-        // console.log(this._id);
         const token = jwt.sign({ _id: this._id.toString() }, process.env.SECRET_KEY, { expiresIn: '90d' });
         return token;
     } catch (error) {
@@ -34,7 +33,6 @@ adminSchema.methods.generateAuthToken = async function () {
 
 // converting password into hash
 adminSchema.pre("save", async function (next) {
-
     if (this.isModified("password")) {
         this.password = await bcrypt.hash(this.password, 10);
     }
