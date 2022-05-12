@@ -11,10 +11,12 @@ router.post("/register", async (req, res, next) => {
     try {
         const userExist = await User.findOne({ email: req.body.email })
         if (userExist && userExist.googleid) {
-            // console.log(userExist.googleid);
             userExist.password = req.body.password;
             await userExist.save();
-            return res.status(200).json("success")
+            return res.status(200).json({
+                status: "success",
+                message: "google user, password added"
+            })
         }
         if (userExist) {
             return next(createError.BadRequest(`email already registered`));
@@ -35,67 +37,66 @@ router.post("/register", async (req, res, next) => {
 })
 
 // POST login
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
     try {
         const { email, password } = req.body;
         const userExist = await User.findOne({ email });
         if (!userExist) {
-            return res.status(201).json('Invalid email or password!');
+            return next(createError.BadRequest(`Invalid  email or password`));
         }
         if (!userExist.password) {
-            return res.status(201).json('Please login with google.');
+            return next(createError.BadRequest(`Please login with google`));
         }
         const isMatch = await bcrypt.compare(password, userExist.password);
         if (!isMatch) {
-            return res.status(201).json('Invalid email or password!');
+            return next(createError.BadRequest(`Invalid  email or password`));
         }
         const token = await userExist.generateAuthToken();
         res.status(200).json({status: "success",token})
     } catch (error) {
         console.log(error);
-        res.status(400).send(error.message);
+        next(error);
     }
 })
 
 // POST Change Pass
-router.post("/changepass",checkUser, async (req, res) => {
+router.post("/changepass",checkUser, async (req, res,next) => {
     try {
         const user = req.user;
-        console.log(req.user);
         if (user == null) {
-            return res.status(201).json('Please login first.');
+            return next(createError.BadRequest(`Please login first`));
         }
         const { currentpass, newpass, cfnewpass } = req.body;
         if (!currentpass || currentpass.length < 6) {
-            return res.status(201).json('Invalid current password');
+            return next(createError.BadRequest(`Invalid current password`));
         }
         if (!newpass || newpass.length < 6) {
-            return res.status(201).json('Invalid new password');
+            return next(createError.BadRequest(`Invalid new password`));
         }
         if (!cfnewpass || cfnewpass.length < 6) {
-            return res.status(201).json('Invalid confirm password');
+            return next(createError.BadRequest(`Invalid confirm password`));
         }
         const isMatch = await bcrypt.compare(currentpass, user.password);
         if (!isMatch) {
-            return res.status(201).json('wrong current password');
-            
+            return next(createError.BadRequest(`Wrong current password`));
         }
         if (currentpass == newpass) {
-            return res.status(201).json('New password can not be same as current password');
+            return next(createError.BadRequest(`New password can not be same as current password`));
             
         }
         if (newpass != cfnewpass) {
-            return res.status(201).json('Password and confirm password does not match!');
+            return next(createError.BadRequest(`Password and confirm password do not match`));
             
         }
         user.password = newpass;
         await user.save();
-        return res.status(200).json('Password updated');
+        return res.status(200).json({
+            status: "success",
+            message: "password updated"
+        });
     } catch (error) {
-        if (error) {
-            console.log(error);
-            res.json(error)
-        }
+        console.log(error);
+        next(error)
     }
 })
 

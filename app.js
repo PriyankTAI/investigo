@@ -26,14 +26,8 @@ app.use(express.static(path.join(__dirname, "/public")));
 // set global errors var
 app.locals.errors = null;
 
-// get all pages to pass to header.ejs
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }))
-// app.use(bodyParser.json({
-//     verify: (req, res, buf) => {
-//         req.rawBody = buf
-//     }
-// }))
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -84,17 +78,14 @@ app.use((error, req, res, next) => {
     // console.log(err.name);
     if (error.name === "ValidationError") {
         let errors = {};
-
         Object.keys(error.errors).forEach((key) => {
             errors[key] = error.errors[key].message;
         });
-
         return res.status(400).send({
             status: "fail",
             errors
         });
     }
-    // res.status(500).send("Something went wrong");
 
     res.status(error.status || 500).json({
         status: "fail",

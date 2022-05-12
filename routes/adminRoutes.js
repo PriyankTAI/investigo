@@ -9,10 +9,8 @@ const Admin = require('../models/adminmodel');
 const checkAdmin = require('../middleware/authAdminMiddleware');
 
 // GET admin dashboard
-router.get('/',checkAdmin, (req, res) => {
-    res.render("dashboard", {
-        title: "Dashboard",
-    });
+router.get('/', checkAdmin, (req, res) => {
+    res.render("dashboard");
 });
 
 // GET admin login
@@ -26,9 +24,7 @@ router.get('/login', (req, res) => {
         jwt.verify(token, process.env.SECRET_KEY, function (err, decodedToken) {
             if (err) {
                 console.log("ERROR: " + err.message);
-                return res.render('admin/login', {
-                    title: 'Admin Login'
-                })
+                return res.render('admin/login')
             } else {
                 Admin.findById(decodedToken._id, function (err, user) {
                     if (err) {
@@ -48,7 +44,7 @@ router.get('/login', (req, res) => {
 })
 
 // POST login
-router.post("/login",async (req, res) => {
+router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
         const adminExist = await Admin.findOne({ email });
@@ -75,22 +71,18 @@ router.post("/login",async (req, res) => {
     }
 })
 
-
 // GET logout
 router.get("/logout", async (req, res) => {
     res.clearCookie("jwtAdmin");
     res.redirect('/admin/login');
 })
 
-
 // Get all user
-router.get('/user',checkAdmin, async (req, res) => {
-    const users = await User.find(); 
+router.get('/user', checkAdmin, async (req, res) => {
+    const users = await User.find();
     res.render("user", {
-        title: "User Management",
         users
-
-
     });
 });
+
 module.exports = router;
