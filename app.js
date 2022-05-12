@@ -68,6 +68,11 @@ app.get('/', (req, res) => res.send("Backend running..."));
 app.use('/', require('./routes/authRoutes'));
 app.use('/admin', require('./routes/adminRoutes'));
 
+// 404 admin
+app.all('/admin/*', (req, res) => {
+    res.render("404");
+});
+
 // 404
 app.all('*', (req, res, next) => {
     next(createError.NotFound(`${req.originalUrl} not found!`))

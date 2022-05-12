@@ -14,7 +14,6 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        // required: true,
         required: [true, 'Email is required'],
         unique: true,
         validate(value) {
@@ -40,7 +39,6 @@ const userSchema = new mongoose.Schema({
 // generating tokens
 userSchema.methods.generateAuthToken = async function () {
     try {
-        // console.log(this._id);
         const token = jwt.sign({ _id: this._id.toString() }, process.env.SECRET_KEY, { expiresIn: '90d' });
         return token;
     } catch (error) {
