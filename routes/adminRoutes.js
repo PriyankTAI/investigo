@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const createError = require('http-errors');
+
+const checkAdmin = require('../middleware/authAdminMiddleware');
 
 const User = require('../models/usermodel');
 const Admin = require('../models/adminmodel');
-const checkAdmin = require('../middleware/authAdminMiddleware');
 
 // GET admin dashboard
 router.get('/', checkAdmin, (req, res) => {
@@ -61,9 +61,7 @@ router.post("/login", async (req, res) => {
         res.cookie("jwtAdmin", token, {
             expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
             httpOnly: true,
-            // secure:true
         });
-        // req.flash('green', 'success!');
         res.redirect('/admin');
     } catch (error) {
         console.log(error);

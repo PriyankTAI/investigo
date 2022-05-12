@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
+
 const User = require('../models/usermodel');
 
 const checkUser = function (req, res, next) {
@@ -18,7 +19,6 @@ const checkUser = function (req, res, next) {
                         next(createError.InternalServerError("Some error occured!"));
                     }
                     req.user = user;
-                    // console.log(req.user._id + " in middleware");
                     next();
                 });
             }
