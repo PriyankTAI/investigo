@@ -17,29 +17,29 @@ router.get('/', checkAdmin, (req, res) => {
 router.get('/login', (req, res) => {
     if (req.session.checkAdminSuccess) {
         req.session.checkAdminSuccess = undefined;
-        return res.render('admin/login')
+        return res.render('login')
     }
     const token = req.cookies['jwtAdmin'];
     if (token) {
         jwt.verify(token, process.env.SECRET_KEY, function (err, decodedToken) {
             if (err) {
                 console.log("ERROR: " + err.message);
-                return res.render('admin/login')
+                return res.render('login')
             } else {
                 Admin.findById(decodedToken._id, function (err, user) {
                     if (err) {
                         console.log("ERROR: " + err.message);
-                        return res.render('admin/login')
+                        return res.render('login')
                     }
                     if (!user) {
-                        return res.render('admin/login')
+                        return res.render('login')
                     }
                     return res.redirect('/admin');
                 });
             }
         });
     } else {
-        return res.render('admin/login')
+        return res.render('login')
     }
 })
 
