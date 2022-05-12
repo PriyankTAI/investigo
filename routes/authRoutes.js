@@ -83,17 +83,9 @@ router.post("/changepass", checkUser, async (req, res, next) => {
         }
         if (currentpass == newpass) {
             return next(createError.BadRequest(`New password can not be same as current password`));
-<<<<<<< HEAD
         }
         if (newpass != cfnewpass) {
             return next(createError.BadRequest(`Password and confirm password do not match`));
-=======
-
-        }
-        if (newpass != cfnewpass) {
-            return next(createError.BadRequest(`Password and confirm password do not match`));
-
->>>>>>> a476ffa5e34236df3fc3aeefe9ca93d214571c96
         }
         user.password = newpass;
         await user.save();
