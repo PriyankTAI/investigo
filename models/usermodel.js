@@ -10,11 +10,12 @@ const userSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: true
+        required: [true,'Name is required'],
     },
     email: {
         type: String,
-        required: true,
+        // required: true,
+        required: [true,'Email is required'],
         unique: true,
         validate(value) {
             if (!validator.isEmail(value)) {
@@ -24,6 +25,13 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
+        required: [true,'Password is required'],
+        validate(value){
+            if (!validator.isLength(value, { min: 6, max: 1000 })) {
+                throw Error("Length of the password should be between 6-1000");
+              }
+        }
+
     },
     phone: {
         type: String,

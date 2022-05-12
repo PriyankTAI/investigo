@@ -80,10 +80,25 @@ app.all('*', (req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
-    res.status(err.status || 500).json({
+app.use((error, req, res, next) => {
+    // console.log(err.name);
+    if (error.name === "ValidationError") {
+        let errors = {};
+
+        Object.keys(error.errors).forEach((key) => {
+            errors[key] = error.errors[key].message;
+        });
+
+        return res.status(400).send({
+            status: "fail",
+            errors
+        });
+    }
+    // res.status(500).send("Something went wrong");
+
+    res.status(error.status || 500).json({
         status: "fail",
-        message: err.message,
+        message: error.message,
     })
 })
 

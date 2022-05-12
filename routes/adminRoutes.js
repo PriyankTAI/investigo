@@ -1,25 +1,51 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 // const createError = require('http-errors');
 
 const User = require('../models/usermodel');
 const Admin = require('../models/adminmodel');
+const checkAdmin = require('../middleware/authAdminMiddleware');
 
 // GET admin dashboard
-router.get('/', (req, res) => {
+router.get('/',checkAdmin, (req, res) => {
     res.render("dashboard", {
         title: "Dashboard",
     });
 });
 
-
 // GET admin login
 router.get('/login', (req, res) => {
-    res.render("login", {
-        title: "Login",
-    });
-});
+    if (req.session.checkAdminSuccess) {
+        req.session.checkAdminSuccess = undefined;
+        return res.render('admin/login')
+    }
+    const token = req.cookies['jwtAdmin'];
+    if (token) {
+        jwt.verify(token, process.env.SECRET_KEY, function (err, decodedToken) {
+            if (err) {
+                console.log("ERROR: " + err.message);
+                return res.render('admin/login', {
+                    title: 'Admin Login'
+                })
+            } else {
+                Admin.findById(decodedToken._id, function (err, user) {
+                    if (err) {
+                        console.log("ERROR: " + err.message);
+                        return res.render('admin/login')
+                    }
+                    if (!user) {
+                        return res.render('admin/login')
+                    }
+                    return res.redirect('/admin');
+                });
+            }
+        });
+    } else {
+        return res.render('admin/login')
+    }
+})
 
 // POST login
 router.post("/login",async (req, res) => {
@@ -58,8 +84,8 @@ router.get("/logout", async (req, res) => {
 
 
 // Get all user
-router.get('/user', async (req, res) => {
-    const users = await User.find(); // exclude admin
+router.get('/user',checkAdmin, async (req, res) => {
+    const users = await User.find(); 
     res.render("user", {
         title: "User Management",
         users
