@@ -60,10 +60,12 @@ app.use(function (req, res, next) {
     next();
 });
 
+
 // routes
 app.get('/', (req, res) => res.send("Backend running..."));
 app.use('/', require('./routes/authRoutes'));
 app.use('/admin', require('./routes/adminRoutes'));
+app.use('/admin', require('./routes/adminCmsPages'));
 
 // 404 admin
 app.all('/admin/*', (req, res) => {
