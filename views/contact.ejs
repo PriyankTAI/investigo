@@ -9,7 +9,7 @@
     <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google.">
     <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template, eCommerce dashboard, analytic dashboard">
     <meta name="author" content="ThemeSelect">
-    <title>CMS</title>
+    <title>Contect Us</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/favicon/favicon-32x32.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -38,17 +38,16 @@
     <div id="main">
         <div class="row">
             <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
-                <!-- Search for small screen-->
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>User</span></h5>
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Contact Us</span></h5>
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
                             <ol class="breadcrumbs mb-0">
                                 <li class="breadcrumb-item"><a href="/admin">Home</a>
                                 </li>
-                                <li class="breadcrumb-item active">User
+                                <li class="breadcrumb-item active">Contact Us
                                 </li>
                             </ol>
                         </div>
@@ -58,22 +57,35 @@
             <div class="col s12">
                 <div class="container">
                     <div class="section section-data-tables">
-                 <!-- Page Length Options -->
                         <div class="row">
                             <div class="col s12">
                                 <div class="card">
                                     <div class="card-content">
                                         <div class="row">
                                             <div class="col s12">
-                                                <h4 class="card-title">User Details</h4>
+                                                <h4 class="card-title">Contact Us</h4>
                                                 <!-- errors -->
                                                 <%- messages('messages', locals) %>
-                                                <form method="POST" action="/admin/about_us">
-                                                    <div class="form-group">
-                                                        <!-- <label for="">Content</label> -->
-                                                        <textarea name="content" class="form-control" id="ta" cols="30" rows="10" placeholder="content"> content </textarea>
+                                                <form method="POST" action="/admin/about_us" id="form" onsubmit="validate()">
+                                                    <div class="input-field col s6">
+                                                        <input placeholder="Phone No" id="phone" name="phone" type="text">
+                                                        <small id="error1" hidden><div id="password-error" class="error">Please enter phone number.</div></small>
+                                                        <label for="phone">Phone No</label>
                                                     </div>
-                                                    <button type="submit" class="btn purple mt-1">Submit</button>
+                                                    <div class="input-field col s6">
+                                                        <input placeholder="Email" id="email" name="email" type="text">
+                                                        <small id="error2" hidden><div id="password-error" class="error">Please enter valid email.</div></small>
+                                                        <label for="email">Email</label>
+                                                    </div>
+                                                    <div class="input-field col s12">
+                                                        <input placeholder="Address" id="address" name="address" type="text">
+                                                        <small id="error3" hidden><div id="password-error" class="error">Please enter address.</div></small>
+                                                        <label for="address">Address</label>
+                                                    </div>
+                                                    <div class="input-field col s12">
+                                                        <textarea name="content" class="form-control" id="ta" cols="30" rows="10" placeholder="Content"> content </textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn purple ml-1">Submit</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -98,6 +110,57 @@
     </footer>
 
     <!-- END: Footer-->
+    <script>
+        const formC = document.getElementById('form');
+        const phoneC = document.getElementById('phone');
+        const emailC = document.getElementById('email');
+        const addressC = document.getElementById('address');
+
+        formC.addEventListener('submit', (e) => {
+            e.preventDefault();
+        })
+        function validate() {
+            let returnVal = true;
+
+            const phoneValue = phoneC.value.trim();
+            const emailValue = emailC.value.trim();
+            const addressValue = addressC.value.trim();
+
+            if (phoneValue == '') {
+                document.getElementById('error1').removeAttribute('hidden')
+                returnVal = false;
+            } else {
+                document.getElementById('error1').setAttribute('hidden',true)
+            }
+            
+            if (emailValue == '') {
+                document.getElementById('error2').removeAttribute('hidden')
+                returnVal = false;
+            } else if (!validateEmail(emailValue)) {
+                document.getElementById('error2').removeAttribute('hidden')
+                returnVal = false;
+            } else {
+                document.getElementById('error2').setAttribute('hidden',true)
+            }
+            
+            if (addressValue == '') {
+                document.getElementById('error3').removeAttribute('hidden')
+                returnVal = false;
+            } else {
+                document.getElementById('error3').setAttribute('hidden',true)
+            }
+
+            if (returnVal) {
+                formC.submit();
+            }
+        }
+
+        function validateEmail(email) {
+            return email.match(
+                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+        }
+    </script>
     <!-- BEGIN VENDOR JS-->
     <script src="/app-assets/js/vendors.min.js"></script>
     <!-- BEGIN VENDOR JS-->
