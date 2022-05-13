@@ -12,7 +12,7 @@ router.get("/about_us", checkAdmin, async (req, res) => {
     try {
         const page = await Page.findOne({ title: 'About Us' })
         const content = page.content;
-        res.status(201).render("cms", {
+        res.status(201).render("about", {
             content
         });
     } catch (error) {
@@ -33,7 +33,7 @@ router.post('/about_us', checkAdmin, [
         const page = await Page.findOne({ title: 'About Us' })
         page.content = req.body.content;
         await page.save()
-        req.flash('green', 'Contact us details updated successfully.')
+        req.flash('green', 'About us details updated successfully.')
         res.redirect('/admin/about_us')
     } catch (error) {
         console.log(error);
