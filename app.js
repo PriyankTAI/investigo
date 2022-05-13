@@ -26,11 +26,8 @@ app.use(express.static(path.join(__dirname, "/public")));
 // set global errors var
 app.locals.errors = null;
 
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: false }))
-
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET));
 
 // session
