@@ -9,11 +9,7 @@
     <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google.">
     <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template, eCommerce dashboard, analytic dashboard">
     <meta name="author" content="ThemeSelect">
-<<<<<<<< HEAD:views/contact.ejs
-    <title>Contect Us</title>
-========
-    <title>About Us</title>
->>>>>>>> b176b99cfbcace41765f1d4871b7a1fdac8de28e:views/about.ejs
+    <title>Contact Us</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/favicon/favicon-32x32.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -45,21 +41,13 @@
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m6 l6">
-<<<<<<<< HEAD:views/contact.ejs
                             <h5 class="breadcrumbs-title mt-0 mb-0"><span>Contact Us</span></h5>
-========
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>About Us</span></h5>
->>>>>>>> b176b99cfbcace41765f1d4871b7a1fdac8de28e:views/about.ejs
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
                             <ol class="breadcrumbs mb-0">
                                 <li class="breadcrumb-item"><a href="/admin">Home</a>
                                 </li>
-<<<<<<<< HEAD:views/contact.ejs
                                 <li class="breadcrumb-item active">Contact Us
-========
-                                <li class="breadcrumb-item active">About Us
->>>>>>>> b176b99cfbcace41765f1d4871b7a1fdac8de28e:views/about.ejs
                                 </li>
                             </ol>
                         </div>
@@ -75,36 +63,27 @@
                                     <div class="card-content">
                                         <div class="row">
                                             <div class="col s12">
-<<<<<<<< HEAD:views/contact.ejs
                                                 <h4 class="card-title">Contact Us</h4>
                                                 <!-- errors -->
                                                 <%- messages('messages', locals) %>
-                                                <form method="POST" action="/admin/about_us" id="form" onsubmit="validate()">
+                                                <form method="POST" action="/admin/contact" id="form" onsubmit="validate()">
                                                     <div class="input-field col s6">
-                                                        <input placeholder="Phone No" id="phone" name="phone" type="text">
+                                                        <input placeholder="Phone No" id="phone" name="phone" type="text" value="<%= contact.phone %>">
                                                         <small id="error1" hidden><div id="password-error" class="error">Please enter phone number.</div></small>
                                                         <label for="phone">Phone No</label>
-========
-                                                <h4 class="card-title">About Us</h4>
-                                                <!-- errors -->
-                                                <%- messages('messages', locals) %>
-                                                <form method="POST" action="/admin/about_us">
-                                                    <div class="form-group">
-                                                        <textarea name="content" class="form-control" id="ta" cols="30" rows="10" placeholder="content"> <%= content %>  </textarea>
->>>>>>>> b176b99cfbcace41765f1d4871b7a1fdac8de28e:views/about.ejs
                                                     </div>
                                                     <div class="input-field col s6">
-                                                        <input placeholder="Email" id="email" name="email" type="text">
+                                                        <input placeholder="Email" id="email" name="email" type="text" value="<%= contact.email %>">
                                                         <small id="error2" hidden><div id="password-error" class="error">Please enter valid email.</div></small>
                                                         <label for="email">Email</label>
                                                     </div>
                                                     <div class="input-field col s12">
-                                                        <input placeholder="Address" id="address" name="address" type="text">
+                                                        <input placeholder="Address" id="address" name="address" type="text" value="<%= contact.address %>">
                                                         <small id="error3" hidden><div id="password-error" class="error">Please enter address.</div></small>
                                                         <label for="address">Address</label>
                                                     </div>
                                                     <div class="input-field col s12">
-                                                        <textarea name="content" class="form-control" id="ta" cols="30" rows="10" placeholder="Content"> content </textarea>
+                                                        <textarea name="content" class="form-control" id="ta" cols="30" rows="10" placeholder="Content"> <%= content %>  </textarea>
                                                     </div>
                                                     <button type="submit" class="btn purple ml-1">Submit</button>
                                                 </form>

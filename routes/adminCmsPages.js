@@ -3,7 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 const Page = require('../models/pageModel');
-// const Contact = require('../models/contactDetailModel');
+const Contact = require('../models/contact');
 
 const checkAdmin = require('../middleware/authAdminMiddleware');
 
@@ -150,8 +150,7 @@ router.get("/contact", checkAdmin, async (req, res) => {
         const page = await Page.findOne({ title: 'Contact' })
         const content = page.content;
         const contact = await Contact.findOne();
-        res.status(201).render("admin/contact", {
-            title: 'Contact Us',
+        res.status(201).render("contact", {
             content,
             contact
         });
@@ -162,7 +161,6 @@ router.get("/contact", checkAdmin, async (req, res) => {
 });
 
 router.post('/contact', checkAdmin, [
-    // check('content','Content must have a value').notEmpty(),
     check('phone', 'Phone must have a value').notEmpty(),
     check('email', 'Email must have a valid value').isEmail(),
     check('address', 'Address must have a value').notEmpty(),
@@ -170,17 +168,11 @@ router.post('/contact', checkAdmin, [
     try {
         const page = await Page.findOne({ title: 'Contact' })
         const contact = await Contact.findOne();
-        const content = page.content;
 
         const validationErrors = validationResult(req)
         if (validationErrors.errors.length > 0) {
-            const alert = validationErrors.array()
-            return res.render('admin/contact', {
-                title: 'Contact',
-                alert,
-                content,
-                contact
-            })
+            req.flash('red', validationErrors.errors[0])
+            return res.redirect('/admin/contact')
         }
         page.content = req.body.content || '';
         await page.save()
@@ -188,10 +180,7 @@ router.post('/contact', checkAdmin, [
         contact.email = req.body.email;
         contact.address = req.body.address;
         await contact.save()
-        // locals
-        req.app.locals.contact = contact;
-
-        req.flash('success', 'Contact deetails updated successfully.')
+        req.flash('green', 'Contact deetails updated successfully.')
         res.redirect('/admin/contact')
     } catch (error) {
         console.log(error);
