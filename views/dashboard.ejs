@@ -6,8 +6,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google.">
-    <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template, eCommerce dashboard, analytic dashboard">
+    <meta name="description"
+        content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google.">
+    <meta name="keywords"
+        content="materialize, admin template, dashboard template, flat admin template, responsive admin template, eCommerce dashboard, analytic dashboard">
     <meta name="author" content="ThemeSelect">
     <title>Dashboard</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
@@ -27,130 +29,138 @@
 </head>
 <!-- END: Head-->
 
-<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns   " data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+<body
+    class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns   "
+    data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
 
-<%- include('_layouts/sidenavbar') %>
+    <%- include('_layouts/sidenavbar') %>
 
-    <!-- BEGIN: Page Main-->
-    <div id="main">
-        <div class="row">
-            <div class="col s12">
-                <div class="container">
-                    <div class="section">
-                        <!--card stats start-->
-                        <div id="card-stats" class="pt-0">
-                            <div class="row">
-                            <!-- messages -->
-                            <%- messages('messages', locals) %>
+        <!-- BEGIN: Page Main-->
+        <div id="main">
+            <div class="row">
+                <div class="col s12">
+                    <div class="container">
+                        <div class="section">
+                            <!--card stats start-->
+                            <div id="card-stats" class="pt-0">
+                                <div class="row">
+                                    <!-- messages -->
+                                    <%- messages('messages', locals) %>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m6 l6 xl3">
+                                        <div
+                                            class="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text animate fadeLeft">
+                                            <div class="padding-4">
+                                                <div class="row">
+                                                    <div class="col s7 m7">
+                                                        <i
+                                                            class="material-icons background-round mt-5">add_shopping_cart</i>
+                                                        <p>Orders</p>
+                                                    </div>
+                                                    <div class="col s5 m5 right-align">
+                                                        <h5 class="mb-0 white-text">690</h5>
+                                                        <p class="no-margin">New</p>
+                                                        <p>6,00,00</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6 l6 xl3">
+                                        <div
+                                            class="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text animate fadeLeft">
+                                            <div class="padding-4">
+                                                <div class="row">
+                                                    <div class="col s7 m7">
+                                                        <i
+                                                            class="material-icons background-round mt-5">perm_identity</i>
+                                                        <p>Clients</p>
+                                                    </div>
+                                                    <div class="col s5 m5 right-align">
+                                                        <h5 class="mb-0 white-text">1885</h5>
+                                                        <p class="no-margin">New</p>
+                                                        <p>1,12,900</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6 l6 xl3">
+                                        <div
+                                            class="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text animate fadeRight">
+                                            <div class="padding-4">
+                                                <div class="row">
+                                                    <div class="col s7 m7">
+                                                        <i class="material-icons background-round mt-5">timeline</i>
+                                                        <p>Sales</p>
+                                                    </div>
+                                                    <div class="col s5 m5 right-align">
+                                                        <h5 class="mb-0 white-text">80%</h5>
+                                                        <p class="no-margin">Growth</p>
+                                                        <p>3,42,230</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6 l6 xl3">
+                                        <div
+                                            class="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text animate fadeRight">
+                                            <div class="padding-4">
+                                                <div class="row">
+                                                    <div class="col s7 m7">
+                                                        <i class="material-icons background-round mt-5">attach_money</i>
+                                                        <p>Profit</p>
+                                                    </div>
+                                                    <div class="col s5 m5 right-align">
+                                                        <h5 class="mb-0 white-text">$890</h5>
+                                                        <p class="no-margin">Today</p>
+                                                        <p>$25,000</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col s12 m6 l6 xl3">
-                                    <div
-                                        class="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text animate fadeLeft">
-                                        <div class="padding-4">
-                                            <div class="row">
-                                                <div class="col s7 m7">
-                                                    <i class="material-icons background-round mt-5">add_shopping_cart</i>
-                                                    <p>Orders</p>
-                                                </div>
-                                                <div class="col s5 m5 right-align">
-                                                    <h5 class="mb-0 white-text">690</h5>
-                                                    <p class="no-margin">New</p>
-                                                    <p>6,00,00</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 l6 xl3">
-                                    <div
-                                        class="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text animate fadeLeft">
-                                        <div class="padding-4">
-                                            <div class="row">
-                                                <div class="col s7 m7">
-                                                    <i class="material-icons background-round mt-5">perm_identity</i>
-                                                    <p>Clients</p>
-                                                </div>
-                                                <div class="col s5 m5 right-align">
-                                                    <h5 class="mb-0 white-text">1885</h5>
-                                                    <p class="no-margin">New</p>
-                                                    <p>1,12,900</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 l6 xl3">
-                                    <div
-                                        class="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text animate fadeRight">
-                                        <div class="padding-4">
-                                            <div class="row">
-                                                <div class="col s7 m7">
-                                                    <i class="material-icons background-round mt-5">timeline</i>
-                                                    <p>Sales</p>
-                                                </div>
-                                                <div class="col s5 m5 right-align">
-                                                    <h5 class="mb-0 white-text">80%</h5>
-                                                    <p class="no-margin">Growth</p>
-                                                    <p>3,42,230</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 l6 xl3">
-                                    <div
-                                        class="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text animate fadeRight">
-                                        <div class="padding-4">
-                                            <div class="row">
-                                                <div class="col s7 m7">
-                                                    <i class="material-icons background-round mt-5">attach_money</i>
-                                                    <p>Profit</p>
-                                                </div>
-                                                <div class="col s5 m5 right-align">
-                                                    <h5 class="mb-0 white-text">$890</h5>
-                                                    <p class="no-margin">Today</p>
-                                                    <p>$25,000</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--card stats end-->
                         </div>
-                        <!--card stats end-->
+                        <!--end container-->
                     </div>
-                    <!--end container-->
                 </div>
+                <!-- <div class="content-overlay"></div> -->
             </div>
-            <!-- <div class="content-overlay"></div> -->
         </div>
-    </div>
-    <!-- END: Page Main-->
+        <!-- END: Page Main-->
 
-    <!-- BEGIN: Footer-->
+        <!-- BEGIN: Footer-->
 
-    <footer class="page-footer footer footer-static footer-light navbar-border navbar-shadow">
-        <div class="footer-copyright">
-            <div class="container"><span>&copy; 2020 <a href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">PIXINVENT</a> All rights reserved.</span><span class="right hide-on-small-only">Design and Developed by <a href="https://pixinvent.com/">PIXINVENT</a></span></div>
-        </div>
-    </footer>
+        <footer class="page-footer footer footer-static footer-light navbar-border navbar-shadow">
+            <div class="footer-copyright">
+                <div class="container"><span>&copy; 2020 <a
+                            href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent"
+                            target="_blank">PIXINVENT</a> All rights reserved.</span><span
+                        class="right hide-on-small-only">Design and Developed by <a
+                            href="https://pixinvent.com/">PIXINVENT</a></span></div>
+            </div>
+        </footer>
 
-    <!-- END: Footer-->
-    <!-- BEGIN VENDOR JS-->
-    <script src="/app-assets/js/vendors.min.js"></script>
-    <!-- BEGIN VENDOR JS-->
-    <!-- BEGIN PAGE VENDOR JS-->
-    <script src="/app-assets/vendors/chartjs/chart.min.js"></script>
-    <!-- END PAGE VENDOR JS-->
-    <!-- BEGIN THEME  JS-->
-    <script src="/app-assets/js/plugins.js"></script>
-    <script src="/app-assets/js/search.js"></script>
-    <script src="/app-assets/js/custom/custom-script.js"></script>
-    <!-- END THEME  JS-->
-    <!-- BEGIN PAGE LEVEL JS-->
-    <!-- <script src="/app-assets/js/scripts/dashboard-ecommerce.js"></script> -->
-    <!-- END PAGE LEVEL JS-->
+        <!-- END: Footer-->
+        <!-- BEGIN VENDOR JS-->
+        <script src="/app-assets/js/vendors.min.js"></script>
+        <!-- BEGIN VENDOR JS-->
+        <!-- BEGIN PAGE VENDOR JS-->
+        <script src="/app-assets/vendors/chartjs/chart.min.js"></script>
+        <!-- END PAGE VENDOR JS-->
+        <!-- BEGIN THEME  JS-->
+        <script src="/app-assets/js/plugins.js"></script>
+        <script src="/app-assets/js/search.js"></script>
+        <script src="/app-assets/js/custom/custom-script.js"></script>
+        <!-- END THEME  JS-->
+        <!-- BEGIN PAGE LEVEL JS-->
+        <!-- <script src="/app-assets/js/scripts/dashboard-ecommerce.js"></script> -->
+        <!-- END PAGE LEVEL JS-->
 </body>
 
 </html>
