@@ -60,8 +60,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-
-
 // routes
 app.get('/', (req, res) => res.send("Backend running..."));
 app.use('/', require('./routes/authRoutes'));

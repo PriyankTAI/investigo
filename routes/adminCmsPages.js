@@ -33,7 +33,7 @@ router.post('/about_us', checkAdmin, [
         const page = await Page.findOne({ title: 'About Us' })
         page.content = req.body.content;
         await page.save()
-        req.flash('green', 'About us details updated successfully.')
+        req.flash('green', 'About us updated successfully.')
         res.redirect('/admin/about_us')
     } catch (error) {
         console.log(error);
@@ -68,7 +68,7 @@ router.post('/faqs', checkAdmin, [
         const page = await Page.findOne({ title: 'FAQs' })
         page.content = req.body.content;
         await page.save();
-        req.flash('green', 'FAQs details updated successfully.')
+        req.flash('green', 'FAQs updated successfully.')
         res.redirect('/admin/faqs')
     } catch (error) {
         console.log(error);
@@ -102,7 +102,7 @@ router.post('/terms_con', checkAdmin, [
         const page = await Page.findOne({ title: 'Terms & Condition' })
         page.content = req.body.content;
         await page.save()
-        req.flash('green', 'Terms & Conditions details updated successfully.')
+        req.flash('green', 'Terms & Conditions updated successfully.')
         res.redirect('/admin/terms_con')
     } catch (error) {
         console.log(error);
@@ -136,7 +136,7 @@ router.post('/privacy_policy', checkAdmin, [
         const page = await Page.findOne({ title: 'Privacy Policy' })
         page.content = req.body.content;
         await page.save()
-        req.flash('green', 'Privancy Policy updated successfully.')
+        req.flash('green', 'Privacy Policy updated successfully.')
         res.redirect('/admin/privacy_policy')
     } catch (error) {
         console.log(error);
@@ -171,7 +171,7 @@ router.post('/contact', checkAdmin, [
 
         const validationErrors = validationResult(req)
         if (validationErrors.errors.length > 0) {
-            req.flash('red', validationErrors.errors[0])
+            req.flash('red', validationErrors.errors[0].msg)
             return res.redirect('/admin/contact')
         }
         page.content = req.body.content || '';
@@ -180,7 +180,7 @@ router.post('/contact', checkAdmin, [
         contact.email = req.body.email;
         contact.address = req.body.address;
         await contact.save()
-        req.flash('green', 'Contact deetails updated successfully.')
+        req.flash('green', 'Contact Us updated successfully.')
         res.redirect('/admin/contact')
     } catch (error) {
         console.log(error);

@@ -83,8 +83,4 @@ router.get('/user', checkAdmin, async (req, res) => {
     });
 });
 
-router.get('/cms', checkAdmin, async (req, res) => {
-    res.render("cms");
-});
-
 module.exports = router;
