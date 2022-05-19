@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var pageSchema = mongoose.Schema({
     title: {
         type: String,
-        required: true,
+        required: [true, 'Title is required'],
         unique: true,
     },
     content: {

@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var packageSchema = mongoose.Schema({
     title: {
         type: String,
-        required: true,
+        required: [true, 'Title is required'],
         unique: true,
     },
     description: {
@@ -12,7 +12,7 @@ var packageSchema = mongoose.Schema({
     },
     price: {
         type: String,
-        required: true
+        required: [true, 'Price is required'],
     },
     image: {
         type: String

@@ -4,11 +4,12 @@ const validator = require("validator");
 const messageSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: [true, 'Name is required'],
     },
     email: {
         type: String,
-        required: true,
+        required: [true, 'Email is required'],
+        unique: true,
         validate(value) {
             if (!validator.isEmail(value)) {
                 throw new Error("email is invalid")
@@ -17,15 +18,15 @@ const messageSchema = new mongoose.Schema({
     },
     address: {
         type: String,
-        required: true
+        required: [true, 'Address is required'],
     },
     phone: {
         type:String,
-        require: true
+        required: [true, 'Number is required'],
     },
     message: {
         type: String,
-        required: true
+        required: [true, 'Message is required'],
     },
     date: {
         type: Date,
