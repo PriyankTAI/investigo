@@ -76,7 +76,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
         res.redirect('/admin/package')
     } catch (error) {
         if (error.code == 11000) {
-            req.flash('red', `Title name '${req.body.name}' already exist!`);
+            req.flash('red', `Title name '${req.body.title}' already exist!`);
             res.redirect('/admin/package');
         } else {
             console.log(error);
@@ -152,7 +152,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
     } catch (error) {
         console.log(error.message);
         if (error.code == 11000) {
-            req.flash('red', `Package name '${req.body.name}' already exist!`);
+            req.flash('red', `Package name '${req.body.title}' already exist!`);
             res.redirect(`/admin/package/edit/${req.params.id}`);
         } else if (error.name === 'CastError') {
             req.flash('red', `Package not found!`);

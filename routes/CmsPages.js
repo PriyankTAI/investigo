@@ -81,7 +81,7 @@ router.get("/contact", checkUser, async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        next(error);
     }
 });
 
@@ -94,9 +94,6 @@ router.post("/contact", [
     check('message', 'Please enter a message.').notEmpty(),
 ], checkUser,async (req, res) => {
     try {
-        const page = await Page.findOne({ title: 'Contact' })
-        const content = page.content;
-        const contact = await Contact.findOne();
         const validationErrors = validationResult(req)
         if (validationErrors.errors.length > 0) {
             const alert = validationErrors.array()
@@ -113,13 +110,10 @@ router.post("/contact", [
         res.status(201).json({
             status:"success",
             message: "Message sent succesfully",
-            content,
-            contact
-
         });
     } catch (error) {
-        res.status(400).send(error.message);
         console.log(error);
+        next(error);
     }
 })
 
