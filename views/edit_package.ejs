@@ -186,10 +186,13 @@
                     document.getElementById('error3').setAttribute('hidden', true)
                 }
 
-                if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
-                    document.getElementById('error4').removeAttribute('hidden')
-                } else {
+                if (filevalue == '') {
                     document.getElementById('error4').setAttribute('hidden', true)
+                } else if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+                    document.getElementById('error4').setAttribute('hidden', true)
+                } else {
+                    document.getElementById('error4').removeAttribute('hidden')
+                    // document.getElementById('error4').setAttribute('hidden', true)
                     returnVal = false;
                 }
 

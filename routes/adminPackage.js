@@ -53,7 +53,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
 ], async (req, res) => {
     try {
         const { title, description, price } = req.body;
-        const validationErrors = validationResult(req)
+        const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg);
             return res.render('add_package')
@@ -115,6 +115,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
 ], async (req, res) => {
     try {
         const { title, description, price } = req.body;
+        const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             const alert = validationErrors.array()
             return res.render('edit_category', {
