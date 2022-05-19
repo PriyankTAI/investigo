@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description"
+        content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google.">
+    <meta name="keywords"
+        content="materialize, admin template, dashboard template, flat admin template, responsive admin template, eCommerce dashboard, analytic dashboard">
+    <meta name="author" content="ThemeSelect">
+    <title>Add Package</title>
+    <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/favicon/favicon-32x32.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- BEGIN: VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/vendors/dropify/css/dropify.min.css"> -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+    <!-- END: VENDOR CSS-->
+    <!-- BEGIN: Page Level CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/style.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css">
+    <!-- END: Page Level CSS-->
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/custom/custom.css">
+    <!-- END: Custom CSS-->
+</head>
+<!-- END: Head-->
+
+<body
+    class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns   "
+    data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+    <%- include('_layouts/sidenavbar') %>
+
+        <!-- BEGIN: Page Main-->
+        <div id="main">
+            <div class="row">
+                <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Add package</span></h5>
+                            </div>
+                            <div class="col s12 m6 l6 right-align-md">
+                                <ol class="breadcrumbs mb-0">
+                                    <li class="breadcrumb-item"><a href="/admin">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Add package
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="container">
+                        <div class="section section-data-tables">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <!-- <h4 class="card-title">Contact Us</h4> -->
+                                                    <!-- errors -->
+                                                    <%- messages('messages', locals) %>
+                                                        <form method="POST" onsubmit="validate()"
+                                                            action="/admin/package/add" id="form"
+                                                            enctype="multipart/form-data">
+                                                            <div class="input-field col s4">
+                                                                <input placeholder="Title" id="title" name="title"
+                                                                    type="text">
+                                                                <small id="error1" hidden>
+                                                                    <div class="error">Please enter
+                                                                        title.</div>
+                                                                </small>
+                                                                <label for="title">Title</label>
+                                                            </div>
+                                                            <div class="input-field col s4">
+                                                                <input placeholder="Description" id="description"
+                                                                    name="description" type="text">
+                                                                <small id="error2" hidden>
+                                                                    <div class="error">Please enter
+                                                                        description.</div>
+                                                                </small>
+                                                                <label for="description">Description</label>
+                                                            </div>
+                                                            <div class="input-field col s4">
+                                                                <input placeholder="Price" id="price" name="price"
+                                                                    type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                                <small id="error3" hidden>
+                                                                    <div class="error">Please enter
+                                                                        price.</div>
+                                                                </small>
+                                                                <label for="price">Price</label>
+                                                            </div>
+                                                            <div class="input-field col s12">
+                                                                Upload Image
+                                                                <input type="file" name="image" id="input-file-now"
+                                                                    class="dropify" data-disable-remove="true" />
+                                                                <small id="error4" hidden>
+                                                                    <div class="error">Wrong file
+                                                                        type.</div>
+                                                                </small>
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn purple ml-1">Submit</button>
+                                                            <a href="/admin/package" class="btn btn-danger"
+                                                                style="color: white;">Cancel</a>
+                                                        </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-overlay"></div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Page Main-->
+
+        <!-- BEGIN: Footer-->
+
+        <footer class="page-footer footer footer-static footer-light navbar-border navbar-shadow">
+            <div class="footer-copyright">
+                <div class="container"><span>&copy; 2020 <a
+                            href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent"
+                            target="_blank">PIXINVENT</a> All rights reserved.</span><span
+                        class="right hide-on-small-only">Design and Developed by <a
+                            href="https://pixinvent.com/">PIXINVENT</a></span></div>
+            </div>
+        </footer>
+
+        <!-- END: Footer-->
+        <script>
+            const formC = document.getElementById('form');
+            const titleC = document.getElementById('title');
+            const descriptionC = document.getElementById('description');
+            const priceC = document.getElementById('price');
+
+            formC.addEventListener('submit', (e) => {
+                e.preventDefault();
+            })
+            function validate() {
+                let returnVal = true;
+
+                const titleValue = titleC.value.trim();
+                const descriptionValue = descriptionC.value.trim();
+                const priceValue = priceC.value.trim();
+                const filevalue = document.getElementById('input-file-now').value;
+                const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
+
+                if (titleValue == '') {
+                    document.getElementById('error1').removeAttribute('hidden')
+                    returnVal = false;
+                } else {
+                    document.getElementById('error1').setAttribute('hidden', true)
+                }
+
+                if (descriptionValue == '') {
+                    document.getElementById('error2').removeAttribute('hidden')
+                    returnVal = false;
+                } else {
+                    document.getElementById('error2').setAttribute('hidden', true)
+                }
+
+                if (priceValue == '') {
+                    document.getElementById('error3').removeAttribute('hidden')
+                    returnVal = false;
+                } else {
+                    document.getElementById('error3').setAttribute('hidden', true)
+                }
+
+                if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+                    document.getElementById('error4').setAttribute('hidden', true)
+                } else {
+                    document.getElementById('error4').removeAttribute('hidden')
+                    returnVal = false;
+                }
+
+                if (returnVal) {
+                    formC.submit();
+                }
+            }
+
+        </script>
+        <!-- BEGIN VENDOR JS-->
+        <script src="/app-assets/js/vendors.min.js"></script>
+        <!-- BEGIN VENDOR JS-->
+        <!-- BEGIN PAGE VENDOR JS-->
+        <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+        <script src="/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
+        <script src="/app-assets/vendors/data-tables/js/dataTables.select.min.js"></script>
+        <!-- END PAGE VENDOR JS-->
+        <!-- BEGIN THEME  JS-->
+        <script src="/app-assets/js/plugins.js"></script>
+        <script src="/app-assets/js/search.js"></script>
+        <script src="/app-assets/js/custom/custom-script.js"></script>
+        <!-- END THEME  JS-->
+        <!-- BEGIN PAGE LEVEL JS-->
+        <script src="/app-assets/js/scripts/data-tables.js"></script>
+        <!-- END PAGE LEVEL JS-->
+        <!-- ===== ckeditor JavaScript ===== -->
+        <script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+        <!-- <script src="/app-assert/vendors/dropify/js/dropify.min.js"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+        <script src="/plugins/components/dropify/dist/js/dropify.min.js"></script>
+        <script>
+            $(function () {
+                // Basic
+                $('.dropify').dropify();
+                // Translated
+                $('.dropify-fr').dropify({
+                    messages: {
+                        default: 'Glissez-déposez un fichier ici ou cliquez',
+                        replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                        remove: 'Supprimer',
+                        error: 'Désolé, le fichier trop volumineux'
+                    }
+                });
+                // Used events
+                var drEvent = $('#input-file-events').dropify();
+                drEvent.on('dropify.beforeClear', function (event, element) {
+                    return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+                });
+                drEvent.on('dropify.afterClear', function (event, element) {
+                    alert('File deleted');
+                });
+                drEvent.on('dropify.errors', function (event, element) {
+                    console.log('Has Errors');
+                });
+                var drDestroy = $('#input-file-to-destroy').dropify();
+                drDestroy = drDestroy.data('dropify')
+                $('#toggleDropify').on('click', function (e) {
+                    e.preventDefault();
+                    if (drDestroy.isDropified()) {
+                        drDestroy.destroy();
+                    } else {
+                        drDestroy.init();
+                    }
+                })
+            });
+        </script>
+        <!-- <script src="/app-assert/js/scripts/form-file-uploads.min.js"></script> -->
+</body>
+
+</html>

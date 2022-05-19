@@ -65,6 +65,7 @@ app.get('/', (req, res) => res.send("Backend running..."));
 app.use('/', require('./routes/authRoutes'));
 app.use('/admin', require('./routes/adminRoutes'));
 app.use('/admin', require('./routes/adminCmsPages'));
+app.use('/admin/package', require('./routes/adminPackage'));
 
 // 404 admin
 app.all('/admin/*', (req, res) => {
