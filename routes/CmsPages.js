@@ -7,6 +7,7 @@ const checkUser = require('../middleware/authMiddleware');
 const Contact = require('../models/contact');
 const Page = require('../models/pageModel');
 const Message = require('../models/messageModel');
+const Package = require('../models/package')
 
 // about us
 router.get("/about_us", checkUser, async (req, res) => {
@@ -19,7 +20,7 @@ router.get("/about_us", checkUser, async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        next(error);
     }
 });
 
@@ -34,7 +35,7 @@ router.get("/faqs", checkUser, async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        next(error);
     }
 });
 
@@ -49,7 +50,7 @@ router.get("/terms_con", checkUser,  async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        next(error);
     }
 });
 
@@ -64,7 +65,7 @@ router.get("/privacy_policy", checkUser, async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        next(error);
     }
 });
 
@@ -116,5 +117,19 @@ router.post("/contact", [
         next(error);
     }
 })
+
+router.get("/package", checkUser, async (req, res) => {
+    try {
+        const package = await Package.find();
+        res.status(201).json({
+            status:"success",
+            package
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
 
 module.exports = router;
