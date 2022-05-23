@@ -87,19 +87,8 @@ router.get("/contact", checkUser, async (req, res) => {
 });
 
 // POST message
-router.post("/contact", [
-    check('name', 'Please enter your name.').notEmpty(),
-    check('email', 'Please enter valid email.').isEmail(),
-    check('address', 'Please enter address.').notEmpty(),
-    check('phone', 'Please enter phone number.').notEmpty(),
-    check('message', 'Please enter a message.').notEmpty(),
-], checkUser,async (req, res) => {
+router.post("/contact", checkUser, async (req, res, next) => {
     try {
-        const validationErrors = validationResult(req)
-        if (validationErrors.errors.length > 0) {
-            const alert = validationErrors.array()
-            return next(createError.BadRequest(`An error occured`));
-        }
         const message = new Message({
             name: req.body.name,
             email: req.body.email,
@@ -113,7 +102,6 @@ router.post("/contact", [
             message: "Message sent succesfully",
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 })

@@ -34,4 +34,20 @@ const messageSchema = new mongoose.Schema({
     }
 })
 
+// pre validate trim value
+messageSchema.pre('validate', function (next) {
+    if (this.name) {
+        this.name = this.name.trim();
+    }
+    if (this.address) {
+        this.address = this.address.trim();
+    }
+    if (this.phone) {
+        this.phone = this.phone.trim();
+    }
+    if (this.message) {
+        this.message = this.message.trim();
+    }
+    next();
+});
 module.exports = new mongoose.model("Message", messageSchema);

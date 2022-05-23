@@ -55,4 +55,14 @@ userSchema.pre("save", async function (next) {
     next();
 })
 
+// pre validate trim value
+userSchema.pre('validate', function (next) {
+    if (this.name) {
+        this.name = this.name.trim();
+    }
+    if (this.password) {
+        this.password = this.password.trim();
+    }
+    next();
+});
 module.exports = new mongoose.model("User", userSchema);
