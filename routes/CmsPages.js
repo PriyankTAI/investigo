@@ -108,10 +108,11 @@ router.post("/contact", checkUser, async (req, res, next) => {
 
 router.get("/package", checkUser, async (req, res) => {
     try {
-        const package = await Package.find();
+        const packages = await Package.find();
         res.status(201).json({
             status:"success",
-            package
+            total: packages.length,
+            packages
         });
     } catch (error) {
         console.log(error);

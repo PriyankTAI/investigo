@@ -11,7 +11,7 @@ var packageSchema = mongoose.Schema({
         type: String
     },
     price: {
-        type: String,
+        type: Number,
         required: [true, 'Price is required'],
     },
     image: {
