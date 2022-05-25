@@ -49,13 +49,13 @@
                     <div class="container">
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Add package</span></h5>
+                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Add Package</span></h5>
                             </div>
                             <div class="col s12 m6 l6 right-align-md">
                                 <ol class="breadcrumbs mb-0">
                                     <li class="breadcrumb-item"><a href="/admin">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Add package
+                                    <li class="breadcrumb-item active">Add Package
                                     </li>
                                 </ol>
                             </div>
@@ -77,7 +77,7 @@
                                                         <form method="POST" onsubmit="validate()"
                                                             action="/admin/package/add" id="form"
                                                             enctype="multipart/form-data">
-                                                            <div class="input-field col s4">
+                                                            <div class="input-field col m4 s12">
                                                                 <input placeholder="Title" id="title" name="title"
                                                                     type="text">
                                                                 <small id="error1" hidden>
@@ -86,7 +86,7 @@
                                                                 </small>
                                                                 <label for="title">Title</label>
                                                             </div>
-                                                            <div class="input-field col s4">
+                                                            <div class="input-field col m4 s12">
                                                                 <input placeholder="Description" id="description"
                                                                     name="description" type="text">
                                                                 <small id="error2" hidden>
@@ -95,7 +95,7 @@
                                                                 </small>
                                                                 <label for="description">Description</label>
                                                             </div>
-                                                            <div class="input-field col s4">
+                                                            <div class="input-field col m4 s12">
                                                                 <input placeholder="Price" id="price" name="price"
                                                                     type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                                                 <small id="error3" hidden>
@@ -234,7 +234,7 @@
                 // Used events
                 var drEvent = $('#input-file-events').dropify();
                 drEvent.on('dropify.beforeClear', function (event, element) {
-                    return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+                    return confirm("Do you really want  to delete \"" + element.file.name + "\" ?");
                 });
                 drEvent.on('dropify.afterClear', function (event, element) {
                     alert('File deleted');

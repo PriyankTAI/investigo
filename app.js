@@ -67,6 +67,7 @@ app.use('/', require('./routes/CmsPages'));
 
 app.use('/admin', require('./routes/adminRoutes'));
 app.use('/admin', require('./routes/adminCmsPages'));
+app.use('/admin/user', require('./routes/adminUser'));
 app.use('/admin/package', require('./routes/adminPackage'));
 
 // 404 admin

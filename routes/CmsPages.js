@@ -99,13 +99,14 @@ router.post("/contact", checkUser, async (req, res, next) => {
         await message.save();
         res.status(201).json({
             status:"success",
-            message: "Message sent succesfully",
+            message: "Message sent successfully",
         });
     } catch (error) {
         next(error);
     }
 })
 
+// get all packages
 router.get("/package", checkUser, async (req, res) => {
     try {
         const packages = await Package.find();
@@ -119,6 +120,5 @@ router.get("/package", checkUser, async (req, res) => {
         next(error);
     }
 });
-
 
 module.exports = router;

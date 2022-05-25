@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 
 const checkAdmin = require('../middleware/authAdminMiddleware');
 
-const User = require('../models/usermodel');
 const Admin = require('../models/adminmodel');
 
 // GET admin dashboard
@@ -74,13 +73,5 @@ router.get("/logout", async (req, res) => {
     res.clearCookie("jwtAdmin");
     res.redirect('/admin/login');
 })
-
-// Get all user
-router.get('/user', checkAdmin, async (req, res) => {
-    const users = await User.find();
-    res.render("user", {
-        users
-    });
-});
 
 module.exports = router;

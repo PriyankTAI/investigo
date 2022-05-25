@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         validate(value) {
             if (!validator.isEmail(value)) {
-                throw new Error("email is invalid")
+                throw new Error("Email is invalid")
             }
         }
     },
@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
     },
+    blocked: {
+        type: Boolean,
+        default: false
+    }
 })
 
 // generating tokens

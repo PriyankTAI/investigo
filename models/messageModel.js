@@ -12,7 +12,7 @@ const messageSchema = new mongoose.Schema({
         unique: true,
         validate(value) {
             if (!validator.isEmail(value)) {
-                throw new Error("email is invalid")
+                throw new Error("Email is invalid")
             }
         }
     },
