@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
 
 const checkUser = require('../middleware/authMiddleware');
 
@@ -10,7 +9,7 @@ const Message = require('../models/messageModel');
 const Package = require('../models/package')
 
 // about us
-router.get("/about_us", checkUser, async (req, res) => {
+router.get("/about_us", async (req, res) => {
     try {
         const page = await Page.findOne({ title: 'About Us' })
         const content = page.content;
@@ -25,7 +24,7 @@ router.get("/about_us", checkUser, async (req, res) => {
 });
 
 // faqs
-router.get("/faqs", checkUser, async (req, res) => {
+router.get("/faqs", async (req, res) => {
     try {
         const page = await Page.findOne({ title: 'FAQs' })
         const content = page.content;
@@ -40,7 +39,7 @@ router.get("/faqs", checkUser, async (req, res) => {
 });
 
 // terms
-router.get("/terms_con", checkUser,  async (req, res) => {
+router.get("/terms_con", async (req, res) => {
     try {
         const page = await Page.findOne({ title: 'Terms & Condition' })
         const content = page.content;
@@ -55,7 +54,7 @@ router.get("/terms_con", checkUser,  async (req, res) => {
 });
 
 // privacy
-router.get("/privacy_policy", checkUser, async (req, res) => {
+router.get("/privacy_policy", async (req, res) => {
     try {
         const page = await Page.findOne({ title: 'Privacy Policy' })
         const content = page.content;
@@ -70,7 +69,7 @@ router.get("/privacy_policy", checkUser, async (req, res) => {
 });
 
 // contact
-router.get("/contact", checkUser, async (req, res) => {
+router.get("/contact", async (req, res) => {
     try {
         const page = await Page.findOne({ title: 'Contact' })
         const content = page.content;
@@ -87,7 +86,7 @@ router.get("/contact", checkUser, async (req, res) => {
 });
 
 // POST message
-router.post("/contact", checkUser, async (req, res, next) => {
+router.post("/contact", async (req, res, next) => {
     try {
         const message = new Message({
             name: req.body.name,
@@ -103,6 +102,7 @@ router.post("/contact", checkUser, async (req, res, next) => {
         });
     } catch (error) {
         next(error);
+        console.log(error);
     }
 })
 

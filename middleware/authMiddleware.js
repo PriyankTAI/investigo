@@ -19,10 +19,10 @@ const checkUser = function (req, res, next) {
                         next(createError.InternalServerError("Some error occured!"));
                     }
                     if (!user) {
-                        next(createError.Unauthorized("Please login first"));                            
-                    }
+                        next(createError.Unauthorized("Please login first"));
+                    }   
                     if (user.blocked == true) {
-                        next(createError.Unauthorized("Sorry!You are blocked,Please contact Admin"));                            
+                        next(createError.Unauthorized("Sorry!You are blocked,Please contact Admin."));
                     }
                     req.user = user;
                     next();

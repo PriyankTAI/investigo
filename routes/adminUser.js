@@ -18,7 +18,7 @@ router.get('/block/:id', checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
         const user = await User.findByIdAndUpdate(id, { blocked: true });
-        // req.flash('green', 'User blocked Successfully.');
+        // req.flash('green', 'User blocked successfully.');
         req.flash('green', `${user.name} blocked Successfully.`);
         res.redirect('/admin/user');
     } catch (error) {
@@ -37,8 +37,8 @@ router.get('/unblock/:id', checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
         const user = await User.findByIdAndUpdate(id, { blocked: false });
-        // req.flash('green', 'User unblocked Successfully.');
-        req.flash('green', `${user.name} unblock Successfully.`);
+        // req.flash('green', 'User unblocked successfully.');
+        req.flash('green', `${user.name} unblock successfully.`);
         res.redirect('/admin/user');
     } catch (error) {
         if (error.name === 'CastError') {

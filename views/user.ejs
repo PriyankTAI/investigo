@@ -98,19 +98,16 @@
                                                                     <td>
                                                                         <%= users[i].phone %>
                                                                     </td>
-                                                                    <!-- <td><a class="waves-effect border-round waves-light btn gradient-45deg-red-pink mr-1 mb-2">block</a>
-                                                                    <a class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2">unblock</a></td> -->
                                                                     <td>
                                                                         <% if (users[i].blocked) { %>
                                                                             <a href="/admin/user/unblock/<%= users[i].id %>"
-                                                                                class="waves-effect border-round waves-light btn gradient-45deg-red-pink mr-1 mb-2"
+                                                                                class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2"
                                                                                 onclick="return confirm('Are you sure want to unblock this user?');">unblock</a>
                                                                             <% } else { %>
                                                                                 <a href="/admin/user/block/<%= users[i].id %>"
-                                                                                    class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2"
-                                                                                    onclick="return confirm('Are you sure want to block this user?');">
-                                                                                        block</a>
-                                                                                <% } %>
+                                                                                    class="waves-effect border-round waves-light btn gradient-45deg-red-pink mr-1 mb-2"
+                                                                                    onclick="return confirm('Are you sure want to block this user?');">block</a>
+                                                                            <% } %>
                                                                     </td>
                                                                 </tr>
                                                                 <% } %>
