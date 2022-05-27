@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const checkAdmin = require('../middleware/authAdminMiddleware');
 
 const Admin = require('../models/adminmodel');
+const Message = require('../models/messageModel');
 
 // GET admin dashboard
 router.get('/', checkAdmin, (req, res) => {
@@ -27,7 +28,7 @@ router.get('/login', (req, res) => {
             } else {
                 Admin.findById(decodedToken._id, function (err, user) {
                     if (err) {
-                        console.log("ERROR: " + err.message);
+                        console.log("ERROR: " + err.message)
                         return res.render('login')
                     }
                     if (!user) {
@@ -72,6 +73,12 @@ router.post("/login", async (req, res) => {
 router.get("/logout", async (req, res) => {
     res.clearCookie("jwtAdmin");
     res.redirect('/admin/login');
+})
+
+// GET notification messages
+router.get("/message", async (req, res) => {
+    const message = await Message.find().sort({ _id: -1 }).limit(5)
+    res.json(message)
 })
 
 module.exports = router;

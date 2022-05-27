@@ -31,7 +31,7 @@ const checkAdmin = function (req, res, next) {
             }
         });
     } else {
-        req.flash('red', 'Please Login as Admin first!');
+        req.flash('red', 'Please login as admin first!');
         res.redirect('/admin/login');
     }
 }
