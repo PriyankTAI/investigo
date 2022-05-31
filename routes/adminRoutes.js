@@ -69,6 +69,54 @@ router.post("/login", async (req, res) => {
     }
 })
 
+
+// Get Change pass
+router.get('/changepass', checkAdmin, (req, res) => {
+    res.render("change_pass");
+});
+// Change pass
+router.post("/changepass", checkAdmin, async (req, res) => {
+    try {
+        const { currentpass, newpass, cfnewpass } = req.body;
+        if (!currentpass || currentpass.length < 6) {
+            req.flash('red', 'Invalid current password.');
+            return res.redirect('/admin/changepass');
+        }
+        if (!newpass || newpass.length < 6) {
+            req.flash('red', 'Invalid new password.');
+            return res.redirect('/admin/changepass');
+        }
+        if (!cfnewpass || cfnewpass.length < 6) {
+            req.flash('red', 'Invalid confirm new password.');
+            return res.redirect('/admin/changepass');
+        }
+        const isMatch = await bcrypt.compare(currentpass, req.admin.password);
+        if (!isMatch) {
+            req.flash('red', 'Wrong current password.');
+            return res.redirect('/admin/changepass');
+        }
+        if (currentpass == newpass) {
+            req.flash('red', 'New password can not be same as current password.');
+            return res.redirect('/admin/changepass');
+        }
+        if (newpass != cfnewpass) {
+            req.flash('red', 'Password and confirm password does not match!');
+            return res.redirect('/admin/changepass');
+        }
+        const admin = await Admin.findOne();
+        admin.password = newpass;
+        await admin.save();
+        req.flash('green', 'Password updated.');
+        return res.redirect('/admin/changepass');
+    } catch (error) {
+        if (error) {
+            console.log(error);
+            res.status(400).send(error.message);
+        }
+    }
+})
+
+
 // GET logout
 router.get("/logout", async (req, res) => {
     res.clearCookie("jwtAdmin");
