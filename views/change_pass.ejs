@@ -13,18 +13,10 @@
     <!-- BEGIN: VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/vendors/dropify/css/dropify.min.css"> -->
-    <!-- <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css"> -->
-    <!-- <link rel="stylesheet" type="text/css"
-        href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css"> -->
     <!-- END: VENDOR CSS-->
     <!-- BEGIN: Page Level CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/style.css">
-    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css"> -->
     <!-- END: Page Level CSS-->
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/css/custom/custom.css">
@@ -72,29 +64,29 @@
                                                         <form method="POST" onsubmit="validate()" action="/admin/changepass" id="form">
                                                             <div class="input-field col m4 s12">
                                                                 <input placeholder="Current password" id="currentpass" name="currentpass" type="text">
-                                                                <small id="error1" hidden>
-                                                                    <div class="error">Please enter current Password.</div>
+                                                                <small >
+                                                                    <div id="error1" class="error" hidden>Please enter current Password.</div>
                                                                 </small>
                                                                 <label for="pass">Current Password</label>
                                                             </div>
                                                             <div class="input-field col m4 s12">
                                                                 <input placeholder="New password" id="newpass" name="newpass" type="text">
-                                                                <small id="error2" hidden>
-                                                                    <div class="error">Please enter new Password.</div>
+                                                                <small >
+                                                                    <div id="error2" class="error" hidden>Please enter new Password.</div>
                                                                 </small>
                                                                 <label for="newpass">New Password</label>
                                                             </div>
                                                             <div class="input-field col m4 s12">
                                                                 <input placeholder="Confirm newpassword" id="cfnewpass" name="cfnewpass" type="text">
-                                                                <small id="error3" hidden>
-                                                                    <div class="error">Please enter confirm Password.</div>
+                                                                <small >
+                                                                    <div id="error3" class="error" hidden>Please enter confirm Password.</div>
                                                                 </small>
                                                                 <label for="cfpass">Confirm Password</label>
                                                             </div>
-                                                            <button type="submit"
-                                                                class="btn purple ml-1">Submit</button>
-                                                            <a href="/admin/" class="btn btn-danger"
-                                                                style="color: white;">Cancel</a>
+                                                            <div class="input-field col mt-1 s12">
+                                                                <button type="submit" class="btn purple">Submit</button>
+                                                                <a href="/admin/" class="btn btn-danger" style="color: white;">Cancel</a>
+                                                            </div>
                                                         </form>
                                                 </div>
                                             </div>
@@ -147,6 +139,11 @@
                 }
 
                 if (newpassValue == '') {
+                    document.getElementById('error2').innerText = 'Please enter new Password.';
+                    document.getElementById('error2').removeAttribute('hidden')
+                    returnVal = false;
+                } else if (newpassValue == passValue) {
+                    document.getElementById('error2').innerText = 'New password can not be same as current password.';
                     document.getElementById('error2').removeAttribute('hidden')
                     returnVal = false;
                 } else {
@@ -154,11 +151,11 @@
                 }
 
                 if (cfpassValue == '') {
-                    document.getElementById('error3').innerText('Please enter confirm Password.')
+                    document.getElementById('error3').innerText = 'Please enter confirm Password.';
                     document.getElementById('error3').removeAttribute('hidden')
                     returnVal = false;
                 } if (cfpassValue != newpassValue) {
-                    document.getElementById('error3').innerText('New password and confirm password do not match.')
+                    document.getElementById('error3').innerText = 'New password and confirm password do not match.';
                     document.getElementById('error3').removeAttribute('hidden')
                     returnVal = false;
                 } else {
@@ -174,19 +171,11 @@
         <!-- BEGIN VENDOR JS-->
         <script src="/app-assets/js/vendors.min.js"></script>
         <!-- BEGIN VENDOR JS-->
-        <!-- BEGIN PAGE VENDOR JS-->
-        <!-- <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script> -->
-        <!-- <script src="/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script> -->
-        <!-- <script src="/app-assets/vendors/data-tables/js/dataTables.select.min.js"></script> -->
-        <!-- END PAGE VENDOR JS-->
         <!-- BEGIN THEME  JS-->
         <script src="/app-assets/js/plugins.js"></script>
         <script src="/app-assets/js/search.js"></script>
         <script src="/app-assets/js/custom/custom-script.js"></script>
         <!-- END THEME  JS-->
-        <!-- BEGIN PAGE LEVEL JS-->
-        <!-- <script src="/app-assets/js/scripts/data-tables.js"></script> -->
-        <!-- END PAGE LEVEL JS-->
 
 </body>
 

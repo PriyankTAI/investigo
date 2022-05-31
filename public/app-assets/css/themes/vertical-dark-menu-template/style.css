@@ -12039,3 +12039,7 @@ tr.group:hover
     top: 40%;
     right: -2px;
 }
+
+#profile-dropdown {
+    width: 220px !important;
+}
