@@ -95,7 +95,7 @@ router.post('/terms_con', checkAdmin, [
 ], async function (req, res) {
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
-        req.flash('red', 'Content must have a value.')
+        req.flash('red', 'Content must have a values.')
         return res.redirect('/admin/terms_con')
     }
     try {
