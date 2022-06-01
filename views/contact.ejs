@@ -66,17 +66,17 @@
                                                 <form method="POST" action="/admin/contact" id="form" onsubmit="validate()">
                                                     <div class="input-field col s6">
                                                         <input placeholder="Phone No" id="phone" name="phone" type="text" value="<%= contact.phone %>">
-                                                        <small id="error1" hidden><div  class="error">Please enter phone number.</div></small>
+                                                        <small><div id="error1" class="error"></div></small>
                                                         <label for="phone">Phone No</label>
                                                     </div>
                                                     <div class="input-field col s6">
                                                         <input placeholder="Email" id="email" name="email" type="text" value="<%= contact.email %>">
-                                                        <small id="error2" hidden><div  class="error">Please enter valid email.</div></small>
+                                                        <small><div id="error2" class="error"></div></small>
                                                         <label for="email">Email</label>
                                                     </div>
                                                     <div class="input-field col s12">
                                                         <input placeholder="Address" id="address" name="address" type="text" value="<%= contact.address %>">
-                                                        <small id="error3" hidden><div  class="error">Please enter address.</div></small>
+                                                        <small><div id="error3" class="error"></div></small>
                                                         <label for="address">Address</label>
                                                     </div>
                                                     <div class="input-field col s12">
@@ -124,27 +124,31 @@
             const addressValue = addressC.value.trim();
 
             if (phoneValue == '') {
+                document.getElementById('error1').innerText = 'Please enter phone number.';
                 document.getElementById('error1').removeAttribute('hidden')
                 returnVal = false;
             } else {
-                document.getElementById('error1').setAttribute('hidden',true)
+                document.getElementById('error1').innerText = '';
             }
             
             if (emailValue == '') {
+                document.getElementById('error2').innerText = 'Please enter email.';
                 document.getElementById('error2').removeAttribute('hidden')
                 returnVal = false;
             } else if (!validateEmail(emailValue)) {
+                document.getElementById('error2').innerText = 'Please enter valid email.';
                 document.getElementById('error2').removeAttribute('hidden')
                 returnVal = false;
             } else {
-                document.getElementById('error2').setAttribute('hidden',true)
+                document.getElementById('error2').innerText = '';
             }
             
             if (addressValue == '') {
+                document.getElementById('error3').innerText = 'Please enter address.';
                 document.getElementById('error3').removeAttribute('hidden')
                 returnVal = false;
             } else {
-                document.getElementById('error3').setAttribute('hidden',true)
+                document.getElementById('error3').innerText = '';
             }
 
             if (returnVal) {

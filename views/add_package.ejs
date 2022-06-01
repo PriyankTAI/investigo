@@ -75,45 +75,35 @@
                                                             action="/admin/package/add" id="form"
                                                             enctype="multipart/form-data">
                                                             <div class="input-field col m4 s12">
-                                                                <input placeholder="Title" id="title" name="title"
-                                                                    type="text">
-                                                                <small id="error1" hidden>
-                                                                    <div class="error">Please enter
-                                                                        title.</div>
+                                                                <input placeholder="Title" id="title" name="title" type="text">
+                                                                <small>
+                                                                    <div id="error1" class="error"></div>
                                                                 </small>
                                                                 <label for="title">Title</label>
                                                             </div>
                                                             <div class="input-field col m4 s12">
-                                                                <input placeholder="Description" id="description"
-                                                                    name="description" type="text">
-                                                                <small id="error2" hidden>
-                                                                    <div class="error">Please enter
-                                                                        description.</div>
+                                                                <input placeholder="Description" id="description" name="description" type="text">
+                                                                <small>
+                                                                    <div id="error2" class="error"></div>
                                                                 </small>
                                                                 <label for="description">Description</label>
                                                             </div>
                                                             <div class="input-field col m4 s12">
-                                                                <input placeholder="Price" id="price" name="price"
-                                                                    type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
-                                                                <small id="error3" hidden>
-                                                                    <div class="error">Please enter
-                                                                        price.</div>
+                                                                <input placeholder="Price" id="price" name="price" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                                <small>
+                                                                    <div id="error3" class="error"></div>
                                                                 </small>
                                                                 <label for="price">Price</label>
                                                             </div>
                                                             <div class="input-field col s12">
                                                                 Upload Image
-                                                                <input type="file" name="image" id="input-file-now"
-                                                                    class="dropify" data-disable-remove="true" required/>
-                                                                <small id="error4" hidden>
-                                                                    <div class="error">Wrong file
-                                                                        type.</div>
+                                                                <input type="file" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required/>
+                                                                <small>
+                                                                    <div id="error4" class="error"></div>
                                                                 </small>
                                                             </div>
-                                                            <button type="submit"
-                                                                class="btn purple ml-1">Submit</button>
-                                                            <a href="/admin/package" class="btn btn-danger"
-                                                                style="color: white;">Cancel</a>
+                                                            <button type="submit" class="btn purple ml-1">Submit</button>
+                                                            <a href="/admin/package" class="btn btn-danger">Cancel</a>
                                                         </form>
                                                 </div>
                                             </div>
@@ -161,29 +151,33 @@
                 const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
 
                 if (titleValue == '') {
+                    document.getElementById('error1').innerText = 'Please enter title.';
                     document.getElementById('error1').removeAttribute('hidden')
                     returnVal = false;
                 } else {
-                    document.getElementById('error1').setAttribute('hidden', true)
+                    document.getElementById('error1').innerText = '';
                 }
 
                 if (descriptionValue == '') {
+                    document.getElementById('error2').innerText = 'Please enter description';
                     document.getElementById('error2').removeAttribute('hidden')
                     returnVal = false;
                 } else {
-                    document.getElementById('error2').setAttribute('hidden', true)
+                    document.getElementById('error2').innerText = '';
                 }
 
                 if (priceValue == '') {
+                    document.getElementById('error3').innerText = 'Please enter price.';
                     document.getElementById('error3').removeAttribute('hidden')
                     returnVal = false;
                 } else {
-                    document.getElementById('error3').setAttribute('hidden', true)
+                    document.getElementById('error3').innerText = '';
                 }
 
                 if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
-                    document.getElementById('error4').setAttribute('hidden', true)
+                    document.getElementById('error4').innerText = '';
                 } else {
+                    document.getElementById('error4').innerText = 'Wrong file type.';
                     document.getElementById('error4').removeAttribute('hidden')
                     returnVal = false;
                 }

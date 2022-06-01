@@ -10355,7 +10355,7 @@ nav.display-none.search-sm .nav-wrapper form .input-field i
 .input-field div.error
 {
     font-size: .8rem;
-
+    height: 16px;
     position: relative;
     top: 0rem;
     left: 0rem;

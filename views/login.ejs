@@ -47,8 +47,9 @@
                                     <i class="material-icons prefix pt-2">person_outline</i>
                                     <input id="email" type="text" name="email">
                                     <label for="email" class="center-align">Email</label>
-                                    <span class="cl12" id="ErrEmail" style="color: red;"></span>
-
+                                    <small>
+                                        <div id="error1" class="error" style="margin-left: 3rem;"></div>
+                                    </small>
                                 </div>
                             </div>
                             <div class="row margin">
@@ -56,22 +57,16 @@
                                     <i class="material-icons prefix pt-2">lock_outline</i>
                                     <input id="pass" type="password" name="password">
                                     <label for="password">Password</label>
-                                    <span class="cl12" id="ErrPass" style="color: red;"></span>
-
+                                    <small>
+                                        <div id="error2" class="error" style="margin-left: 3rem;"></div>
+                                    </small>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <button
-                                        class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light"
-                                        type="submit">Log In</button>
-                                </div>
-                            </div>
-                            <!-- <div class="form-group text-center m-t-20">
-                                <div class="col-xs-12">
                                     <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
                                 </div>
-                            </div> -->
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -97,39 +92,32 @@
             const passwordValue = password.value.trim();
 
             if (emailValue == '') {
-                setError('ErrEmail', 'Please enter email.')
+                document.getElementById('error1').innerText = 'Please enter email.';
+                document.getElementById('error1').removeAttribute('hidden')
                 returnVal = false;
             } else if (!validateEmail(emailValue)) {
-                setError('ErrEmail', 'Please enter valid email.')
+                document.getElementById('error1').innerText = 'Please enter valid email.';
+                document.getElementById('error1').removeAttribute('hidden')
                 returnVal = false;
             } else {
-                removeError('ErrEmail')
+                document.getElementById('error1').innerText = '';
             }
 
             if (passwordValue == '') {
-                setError('ErrPass', 'Please enter password.')
+                document.getElementById('error2').innerText = 'Please enter password.';
+                document.getElementById('error2').removeAttribute('hidden')
                 returnVal = false;
             } else if (passwordValue.length < 6) {
-                setError('ErrPass', 'Password should atleast 6 characters long.')
+                document.getElementById('error2').innerText = 'Password should atleast 6 characters long.';
+                document.getElementById('error2').removeAttribute('hidden')
                 returnVal = false;
             } else {
-                removeError('ErrPass')
+                document.getElementById('error2').innerText = '';
             }
             // return returnVal;
             if (returnVal) {
                 form.submit();
             }
-        }
-
-        function setError(id, error) {
-            // set error msg
-            const element = document.getElementById(id);
-            element.innerHTML = '* ' + error;
-        }
-        function removeError(id) {
-            // remove error msg
-            const element = document.getElementById(id);
-            element.innerHTML = '';
         }
 
         function validateEmail(email) {
