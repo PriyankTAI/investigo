@@ -69,11 +69,11 @@ router.post("/login", async (req, res) => {
     }
 })
 
-
 // Get Change pass
 router.get('/changepass', checkAdmin, (req, res) => {
     res.render("change_pass");
 });
+
 // Change pass
 router.post("/changepass", checkAdmin, async (req, res) => {
     try {
@@ -115,7 +115,6 @@ router.post("/changepass", checkAdmin, async (req, res) => {
         }
     }
 })
-
 
 // GET logout
 router.get("/logout", async (req, res) => {

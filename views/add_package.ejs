@@ -13,22 +13,12 @@
     <!-- BEGIN: VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/vendors/dropify/css/dropify.min.css"> -->
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css"
-        href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
     <!-- END: VENDOR CSS-->
     <!-- BEGIN: Page Level CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/style.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css">
     <!-- END: Page Level CSS-->
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/custom/custom.css">
-    <!-- END: Custom CSS-->
 </head>
 <!-- END: Head-->
 
@@ -187,61 +177,12 @@
         <!-- BEGIN VENDOR JS-->
         <script src="/app-assets/js/vendors.min.js"></script>
         <!-- BEGIN VENDOR JS-->
-        <!-- BEGIN PAGE VENDOR JS-->
-        <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
-        <script src="/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
-        <script src="/app-assets/vendors/data-tables/js/dataTables.select.min.js"></script>
-        <!-- END PAGE VENDOR JS-->
         <!-- BEGIN THEME  JS-->
         <script src="/app-assets/js/plugins.js"></script>
-        <script src="/app-assets/js/search.js"></script>
-        <script src="/app-assets/js/custom/custom-script.js"></script>
         <!-- END THEME  JS-->
-        <!-- BEGIN PAGE LEVEL JS-->
-        <script src="/app-assets/js/scripts/data-tables.js"></script>
-        <!-- END PAGE LEVEL JS-->
         <!-- ===== ckeditor JavaScript ===== -->
-        <script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
-        <!-- <script src="/app-assert/vendors/dropify/js/dropify.min.js"></script> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
-        <script src="/plugins/components/dropify/dist/js/dropify.min.js"></script>
-        <script>
-            $(function () {
-                // Basic
-                $('.dropify').dropify();
-                // Translated
-                $('.dropify-fr').dropify({
-                    messages: {
-                        default: 'Glissez-déposez un fichier ici ou cliquez',
-                        replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
-                        remove: 'Supprimer',
-                        error: 'Désolé, le fichier trop volumineux'
-                    }
-                });
-                // Used events
-                var drEvent = $('#input-file-events').dropify();
-                drEvent.on('dropify.beforeClear', function (event, element) {
-                    return confirm("Do you really want  to delete \"" + element.file.name + "\" ?");
-                });
-                drEvent.on('dropify.afterClear', function (event, element) {
-                    alert('File deleted');
-                });
-                drEvent.on('dropify.errors', function (event, element) {
-                    console.log('Has Errors');
-                });
-                var drDestroy = $('#input-file-to-destroy').dropify();
-                drDestroy = drDestroy.data('dropify')
-                $('#toggleDropify').on('click', function (e) {
-                    e.preventDefault();
-                    if (drDestroy.isDropified()) {
-                        drDestroy.destroy();
-                    } else {
-                        drDestroy.init();
-                    }
-                })
-            });
-        </script>
-        <!-- <script src="/app-assert/js/scripts/form-file-uploads.min.js"></script> -->
+        <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
 </body>
 
 </html>
