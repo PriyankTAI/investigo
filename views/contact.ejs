@@ -125,7 +125,6 @@
 
             if (phoneValue == '') {
                 document.getElementById('error1').innerText = 'Please enter phone number.';
-                document.getElementById('error1').removeAttribute('hidden')
                 returnVal = false;
             } else {
                 document.getElementById('error1').innerText = '';
@@ -133,11 +132,9 @@
             
             if (emailValue == '') {
                 document.getElementById('error2').innerText = 'Please enter email.';
-                document.getElementById('error2').removeAttribute('hidden')
                 returnVal = false;
             } else if (!validateEmail(emailValue)) {
                 document.getElementById('error2').innerText = 'Please enter valid email.';
-                document.getElementById('error2').removeAttribute('hidden')
                 returnVal = false;
             } else {
                 document.getElementById('error2').innerText = '';
@@ -145,7 +142,6 @@
             
             if (addressValue == '') {
                 document.getElementById('error3').innerText = 'Please enter address.';
-                document.getElementById('error3').removeAttribute('hidden')
                 returnVal = false;
             } else {
                 document.getElementById('error3').innerText = '';

@@ -14,7 +14,7 @@ router.get("/about_us", async (req, res, next) => {
         const page = await Page.findOne({ title: 'About Us' })
         const content = page.content;
         res.status(201).json({
-            status:"success",
+            status: "success",
             content
         });
     } catch (error) {
@@ -29,7 +29,7 @@ router.get("/faqs", async (req, res, next) => {
         const page = await Page.findOne({ title: 'FAQs' })
         const content = page.content;
         res.status(201).json({
-            status:"success",
+            status: "success",
             content
         });
     } catch (error) {
@@ -44,7 +44,7 @@ router.get("/terms_con", async (req, res, next) => {
         const page = await Page.findOne({ title: 'Terms & Condition' })
         const content = page.content;
         res.status(201).json({
-            status:"success",
+            status: "success",
             content
         });
     } catch (error) {
@@ -59,7 +59,7 @@ router.get("/privacy_policy", async (req, res, next) => {
         const page = await Page.findOne({ title: 'Privacy Policy' })
         const content = page.content;
         res.status(201).json({
-            status:"success",
+            status: "success",
             content
         });
     } catch (error) {
@@ -75,7 +75,7 @@ router.get("/contact", async (req, res, next) => {
         const content = page.content;
         const contact = await Contact.findOne();
         res.status(201).json({
-            status:"success",
+            status: "success",
             content,
             contact
         });
@@ -97,7 +97,7 @@ router.post("/contact", async (req, res, next) => {
         })
         await message.save();
         res.status(201).json({
-            status:"success",
+            status: "success",
             message: "Message sent successfully",
         });
     } catch (error) {
@@ -111,7 +111,7 @@ router.get("/package", checkUser, async (req, res, next) => {
     try {
         const packages = await Package.find();
         res.status(201).json({
-            status:"success",
+            status: "success",
             total: packages.length,
             packages
         });

@@ -152,7 +152,6 @@
 
                 if (titleValue == '') {
                     document.getElementById('error1').innerText = 'Please enter title.';
-                    document.getElementById('error1').removeAttribute('hidden')
                     returnVal = false;
                 } else {
                     document.getElementById('error1').innerText = '';
@@ -160,7 +159,6 @@
 
                 if (descriptionValue == '') {
                     document.getElementById('error2').innerText = 'Please enter description';
-                    document.getElementById('error2').removeAttribute('hidden')
                     returnVal = false;
                 } else {
                     document.getElementById('error2').innerText = '';
@@ -168,7 +166,6 @@
 
                 if (priceValue == '') {
                     document.getElementById('error3').innerText = 'Please enter price.';
-                    document.getElementById('error3').removeAttribute('hidden')
                     returnVal = false;
                 } else {
                     document.getElementById('error3').innerText = '';
@@ -178,7 +175,6 @@
                     document.getElementById('error4').innerText = '';
                 } else {
                     document.getElementById('error4').innerText = 'Wrong file type.';
-                    document.getElementById('error4').removeAttribute('hidden')
                     returnVal = false;
                 }
 

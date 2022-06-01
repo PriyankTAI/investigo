@@ -20,7 +20,7 @@ const messageSchema = new mongoose.Schema({
         required: [true, 'Address is required'],
     },
     phone: {
-        type:String,
+        type: String,
         required: [true, 'Number is required'],
     },
     message: {

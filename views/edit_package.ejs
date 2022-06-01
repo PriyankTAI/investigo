@@ -98,7 +98,7 @@
                                                             <div class="input-field col s12">
                                                                 Upload Image
                                                                 <input type="file" name="image" id="input-file-now" class="dropify" data-disable-remove="true" data-default-file="<%= package.image %>" />
-                                                                <small id="error4" hidden>
+                                                                <small id="error4">
                                                                     <div class="error">Wrong file type.</div>
                                                                 </small>
                                                             </div>
@@ -152,7 +152,6 @@
 
                 if (titleValue == '') {
                     document.getElementById('error1').innerText = 'Please enter title.';
-                    document.getElementById('error1').removeAttribute('hidden')
                     returnVal = false;
                 } else {
                     document.getElementById('error1').innerText = '';
@@ -160,7 +159,6 @@
 
                 if (descriptionValue == '') {
                     document.getElementById('error2').innerText = 'Please enter description.';
-                    document.getElementById('error2').removeAttribute('hidden')
                     returnVal = false;
                 } else {
                     document.getElementById('error2').innerText = '';
@@ -168,7 +166,6 @@
 
                 if (priceValue == '') {
                     document.getElementById('error3').innerText = 'Please enter price.';
-                    document.getElementById('error3').removeAttribute('hidden')
                     returnVal = false;
                 } else {
                     document.getElementById('error3').innerText = '';
@@ -180,8 +177,6 @@
                     document.getElementById('error4').innerText = '';
                 } else {
                     document.getElementById('error4').innerText = 'Wrong filr type.';
-                    document.getElementById('error4').removeAttribute('hidden')
-                    // document.getElementById('error4').setAttribute('hidden', true)
                     returnVal = false;
                 }
                 if (returnVal) {

@@ -133,7 +133,6 @@
 
                 if (passValue == '') {
                     document.getElementById('error1').innerText = 'Please enter current password.';
-                    document.getElementById('error1').removeAttribute('hidden')
                     returnVal = false;
                 } else {
                     document.getElementById('error1').innerText = '';
@@ -141,15 +140,12 @@
 
                 if (newpassValue == '') {
                     document.getElementById('error2').innerText = 'Please enter new password.';
-                    document.getElementById('error2').removeAttribute('hidden')
                     returnVal = false;
                 } else if (newpassValue.length < 6) {
                     document.getElementById('error2').innerText = 'Please enter more than 6 character.';
-                    document.getElementById('error2').removeAttribute('hidden')
                     returnVal = false;
                 } else if (newpassValue == passValue) {
                     document.getElementById('error2').innerText = 'New password can not be same as current password.';
-                    document.getElementById('error2').removeAttribute('hidden')
                     returnVal = false;
                 } else {
                     document.getElementById('error2').innerText = '';
@@ -157,11 +153,9 @@
 
                 if (cfpassValue == '') {
                     document.getElementById('error3').innerText = 'Please enter confirm password.';
-                    document.getElementById('error3').removeAttribute('hidden')
                     returnVal = false;
                 } else if (cfpassValue != newpassValue) {
                     document.getElementById('error3').innerText = 'New password and confirm password do not match.';
-                    document.getElementById('error3').removeAttribute('hidden')
                     returnVal = false;
                 } else {
                     document.getElementById('error3').innerText = '';

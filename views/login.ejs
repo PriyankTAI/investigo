@@ -93,11 +93,9 @@
 
             if (emailValue == '') {
                 document.getElementById('error1').innerText = 'Please enter email.';
-                document.getElementById('error1').removeAttribute('hidden')
                 returnVal = false;
             } else if (!validateEmail(emailValue)) {
                 document.getElementById('error1').innerText = 'Please enter valid email.';
-                document.getElementById('error1').removeAttribute('hidden')
                 returnVal = false;
             } else {
                 document.getElementById('error1').innerText = '';
@@ -105,11 +103,9 @@
 
             if (passwordValue == '') {
                 document.getElementById('error2').innerText = 'Please enter password.';
-                document.getElementById('error2').removeAttribute('hidden')
                 returnVal = false;
             } else if (passwordValue.length < 6) {
                 document.getElementById('error2').innerText = 'Password should atleast 6 characters long.';
-                document.getElementById('error2').removeAttribute('hidden')
                 returnVal = false;
             } else {
                 document.getElementById('error2').innerText = '';
