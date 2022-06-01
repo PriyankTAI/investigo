@@ -57,12 +57,12 @@
                                                 <!-- errors -->
                                                 <%- messages('messages', locals) %>
                                                 <form method="POST" action="/admin/contact" id="form" onsubmit="validate()">
-                                                    <div class="input-field col s6">
+                                                    <div class="input-field col s12">
                                                         <input placeholder="Phone No" id="phone" name="phone" type="text" value="<%= contact.phone %>">
                                                         <small><div id="error1" class="error"></div></small>
                                                         <label for="phone">Phone No</label>
                                                     </div>
-                                                    <div class="input-field col s6">
+                                                    <div class="input-field col s12">
                                                         <input placeholder="Email" id="email" name="email" type="text" value="<%= contact.email %>">
                                                         <small><div id="error2" class="error"></div></small>
                                                         <label for="email">Email</label>
