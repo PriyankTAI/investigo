@@ -8900,7 +8900,7 @@ nav.display-none.search-sm .nav-wrapper form .input-field i
 {
     .navbar .nav-wrapper .dropdown-content
     {
-        left: 25px !important;
+        right: 25px !important;
 
         width: calc(100% - 33px) !important;
     }
