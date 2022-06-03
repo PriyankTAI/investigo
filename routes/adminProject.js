@@ -49,6 +49,7 @@ router.get("/add", checkAdmin, (req, res) => {
 // POST add project
 router.post('/add', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
+    check('description', 'description must have a value').notEmpty(),
 ], async (req, res) => {
     try {
         const { title, description } = req.body;
@@ -74,7 +75,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
         res.redirect('/admin/project')
     } catch (error) {
         console.log(error);
-            res.send(error.message);
+        res.send(error.message);
     }
 });
 
@@ -104,6 +105,7 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
 // POST Edit project
 router.post('/edit/:id', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
+    check('description', 'description must have a value').notEmpty(),
 ], async (req, res) => {
     try {
         const { title, description } = req.body;
@@ -138,7 +140,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         } else {
             await project.save();
         }
-        req.flash('green', `Project Edited successfully`);
+        req.flash('green', `Project edited successfully`);
         res.redirect('/admin/project')
     } catch (error) {
         if (error.name === 'CastError') {
@@ -160,7 +162,7 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
         fs.remove(image, function (err) {
             if (err) { console.log(err); }
         })
-        req.flash('green', `Project Deleted successfully`);
+        req.flash('green', `Project deleted successfully`);
         res.redirect('/admin/project')
     } catch (error) {
         if (error.name === 'CastError' || error.name === 'TypeError') {

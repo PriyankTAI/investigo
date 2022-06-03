@@ -49,6 +49,7 @@ router.get("/add", checkAdmin, (req, res) => {
 // POST add package
 router.post('/add', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
+    check('description', 'description must have a value').notEmpty(),
     check('price', 'price must have a value').isNumeric(),
 ], async (req, res) => {
     try {
@@ -111,6 +112,7 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
 // POST Edit package
 router.post('/edit/:id', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
+    check('description', 'description must have a value').notEmpty(),
     check('price', 'price must have a value').isNumeric(),
 ], async (req, res) => {
     try {
@@ -147,7 +149,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         } else {
             await package.save();
         }
-        req.flash('green', `Package Edited successfully`);
+        req.flash('green', `Package edited successfully`);
         res.redirect('/admin/package')
     } catch (error) {
         console.log(error.message);
@@ -173,7 +175,7 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
         fs.remove(image, function (err) {
             if (err) { console.log(err); }
         })
-        req.flash('green', `Package Deleted successfully`);
+        req.flash('green', `Package deleted successfully`);
         res.redirect('/admin/package')
     } catch (error) {
         if (error.name === 'CastError' || error.name === 'TypeError') {

@@ -7,10 +7,12 @@ var projectSchema = mongoose.Schema({
         required: [true, 'Title is required'],
     },
     description: {
-        type: String
+        type: String,
+        required: [true, 'Description is required'],
     },
     image: {
-        type: String
+        type: String,
+        required: [true, 'Image is required'],
     },
     date: {
         type: Date,
