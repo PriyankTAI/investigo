@@ -121,4 +121,20 @@ router.get("/package", checkUser, async (req, res, next) => {
     }
 });
 
+
+// get all projects
+router.get("/project", checkUser, async (req, res, next) => {
+    try {
+        const projects = await Project.find();
+        res.status(201).json({
+            status: "success",
+            total: projects.length,
+            projects
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
 module.exports = router;

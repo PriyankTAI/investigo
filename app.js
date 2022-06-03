@@ -69,6 +69,7 @@ app.use('/admin', require('./routes/adminRoutes'));
 app.use('/admin', require('./routes/adminCmsPages'));
 app.use('/admin/user', require('./routes/adminUser'));
 app.use('/admin/package', require('./routes/adminPackage'));
+app.use('/admin/project', require('./routes/adminProject'));
 
 // 404 admin
 app.all('/admin/*', (req, res) => {
@@ -104,3 +105,6 @@ const port = process.env.PORT || 4000;
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);
 })
+
+// ipconfig
+// 192.168.0.144:4000

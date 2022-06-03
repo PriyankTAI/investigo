@@ -61,14 +61,14 @@
                                                     <!-- errors -->
                                                     <%- messages('messages', locals) %>
                                                         <form method="POST" onsubmit="validate()" action="/admin/project/edit/<%= project._id %>" id="form" enctype="multipart/form-data">
-                                                            <div class="input-field col m4 s12">
+                                                            <div class="input-field col m6 s12">
                                                                 <input placeholder="Title" id="title" name="title" type="text" value="<%= project.title %>">
                                                                 <small>
                                                                     <div id="error1" class="error"></div>
                                                                 </small>
                                                                 <label for="title">Title</label>
                                                             </div>
-                                                            <div class="input-field col m4 s12">
+                                                            <div class="input-field col m6 s12">
                                                                 <input placeholder="Description" id="description"name="description" type="text" value="<%= project.description %>">
                                                                 <small>
                                                                     <div id="error2" class="error"></div>
