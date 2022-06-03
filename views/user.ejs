@@ -14,8 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css"
-        href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
     <!-- END: VENDOR CSS-->
     <!-- BEGIN: Page Level CSS-->
@@ -26,9 +25,7 @@
 </head>
 <!-- END: Head-->
 
-<body
-    class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns   "
-    data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
     <%- include('_layouts/sidenavbar') %>
 
         <!-- BEGIN: Page Main-->
@@ -43,10 +40,8 @@
                             </div>
                             <div class="col s12 m6 l6 right-align-md">
                                 <ol class="breadcrumbs mb-0">
-                                    <li class="breadcrumb-item"><a href="/admin">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">User
-                                    </li>
+                                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                                    <li class="breadcrumb-item active">User</li>
                                 </ol>
                             </div>
                         </div>
@@ -78,31 +73,19 @@
                                                         <tbody>
                                                             <% for( let i=0; i < users.length; i++ ) { %>
                                                                 <tr>
-                                                                    <td>
-                                                                        <%= i+1 %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= users[i].name %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= users[i].email %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= users[i].phone %>
-                                                                    </td>
+                                                                    <td><%= i+1 %></td>
+                                                                    <td><%= users[i].name %></td>
+                                                                    <td><%= users[i].email %></td>
+                                                                    <td><%= users[i].phone %></td>
                                                                     <td>
                                                                         <% if (users[i].blocked) { %>
-                                                                            <a href="/admin/user/unblock/<%= users[i].id %>"
-                                                                                class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2"
-                                                                                onclick="return confirm('Are you sure want to unblock this user?');">unblock</a>
-                                                                            <% } else { %>
-                                                                                <a href="/admin/user/block/<%= users[i].id %>"
-                                                                                    class="waves-effect border-round waves-light btn gradient-45deg-red-pink mr-1 mb-2"
-                                                                                    onclick="return confirm('Are you sure want to block this user?');">block</a>
-                                                                            <% } %>
+                                                                            <a href="/admin/user/unblock/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2" onclick="return confirm('Are you sure want to unblock this user?');">unblock</a>
+                                                                        <% } else { %>
+                                                                            <a href="/admin/user/block/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-red-pink mr-1 mb-2" onclick="return confirm('Are you sure want to block this user?');">block</a>
+                                                                        <% } %>
                                                                     </td>
                                                                 </tr>
-                                                                <% } %>
+                                                            <% } %>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -123,11 +106,7 @@
 
         <footer class="page-footer footer footer-static footer-light navbar-border navbar-shadow">
             <div class="footer-copyright">
-                <div class="container"><span>&copy; 2020 <a
-                            href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent"
-                            target="_blank">PIXINVENT</a> All rights reserved.</span><span
-                        class="right hide-on-small-only">Design and Developed by <a
-                            href="https://pixinvent.com/">PIXINVENT</a></span></div>
+                <div class="container"><span>&copy; 2020 <a href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">PIXINVENT</a> All rights reserved.</span><span class="right hide-on-small-only">Design and Developed by <a href="https://pixinvent.com/">PIXINVENT</a></span></div>
             </div>
         </footer>
 

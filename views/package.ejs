@@ -14,8 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css"
-        href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
     <!-- END: VENDOR CSS-->
     <!-- BEGIN: Page Level CSS-->
@@ -26,9 +25,7 @@
 </head>
 <!-- END: Head-->
 
-<body
-    class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns   "
-    data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
     <%- include('_layouts/sidenavbar') %>
 
         <!-- BEGIN: Page Main-->
@@ -43,7 +40,6 @@
                             </div>
                             <div class="col s12 m6 l6 right-align-md">
                                 <a class="btn gradient-45deg-purple-deep-orange pull-right" href="/admin/package/add">Add Package</a>
-
                             </div>
                         </div>
                     </div>
@@ -81,7 +77,6 @@
                                                                 <td><%= packages[i].price %></td>
                                                                 <td><img src="<%= packages[i].image %>" alt="IMG" width="100" height="100"></td>
                                                                 <td>
-                                                                    <!-- <a href="#"><i class="icon-pencil" style="font-size: 120%;"></i></a> -->
                                                                     <a href="/admin/package/edit/<%= packages[i].id %>" class="confirmDeletion"><i class="material-icons">create</i></a>
                                                                     <a href="/admin/package/delete/<%= packages[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                                                                 </td>
@@ -107,11 +102,7 @@
 
         <footer class="page-footer footer footer-static footer-light navbar-border navbar-shadow">
             <div class="footer-copyright">
-                <div class="container"><span>&copy; 2020 <a
-                            href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent"
-                            target="_blank">PIXINVENT</a> All rights reserved.</span><span
-                        class="right hide-on-small-only">Design and Developed by <a
-                            href="https://pixinvent.com/">PIXINVENT</a></span></div>
+                <div class="container"><span>&copy; 2020 <a href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">PIXINVENT</a> All rights reserved.</span><span class="right hide-on-small-only">Design and Developed by <a href="https://pixinvent.com/">PIXINVENT</a></span></div>
             </div>
         </footer>
 

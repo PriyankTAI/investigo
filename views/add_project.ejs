@@ -22,8 +22,7 @@
 </head>
 <!-- END: Head-->
 
-<body
-    class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
     <%- include('_layouts/sidenavbar') %>
 
         <!-- BEGIN: Page Main-->
@@ -37,12 +36,8 @@
                             </div>
                             <div class="col s12 m6 l6 right-align-md">
                                 <ol class="breadcrumbs mb-0">
-                                    <li class="breadcrumb-item">
-                                        <a href="/admin">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item">
-                                        <a href="/admin/project">Project</a>
-                                    </li>
+                                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/project">Project</a></li>
                                     <li class="breadcrumb-item active">Add Project</li>
                                 </ol>
                             </div>
@@ -64,24 +59,18 @@
                                                         <form method="POST" onsubmit="validate()" action="/admin/project/add" id="form" enctype="multipart/form-data">
                                                             <div class="input-field col m6 s12">
                                                                 <input placeholder="Title" id="title" name="title" type="text">
-                                                                <small>
-                                                                    <div id="error1" class="error"></div>
-                                                                </small>
+                                                                <small><div id="error1" class="error"></div></small>
                                                                 <label for="title">Title</label>
                                                             </div>
                                                             <div class="input-field col m6 s12">
                                                                 <input placeholder="Description" id="description" name="description" type="text">
-                                                                <small>
-                                                                    <div id="error2" class="error"></div>
-                                                                </small>
+                                                                <small><div id="error2" class="error"></div></small>
                                                                 <label for="description">Description</label>
                                                             </div>
                                                             <div class="input-field col s12">
                                                                 Upload Image
                                                                 <input type="file" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required/>
-                                                                <small>
-                                                                    <div id="error3" class="error"></div>
-                                                                </small>
+                                                                <small><div id="error3" class="error"></div></small>
                                                             </div>
                                                             <button type="submit" class="btn purple ml-1">Submit</button>
                                                             <a href="/admin/project" class="btn btn-danger">Cancel</a>
