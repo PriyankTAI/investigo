@@ -20,7 +20,7 @@ const checkUser = function (req, res, next) {
                     }
                     if (!user) {
                         next(createError.Unauthorized("Please login first"));
-                    }   
+                    }
                     if (user.blocked == true) {
                         next(createError.Unauthorized("Sorry!You are blocked,Please contact Admin."));
                     }
