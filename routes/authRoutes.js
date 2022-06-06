@@ -40,22 +40,60 @@ router.post("/register", async (req, res, next) => {
 // POST login
 router.post("/login", async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, googleId, facebookId } = req.body;
         const userExist = await User.findOne({ email });
-        if (!userExist) {
-            return next(createError.BadRequest(`Invalid  email or password`));
+        if (password) { // password
+            if (!userExist) {
+                return next(createError.BadRequest(`Invalid email or password`));
+            }
+            if (!userExist.password) {
+                return next(createError.BadRequest(`Please login with google or faacebook`));
+            }
+            const isMatch = await bcrypt.compare(password, userExist.password);
+            if (!isMatch) {
+                return next(createError.BadRequest(`Invalid email or password`));
+            }
+            const token = await userExist.generateAuthToken();
+            return res.status(200).json({ status: "success", token })
+        } else if (googleId) { // google
+            if (userExist) {
+                if (googleId != userExist.googleId) {
+                    return next(createError.BadRequest(`Invalid googleId`));
+                }
+                const token = await userExist.generateAuthToken();
+                return res.status(200).json({ status: "success", token })
+            } else {
+                const user = new User({
+                    name: req.body.name,
+                    email: req.body.email,
+                    googleId
+                })
+                const token = await user.generateAuthToken();
+                await user.save();
+                return res.status(200).json({ status: "success", token })
+            }
+        } else if (facebookId) { // facebook
+            if (userExist) {
+                if (facebookId != userExist.facebookId) {
+                    return next(createError.BadRequest(`Invalid facebookId`));
+                }
+                const token = await userExist.generateAuthToken();
+                return res.status(200).json({ status: "success", token })
+            } else {
+                const user = new User({
+                    name: req.body.name,
+                    email: req.body.email,
+                    facebookId
+                })
+                const token = await user.generateAuthToken();
+                await user.save();
+                return res.status(200).json({ status: "success", token })
+            }
+        } else {
+            return next(createError.BadRequest(`Please provide password, googleId or facebookId`));
         }
-        if (!userExist.password) {
-            return next(createError.BadRequest(`Please login with google`));
-        }
-        const isMatch = await bcrypt.compare(password, userExist.password);
-        if (!isMatch) {
-            return next(createError.BadRequest(`Invalid  email or password`));
-        }
-        const token = await userExist.generateAuthToken();
-        res.status(200).json({ status: "success", token })
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         next(error);
     }
 })

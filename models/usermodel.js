@@ -5,7 +5,10 @@ const validator = require("validator");
 const createError = require('http-errors');
 
 const userSchema = new mongoose.Schema({
-    googleid: {
+    googleId: {
+        type: String
+    },
+    facebookId: {
         type: String
     },
     name: {
@@ -24,7 +27,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Password is required'],
+        // required: [true, 'Password is required'],
         validate(value) {
             if (!validator.isLength(value, { min: 6, max: 1000 })) {
                 throw Error("Length of the password should be between 6-1000");
