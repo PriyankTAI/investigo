@@ -122,7 +122,6 @@ router.get("/package", checkUser, async (req, res, next) => {
     }
 });
 
-
 // get all projects
 router.get("/project", checkUser, async (req, res, next) => {
     try {

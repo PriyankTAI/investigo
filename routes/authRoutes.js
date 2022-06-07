@@ -47,7 +47,7 @@ router.post("/login", async (req, res, next) => {
                 return next(createError.BadRequest(`Invalid email or password`));
             }
             if (!userExist.password) {
-                return next(createError.BadRequest(`Please login with google or faacebook`));
+                return next(createError.BadRequest(`Please login with google or facebook`));
             }
             const isMatch = await bcrypt.compare(password, userExist.password);
             if (!isMatch) {
