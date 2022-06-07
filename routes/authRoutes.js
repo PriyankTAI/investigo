@@ -54,14 +54,14 @@ router.post("/login", async (req, res, next) => {
                 return next(createError.BadRequest(`Invalid email or password`));
             }
             const token = await userExist.generateAuthToken();
-            return res.status(200).json({ status: "success", token })
+            return res.status(200).json({ status: "success", token, user: userExist })
         } else if (googleId) { // google
             if (userExist) {
                 if (googleId != userExist.googleId) {
                     return next(createError.BadRequest(`Invalid googleId`));
                 }
                 const token = await userExist.generateAuthToken();
-                return res.status(200).json({ status: "success", token })
+                return res.status(200).json({ status: "success", token, user: userExist })
             } else {
                 const user = new User({
                     name: req.body.name,
@@ -70,7 +70,7 @@ router.post("/login", async (req, res, next) => {
                 })
                 const token = await user.generateAuthToken();
                 await user.save();
-                return res.status(200).json({ status: "success", token })
+                return res.status(200).json({ status: "success", token, user })
             }
         } else if (facebookId) { // facebook
             if (userExist) {
@@ -78,7 +78,7 @@ router.post("/login", async (req, res, next) => {
                     return next(createError.BadRequest(`Invalid facebookId`));
                 }
                 const token = await userExist.generateAuthToken();
-                return res.status(200).json({ status: "success", token })
+                return res.status(200).json({ status: "success", token, user: userExist })
             } else {
                 const user = new User({
                     name: req.body.name,
@@ -87,7 +87,7 @@ router.post("/login", async (req, res, next) => {
                 })
                 const token = await user.generateAuthToken();
                 await user.save();
-                return res.status(200).json({ status: "success", token })
+                return res.status(200).json({ status: "success", token, user })
             }
         } else {
             return next(createError.BadRequest(`Please provide password, googleId or facebookId`));
