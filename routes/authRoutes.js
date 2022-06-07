@@ -30,7 +30,7 @@ router.post("/register", async (req, res, next) => {
         })
         const token = await user.generateAuthToken();
         await user.save();
-        res.status(200).json({ status: "success", token })
+        res.status(200).json({ status: "success", token, user })
     } catch (error) {
         // console.log(error);
         next(error)
