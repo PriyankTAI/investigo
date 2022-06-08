@@ -108,7 +108,7 @@ router.post("/contact", async (req, res, next) => {
 })
 
 // get all packages
-router.get("/package", checkUser, async (req, res, next) => {
+router.get("/package", async (req, res, next) => {
     try {
         const packages = await Package.find();
         res.status(201).json({
@@ -123,7 +123,7 @@ router.get("/package", checkUser, async (req, res, next) => {
 });
 
 // get all projects
-router.get("/project", checkUser, async (req, res, next) => {
+router.get("/project", async (req, res, next) => {
     try {
         const projects = await Project.find();
         res.status(201).json({

@@ -36,7 +36,7 @@
                             <div class="col s12 m6 l6 right-align-md">
                                 <ol class="breadcrumbs mb-0">
                                     <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/category>Category</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/category">Category</a></li>
                                     <li class="breadcrumb-item active">Add Category</li>
                                 </ol>
                             </div>
@@ -55,7 +55,7 @@
                                                     <!-- <h4 class="card-title">Contact Us</h4> -->
                                                     <!-- errors -->
                                                     <%- messages('messages', locals) %>
-                                                        <form method="POST" onsubmit="validate()" action="/admin/category/edit/<%= cat.id %>" id="form" enctype="multipart/form-data">
+                                                        <form method="POST" onsubmit="validate()" action="/admin/category/edit/<%= cat.id %>" id="form">
                                                             <div class="input-field col m6 s12">
                                                                 <input placeholder="Name" id="name" name="name" type="text" value="<%= cat.name %>">
                                                                 <small><div id="error1" class="error"></div></small>
@@ -107,8 +107,6 @@
                 let returnVal = true;
 
                 const nameValue = nameC.value.trim();
-                const descriptionValue = descriptionC.value.trim();
-
                 if (nameValue == '') {
                     document.getElementById('error1').innerText = 'Please enter name.';
                     returnVal = false;
