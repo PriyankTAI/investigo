@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
+const { sendOtp } = require('../helpers/sendEmail');
 
 const checkUser = require('../middleware/authMiddleware');
 
 const User = require('../models/usermodel');
+const Otp = require('../models/otpModel');
 
 // POST register
 router.post("/register", async (req, res, next) => {
@@ -134,6 +136,61 @@ router.post("/changepass", checkUser, async (req, res, next) => {
     } catch (error) {
         console.log(error);
         next(error)
+    }
+})
+
+// POST forgot pass
+router.post("/forgot", async (req, res, next) => {
+    try {
+        const email = req.body.email;
+        const user = await User.findOne({ email });
+        if (user == null) {
+            return next(createError.BadRequest(`Please enter registerd email`));
+        }
+
+        let otp = await Otp.findOne({ userId: user._id });
+        if (!otp) {
+            var digits = '0123456789';
+            let generated = '';
+            for (let i = 0; i < 6; i++) {
+                generated += digits[Math.floor(Math.random() * 10)];
+            }
+            otp = await new Otp({
+                userId: user.id,
+                otp: generated
+            }).save();
+        }
+        sendOtp(user.email, otp.otp)
+        return res.status(200).json({
+            status: "success",
+            email: user.email,
+            otp: otp.otp
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+})
+
+// POST reset password
+router.post("/reset_pass", async (req, res, next) => {
+    try {
+        const { email, password, otp } = req.body;
+        const user = await User.findOne({ email });
+        if (user == null) {
+            return next(createError.BadRequest(`Please enter registerd email`));
+        }
+        const otpExists = await Otp.findOne({ userId: user._id });
+        if ( !otpExists || otp !== otpExists.otp) {
+            return next(createError.BadRequest(`Invalid otp`));
+        }
+        user.password = password;
+        await user.save();
+        await otpExists.remove();
+        return res.status(200).json({ status: "success" });
+    } catch (error) {
+        console.log(error);
+        next(error);
     }
 })
 
