@@ -107,13 +107,13 @@ router.post("/changepass", checkUser, async (req, res, next) => {
         }
         const { currentpass, newpass, cfnewpass } = req.body;
         if (!currentpass || currentpass.length < 6) {
-            return next(createError.BadRequest(`Invalid current password`));
+            return next(createError.BadRequest(`Password should be atleast 6 character`));
         }
         if (!newpass || newpass.length < 6) {
-            return next(createError.BadRequest(`Invalid new password`));
+            return next(createError.BadRequest(`New Password should be atleast 6 character`));
         }
         if (!cfnewpass || cfnewpass.length < 6) {
-            return next(createError.BadRequest(`Invalid confirm password`));
+            return next(createError.BadRequest(`Confirm Password should be atleast 6 character`));
         }
         const isMatch = await bcrypt.compare(currentpass, user.password);
         if (!isMatch) {
