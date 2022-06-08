@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Add Category</title>
+    <title>Edit Category</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/favicon/favicon-32x32.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -31,13 +31,13 @@
                     <div class="container">
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Add Category</span></h5>
+                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Edit Category</span></h5>
                             </div>
                             <div class="col s12 m6 l6 right-align-md">
                                 <ol class="breadcrumbs mb-0">
                                     <li class="breadcrumb-item"><a href="/admin">Home</a></li>
                                     <li class="breadcrumb-item"><a href="/admin/category">Category</a></li>
-                                    <li class="breadcrumb-item active">Add Category</li>
+                                    <li class="breadcrumb-item active">Edit Category</li>
                                 </ol>
                             </div>
                         </div>
@@ -56,19 +56,18 @@
                                                     <!-- errors -->
                                                     <%- messages('messages', locals) %>
                                                         <form method="POST" onsubmit="validate()" action="/admin/category/edit/<%= cat.id %>" id="form">
-                                                            <div class="input-field col m6 s12">
+                                                            <div class="input-field col m12 s12">
                                                                 <input placeholder="Name" id="name" name="name" type="text" value="<%= cat.name %>">
                                                                 <small><div id="error1" class="error"></div></small>
                                                                 <label for="name">Name</label>
                                                             </div>
-                                                            <div class="input-field col m6 s12">
-                                                                <label>
-                                                                    <input type="checkbox" class="filled-in" checked="checked" />
-                                                                    <span>Featured ?</span>
-                                                                </label>
-                                                                <!-- <input placeholder="Description" id="description" name="description" type="text"> -->
-                                                                <!-- <small><div id="error2" class="error"></div></small> -->
-                                                                <!-- <label for="description">Description</label> -->
+                                                            <div class="input-field col m12 s12">
+                                                                <p>
+                                                                    <label>
+                                                                        <input type="checkbox" class="filled-in" <% true ? checked="checked" : "" %> />
+                                                                        <span>Featured ?</span>
+                                                                    </label>
+                                                                </p>
                                                             </div>
                                                             <button type="submit" class="btn purple ml-1">Submit</button>
                                                             <a href="/admin/category" class="btn btn-danger">Cancel</a>
