@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Category schema
-const CategorySchema = mongoose.Schema({
+const categorySchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -18,4 +18,13 @@ const CategorySchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Category', CategorySchema);
+
+// pre validate trim value
+categorySchema.pre('validate', function (next) {
+    if (this.name) {
+        this.name = this.name.trim();
+    }
+    next();
+});
+
+module.exports = mongoose.model('Category', categorySchema);
