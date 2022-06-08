@@ -15,14 +15,6 @@ const messageSchema = new mongoose.Schema({
             }
         }
     },
-    address: {
-        type: String,
-        required: [true, 'Address is required'],
-    },
-    phone: {
-        type: String,
-        required: [true, 'Number is required'],
-    },
     message: {
         type: String,
         required: [true, 'Message is required'],
@@ -37,12 +29,6 @@ const messageSchema = new mongoose.Schema({
 messageSchema.pre('validate', function (next) {
     if (this.name) {
         this.name = this.name.trim();
-    }
-    if (this.address) {
-        this.address = this.address.trim();
-    }
-    if (this.phone) {
-        this.phone = this.phone.trim();
     }
     if (this.message) {
         this.message = this.message.trim();
