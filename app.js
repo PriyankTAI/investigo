@@ -71,6 +71,7 @@ app.use('/admin/user', require('./routes/adminUser'));
 app.use('/admin/package', require('./routes/adminPackage'));
 app.use('/admin/project', require('./routes/adminProject'));
 app.use('/admin/category', require('./routes/adminCategory'));
+app.use('/admin/blog', require('./routes/adminBlog'));
 
 // 404 admin
 app.all('/admin/*', (req, res) => {

@@ -63,22 +63,17 @@
                                                                 <label for="title">Title</label>
                                                             </div>
                                                             <div class="input-field col m6 s12">
-                                                                <select id="cat">
+                                                                <select id="cat" name="category">
                                                                     <option value="">Select category</option>
                                                                     <% for( let i = 0; i < cats.length; i++ ) { %>
-                                                                        <option value="<%= cats[i]._id %>" <%= JSON.stringify(cats[i]._id) == JSON.stringify(subcats.category) ? 'selected' : ''%>><%= cats[i].name %></option>
+                                                                        <option value="<%= cats[i]._id %>" <%= JSON.stringify(cats[i]._id) == JSON.stringify(blog.category) ? 'selected' : ''%>><%= cats[i].name %></option>
                                                                     <% } %>
                                                                 </select>
                                                                 <label>Select category</label>
                                                                 <small><div id="error5" class="error"></div></small>
                                                             </div>
-                                                            <div class="input-field col m6 s12">
-                                                                <input placeholder="Description" id="description"name="description" type="text" value="<%= blog.description %>">
-                                                                <small><div id="error2" class="error"></div></small>
-                                                                <label for="description">Description</label>
-                                                            </div>
                                                             <div class="input-field col s12">
-                                                                <textarea id="textarea2" class="materialize-textarea" name="content" placeholder="Enter content here" value="<%= blog.content %>"></textarea>
+                                                                <textarea id="textarea2" class="materialize-textarea" name="content" placeholder="Enter content here" ><%= blog.content %></textarea>
                                                                 <label for="textarea2">Content</label>
                                                                 <small><div id="error3" class="error"></div></small>
                                                             </div>
@@ -118,7 +113,6 @@
         <script>
             const formC = document.getElementById('form');
             const titleC = document.getElementById('title');
-            const descriptionC = document.getElementById('description');
             const contentC = document.getElementById('textarea2');
             const catValue = catC.value;
 
@@ -129,7 +123,6 @@
                 let returnVal = true;
 
                 const titleValue = titleC.value.trim();
-                const descriptionValue = descriptionC.value.trim();
                 const contentValue = contentC.value.trim();
                 const catValue = catC.value;
                 const filevalue = document.getElementById('input-file-now').value;
@@ -140,13 +133,6 @@
                     returnVal = false;
                 } else {
                     document.getElementById('error1').innerText = '';
-                }
-
-                if (descriptionValue == '') {
-                    document.getElementById('error2').innerText = 'Please enter description.';
-                    returnVal = false;
-                } else {
-                    document.getElementById('error2').innerText = '';
                 }
 
                 if (contentValue == '') {
