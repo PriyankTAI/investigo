@@ -182,7 +182,7 @@ router.post("/reset_pass", async (req, res, next) => {
         }
         user.password = password;
         await user.save();
-        return res.status(200).json({ status: "success" });
+        return res.status(200).json({ status: "success", message: "Password changed successfully" });
     } catch (error) {
         console.log(error);
         next(error);
