@@ -175,18 +175,13 @@ router.post("/forgot", async (req, res, next) => {
 // POST reset password
 router.post("/reset_pass", async (req, res, next) => {
     try {
-        const { email, password, otp } = req.body;
+        const { email, password } = req.body;
         const user = await User.findOne({ email });
         if (user == null) {
             return next(createError.BadRequest(`Please enter registerd email`));
         }
-        const otpExists = await Otp.findOne({ userId: user._id });
-        if ( !otpExists || otp !== otpExists.otp) {
-            return next(createError.BadRequest(`Invalid otp`));
-        }
         user.password = password;
         await user.save();
-        await otpExists.remove();
         return res.status(200).json({ status: "success" });
     } catch (error) {
         console.log(error);
