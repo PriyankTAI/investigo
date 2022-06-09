@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>Edit Blog</title>
+    <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/favicon/favicon-32x32.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- BEGIN: VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+    <!-- END: VENDOR CSS-->
+    <!-- BEGIN: Page Level CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/style.css">
+    <!-- END: Page Level CSS-->
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+    <%- include('_layouts/sidenavbar') %>
+
+        <!-- BEGIN: Page Main-->
+        <div id="main">
+            <div class="row">
+                <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Edit Blog</span></h5>
+                            </div>
+                            <div class="col s12 m6 l6 right-align-md">
+                                <ol class="breadcrumbs mb-0">
+                                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/blog">Blog</a></li>
+                                    <li class="breadcrumb-item active">Edit Blog</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="container">
+                        <div class="section section-data-tables">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <!-- <h4 class="card-title">Contact Us</h4> -->
+                                                    <!-- errors -->
+                                                    <%- messages('messages', locals) %>
+                                                        <form method="POST" onsubmit="validate()" action="/admin/blog/edit/<%= blog._id %>" id="form" enctype="multipart/form-data">
+                                                            <div class="input-field col m6 s12">
+                                                                <input placeholder="Title" id="title" name="title" type="text" value="<%= blog.title %>">
+                                                                <small><div id="error1" class="error"></div></small>
+                                                                <label for="title">Title</label>
+                                                            </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <select id="cat">
+                                                                    <option value="">Select category</option>
+                                                                    <% for( let i = 0; i < cats.length; i++ ) { %>
+                                                                        <option value="<%= cats[i]._id %>" <%= JSON.stringify(cats[i]._id) == JSON.stringify(subcats.category) ? 'selected' : ''%>><%= cats[i].name %></option>
+                                                                    <% } %>
+                                                                </select>
+                                                                <label>Select category</label>
+                                                                <small><div id="error5" class="error"></div></small>
+                                                            </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <input placeholder="Description" id="description"name="description" type="text" value="<%= blog.description %>">
+                                                                <small><div id="error2" class="error"></div></small>
+                                                                <label for="description">Description</label>
+                                                            </div>
+                                                            <div class="input-field col s12">
+                                                                <textarea id="textarea2" class="materialize-textarea" name="content" placeholder="Enter content here" value="<%= blog.content %>"></textarea>
+                                                                <label for="textarea2">Content</label>
+                                                                <small><div id="error3" class="error"></div></small>
+                                                            </div>
+                                                            <div class="input-field col s12">
+                                                                Upload Image
+                                                                <input type="file" name="image" id="input-file-now" class="dropify" data-disable-remove="true" data-default-file="<%= blog.image %>" />
+                                                                <small><div id="error4" class="error"></div></small>
+                                                            </div>
+                                                            <div class="col s12">
+                                                                <button type="submit" class="btn purple">Submit</button>
+                                                                <a href="/admin/blog" class="btn btn-danger">Cancel</a>
+                                                            </div>
+                                                        </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-overlay"></div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Page Main-->
+
+        <!-- BEGIN: Footer-->
+
+        <footer class="page-footer footer footer-static footer-light navbar-border navbar-shadow">
+            <div class="footer-copyright">
+                <div class="container"><span>&copy; 2020 <a href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">PIXINVENT</a> All rights reserved.</span><span class="right hide-on-small-only">Design and Developed by <a href="https://pixinvent.com/">PIXINVENT</a></span></div>
+            </div>
+        </footer>
+
+        <!-- END: Footer-->
+        <script>
+            const formC = document.getElementById('form');
+            const titleC = document.getElementById('title');
+            const descriptionC = document.getElementById('description');
+            const contentC = document.getElementById('textarea2');
+            const catValue = catC.value;
+
+            formC.addEventListener('submit', (e) => {
+                e.preventDefault();
+            })
+            function validate() {
+                let returnVal = true;
+
+                const titleValue = titleC.value.trim();
+                const descriptionValue = descriptionC.value.trim();
+                const contentValue = contentC.value.trim();
+                const catValue = catC.value;
+                const filevalue = document.getElementById('input-file-now').value;
+                const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
+
+                if (titleValue == '') {
+                    document.getElementById('error1').innerText = 'Please enter title.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error1').innerText = '';
+                }
+
+                if (descriptionValue == '') {
+                    document.getElementById('error2').innerText = 'Please enter description.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error2').innerText = '';
+                }
+
+                if (contentValue == '') {
+                    document.getElementById('error3').innerText = 'Please enter content.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error3').innerText = '';
+                }
+
+                if (filevalue == '') {
+                    document.getElementById('error4').innerText = '';
+                } else if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+                    document.getElementById('error4').innerText = '';
+                } else {
+                    document.getElementById('error4').innerText = 'Wrong file type.';
+                    returnVal = false;
+                }
+
+                if (catValue == '') {
+                    document.getElementById('error5').innerText = 'Please select category.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error5').innerText = '';
+                }
+
+                if (returnVal) {
+                    formC.submit();
+                }
+            }
+        </script> 
+        <!-- BEGIN VENDOR JS-->
+        <script src="/app-assets/js/vendors.min.js"></script>
+        <!-- BEGIN VENDOR JS-->
+        <!-- BEGIN THEME  JS-->
+        <script src="/app-assets/js/plugins.js"></script>
+        <!-- END THEME  JS-->
+        <!-- ===== ckeditor JavaScript ===== -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+        <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+</body>
+
+</html>
