@@ -36,7 +36,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Blog</span></h5>
+                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Blogs</span></h5>
                             </div>
                             <div class="col s12 m6 l6 right-align-md">
                                 <a class="btn gradient-45deg-purple-deep-orange pull-right" href="/admin/blog/add">Add Blog</a>
@@ -52,7 +52,7 @@
                                 <div class="col s12">
                                     <div class="card">
                                         <div class="card-content">
-                                            <h4 class="card-title">Blog</h4>
+                                            <h4 class="card-title">Blogs</h4>
                                             <!-- errors -->
                                             <%- messages('messages', locals) %>
                                             <div class="row">
@@ -61,8 +61,8 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Sr</th>
-                                                                <!-- <th>Category</th> -->
                                                                 <th>Title</th>
+                                                                <th>Category</th>
                                                                 <th>Image</th>
                                                                 <th>Action</th>
                                                             </tr>
@@ -71,8 +71,8 @@
                                                         <% for( let i = 0; i < blogs.length; i++ ) { %>
                                                             <tr>
                                                                 <td><%= i+1 %></td>
-                                                                <!-- <td><%= blogs[i].category %></td> -->
-                                                                <td><%= blogs[i].title %></td>
+                                                                <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= blogs[i].title %></td>
+                                                                <td><%= blogs[i].category ? blogs[i].category.name : "Deleted" %></td>
                                                                 <td><img src="<%= blogs[i].image %>" alt="IMG" height="100" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
                                                                 <td>
                                                                     <a href="/admin/blog/edit/<%= blogs[i].id %>"><i class="material-icons">create</i></a>

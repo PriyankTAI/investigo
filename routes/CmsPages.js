@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const checkUser = require('../middleware/authMiddleware');
-
 const Contact = require('../models/contact');
 const Page = require('../models/pageModel');
 const Message = require('../models/messageModel');
@@ -104,35 +102,5 @@ router.post("/contact", async (req, res, next) => {
         console.log(error);
     }
 })
-
-// get all packages
-router.get("/package", async (req, res, next) => {
-    try {
-        const packages = await Package.find();
-        res.status(201).json({
-            status: "success",
-            total: packages.length,
-            packages
-        });
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
-});
-
-// get all projects
-router.get("/project", async (req, res, next) => {
-    try {
-        const projects = await Project.find();
-        res.status(201).json({
-            status: "success",
-            total: projects.length,
-            projects
-        });
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
-});
 
 module.exports = router;

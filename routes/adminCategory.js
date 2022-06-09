@@ -2,29 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
-const formatDate = require('../helpers/formateDate');
-
 const checkAdmin = require('../middleware/authAdminMiddleware');
-
-const sharp = require('sharp');
-const multer = require('multer');
-const fs = require('fs-extra');
-const storage = multer.memoryStorage();
-const fileFilter = (req, file, cb) => {
-    // reject a file
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-};
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 1024 * 1024 * 10
-    },
-    fileFilter: fileFilter
-});
 
 // GET model
 const Category = require('../models/category');
@@ -55,8 +33,8 @@ router.post('/add', checkAdmin, [
         const { name } = req.body;
         const validationErrors = validationResult(req)
         if (validationErrors.errors.length > 0) {
-            const alert = validationErrors.array()
-            return res.render('add_category')
+            req.flash('red', validationErrors.errors[0].msg)
+            return res.redirect(req.originalUrl);
         }
         const cat = new Category({
             name,
@@ -109,8 +87,8 @@ router.post('/edit/:id', checkAdmin, [
         const { name } = req.body;
         const validationErrors = validationResult(req)
         if (validationErrors.errors.length > 0) {
-            const alert = validationErrors.array()
-            return res.render('edit_category')
+            req.flash('red', validationErrors.errors[0].msg)
+            return res.redirect(req.originalUrl);
         }
         const id = req.params.id;
         const cat = await Category.findById(id);
@@ -147,7 +125,7 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
         const cat = await Category.findByIdAndRemove(id);
-        req.flash('green', `Category Deleted successfully`);
+        req.flash('green', `Category ${cat.name} Deleted successfully`);
         res.redirect('/admin/category')
     } catch (error) {
         if (error.name === 'CastError' || error.name === 'TypeError') {

@@ -64,6 +64,7 @@ app.use(function (req, res, next) {
 app.get('/', (req, res) => res.send("Backend running..."));
 app.use('/', require('./routes/authRoutes'));
 app.use('/', require('./routes/CmsPages'));
+app.use('/', require('./routes/userRoutes'));
 
 app.use('/admin', require('./routes/adminRoutes'));
 app.use('/admin', require('./routes/adminCmsPages'));

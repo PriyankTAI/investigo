@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-// const formatDate = require('../helpers/formateDate');
 
 const checkAdmin = require('../middleware/authAdminMiddleware');
 
@@ -32,7 +31,7 @@ const Category = require('../models/category');
 // GET blog
 router.get("/", checkAdmin, async (req, res) => {
     try {
-        const blogs = await Blog.find();
+        const blogs = await Blog.find().populate('category');
         res.status(201).render("blog", {
             blogs
         });
@@ -44,8 +43,8 @@ router.get("/", checkAdmin, async (req, res) => {
 
 // GET add blog
 router.get("/add", checkAdmin, async (req, res) => {
-    const cats  = await Category.find()
-    res.render("add_blog",{
+    const cats = await Category.find()
+    res.render("add_blog", {
         cats
     });
 });
@@ -60,11 +59,8 @@ router.post('/add', checkAdmin, upload.single('image'), [
         const { title, content, category } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
-            const cats = await Category.find();
-            req.flash('red', validationErrors.errors[0].msg);
-            return res.render('add_blog',{
-                cats
-            })
+            req.flash('red', validationErrors.errors[0].msg)
+            return res.redirect(req.originalUrl);
         }
         const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
         const blog = new Blog({
@@ -82,7 +78,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
             .toFile('./public/uploads/blog/' + filename);
         req.flash('green', `Blog added successfully`);
         res.redirect('/admin/blog')
-    } catch (error) { 
+    } catch (error) {
         console.log(error);
         res.send(error.message)
     }
@@ -94,7 +90,6 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
         const id = req.params.id;
         const cats = await Category.find();
         const blog = await Blog.findById(id);
-        console.log(blog);
         if (blog == null) {
             req.flash('red', `Blog not found!`);
             return res.redirect('/admin/blog');
@@ -158,7 +153,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         res.redirect('/admin/blog')
     } catch (error) {
         res.send(error.message);
-            console.log(error);
+        console.log(error);
     }
 });
 
