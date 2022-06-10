@@ -56,17 +56,19 @@ router.post('/add', checkAdmin, upload.single('image'), [
     check('category', 'Please select category').notEmpty(),
 ], async (req, res) => {
     try {
-        const { title, content, category } = req.body;
+        const { title, content, category, tags } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg)
             return res.redirect(req.originalUrl);
         }
         const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+        const tagsArray = tags.split(',');
         const blog = new Blog({
             title,
             content,
             category,
+            tags: tagsArray,
             image: '/uploads/blog/' + filename
         })
         if (!fs.existsSync('./public/uploads/blog')) {
@@ -116,7 +118,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
     check('category', 'Please select category').notEmpty(),
 ], async (req, res) => {
     try {
-        const { title, content, category } = req.body;
+        const { title, content, category, tags } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg)
@@ -128,9 +130,11 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
             req.flash('red', `Blog not found!`);
             return res.redirect('/admin/blog');
         }
+        const tagsArray = tags.split(',');
         blog.title = title;
         blog.content = content;
         blog.category = category;
+        blog.tags = tagsArray;
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + blog.image;
 
