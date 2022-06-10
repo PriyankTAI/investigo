@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
+// models
 const Contact = require('../models/contact');
 const Page = require('../models/pageModel');
 const Message = require('../models/messageModel');
-const Package = require('../models/package');
-const Project = require('../models/project');
 
 // about us
 router.get("/about_us", async (req, res, next) => {
