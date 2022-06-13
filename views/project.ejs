@@ -64,6 +64,7 @@
                                                                 <th>Title</th>
                                                                 <th>Description</th>
                                                                 <th>Image</th>
+                                                                <th>Date</th>
                                                                 <th>Action</th>
                                                             </tr>
                                                         </thead>
@@ -74,6 +75,8 @@
                                                                 <td><%= projects[i].title %></td>
                                                                 <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= projects[i].description %></td>
                                                                 <td><img src="<%= projects[i].image %>" alt="IMG" height="100" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
+                                                                <!-- <td><%= projects[i].date.toLocaleDateString() %></td> -->
+                                                                <td><%= projects[i].date.toDateString() %></td>
                                                                 <td>
                                                                     <a href="/admin/project/edit/<%= projects[i].id %>"><i class="material-icons">create</i></a>
                                                                     <a href="/admin/project/delete/<%= projects[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>

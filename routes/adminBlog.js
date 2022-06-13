@@ -63,7 +63,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
             return res.redirect(req.originalUrl);
         }
         const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
-        const tagsArray = tags.split(',');
+        const tagsArray = tags.split(',').filter(item => item !== '');
         const blog = new Blog({
             title,
             content,
@@ -130,7 +130,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
             req.flash('red', `Blog not found!`);
             return res.redirect('/admin/blog');
         }
-        const tagsArray = tags.split(',');
+        const tagsArray = tags.split(',').filter(item => item !== '');
         blog.title = title;
         blog.content = content;
         blog.category = category;

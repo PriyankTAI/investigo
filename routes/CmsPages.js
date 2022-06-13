@@ -11,7 +11,7 @@ router.get("/about_us", async (req, res, next) => {
     try {
         const page = await Page.findOne({ title: 'About Us' })
         const content = page.content;
-        res.status(201).json({
+        res.json({
             status: "success",
             content
         });
@@ -26,7 +26,7 @@ router.get("/faqs", async (req, res, next) => {
     try {
         const page = await Page.findOne({ title: 'FAQs' })
         const content = page.content;
-        res.status(201).json({
+        res.json({
             status: "success",
             content
         });
@@ -41,7 +41,7 @@ router.get("/terms_con", async (req, res, next) => {
     try {
         const page = await Page.findOne({ title: 'Terms & Condition' })
         const content = page.content;
-        res.status(201).json({
+        res.json({
             status: "success",
             content
         });
@@ -56,7 +56,7 @@ router.get("/privacy_policy", async (req, res, next) => {
     try {
         const page = await Page.findOne({ title: 'Privacy Policy' })
         const content = page.content;
-        res.status(201).json({
+        res.json({
             status: "success",
             content
         });
@@ -72,7 +72,7 @@ router.get("/contact", async (req, res, next) => {
         const page = await Page.findOne({ title: 'Contact' })
         const content = page.content;
         const contact = await Contact.findOne();
-        res.status(201).json({
+        res.json({
             status: "success",
             content,
             contact

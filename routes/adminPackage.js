@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-// const formatDate = require('../helpers/formateDate');
 
 const checkAdmin = require('../middleware/authAdminMiddleware');
 
