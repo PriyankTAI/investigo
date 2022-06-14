@@ -39,6 +39,11 @@ router.post("/register", async (req, res, next) => {
     }
 })
 
+// TODO: 
+// if registered with method and tries another method
+// 1. combine methods
+// 2. show message to login with right method
+
 // POST login
 router.post("/login", async (req, res, next) => {
     try {
@@ -46,21 +51,31 @@ router.post("/login", async (req, res, next) => {
         const userExist = await User.findOne({ email });
         if (password) { // password
             if (!userExist) {
-                return next(createError.BadRequest(`Invalid email or password`));
+                return next(createError.BadRequest(`Invalid email or password.`));
             }
             if (!userExist.password) {
-                return next(createError.BadRequest(`Please login with google or facebook`));
+                if (userExist.googleId) {
+                    return next(createError.BadRequest(`Please login with google.`));
+                }
+                if (userExist.facebookId) {
+                    return next(createError.BadRequest(`Please login with facebook.`));
+                }
             }
             const isMatch = await bcrypt.compare(password, userExist.password);
             if (!isMatch) {
-                return next(createError.BadRequest(`Invalid email or password`));
+                return next(createError.BadRequest(`Invalid email or password.`));
             }
             const token = await userExist.generateAuthToken();
             return res.status(200).json({ status: "success", token, user: userExist })
         } else if (googleId) { // google
             if (userExist) {
-                if (googleId != userExist.googleId) {
-                    return next(createError.BadRequest(`Invalid googleId`));
+                if (!userExist.googleId) {
+                    if (userExist.facebookId) {
+                        return next(createError.BadRequest(`Please login with facebook.`));
+                    }
+                    if (userExist.password) {
+                        return next(createError.BadRequest(`Please login with email and password.`));
+                    }
                 }
                 const token = await userExist.generateAuthToken();
                 return res.status(200).json({ status: "success", token, user: userExist })
@@ -76,8 +91,13 @@ router.post("/login", async (req, res, next) => {
             }
         } else if (facebookId) { // facebook
             if (userExist) {
-                if (facebookId != userExist.facebookId) {
-                    return next(createError.BadRequest(`Invalid facebookId`));
+                if (!userExist.facebookId) {
+                    if (userExist.googleId) {
+                        return next(createError.BadRequest(`Please login with google.`));
+                    }
+                    if (userExist.password) {
+                        return next(createError.BadRequest(`Please login with email and password.`));
+                    }
                 }
                 const token = await userExist.generateAuthToken();
                 return res.status(200).json({ status: "success", token, user: userExist })
@@ -92,7 +112,7 @@ router.post("/login", async (req, res, next) => {
                 return res.status(200).json({ status: "success", token, user })
             }
         } else {
-            return next(createError.BadRequest(`Please provide password, googleId or facebookId`));
+            return next(createError.BadRequest(`Please provide password, googleId or facebookId.`));
         }
     } catch (error) {
         console.log(error.message);

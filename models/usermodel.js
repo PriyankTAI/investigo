@@ -37,6 +37,11 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
     },
+    interest: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Project',
+        required: true,
+    }],
     blocked: {
         type: Boolean,
         default: false
