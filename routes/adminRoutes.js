@@ -109,8 +109,12 @@ router.post("/changepass", checkAdmin, async (req, res) => {
         req.flash('green', 'Password updated.');
         return res.redirect('/admin/changepass');
     } catch (error) {
+        if (error) {
+            
         console.log(error);
         res.status(400).send(error.message);
+            console.log(error);
+        }
     }
 })
 
