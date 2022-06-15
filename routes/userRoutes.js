@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const createError = require('http-errors');
 
+const checkUser = require('../middleware/authMiddleware');
+
+const User = require('../models/usermodel');
 const Package = require('../models/package');
 const Project = require('../models/project');
 const Category = require('../models/category');
@@ -62,6 +66,33 @@ router.get('/blog', async (req, res, next) => {
         })
     } catch (error) {
         console.log(error);
+        next(error)
+    }
+})
+
+// GET add interest
+router.get('/interest/add/:id', checkUser, async (req, res, next) => {
+    try {
+        const p = await Project.findById(req.params.id);
+        if (p == null) {
+            // given id is not a project
+            // console.log(`Invalid project id: ${id}`);
+            return next(createError.BadRequest(`Please provide valid project id.`));
+        }
+        const user = await User.findById(req.user.id);
+        if (!user.interest.includes(req.params.id)) {
+            user.interest.push(req.params.id);
+            await user.save();
+        }
+        res.json({
+            status: 'success',
+            interest: user.interest
+        })
+    } catch (error) {
+        console.log(error.message);
+        if (error.name == 'CastError') {
+            return next(createError.BadRequest(`Please provide valid project id.`));
+        }
         next(error)
     }
 })
