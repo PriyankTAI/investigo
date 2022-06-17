@@ -70,6 +70,26 @@ router.get('/blog', async (req, res, next) => {
     }
 })
 
+// GET a blog with id
+router.get('/blog/:id', async (req, res, next) => {
+    try {
+        const blog = await Blog.findById(req.params.id).populate('category', '-date -__v').select('-__v');
+        if (blog == null) {
+            return next(createError.BadRequest(`Blog not found.`));
+        }
+        res.json({
+            status: "success",
+            blog
+        })
+    } catch (error) {
+        console.log(error.message);
+        if (error.name == 'CastError') {
+            return next(createError.BadRequest(`Blog not found.`));
+        }
+        next(error)
+    }
+})
+
 // GET add interest
 router.get('/interest/add/:id', checkUser, async (req, res, next) => {
     try {
@@ -84,6 +104,25 @@ router.get('/interest/add/:id', checkUser, async (req, res, next) => {
             user.interest.push(req.params.id);
             await user.save();
         }
+        res.json({
+            status: 'success',
+            interest: user.interest
+        })
+    } catch (error) {
+        console.log(error.message);
+        if (error.name == 'CastError') {
+            return next(createError.BadRequest(`Please provide valid project id.`));
+        }
+        next(error)
+    }
+})
+
+// GET remove interest
+router.get('/interest/remove/:id', checkUser, async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user.id);
+        user.interest = user.interest.filter((value) => value != req.params.id);
+        await user.save();
         res.json({
             status: 'success',
             interest: user.interest
