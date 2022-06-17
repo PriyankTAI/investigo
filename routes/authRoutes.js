@@ -127,6 +127,14 @@ router.post("/changepass", checkUser, async (req, res, next) => {
         if (user == null) {
             return next(createError.BadRequest(`Please login first`));
         }
+        if (!user.password) {
+            if (user.googleId) {
+                return next(createError.BadRequest(`You are a google user can not change password!`));
+            }
+            if (user.facebookId) {
+                return next(createError.BadRequest(`You are a facebook user can not change password!`));
+            }
+        }
         const { currentpass, newpass, cfnewpass } = req.body;
         if (!currentpass || currentpass.length < 6) {
             return next(createError.BadRequest(`Password should be atleast 6 characters long`));
@@ -154,7 +162,7 @@ router.post("/changepass", checkUser, async (req, res, next) => {
             message: "password updated"
         });
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         next(error)
     }
 })
