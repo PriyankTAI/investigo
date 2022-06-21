@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
-const checkAdmin = require('../middleware/authAdminMiddleware');
+const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const sharp = require('sharp');
 const multer = require('multer');
@@ -25,7 +25,7 @@ const upload = multer({
 });
 
 // GET model
-const Package = require('../models/package');
+const Package = require('../../models/package');
 
 // GET package
 router.get("/", checkAdmin, async (req, res) => {

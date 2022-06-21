@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-// const formatDate = require('../helpers/formateDate');
+// const formatDate = require('../../helpers/formateDate');
 
-const checkAdmin = require('../middleware/authAdminMiddleware');
+const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const sharp = require('sharp');
 const multer = require('multer');
@@ -26,7 +26,7 @@ const upload = multer({
 });
 
 // GET model
-const Project = require('../models/project');
+const Project = require('../../models/project');
 
 // GET project
 router.get("/", checkAdmin, async (req, res) => {

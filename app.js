@@ -62,17 +62,17 @@ app.use(function (req, res, next) {
 
 // routes
 app.get('/', (req, res) => res.send("Backend running..."));
-app.use('/', require('./routes/authRoutes'));
-app.use('/', require('./routes/CmsPages'));
-app.use('/', require('./routes/userRoutes'));
+app.use('/', require('./routes/user/authRoutes'));
+app.use('/', require('./routes/user/CmsPages'));
+app.use('/', require('./routes/user/userRoutes'));
 
-app.use('/admin', require('./routes/adminRoutes'));
-app.use('/admin', require('./routes/adminCmsPages'));
-app.use('/admin/user', require('./routes/adminUser'));
-app.use('/admin/package', require('./routes/adminPackage'));
-app.use('/admin/project', require('./routes/adminProject'));
-app.use('/admin/category', require('./routes/adminCategory'));
-app.use('/admin/blog', require('./routes/adminBlog'));
+app.use('/admin', require('./routes/admin/adminRoutes'));
+app.use('/admin', require('./routes/admin/adminCmsPages'));
+app.use('/admin/user', require('./routes/admin/adminUser'));
+app.use('/admin/package', require('./routes/admin/adminPackage'));
+app.use('/admin/project', require('./routes/admin/adminProject'));
+app.use('/admin/category', require('./routes/admin/adminCategory'));
+app.use('/admin/blog', require('./routes/admin/adminBlog'));
 
 // 404 admin
 app.all('/admin/*', (req, res) => {

@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
-const { sendOtp } = require('../helpers/sendEmail');
+const { sendOtp } = require('../../helpers/sendEmail');
 
-const checkUser = require('../middleware/authMiddleware');
+const checkUser = require('../../middleware/authMiddleware');
 
-const User = require('../models/usermodel');
-const Otp = require('../models/otpModel');
+const User = require('../../models/usermodel');
+const Otp = require('../../models/otpModel');
 
 // POST register
 router.post("/register", async (req, res, next) => {

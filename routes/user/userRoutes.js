@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 
-const checkUser = require('../middleware/authMiddleware');
+const checkUser = require('../../middleware/authMiddleware');
 
-const User = require('../models/usermodel');
-const Package = require('../models/package');
-const Project = require('../models/project');
-const Category = require('../models/category');
-const Blog = require('../models/blog');
+const User = require('../../models/usermodel');
+const Package = require('../../models/package');
+const Project = require('../../models/project');
+const Category = require('../../models/category');
+const Blog = require('../../models/blog');
+const Newsletter = require('../../models/newsletterModel');
 
 // GET all packages
 router.get('/package', async (req, res, next) => {
@@ -132,6 +133,25 @@ router.get('/interest/remove/:id', checkUser, async (req, res, next) => {
         if (error.name == 'CastError') {
             return next(createError.BadRequest(`Please provide valid project id.`));
         }
+        next(error)
+    }
+})
+
+// POST add newsletter
+router.post('/newsletter', async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const emailExist = await Newsletter.findOne({ email });
+        if (emailExist) {
+            return next(createError.BadRequest('email is already in our newsletter list.'));
+        }
+        await Newsletter.create({ email });
+        res.status(201).json({
+            status: 'success',
+            message: 'Email added to our newsletter list.'
+        })
+    } catch (error) {
+        console.log(error);
         next(error)
     }
 })

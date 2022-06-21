@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
-const Page = require('../models/pageModel');
-const Contact = require('../models/contact');
+const Page = require('../../models/pageModel');
+const Contact = require('../../models/contact');
 
-const checkAdmin = require('../middleware/authAdminMiddleware');
+const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 // about us
 router.get("/about_us", checkAdmin, async (req, res) => {

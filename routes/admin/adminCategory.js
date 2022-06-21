@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
-const checkAdmin = require('../middleware/authAdminMiddleware');
+const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 // GET model
-const Category = require('../models/category');
+const Category = require('../../models/category');
 
 // GET category
 router.get("/", checkAdmin, async (req, res) => {
