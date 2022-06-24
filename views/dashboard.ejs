@@ -107,6 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- <button onclick="showToast()">Toast</button> -->
                             </div>
                             <!--card stats end-->
                         </div>
@@ -141,10 +142,10 @@
         <!-- END PAGE LEVEL JS-->
 </body>
 <%- include('_layouts/alert') %>
-document.on('load', () => {
-    const interval = setInterval(function() {
-        // method to be executed;
-        M.toast({ html: `A random long message from user. <br> - John Doe` })
-    }, 5000);
-})
+<!-- <script>
+    function showToast () {
+        M.toast({ html: `<span>A random long message from user lskjfgkhfgksdfgkfdjglfdlgj lskjfgkhfgksdfgkfdjglfdlgjlskjfgkhfgksdfgkfdjglfdlgj lskjfgkhfgksdfgkfdjglfdlgjlskjfgkhfgksdfgkfdjglfdlgj. <br> - John Doe</span>` })
+    }
+</script> -->
+<!-- <div id="toast-container"><div class="toast" style="top: 0px; opacity: 1;"><span>A random long message from user lskjfgkhfgksdfgkfdjglfdlgj lskjfgkhfgksdfgkfdjglfdlgjlskjfgkhfgksdfgkfdjglfdlgj lskjfgkhfgksdfgkfdjglfdlgjlskjfgkhfgksdfgkfdjglfdlgj. <br> - John Doe</span></div></div> -->
 </html>

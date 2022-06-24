@@ -6316,7 +6316,10 @@ small
     display:         flex;
 
     width: auto;
-    max-width: 100%;
+    max-width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     height: auto;
     min-height: 48px;
     margin-top: 10px;
@@ -6351,6 +6354,16 @@ small
 .toast.rounded
 {
     border-radius: 24px;
+}
+
+.toast span {
+    display: inline-block;
+    height: auto;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px 0;
 }
 
 @media only screen and (max-width: 600px)

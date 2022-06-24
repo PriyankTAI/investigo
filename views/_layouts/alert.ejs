@@ -6,6 +6,6 @@
     });
     socket.on("msg", (msg) => {
         console.log(msg);
-        M.toast({ html: `${msg.message}<br>-${msg.name}` })
+        M.toast({ html: `<span>${msg.message}<br>-${msg.name}</span>` })
     })
 </script>
