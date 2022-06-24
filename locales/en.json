@@ -1,0 +1,50 @@
+{
+    "auth": {
+        "invalidToken": "Invalid token.",
+        "someError": "Some error occured!",
+        "login": "Please login first.",
+        "blocked": "Sorry! You are blocked, Please contact Admin.",
+        "provideToken": "Please Provide Auth token."
+    },
+    "validation": {
+        "name": "Name is required.",
+        "email": "Email is required.",
+        "password": "Length of the password must be between 6-1000.",
+        "emailInvalid": "Email is Invalid.",
+        "message": "Message is required."
+    },
+    "error": {
+        "emailReg": "Email already registered.",
+        "invalidCred": "Invalid email or password!",
+        "loginGoogle": "Please login with google.",
+        "loginFacebook": "Please login with facebook.",
+        "loginCred": "Please login with email and password.",
+        "provideMethod": "Please provide password, googleId or facebookId."
+    },
+    "changePass": {
+        "google": "You are a google user can not change password.",
+        "facebook": "You are a facebook user can not change password.",
+        "pass": "Password should be atleast 6 characters long.",
+        "newPass": "New Password should be atleast 6 characters long.",
+        "cfPass": "Confirm Password should be atleast 6 characters long.",
+        "wrongPass": "Wrong current password.",
+        "samePass": "New password can not be same as current password.",
+        "notMatch": "Password and confirm password do not match.",
+        "updated": "Password updated."
+    },
+    "notReg": "Please enter registerd email.",
+    "passChanged": "Password changed successfully.",
+    "msg": "Message sent successfully.",
+    "notFound": {
+        "blog": "Blog not found.",
+        "project": "Project not found."
+    },
+    "newsletter": {
+        "already": "Email is already in our newsletter list.",
+        "success": "Email added to our newsletter list."
+    },
+    "404": "404 not found!",
+    "home": {
+        "title": "Hello World!"
+    }
+}

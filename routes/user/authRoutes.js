@@ -124,9 +124,9 @@ router.post("/login", async (req, res, next) => {
 router.post("/changepass", checkUser, async (req, res, next) => {
     try {
         const user = req.user;
-        if (user == null) {
-            return next(createError.BadRequest(`Please login first`));
-        }
+        // if (user == null) {
+        //     return next(createError.BadRequest(`Please login first`));
+        // }
         if (!user.password) {
             if (user.googleId) {
                 return next(createError.BadRequest(`You are a google user can not change password!`));
@@ -163,7 +163,7 @@ router.post("/changepass", checkUser, async (req, res, next) => {
         });
     } catch (error) {
         console.log(error.message);
-        next(error)
+        next(error);
     }
 })
 
@@ -188,7 +188,7 @@ router.post("/forgot", async (req, res, next) => {
                 otp: generated
             }).save();
         }
-        sendOtp(user.email, otp.otp)
+        sendOtp(user.email, otp.otp);
         return res.status(200).json({
             status: "success",
             email: user.email,

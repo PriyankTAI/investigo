@@ -140,5 +140,11 @@
         <!-- <script src="/app-assets/js/scripts/dashboard-ecommerce.js"></script> -->
         <!-- END PAGE LEVEL JS-->
 </body>
-
+<%- include('_layouts/alert') %>
+document.on('load', () => {
+    const interval = setInterval(function() {
+        // method to be executed;
+        M.toast({ html: `A random long message from user. <br> - John Doe` })
+    }, 5000);
+})
 </html>

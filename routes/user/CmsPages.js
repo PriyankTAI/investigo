@@ -5,6 +5,7 @@ const router = express.Router();
 const Contact = require('../../models/contact');
 const Page = require('../../models/pageModel');
 const Message = require('../../models/messageModel');
+const { Socket } = require('socket.io');
 
 // about us
 router.get("/about_us", async (req, res, next) => {
@@ -86,12 +87,14 @@ router.get("/contact", async (req, res, next) => {
 // POST message
 router.post("/contact", async (req, res, next) => {
     try {
+        // console.log(req.io);
         const message = new Message({
             name: req.body.name,
             email: req.body.email,
             message: req.body.message
         })
         await message.save();
+        req.io.emit('msg', message);
         res.status(201).json({
             status: "success",
             message: "Message sent successfully",

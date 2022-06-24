@@ -4,6 +4,9 @@ require('dotenv').config();
 const createError = require('http-errors');
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const i18n = require('i18next');
+const i18nFsBackend = require('i18next-node-fs-backend');
+const i18nMiddleware = require('i18next-express-middleware');
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -15,6 +18,25 @@ db.once('open', function () {
 
 // init app
 const app = express();
+
+// language
+i18n
+    .use(i18nFsBackend)
+    .use(i18nMiddleware.LanguageDetector)
+    .init({
+        backend: {
+            loadPath: __dirname + '/locales/{{lng}}.json',
+            // addPath: __dirname + '/locales/{{lng}}.missing.json'
+        },
+        fallbackLng: 'en',
+        lowerCaseLng: true,
+        preload: ['en', 'fr', 'du'],
+        saveMissing: true
+    });
+
+app.use(i18nMiddleware.handle(i18n, {
+    removeLngFromUrl: false
+}));
 
 // view engine
 app.set("views", path.join(__dirname, "/views"));
@@ -60,6 +82,27 @@ app.use(function (req, res, next) {
     next();
 });
 
+// socket.io
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+io.on('connection', function (socket) {
+    // console.log('A user connected: '+socket.id);
+
+    socket.on('disconnect', function () {
+        // console.log('A user disconnected: '+socket.id);
+    });
+});
+
+// io middleware
+app.use('/contact', (req, res, next) => {
+    // console.log('io');
+    req.io = io;
+    next()
+});
+
 // routes
 app.get('/', (req, res) => res.send("Backend running..."));
 app.use('/', require('./routes/user/authRoutes'));
@@ -73,6 +116,11 @@ app.use('/admin/package', require('./routes/admin/adminPackage'));
 app.use('/admin/project', require('./routes/admin/adminProject'));
 app.use('/admin/category', require('./routes/admin/adminCategory'));
 app.use('/admin/blog', require('./routes/admin/adminBlog'));
+
+// test language route
+app.get('/lang', (req, res) => {
+    res.send(req.t('home.title'));
+});
 
 // 404 admin
 app.all('/admin/*', (req, res) => {
@@ -91,6 +139,7 @@ app.use((error, req, res, next) => {
         let errors = {};
         Object.keys(error.errors).forEach((key) => {
             errors[key] = error.errors[key].message;
+            // errors[key] = req.t(error.errors[key].message);
         });
         return res.status(400).send({
             status: "fail",
@@ -105,9 +154,6 @@ app.use((error, req, res, next) => {
 })
 
 const port = process.env.PORT || 4000;
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`server is running on port ${port}`);
 })
-
-// ipconfig
-// 192.168.0.144:4000
