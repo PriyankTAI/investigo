@@ -1,11 +1,11 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket = io();
-    socket.on("connect", () => {
-        console.log(socket.id);
-    });
+    // socket.on("connect", () => {
+    //     console.log(socket.id);
+    // });
     socket.on("msg", (msg) => {
-        console.log(msg);
+        // console.log(msg);
         M.toast({ html: `<span>${msg.message}<br>-${msg.name}</span>` })
     })
 </script>

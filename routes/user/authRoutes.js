@@ -42,7 +42,7 @@ router.post("/register", async (req, res, next) => {
 // TODO: 
 // if registered with method and tries another method
 // 1. combine methods
-// 2. show message to login with right method
+// 2. show message to login with right method (current)
 
 // POST login
 router.post("/login", async (req, res, next) => {
@@ -77,6 +77,9 @@ router.post("/login", async (req, res, next) => {
                         return next(createError.BadRequest(`Please login with email and password.`));
                     }
                 }
+                if (userExist.googleId != googleId) {
+                    return next(createError.BadRequest(`Invalid google id.`));
+                }
                 const token = await userExist.generateAuthToken();
                 return res.status(200).json({ status: "success", token, user: userExist })
             } else {
@@ -98,6 +101,9 @@ router.post("/login", async (req, res, next) => {
                     if (userExist.password) {
                         return next(createError.BadRequest(`Please login with email and password.`));
                     }
+                }
+                if (userExist.facebookId != facebookId) {
+                    return next(createError.BadRequest(`Invalid facebook id.`));
                 }
                 const token = await userExist.generateAuthToken();
                 return res.status(200).json({ status: "success", token, user: userExist })
@@ -124,9 +130,6 @@ router.post("/login", async (req, res, next) => {
 router.post("/changepass", checkUser, async (req, res, next) => {
     try {
         const user = req.user;
-        // if (user == null) {
-        //     return next(createError.BadRequest(`Please login first`));
-        // }
         if (!user.password) {
             if (user.googleId) {
                 return next(createError.BadRequest(`You are a google user can not change password!`));

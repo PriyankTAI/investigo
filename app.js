@@ -86,15 +86,17 @@ app.use(function (req, res, next) {
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const { resolve } = require("path");
+const { rejects } = require("assert");
 const io = new Server(server);
 
-io.on('connection', function (socket) {
-    // console.log('A user connected: '+socket.id);
+// io.on('connection', function (socket) {
+//     console.log('A user connected: '+socket.id);
 
-    socket.on('disconnect', function () {
-        // console.log('A user disconnected: '+socket.id);
-    });
-});
+//     socket.on('disconnect', function () {
+//         console.log('A user disconnected: '+socket.id);
+//     });
+// });
 
 // io middleware
 app.use('/contact', (req, res, next) => {
@@ -112,6 +114,7 @@ app.use('/', require('./routes/user/userRoutes'));
 app.use('/admin', require('./routes/admin/adminRoutes'));
 app.use('/admin', require('./routes/admin/adminCmsPages'));
 app.use('/admin/user', require('./routes/admin/adminUser'));
+app.use('/admin/messages', require('./routes/admin/adminMessages'));
 app.use('/admin/package', require('./routes/admin/adminPackage'));
 app.use('/admin/project', require('./routes/admin/adminProject'));
 app.use('/admin/category', require('./routes/admin/adminCategory'));
