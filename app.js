@@ -46,7 +46,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, "/public")));
 
 // set global errors var
-app.locals.errors = null;
+// app.locals.errors = null;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

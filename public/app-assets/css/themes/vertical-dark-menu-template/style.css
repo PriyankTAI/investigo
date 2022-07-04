@@ -8995,10 +8995,10 @@ nav.display-none.search-sm .nav-wrapper form .input-field i
     white-space: nowrap;
 }
 
-.brand-sidebar .logo-wrapper a.brand-logo img
+/* .brand-sidebar .logo-wrapper a.brand-logo img
 {
     height: 18px;
-}
+} */
 
 .brand-sidebar .logo-wrapper a.navbar-toggler
 {
@@ -9043,15 +9043,16 @@ nav.display-none.search-sm .nav-wrapper form .input-field i
     display: inline-block;
 
     margin: 1px 0;
-    padding: 22px 12px 22px 22px;
+    /* padding: 22px 12px 22px 22px; */
+    padding: 10px 50px;
 
     color: #333;
 }
 
-.brand-sidebar .brand-logo img
+/* .brand-sidebar .brand-logo img
 {
     height: 18px;
-}
+} */
 
 .brand-sidebar .brand-logo.center
 {
@@ -9670,7 +9671,8 @@ nav.display-none.search-sm .nav-wrapper form .input-field i
 {
     .sidenav-main .brand-sidebar .brand-logo
     {
-        padding: 16px 12px 20px 12px;
+        /* padding: 16px 12px 20px 12px; */
+        padding: 8px 12px;
     }
     .sidenav-main .btn-sidenav-toggle
     {
