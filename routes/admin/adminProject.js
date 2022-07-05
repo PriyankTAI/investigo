@@ -26,7 +26,7 @@ const upload = multer({
 });
 
 // GET model
-const Project = require('../../models/project');
+const Project = require('../../models/projectModel');
 
 // GET project
 router.get("/", checkAdmin, async (req, res) => {

@@ -25,8 +25,8 @@ const upload = multer({
 });
 
 // GET model
-const Blog = require('../../models/blog');
-const Category = require('../../models/category');
+const Blog = require('../../models/blogModel');
+const Category = require('../../models/categoryModel');
 
 // GET blog
 router.get("/", checkAdmin, async (req, res) => {

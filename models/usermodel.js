@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
+    registration: {
+        type: String,
+        unique: true
+    },
     phone: {
         type: String,
     },

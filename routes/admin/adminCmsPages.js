@@ -3,7 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 const Page = require('../../models/pageModel');
-const Contact = require('../../models/contact');
+const Contact = require('../../models/contactModel');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
+const customId = require("custom-id"); 
 const { sendOtp } = require('../../helpers/sendEmail');
 
 const checkUser = require('../../middleware/authMiddleware');
@@ -13,7 +14,7 @@ const Otp = require('../../models/otpModel');
 router.post("/register", async (req, res, next) => {
     try {
         const userExist = await User.findOne({ email: req.body.email })
-        if (userExist && userExist.googleid) {
+        if (userExist && (userExist.googleid || userExist.facebookId)) {
             userExist.password = req.body.password;
             await userExist.save();
             return res.status(200).json({
@@ -24,18 +25,23 @@ router.post("/register", async (req, res, next) => {
         if (userExist) {
             return next(createError.BadRequest(`email already registered`));
         }
+        const id = customId({});
         const user = new User({
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            phone: req.body.phone
+            phone: req.body.phone,
+            registration: id
         })
         const token = await user.generateAuthToken();
         await user.save();
         res.status(200).json({ status: "success", token, user })
     } catch (error) {
         // console.log(error);
-        next(error)
+        if (error.keyValue.registration) {
+            return next(createError.InternalServerError('An error occured. Please try again.'));
+        }
+        next(error);
     }
 })
 

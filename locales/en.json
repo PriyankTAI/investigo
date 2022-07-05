@@ -19,7 +19,8 @@
         "loginGoogle": "Please login with google.",
         "loginFacebook": "Please login with facebook.",
         "loginCred": "Please login with email and password.",
-        "provideMethod": "Please provide password, googleId or facebookId."
+        "provideMethod": "Please provide password, googleId or facebookId.",
+        "server": "An error occured, Please try again."
     },
     "changePass": {
         "google": "You are a google user can not change password.",

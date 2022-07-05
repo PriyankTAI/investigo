@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 // GET model
-const Category = require('../../models/category');
+const Category = require('../../models/categoryModel');
 
 // GET category
 router.get("/", checkAdmin, async (req, res) => {

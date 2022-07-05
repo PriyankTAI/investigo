@@ -5,10 +5,10 @@ const createError = require('http-errors');
 const checkUser = require('../../middleware/authMiddleware');
 
 const User = require('../../models/usermodel');
-const Package = require('../../models/package');
-const Project = require('../../models/project');
-const Category = require('../../models/category');
-const Blog = require('../../models/blog');
+const Package = require('../../models/packageModel');
+const Project = require('../../models/projectModel');
+const Category = require('../../models/categoryModel');
+const Blog = require('../../models/blogModel');
 const Newsletter = require('../../models/newsletterModel');
 
 // GET all packages
