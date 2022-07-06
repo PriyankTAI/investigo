@@ -115,6 +115,7 @@ app.use('/admin/user', require('./routes/admin/adminUser'));
 app.use('/admin/messages', require('./routes/admin/adminMessages'));
 app.use('/admin/package', require('./routes/admin/adminPackage'));
 app.use('/admin/project', require('./routes/admin/adminProject'));
+app.use('/admin/sector', require('./routes/admin/adminSector'));
 app.use('/admin/category', require('./routes/admin/adminCategory'));
 app.use('/admin/blog', require('./routes/admin/adminBlog'));
 

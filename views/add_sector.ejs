@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>Add Sector</title>
+    <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/favicon.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- BEGIN: VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+    <!-- END: VENDOR CSS-->
+    <!-- BEGIN: Page Level CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/style.css">
+    <!-- END: Page Level CSS-->
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+    <%- include('_layouts/sidenavbar') %>
+
+        <!-- BEGIN: Page Main-->
+        <div id="main">
+            <div class="row">
+                <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Add Sector</span></h5>
+                            </div>
+                            <div class="col s12 m6 l6 right-align-md">
+                                <ol class="breadcrumbs mb-0">
+                                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/sector">Sector</a></li>
+                                    <li class="breadcrumb-item active">Add sector</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="container">
+                        <div class="section section-data-tables">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <!-- <h4 class="card-title">Contact Us</h4> -->
+                                                    <!-- errors -->
+                                                    <%- messages('messages', locals) %>
+                                                        <form method="POST" onsubmit="validate()" action="/admin/sector/add" id="form">
+                                                            <div class="input-field col m12 s12">
+                                                                <input placeholder="Name" id="name" name="name" type="text">
+                                                                <small><div id="error1" class="error"></div></small>
+                                                                <label for="name">Name</label>
+                                                            </div>
+                                                            <button type="submit" class="btn purple ml-1">Submit</button>
+                                                            <a href="/admin/sector" class="btn btn-danger">Cancel</a>
+                                                        </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-overlay"></div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Page Main-->
+
+        <script>
+            const formC = document.getElementById('form');
+            const nameC = document.getElementById('name');
+
+            formC.addEventListener('submit', (e) => {
+                e.preventDefault();
+            })
+            function validate() {
+                let returnVal = true;
+
+                const nameValue = nameC.value.trim();
+                if (nameValue == '') {
+                    document.getElementById('error1').innerText = 'Please enter name.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error1').innerText = '';
+                }
+
+                if (returnVal) {
+                    formC.submit();
+                }
+            }
+
+        </script>
+        <!-- BEGIN VENDOR JS-->
+        <script src="/app-assets/js/vendors.min.js"></script>
+        <!-- BEGIN VENDOR JS-->
+        <!-- BEGIN THEME  JS-->
+        <script src="/app-assets/js/plugins.js"></script>
+        <!-- END THEME  JS-->
+</body>
+<%- include('_layouts/alert') %>
+</html>

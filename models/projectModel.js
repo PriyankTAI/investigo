@@ -6,9 +6,25 @@ var projectSchema = mongoose.Schema({
         type: String,
         required: [true, 'Title is required'],
     },
+    sector: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Sector',
+        required: true,
+    },
     description: {
         type: String,
         required: [true, 'Description is required'],
+    },
+    locations: [{
+        type: String
+    }],
+    totalAmount: {
+        type: Number,
+        // required: [true, 'Total amount is required'],
+    },
+    invested: {
+        type: Number,
+        default: 0
     },
     image: {
         type: String,

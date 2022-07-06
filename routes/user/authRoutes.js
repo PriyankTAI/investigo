@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
-const customId = require("custom-id"); 
+const customId = require("custom-id");
 const { sendOtp } = require('../../helpers/sendEmail');
 
 const checkUser = require('../../middleware/authMiddleware');
@@ -27,7 +27,8 @@ router.post("/register", async (req, res, next) => {
         }
         const id = customId({});
         const user = new User({
-            name: req.body.name,
+            fname: req.body.fname,
+            lname: req.body.lname,
             email: req.body.email,
             password: req.body.password,
             phone: req.body.phone,
@@ -89,10 +90,13 @@ router.post("/login", async (req, res, next) => {
                 const token = await userExist.generateAuthToken();
                 return res.status(200).json({ status: "success", token, user: userExist })
             } else {
+                const id = customId({});
                 const user = new User({
-                    name: req.body.name,
+                    fname: req.body.fname,
+                    lname: req.body.lname,
                     email: req.body.email,
-                    googleId
+                    registration: id,
+                    googleId,
                 })
                 const token = await user.generateAuthToken();
                 await user.save();
@@ -114,9 +118,12 @@ router.post("/login", async (req, res, next) => {
                 const token = await userExist.generateAuthToken();
                 return res.status(200).json({ status: "success", token, user: userExist })
             } else {
+                const id = customId({});
                 const user = new User({
-                    name: req.body.name,
+                    fname: req.body.fname,
+                    lname: req.body.lname,
                     email: req.body.email,
+                    registration: id,
                     facebookId
                 })
                 const token = await user.generateAuthToken();

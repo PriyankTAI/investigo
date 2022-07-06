@@ -50,19 +50,27 @@ router.post('/add', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
     check('description', 'description must have a value').notEmpty(),
     check('price', 'price must have a value').isNumeric(),
+    check('annualReturn', 'annul return must have a value').isNumeric(),
+    check('term', 'term must have a value').isNumeric(),
 ], async (req, res) => {
     try {
-        const { title, description, price } = req.body;
+        const { title, description, price, annualReturn, term } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg);
             return res.render('add_package')
         }
         const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+        const monthlyReturn = req.body.monthlyReturn || (annualReturn / 12).toFixed(2);
+        const dailyReturn = req.body.dailyReturn || (monthlyReturn / 30).toFixed(2);
         const package = new Package({
             title,
             description,
             price,
+            annualReturn,
+            dailyReturn,
+            monthlyReturn,
+            term,
             image: '/uploads/package/' + filename
         })
         if (!fs.existsSync('./public/uploads/package')) {
@@ -113,15 +121,19 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
     check('description', 'description must have a value').notEmpty(),
     check('price', 'price must have a value').isNumeric(),
+    check('annualReturn', 'annul return must have a value').isNumeric(),
+    check('term', 'term must have a value').isNumeric(),
 ], async (req, res) => {
     try {
-        const { title, description, price } = req.body;
+        const { title, description, price, annualReturn, term } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg)
             return res.redirect(req.originalUrl);
         }
         const id = req.params.id;
+        const monthlyReturn = req.body.monthlyReturn || (annualReturn / 12).toFixed(2);
+        const dailyReturn = req.body.dailyReturn || (monthlyReturn / 30).toFixed(2);
         const package = await Package.findById(id);
         if (package == null) {
             req.flash('red', `Package not found!`);
@@ -130,6 +142,10 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         package.title = title;
         package.description = description;
         package.price = price;
+        package.annualReturn = annualReturn;
+        package.monthlyReturn = monthlyReturn;
+        package.dailyReturn = dailyReturn;
+        package.term = term;
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + package.image;
 

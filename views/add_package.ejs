@@ -57,20 +57,40 @@
                                                     <!-- errors -->
                                                     <%- messages('messages', locals) %>
                                                         <form method="POST" onsubmit="validate()" action="/admin/package/add" id="form" enctype="multipart/form-data">
-                                                            <div class="input-field col m4 s12">
+                                                            <div class="input-field col m6 s12">
                                                                 <input placeholder="Title" id="title" name="title" type="text">
                                                                 <small><div id="error1" class="error"></div></small>
                                                                 <label for="title">Title</label>
                                                             </div>
-                                                            <div class="input-field col m4 s12">
+                                                            <div class="input-field col m6 s12">
                                                                 <input placeholder="Description" id="description" name="description" type="text">
                                                                 <small><div id="error2" class="error"></div></small>
                                                                 <label for="description">Description</label>
                                                             </div>
-                                                            <div class="input-field col m4 s12">
+                                                            <div class="input-field col m6 s12">
                                                                 <input placeholder="Price" id="price" name="price" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                                                 <small><div id="error3" class="error"></div></small>
                                                                 <label for="price">Price</label>
+                                                            </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <input placeholder="Minimum term" id="term" name="term" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                                                <small><div id="error6" class="error"></div></small>
+                                                                <label for="term">Minimum term (Months)</label>
+                                                            </div>
+                                                            <div class="input-field col m4 s12">
+                                                                <input placeholder="Annual return" id="annualReturn" name="annualReturn" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                                <small><div id="error5" class="error"></div></small>
+                                                                <label for="annualReturn">Annual return (%)</label>
+                                                            </div>
+                                                            <div class="input-field col m4 s12">
+                                                                <input placeholder="Monthly return" id="monthlyReturn" name="monthlyReturn" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                                <!-- <small><div id="error5" class="error"></div></small> -->
+                                                                <label for="monthlyReturn">Monthly return (%)</label>
+                                                            </div>
+                                                            <div class="input-field col m4 s12">
+                                                                <input placeholder="Monthly return" id="dailyReturn" name="dailyReturn" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                                <!-- <small><div id="error5" class="error"></div></small> -->
+                                                                <label for="dailyReturn">Daily return (%)</label>
                                                             </div>
                                                             <div class="input-field col s12">
                                                                 Upload Image
@@ -99,6 +119,8 @@
             const titleC = document.getElementById('title');
             const descriptionC = document.getElementById('description');
             const priceC = document.getElementById('price');
+            const annualReturnC = document.getElementById('annualReturn');
+            const termC = document.getElementById('term');
 
             formC.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -109,6 +131,8 @@
                 const titleValue = titleC.value.trim();
                 const descriptionValue = descriptionC.value.trim();
                 const priceValue = priceC.value.trim();
+                const annualReturnValue = annualReturnC.value.trim();
+                const termValue = termC.value.trim();
                 const filevalue = document.getElementById('input-file-now').value;
                 const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
 
@@ -131,6 +155,20 @@
                     returnVal = false;
                 } else {
                     document.getElementById('error3').innerText = '';
+                }
+
+                if (termValue == '') {
+                    document.getElementById('error6').innerText = 'Please enter minimum term.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error6').innerText = '';
+                }
+
+                if (annualReturnValue == '') {
+                    document.getElementById('error5').innerText = 'Please enter annual return.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error5').innerText = '';
                 }
 
                 if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {

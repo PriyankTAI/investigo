@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Project List</title>
+    <title>Sector List</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -36,10 +36,10 @@
                     <div class="container">
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Project</span></h5>
+                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Sector</span></h5>
                             </div>
                             <div class="col s12 m6 l6 right-align-md">
-                                <a class="btn gradient-45deg-purple-deep-orange pull-right" href="/admin/project/add">Add Project</a>
+                                <a class="btn gradient-45deg-purple-deep-orange pull-right" href="/admin/sector/add">Add Sector</a>
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                                 <div class="col s12">
                                     <div class="card">
                                         <div class="card-content">
-                                            <h4 class="card-title">Project</h4>
+                                            <h4 class="card-title">Sector</h4>
                                             <!-- errors -->
                                             <%- messages('messages', locals) %>
                                             <div class="row">
@@ -61,25 +61,18 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Sr</th>
-                                                                <th>Title</th>
-                                                                <th>Description</th>
-                                                                <th>Image</th>
-                                                                <th>Date</th>
+                                                                <th>Sector name</th>
                                                                 <th>Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <% for( let i = 0; i < projects.length; i++ ) { %>
+                                                        <% for( let i = 0; i < sectors.length; i++ ) { %>
                                                             <tr>
                                                                 <td><%= i+1 %></td>
-                                                                <td><%= projects[i].title %></td>
-                                                                <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= projects[i].description %></td>
-                                                                <td><img src="<%= projects[i].image %>" alt="IMG" height="80" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
-                                                                <!-- <td><%= projects[i].date.toLocaleDateString() %></td> -->
-                                                                <td><%= projects[i].date.toDateString() %></td>
+                                                                <td><%= sectors[i].name %></td>
                                                                 <td>
-                                                                    <a href="/admin/project/edit/<%= projects[i].id %>"><i class="material-icons">create</i></a>
-                                                                    <a href="/admin/project/delete/<%= projects[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                                                                    <a href="/admin/sector/edit/<%= sectors[i].id %>"><i class="material-icons">create</i></a>
+                                                                    <a href="/admin/sector/delete/<%= sectors[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                                                                 </td>
                                                             </tr>
                                                         <% } %>
