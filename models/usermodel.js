@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
     },
+    youAre: {
+        type: String,
+        enum: ['particular', 'individual'] // enum errors?
+    },
     interest: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Project',

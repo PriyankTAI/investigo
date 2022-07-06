@@ -19,7 +19,8 @@ const checkUser = function (req, res, next) {
                     if (!user) {
                         next(createError.Unauthorized("Please login first"));
                     }
-                    if (user.blocked == true) {
+                    if (user.blocked == true) { // Cannot read properties of null (reading 'blocked')
+                        // after email sent
                         next(createError.Unauthorized("Sorry! You are blocked, Please contact Admin."));
                     }
                     req.user = user;

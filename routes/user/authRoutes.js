@@ -31,17 +31,20 @@ router.post("/register", async (req, res, next) => {
             lname: req.body.lname,
             email: req.body.email,
             password: req.body.password,
-            phone: req.body.phone,
-            registration: id
+            registration: id,
+            youAre: req.body.youAre
         })
         const token = await user.generateAuthToken();
         await user.save();
         res.status(200).json({ status: "success", token, user })
     } catch (error) {
         // console.log(error);
-        if (error.keyValue.registration) {
-            return next(createError.InternalServerError('An error occured. Please try again.'));
-        }
+        // if (error.keyValue.registration) {
+        //     return next(createError.InternalServerError('An error occured. Please try again.'));
+        // }
+        // TODO: 
+        // solve: Cannot read properties of undefined (reading 'registration')
+        // on enum value
         next(error);
     }
 })
