@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
     },
     youAre: {
         type: String,
-        enum: ['particular', 'individual'] // enum errors?
+        enum: ['particular', 'individual']
     },
     interest: [{
         type: mongoose.Schema.ObjectId,

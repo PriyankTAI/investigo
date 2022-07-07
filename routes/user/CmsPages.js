@@ -102,8 +102,8 @@ router.post("/contact", async (req, res, next) => {
             message: "Message sent successfully",
         });
     } catch (error) {
+        // console.log(error.message);
         next(error);
-        console.log(error);
     }
 })
 

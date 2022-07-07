@@ -64,6 +64,8 @@
                                                                 <th>Sr</th>
                                                                 <th>Name</th>
                                                                 <th>Email</th>
+                                                                <th>Phone</th>
+                                                                <th>Subject</th>
                                                                 <th>Message</th>
                                                                 <th>View</th>
                                                             </tr>
@@ -72,9 +74,11 @@
                                                             <% for( let i=0; i < messages.length; i++ ) { %>
                                                                 <tr>
                                                                     <td><%= i+1 %></td>
-                                                                    <td><%= messages[i].name %></td>
+                                                                    <td><%= messages[i].fname + " " + messages[i].lname %></td>
                                                                     <td><%= messages[i].email %></td>
-                                                                    <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= messages[i].message %></td>
+                                                                    <td><%= messages[i].phone %></td>
+                                                                    <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= messages[i].subject %></td>
+                                                                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= messages[i].message %></td>
                                                                     <td><a href="/admin/messages/<%= messages[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                                 </tr>
                                                             <% } %>
