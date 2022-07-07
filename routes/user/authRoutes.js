@@ -38,13 +38,10 @@ router.post("/register", async (req, res, next) => {
         await user.save();
         res.status(200).json({ status: "success", token, user })
     } catch (error) {
-        // console.log(error);
-        // if (error.keyValue.registration) {
-        //     return next(createError.InternalServerError('An error occured. Please try again.'));
-        // }
-        // TODO: 
-        // solve: Cannot read properties of undefined (reading 'registration')
-        // on enum value
+        console.log(error.message);
+        if (error.keyValue && error.keyValue.registration) {
+            return next(createError.InternalServerError('An error occured. Please try again.'));
+        }
         next(error);
     }
 })
@@ -138,6 +135,9 @@ router.post("/login", async (req, res, next) => {
         }
     } catch (error) {
         console.log(error.message);
+        if (error.keyValue && error.keyValue.registration) {
+            return next(createError.InternalServerError('An error occured. Please try again.'));
+        }
         next(error);
     }
 })

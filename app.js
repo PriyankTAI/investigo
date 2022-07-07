@@ -136,7 +136,7 @@ app.all('*', (req, res, next) => {
 
 // error handler
 app.use((error, req, res, next) => {
-    // console.log(err.name);
+    // console.log(error.name);
     if (error.name === "ValidationError") {
         let errors = {};
         Object.keys(error.errors).forEach((key) => {
