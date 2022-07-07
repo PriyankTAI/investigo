@@ -172,6 +172,9 @@ router.post('/newsletter', async (req, res, next) => {
 // POST application
 router.post('/application', upload.single('resume'), async (req, res, next) => {
     try {
+        if (req.file == undefined) {
+            return next(createError.BadRequest('Please provide resume.'));
+        }
         const fileName = './public/uploads/resume/' + customId({randomLength: 1}) + '_' + req.file.originalname;
         const message = new Application({
             fname: req.body.fname,
