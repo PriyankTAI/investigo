@@ -88,8 +88,11 @@ router.post("/contact", async (req, res, next) => {
     try {
         // console.log(req.io);
         const message = new Message({
-            name: req.body.name,
+            fname: req.body.fname,
+            lname: req.body.lname,
             email: req.body.email,
+            phone: req.body.phone,
+            subject: req.body.subject,
             message: req.body.message
         })
         await message.save();

@@ -2,9 +2,13 @@ const mongoose = require('mongoose');
 const validator = require("validator");
 
 const messageSchema = new mongoose.Schema({
-    name: {
+    fname: {
         type: String,
-        required: [true, 'Name is required'],
+        required: [true, 'First name is required'],
+    },
+    lname: {
+        type: String,
+        required: [true, 'Last name is required'],
     },
     email: {
         type: String,
@@ -14,6 +18,14 @@ const messageSchema = new mongoose.Schema({
                 throw new Error("Email is invalid")
             }
         }
+    },
+    phone: {
+        type: String,
+        required: [true, 'Phone is required'],
+    },
+    subject: {
+        type: String,
+        required: [true, 'Subject is required'],
     },
     message: {
         type: String,
@@ -35,4 +47,5 @@ messageSchema.pre('validate', function (next) {
     }
     next();
 });
+
 module.exports = new mongoose.model("Message", messageSchema);
