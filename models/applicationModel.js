@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require("validator");
 
-const messageSchema = new mongoose.Schema({
+const applicationSchema = new mongoose.Schema({
     fname: {
         type: String,
         required: [true, 'First name is required'],
@@ -23,13 +23,8 @@ const messageSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Phone is required'],
     },
-    subject: {
-        type: String,
-        required: [true, 'Subject is required'],
-    },
-    message: {
-        type: String,
-        required: [true, 'Message is required'],
+    resume: {
+        type: String
     },
     date: {
         type: Date,
@@ -37,15 +32,4 @@ const messageSchema = new mongoose.Schema({
     }
 })
 
-// pre validate trim value
-// messageSchema.pre('validate', function (next) {
-//     if (this.name) {
-//         this.name = this.name.trim();
-//     }
-//     if (this.message) {
-//         this.message = this.message.trim();
-//     }
-//     next();
-// });
-
-module.exports = new mongoose.model("Message", messageSchema);
+module.exports = new mongoose.model("application", applicationSchema);

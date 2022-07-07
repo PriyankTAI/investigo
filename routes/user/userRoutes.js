@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
+const customId = require("custom-id");
 
 const checkUser = require('../../middleware/authMiddleware');
 
@@ -10,6 +11,18 @@ const Project = require('../../models/projectModel');
 const Category = require('../../models/categoryModel');
 const Blog = require('../../models/blogModel');
 const Newsletter = require('../../models/newsletterModel');
+const Application = require('../../models/applicationModel');
+
+// multer
+const multer = require('multer');
+const fs = require('fs-extra');
+const storage = multer.memoryStorage();
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 10
+    }
+});
 
 // GET all packages
 router.get('/package', async (req, res, next) => {
@@ -153,6 +166,35 @@ router.post('/newsletter', async (req, res, next) => {
     } catch (error) {
         console.log(error);
         next(error)
+    }
+})
+
+// POST application
+router.post('/application', upload.single('resume'), async (req, res, next) => {
+    try {
+        const fileName = './public/uploads/resume/' + customId({randomLength: 1}) + '_' + req.file.originalname;
+        const message = new Application({
+            fname: req.body.fname,
+            lname: req.body.lname,
+            email: req.body.email,
+            phone: req.body.phone,
+            resume: fileName
+        })
+        await message.save();
+
+        // save resume to file
+        if (!fs.existsSync('./public/uploads/resume')) {
+            fs.mkdirSync('./public/uploads/resume', { recursive: true });
+        }
+        fs.writeFileSync(fileName, req.file.buffer);
+
+        res.status(201).json({
+            status: "success",
+            message: "Application registerd sent successfully"
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
     }
 })
 
