@@ -193,7 +193,7 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
             message: "Application registerd sent successfully"
         });
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         next(error);
     }
 })

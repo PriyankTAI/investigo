@@ -66,7 +66,7 @@
                                                                 <th>Sr</th>
                                                                 <th>User Name</th>
                                                                 <th>Email</th>
-                                                                <th>Mobile No.</th>
+                                                                <th>Registration No.</th>
                                                                 <th>Action</th>
                                                             </tr>
                                                         </thead>
@@ -76,7 +76,7 @@
                                                                     <td><%= i+1 %></td>
                                                                     <td><%= users[i].fname + ' ' + users[i].lname %></td>
                                                                     <td><%= users[i].email %></td>
-                                                                    <td><%= users[i].phone %></td>
+                                                                    <td><%= users[i].registration %></td>
                                                                     <td>
                                                                         <% if (users[i].blocked) { %>
                                                                             <a href="/admin/user/unblock/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2" onclick="return confirm('Are you sure want to unblock this user?');">unblock</a>
