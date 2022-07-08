@@ -17,11 +17,20 @@ const Application = require('../../models/applicationModel');
 const multer = require('multer');
 const fs = require('fs-extra');
 const storage = multer.memoryStorage();
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'application/pdf' || file.mimetype === 'application/msword' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        cb(null, true);
+    } else {
+        cb(createError.BadRequest('Wrong file type! (Please upload only pdf, doc or docx)'), false);
+    }
+};
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 1024 * 1024 * 10
-    }
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
 });
 
 // GET all packages
@@ -175,7 +184,8 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
         if (req.file == undefined) {
             return next(createError.BadRequest('Please provide resume.'));
         }
-        const fileName = './public/uploads/resume/' + customId({randomLength: 1}) + '_' + req.file.originalname;
+        const fileName = '/uploads/resume/' + customId({ randomLength: 1 }) + '_' + req.file.originalname;
+        const path = './public' + fileName;
         const message = new Application({
             fname: req.body.fname,
             lname: req.body.lname,
@@ -189,7 +199,7 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
         if (!fs.existsSync('./public/uploads/resume')) {
             fs.mkdirSync('./public/uploads/resume', { recursive: true });
         }
-        fs.writeFileSync(fileName, req.file.buffer);
+        fs.writeFileSync(path, req.file.buffer);
 
         res.status(201).json({
             status: "success",
