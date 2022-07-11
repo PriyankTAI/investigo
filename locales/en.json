@@ -7,11 +7,16 @@
         "provideToken": "Please Provide Auth token."
     },
     "validation": {
-        "name": "Name is required.",
+        "fname": "First name is required.",
+        "lname": "Last name is required.",
         "email": "Email is required.",
         "password": "Length of the password must be between 6-1000.",
         "emailInvalid": "Email is Invalid.",
-        "message": "Message is required."
+        "phone": "Phone is required.",
+        "subject": "Subject is required.",
+        "message": "Message is required.",
+        "resume": "Please provide resume.",
+        "file": "Wrong file type! (Please upload only pdf, doc or docx)"
     },
     "error": {
         "emailReg": "Email already registered.",
@@ -36,6 +41,7 @@
     "notReg": "Please enter registerd email.",
     "passChanged": "Password changed successfully.",
     "msg": "Message sent successfully.",
+    "application": "Application registerd successfully",
     "notFound": {
         "blog": "Blog not found.",
         "project": "Project not found."

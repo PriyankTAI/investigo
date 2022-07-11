@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema({
     facebookId: {
         type: String
     },
+    userId: {
+        type: String,
+        unique: true
+    },
     fname: {
         type: String,
         required: [true, 'First name is required'],
@@ -37,10 +41,6 @@ const userSchema = new mongoose.Schema({
                 throw Error("Length of the password should be between 6-1000");
             }
         }
-    },
-    registration: {
-        type: String,
-        unique: true
     },
     phone: {
         type: String,

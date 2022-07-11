@@ -203,7 +203,7 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
 
         res.status(201).json({
             status: "success",
-            message: "Application registerd sent successfully"
+            message: "Application registerd successfully"
         });
     } catch (error) {
         console.log(error.message);

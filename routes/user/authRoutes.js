@@ -31,7 +31,7 @@ router.post("/register", async (req, res, next) => {
             lname: req.body.lname,
             email: req.body.email,
             password: req.body.password,
-            registration: id,
+            userId: id,
             youAre: req.body.youAre
         })
         const token = await user.generateAuthToken();
@@ -39,7 +39,7 @@ router.post("/register", async (req, res, next) => {
         res.status(200).json({ status: "success", token, user })
     } catch (error) {
         console.log(error.message);
-        if (error.keyValue && error.keyValue.registration) {
+        if (error.keyValue && error.keyValue.userId) {
             return next(createError.InternalServerError('An error occured. Please try again.'));
         }
         next(error);
@@ -95,7 +95,7 @@ router.post("/login", async (req, res, next) => {
                     fname: req.body.fname,
                     lname: req.body.lname,
                     email: req.body.email,
-                    registration: id,
+                    userId: id,
                     googleId,
                 })
                 const token = await user.generateAuthToken();
@@ -123,7 +123,7 @@ router.post("/login", async (req, res, next) => {
                     fname: req.body.fname,
                     lname: req.body.lname,
                     email: req.body.email,
-                    registration: id,
+                    userId: id,
                     facebookId
                 })
                 const token = await user.generateAuthToken();
@@ -135,7 +135,7 @@ router.post("/login", async (req, res, next) => {
         }
     } catch (error) {
         console.log(error.message);
-        if (error.keyValue && error.keyValue.registration) {
+        if (error.keyValue && error.keyValue.userId) {
             return next(createError.InternalServerError('An error occured. Please try again.'));
         }
         next(error);
