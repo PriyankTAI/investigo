@@ -26,7 +26,6 @@ const upload = multer({
 
 // GET model
 const Blog = require('../../models/blogModel');
-const Category = require('../../models/categoryModel');
 
 // GET blog
 router.get("/", checkAdmin, async (req, res) => {
@@ -43,10 +42,7 @@ router.get("/", checkAdmin, async (req, res) => {
 
 // GET add blog
 router.get("/add", checkAdmin, async (req, res) => {
-    const cats = await Category.find()
-    res.render("add_blog", {
-        cats
-    });
+    res.render("add_blog");
 });
 
 // POST add blog
@@ -90,7 +86,6 @@ router.post('/add', checkAdmin, upload.single('image'), [
 router.get("/edit/:id", checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
-        const cats = await Category.find();
         const blog = await Blog.findById(id);
         if (blog == null) {
             req.flash('red', `Blog not found!`);
@@ -98,7 +93,6 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
         }
         res.status(201).render("edit_blog", {
             blog,
-            cats
         });
     } catch (error) {
         if (error.name === 'CastError') {

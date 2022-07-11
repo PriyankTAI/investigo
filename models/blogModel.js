@@ -2,10 +2,14 @@ const mongoose = require('mongoose');
 
 // blog schema
 const blogSchema = mongoose.Schema({
+    // category: {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Category',
+    //     required: true,
+    // },
     category: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Category',
-        required: true,
+        type: String,
+        required: true
     },
     title: {
         type: String,

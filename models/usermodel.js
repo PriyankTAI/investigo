@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
+    national: {
+        type: String,
+        unique: true
+    },
     fname: {
         type: String,
         required: [true, 'First name is required'],
