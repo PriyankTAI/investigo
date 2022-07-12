@@ -57,20 +57,54 @@
                                                     <!-- errors -->
                                                     <%- messages('messages', locals) %>
                                                         <form method="POST" onsubmit="validate()" action="/admin/project/edit/<%= project._id %>" id="form" enctype="multipart/form-data">
-                                                            <div class="input-field col m6 s12">
-                                                                <input placeholder="Title" id="title" name="title" type="text" value="<%= project.title %>">
+                                                            <div class="input-field col m12">
+                                                                <input placeholder="Title" id="title" name="title" value="<%= project.title %>" type="text">
                                                                 <small><div id="error1" class="error"></div></small>
                                                                 <label for="title">Title</label>
                                                             </div>
                                                             <div class="input-field col m6 s12">
-                                                                <input placeholder="Description" id="description"name="description" type="text" value="<%= project.description %>">
+                                                                <select id="cat" name="category">
+                                                                    <option value="" <%= project.category == '' ? 'selected' : ''%>>Select category</option>
+                                                                    <option value="Transport" <%= project.category == 'Transport' ? 'selected' : ''%>>Transport</option>
+                                                                    <option value="Agriculture" <%= project.category == 'Agriculture' ? 'selected' : ''%>>Agriculture</option>
+                                                                    <option value="Real Estate" <%= project.category == 'Real Estate' ? 'selected' : ''%>>Real Estate</option>
+                                                                    <option value="Mine Extraction" <%= project.category == 'Mine Extraction' ? 'selected' : ''%>>Mine Extraction</option>
+                                                                    <option value="Hotel" <%= project.category == 'Hotel' ? 'selected' : ''%>>Hotel</option>
+                                                                    <option value="Telecommunication" <%= project.category == 'Telecommunication' ? 'selected' : ''%>>Telecommunication</option>
+                                                                </select>
+                                                                <label>Select category</label>
                                                                 <small><div id="error2" class="error"></div></small>
+                                                            </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <select id="property" name="property">
+                                                                    <option value="" <%= project.property== '' ? 'selected' : ''%>>Select Property</option>
+                                                                    <option value="Commercial" <%= project.property== 'Commercial' ? 'selected' : ''%>>Commercial</option>
+                                                                    <option value="Residential" <%= project.property== 'Residential' ? 'selected' : ''%>>Residential</option>
+                                                                </select>
+                                                                <label>Select property</label>
+                                                                <small><div id="error3" class="error"></div></small>
+                                                            </div>
+                                                            <div class="input-field col m12">
+                                                                <textarea id="description" class="materialize-textarea" name="description" placeholder="Enter content here"><%= project.description %></textarea>
+                                                                <!-- <input placeholder="Description" id="description" name="description" type="text"> -->
+                                                                <small><div id="error4" class="error"></div></small>
                                                                 <label for="description">Description</label>
                                                             </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <input placeholder="Total amount" id="totalAmount" name="totalAmount" value="<%= project.totalAmount %>" type="number">
+                                                                <small><div id="error5" class="error"></div></small>
+                                                                <label for="title">Total amount</label>
+                                                            </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <input placeholder="Location" id="location" name="location" value="<%= project.location %>" type="text">
+                                                                <small><div id="error6" class="error"></div></small>
+                                                                <label for="location">Location</label>
+                                                            </div>
+                                                            <!-- hidden lat long -->
                                                             <div class="input-field col s12">
                                                                 Upload Image
                                                                 <input type="file" name="image" id="input-file-now" class="dropify" data-disable-remove="true" data-default-file="<%= project.image %>" />
-                                                                <small><div id="error4" class="error"></div></small>
+                                                                <small><div id="error7" class="error"></div></small>
                                                             </div>
                                                             <button type="submit" class="btn purple ml-1">Submit</button>
                                                             <a href="/admin/project" class="btn btn-danger">Cancel</a>
@@ -88,7 +122,7 @@
             </div>
         </div>
         <!-- END: Page Main-->
-
+        
         <script>
             const formC = document.getElementById('form');
             const titleC = document.getElementById('title');

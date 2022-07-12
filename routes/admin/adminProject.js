@@ -49,10 +49,13 @@ router.get("/add", checkAdmin, (req, res) => {
 // POST add project
 router.post('/add', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
+    check('category', 'category must have a value').notEmpty(),
+    check('property', 'property must have a value').notEmpty(),
     check('description', 'description must have a value').notEmpty(),
+    check('totalAmount', 'total amount must have a value').isNumeric(),
+    check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
-        const { title, description } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg);
@@ -60,8 +63,12 @@ router.post('/add', checkAdmin, upload.single('image'), [
         }
         const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
         const project = new Project({
-            title,
-            description,
+            title: req.body.title,
+            category: req.body.category,
+            property: req.body.property,
+            description: req.body.description,
+            totalAmount: req.body.totalAmount,
+            location: req.body.location,
             image: '/uploads/project/' + filename
         })
         if (!fs.existsSync('./public/uploads/project')) {
@@ -105,7 +112,11 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
 // POST Edit project
 router.post('/edit/:id', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
+    check('category', 'category must have a value').notEmpty(),
+    check('property', 'property must have a value').notEmpty(),
     check('description', 'description must have a value').notEmpty(),
+    check('totalAmount', 'total amount must have a value').isNumeric(),
+    check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
         const { title, description } = req.body;
@@ -120,8 +131,12 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
             req.flash('red', `Project not found!`);
             return res.redirect('/admin/project');
         }
-        project.title = title;
-        project.description = description;
+        project.title = req.body.title;
+        project.category = req.body.category;
+        project.property = req.body.property;
+        project.description = req.body.description;
+        project.totalAmount = req.body.totalAmount;
+        project.location = req.body.location;
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + project.image;
 

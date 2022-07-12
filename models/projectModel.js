@@ -6,21 +6,21 @@ var projectSchema = mongoose.Schema({
         type: String,
         required: [true, 'Title is required'],
     },
-    sector: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Sector',
-        required: true,
-    },
     description: {
         type: String,
         required: [true, 'Description is required'],
     },
-    locations: [{
-        type: String
-    }],
+    category: {
+        type: String,
+        required: [true, 'Catogory is required'],
+    },
+    property: {
+        type: String,
+        required: [true, 'Property type is required'],
+    },
     totalAmount: {
         type: Number,
-        // required: [true, 'Total amount is required'],
+        required: [true, 'Total amount is required'],
     },
     invested: {
         type: Number,
@@ -30,6 +30,11 @@ var projectSchema = mongoose.Schema({
         type: String,
         required: [true, 'Image is required'],
     },
+    location: {
+        type: String,
+        required: [true, 'Location is required'],
+    },
+    // lat long
     date: {
         type: Date,
         default: Date.now,

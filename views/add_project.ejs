@@ -57,20 +57,54 @@
                                                     <!-- errors -->
                                                     <%- messages('messages', locals) %>
                                                         <form method="POST" onsubmit="validate()" action="/admin/project/add" id="form" enctype="multipart/form-data">
-                                                            <div class="input-field col m6 s12">
+                                                            <div class="input-field col m12">
                                                                 <input placeholder="Title" id="title" name="title" type="text">
                                                                 <small><div id="error1" class="error"></div></small>
                                                                 <label for="title">Title</label>
                                                             </div>
                                                             <div class="input-field col m6 s12">
-                                                                <input placeholder="Description" id="description" name="description" type="text">
+                                                                <select id="cat" name="category">
+                                                                    <option value="">Select category</option>
+                                                                    <option value="Transport">Transport</option>
+                                                                    <option value="Agriculture">Agriculture</option>
+                                                                    <option value="Real Estate">Real Estate</option>
+                                                                    <option value="Mine Extraction">Mine Extraction</option>
+                                                                    <option value="Hotel">Hotel</option>
+                                                                    <option value="Telecommunication">Telecommunication</option>
+                                                                </select>
+                                                                <label>Select category</label>
                                                                 <small><div id="error2" class="error"></div></small>
+                                                            </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <select id="property" name="property">
+                                                                    <option value="">Select Property</option>
+                                                                    <option value="Commercial">Commercial</option>
+                                                                    <option value="Residential">Residential</option>
+                                                                </select>
+                                                                <label>Select property</label>
+                                                                <small><div id="error3" class="error"></div></small>
+                                                            </div>
+                                                            <div class="input-field col m12">
+                                                                <textarea id="description" class="materialize-textarea" name="description" placeholder="Enter content here"></textarea>
+                                                                <!-- <input placeholder="Description" id="description" name="description" type="text"> -->
+                                                                <small><div id="error4" class="error"></div></small>
                                                                 <label for="description">Description</label>
                                                             </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <input placeholder="Total amount" id="totalAmount" name="totalAmount" type="number">
+                                                                <small><div id="error5" class="error"></div></small>
+                                                                <label for="title">Total amount</label>
+                                                            </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <input placeholder="Location" id="location" name="location" type="text">
+                                                                <small><div id="error6" class="error"></div></small>
+                                                                <label for="location">Location</label>
+                                                            </div>
+                                                            <!-- hidden lat long -->
                                                             <div class="input-field col s12">
                                                                 Upload Image
                                                                 <input type="file" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required/>
-                                                                <small><div id="error3" class="error"></div></small>
+                                                                <small><div id="error7" class="error"></div></small>
                                                             </div>
                                                             <button type="submit" class="btn purple ml-1">Submit</button>
                                                             <a href="/admin/project" class="btn btn-danger">Cancel</a>
@@ -92,7 +126,11 @@
         <script>
             const formC = document.getElementById('form');
             const titleC = document.getElementById('title');
+            const categoryC = document.getElementById('cat');
+            const propertyC = document.getElementById('property');
             const descriptionC = document.getElementById('description');
+            const amountC = document.getElementById('totalAmount');
+            const locationC = document.getElementById('location');
 
             formC.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -101,7 +139,11 @@
                 let returnVal = true;
 
                 const titleValue = titleC.value.trim();
+                const categoryValue = categoryC.value.trim();
+                const propertyValue = propertyC.value.trim();
                 const descriptionValue = descriptionC.value.trim();
+                const amountValue = amountC.value.trim();
+                const locationValue = locationC.value.trim();
                 const filevalue = document.getElementById('input-file-now').value;
                 const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
 
@@ -112,17 +154,45 @@
                     document.getElementById('error1').innerText = '';
                 }
 
-                if (descriptionValue == '') {
-                    document.getElementById('error2').innerText = 'Please enter description';
+                if (categoryValue == '') {
+                    document.getElementById('error2').innerText = 'Please select category.';
                     returnVal = false;
                 } else {
                     document.getElementById('error2').innerText = '';
                 }
 
-                if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
-                    document.getElementById('error3').innerText = '';
+                if (propertyValue == '') {
+                    document.getElementById('error3').innerText = 'Please select property type.';
+                    returnVal = false;
                 } else {
-                    document.getElementById('error3').innerText = 'Wrong file type.';
+                    document.getElementById('error3').innerText = '';
+                }
+
+                if (descriptionValue == '') {
+                    document.getElementById('error4').innerText = 'Please enter description.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error4').innerText = '';
+                }
+
+                if (amountValue == '') {
+                    document.getElementById('error5').innerText = 'Please enter total amount.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error5').innerText = '';
+                }
+
+                if (locationValue == '') {
+                    document.getElementById('error6').innerText = 'Please enter location.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error6').innerText = '';
+                }
+
+                if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+                    document.getElementById('error7').innerText = '';
+                } else {
+                    document.getElementById('error7').innerText = 'Wrong file type.';
                     returnVal = false;
                 }
 

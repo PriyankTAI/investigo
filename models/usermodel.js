@@ -53,11 +53,23 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['particular', 'individual']
     },
-    interest: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'Project',
-        required: true,
-    }],
+    // interest: [{
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Project',
+    //     required: true,
+    // }],
+    image: {
+        type: String,
+    },
+    instagram: {
+        type: String,
+    },
+    linkedin: {
+        type: String,
+    },
+    website: {
+        type: String,
+    },
     blocked: {
         type: Boolean,
         default: false

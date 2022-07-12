@@ -65,10 +65,10 @@
                                                             </div>
                                                             <div class="input-field col m6 s12">
                                                                 <select id="cat" name="category">
-                                                                    <option value="">Select category</option>
-                                                                    <option value="News">News</option>
-                                                                    <option value="Articals">Articals</option>
-                                                                    <option value="Resources">Resources</option>
+                                                                    <option value="" <%= blog.category == '' ? 'selected' : ''%>>Select category</option>
+                                                                    <option value="News" <%= blog.category == 'News' ? 'selected' : ''%>>News</option>
+                                                                    <option value="Articals" <%= blog.category == 'Articals' ? 'selected' : ''%>>Articals</option>
+                                                                    <option value="Resources" <%= blog.category == 'Resources' ? 'selected' : ''%>>Resources</option>
                                                                 </select>
                                                                 <label>Select category</label>
                                                                 <small><div id="error5" class="error"></div></small>

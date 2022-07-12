@@ -96,7 +96,7 @@ router.get('/blog', async (req, res, next) => {
 // GET a blog with id
 router.get('/blog/:id', async (req, res, next) => {
     try {
-        const blog = await Blog.findById(req.params.id).populate('category', '-date -__v').select('-__v');
+        const blog = await Blog.findById(req.params.id).select('-__v');
         if (blog == null) {
             return next(createError.BadRequest(`Blog not found.`));
         }

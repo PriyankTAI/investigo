@@ -108,6 +108,7 @@ app.get('/', (req, res) => res.send("Backend running..."));
 app.use('/', require('./routes/user/authRoutes'));
 app.use('/', require('./routes/user/CmsPages'));
 app.use('/', require('./routes/user/userRoutes'));
+app.use('/', require('./routes/user/dashboardRoutes'));
 
 app.use('/admin', require('./routes/admin/adminRoutes'));
 app.use('/admin', require('./routes/admin/adminCmsPages'));
