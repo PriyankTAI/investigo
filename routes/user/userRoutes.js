@@ -63,6 +63,26 @@ router.get('/project', async (req, res, next) => {
     }
 })
 
+// GET project by id
+router.get('/project/:id', async (req, res, next) => {
+    try {
+        const project = await Project.findById(req.params.id).select('-__v');
+        if (project == null) {
+            return next(createError.BadRequest('Project not found.'))
+        }
+        res.json({
+            status: "success",
+            project
+        })
+    } catch (error) {
+        console.log(error.message);
+        if (error.name == 'CastError') {
+            return next(createError.BadRequest(`Project not found.`));
+        }
+        next(error);
+    }
+})
+
 // GET all category
 router.get('/category', async (req, res, next) => {
     try {
