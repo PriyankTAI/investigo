@@ -9,7 +9,8 @@ const User = require('../../models/usermodel');
 router.get('/', checkAdmin, async (req, res) => {
     const users = await User.find();
     res.render("user", {
-        users
+        users,
+        image: req.admin.image
     });
 });
 
@@ -22,7 +23,8 @@ router.get('/:id', checkAdmin, async (req, res) => {
             return res.redirect('/admin/user');
         }
         res.render('user_view', {
-            user
+            user,
+            image: req.admin.image
         })
     } catch (error) {
         if (error.name === 'CastError') {

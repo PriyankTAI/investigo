@@ -6,13 +6,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Package List</title>
+    <title>Admin List</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- BEGIN: VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css"> -->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
@@ -36,14 +36,14 @@
                     <div class="container">
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Package</span></h5>
+                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Admin</span></h5>
                             </div>
                             <div class="col s12 m6 l6 right-align-md">
-                                <!-- <a class="btn gradient-45deg-purple-deep-orange pull-right" href="/admin/package/add">Add Package</a> -->
-                                <ol class="breadcrumbs mb-0">
+                                <a class="btn gradient-45deg-purple-deep-orange pull-right" href="/admin/admin/add">Add Admin</a>
+                                <!-- <ol class="breadcrumbs mb-0">
                                     <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                    <li class="breadcrumb-item active">Package</li>
-                                </ol>
+                                    <li class="breadcrumb-item active">Admin</li>
+                                </ol> -->
                             </div>
                         </div>
                     </div>
@@ -56,40 +56,31 @@
                                 <div class="col s12">
                                     <div class="card">
                                         <div class="card-content">
-                                            <h4 class="card-title">Package</h4>
-                                            <!-- errors -->
-                                            <%- messages('messages', locals) %>
+                                            <h4 class="card-title">Admin Details</h4>
+                                             <!-- errors -->
+                                             <%- messages('messages', locals) %>
                                             <div class="row">
                                                 <div class="col s12">
                                                     <table id="page-length-option" class="display">
                                                         <thead>
                                                             <tr>
                                                                 <th>Sr</th>
-                                                                <th>Title</th>
-                                                                <th>Description</th>
-                                                                <th>Price</th>
-                                                                <th>Annual return</th>
-                                                                <th>Term</th>
-                                                                <th>Image</th>
-                                                                <th>Action</th>
+                                                                <th>Avatar</th>
+                                                                <th>Name</th>
+                                                                <th>Email</th>
+                                                                <th>View</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <% for( let i = 0; i < packages.length; i++ ) { %>
-                                                            <tr>
-                                                                <td><%= i+1 %></td>
-                                                                <td><%= packages[i].title %></td>
-                                                                <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= packages[i].description %></td>
-                                                                <td><%= packages[i].price %></td>
-                                                                <td><%= packages[i].annualReturn + '%' %></td>
-                                                                <td><%= packages[i].term + ' months' %></td>
-                                                                <td><img src="<%= packages[i].image %>" alt="IMG" height="80" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
-                                                                <td>
-                                                                    <a href="/admin/package/edit/<%= packages[i].id %>"><i class="material-icons">create</i></a>
-                                                                    <a href="/admin/package/delete/<%= packages[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
-                                                                </td>
-                                                            </tr>
-                                                        <% } %>
+                                                            <% for( let i=0; i < admins.length; i++ ) { %>
+                                                                <tr>
+                                                                    <td><%= i+1 %></td>
+                                                                    <td><img src="<%= admins[i].image %>" alt="IMG" height="64" onerror="this.onerror=null; this.src='/uploads/default_user.jpg';"></td>
+                                                                    <td><%= admins[i].name || 'Pending' %></td>
+                                                                    <td><%= admins[i].email %></td>
+                                                                    <td><a href="/admin/admin/<%= admins[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
+                                                                </tr>
+                                                            <% } %>
                                                         </tbody>
                                                     </table>
                                                 </div>

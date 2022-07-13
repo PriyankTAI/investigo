@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 
 // blog schema
 const blogSchema = mongoose.Schema({
-    // category: {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'Category',
-    //     required: true,
-    // },
     category: {
         type: String,
         required: true
@@ -26,6 +21,11 @@ const blogSchema = mongoose.Schema({
     tags: [{
         type: String
     }],
+    creator: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Admin',
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now,

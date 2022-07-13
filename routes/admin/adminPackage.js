@@ -32,7 +32,8 @@ router.get("/", checkAdmin, async (req, res) => {
     try {
         const packages = await Package.find();
         res.status(201).render("package", {
-            packages
+            packages,
+            image: req.admin.image
         });
     } catch (error) {
         console.log(error);
@@ -42,7 +43,7 @@ router.get("/", checkAdmin, async (req, res) => {
 
 // GET add package
 router.get("/add", checkAdmin, (req, res) => {
-    res.render("add_package");
+    res.render("add_package", { image: req.admin.image });
 });
 
 // POST add package
@@ -58,7 +59,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg);
-            return res.render('add_package')
+            return res.redirect(req.originalUrl)
         }
         const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
         const monthlyReturn = req.body.monthlyReturn || (annualReturn / 12).toFixed(2);
@@ -103,7 +104,8 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
             return res.redirect('/admin/package');
         }
         res.status(201).render("edit_package", {
-            package
+            package,
+            image: req.admin.image
         });
     } catch (error) {
         if (error.name === 'CastError') {

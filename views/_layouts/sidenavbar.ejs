@@ -17,7 +17,11 @@
                     <li>
                         <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown">
                             <span class="avatar-status">
-                                <img src="/app-assets/images/avatar/avatar-7.png" alt="avatar">
+                                <% if (typeof image != 'undefined') { %>
+                                    <img src="<%= image %>" alt="avatar">
+                                <% } else { %>
+                                    <img src="/uploads/default_user.jpg" alt="avatar">
+                                <% } %>
                             </span>
                         </a>
                     </li>
@@ -141,27 +145,27 @@
         <li class="bold">
             <a class="waves-effect waves-cyan" href="/admin/blog">
                 <i class="material-icons">content_paste</i>
-                <span class="menu-title" data-i18n="User Profile">Blogs</span>
+                <span class="menu-title">Blogs</span>
             </a>
         </li>
         <li class="bold">
             <a class="waves-effect waves-cyan" href="/admin/package">
                 <i class="material-icons">view_carousel</i>
-                <span class="menu-title" data-i18n="User Profile">Packages</span>
+                <span class="menu-title">Packages</span>
             </a>
         </li>
         <li class="bold">
             <a class="waves-effect waves-cyan" href="/admin/project">
                 <i class="material-icons">widgets</i>
-                <span class="menu-title" data-i18n="User Profile">Projects</span>
+                <span class="menu-title">Projects</span>
             </a>
         </li>
-        <li class="bold">
+        <!-- <li class="bold">
             <a class="waves-effect waves-cyan" href="/admin/sector">
                 <i class="material-icons">format_list_bulleted</i>
-                <span class="menu-title" data-i18n="User Profile">Project Sectors</span>
+                <span class="menu-title">Project Sectors</span>
             </a>
-        </li>
+        </li> -->
         <li class="navigation-header">
             <a class="navigation-header-text">User Pages</a>
             <i class="navigation-header-icon material-icons">more_horiz</i>
@@ -169,13 +173,23 @@
         <li class="bold">
             <a class="waves-effect waves-cyan" href="/admin/user">
                 <i class="material-icons">person</i>
-                <span class="menu-title" data-i18n="User Profile">User Management</span>
+                <span class="menu-title">User Management</span>
             </a>
         </li>
         <li class="bold">
             <a class="waves-effect waves-cyan" href="/admin/messages">
                 <i class="material-icons">message</i>
-                <span class="menu-title" data-i18n="User Profile">User Messages</span>
+                <span class="menu-title">User Messages</span>
+            </a>
+        </li>
+        <li class="navigation-header">
+            <a class="navigation-header-text">Admins</a>
+            <i class="navigation-header-icon material-icons">more_horiz</i>
+        </li>
+        <li class="bold">
+            <a class="waves-effect waves-cyan" href="/admin/admin">
+                <i class="material-icons">account_circle</i>
+                <span class="menu-title">Admin List</span>
             </a>
         </li>
     </ul>

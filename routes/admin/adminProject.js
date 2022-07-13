@@ -33,7 +33,8 @@ router.get("/", checkAdmin, async (req, res) => {
     try {
         const projects = await Project.find();
         res.status(201).render("project", {
-            projects
+            projects,
+            image: req.admin.image
         });
     } catch (error) {
         console.log(error);
@@ -43,7 +44,7 @@ router.get("/", checkAdmin, async (req, res) => {
 
 // GET add project
 router.get("/add", checkAdmin, (req, res) => {
-    res.render("add_project");
+    res.render("add_project", { image: req.admin.image });
 });
 
 // POST add project
@@ -59,7 +60,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg);
-            return res.render('add_project')
+            return res.redirect(req.originalUrl);
         }
         const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
         const project = new Project({
@@ -96,7 +97,8 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
             return res.redirect('/admin/project');
         }
         res.status(201).render("edit_project", {
-            project
+            project,
+            image: req.admin.image
         });
     } catch (error) {
         if (error.name === 'CastError') {

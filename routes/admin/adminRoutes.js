@@ -31,7 +31,7 @@ const upload = multer({
 
 // GET admin dashboard
 router.get('/', checkAdmin, (req, res) => {
-    res.render("dashboard");
+    res.render("dashboard", { image: req.admin.image });
 });
 
 // GET admin login
@@ -92,7 +92,7 @@ router.post("/login", async (req, res) => {
 
 // Get Change pass
 router.get('/changepass', checkAdmin, (req, res) => {
-    res.render("change_pass");
+    res.render("change_pass", { image: req.admin.image });
 });
 
 // Change pass
@@ -143,10 +143,17 @@ router.get("/logout", async (req, res) => {
 
 // GET profile
 router.get('/profile', checkAdmin, async (req, res) => {
-    const admin = await Admin.findById(req.admin.id)
-    res.render('admin_profile', {
-        admin
-    })
+    try {
+        const admin = await Admin.findById(req.admin.id)
+        res.render('admin_profile', {
+            admin,
+            image: req.admin.image
+        })
+    } catch (error) {
+        console.log(error.message);
+        req.flash('red', error.message);
+        res.redirect('/admin');
+    }
 })
 
 // Post profile
@@ -154,6 +161,12 @@ router.post('/profile', checkAdmin, upload.single('image'), [
     check('name', 'name must have a value').notEmpty(),
 ], async (req, res) => {
     try {
+        const validationErrors = validationResult(req)
+        if (validationErrors.errors.length > 0) {
+            req.flash('red', validationErrors.errors[0].msg)
+            return res.redirect(req.originalUrl);
+        }
+
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + req.admin.image;
 
@@ -173,12 +186,73 @@ router.post('/profile', checkAdmin, upload.single('image'), [
         }
 
         await Admin.findOneAndUpdate({ _id: req.admin.id }, req.body, { new: true, runValidators: true });
-        req.flash('green','Profile updated successfully.');
+        req.flash('green', 'Profile updated successfully.');
         res.redirect(req.originalUrl);
     } catch (error) {
         console.log(error.message);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
+    }
+})
+
+// GET all admin
+router.get('/admin', checkAdmin, async (req, res) => {
+    try {
+        const admins = await Admin.find();
+        res.render('admin', {
+            admins,
+            image: req.admin.image
+        })
+    } catch (error) {
+        console.log(error.message);
+        req.flash('red', error.message);
+        res.redirect('/admin');
+    }
+})
+
+// GET add admin
+router.get('/admin/add', checkAdmin, async (req, res) => {
+    res.render('add_admin', { image: req.admin.image });
+})
+
+// POST add admin
+router.post('/admin/add', checkAdmin, async (req, res) => {
+    try {
+        const validationErrors = validationResult(req)
+        if (validationErrors.errors.length > 0) {
+            req.flash('red', validationErrors.errors[0].msg)
+            return res.redirect(req.originalUrl);
+        }
+        const admin = new Admin({
+            email: req.body.email,
+            password: req.body.pass
+        })
+        await admin.save();
+        req.flash('green', `Admin added successfully`);
+        res.redirect('/admin/admin');
+    } catch (error) {
+        console.log(error.message);
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
+    }
+})
+
+// GET admin by id
+router.get('/admin/:id', checkAdmin, async (req, res) => {
+    try {
+        const admin = await Admin.findById(req.params.id);
+        res.render('admin_view', {
+            admin,
+            image: req.admin.image
+        })
+    } catch (error) {
+        if (error.name === 'CastError') {
+            req.flash('red', `Admin not found!`);
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+        }
+        res.redirect('/admin/admin');
     }
 })
 

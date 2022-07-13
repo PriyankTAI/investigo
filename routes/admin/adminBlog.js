@@ -32,7 +32,8 @@ router.get("/", checkAdmin, async (req, res) => {
     try {
         const blogs = await Blog.find().populate('category');
         res.status(201).render("blog", {
-            blogs
+            blogs,
+            image: req.admin.image
         });
     } catch (error) {
         console.log(error);
@@ -42,7 +43,7 @@ router.get("/", checkAdmin, async (req, res) => {
 
 // GET add blog
 router.get("/add", checkAdmin, async (req, res) => {
-    res.render("add_blog");
+    res.render("add_blog", { image: req.admin.image });
 });
 
 // POST add blog
@@ -65,6 +66,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
             content,
             category,
             tags: tagsArray,
+            creator: req.admin.id,
             image: '/uploads/blog/' + filename
         })
         if (!fs.existsSync('./public/uploads/blog')) {
@@ -93,6 +95,7 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
         }
         res.status(201).render("edit_blog", {
             blog,
+            image: req.admin.image
         });
     } catch (error) {
         if (error.name === 'CastError') {
