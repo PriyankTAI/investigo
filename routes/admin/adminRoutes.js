@@ -1,12 +1,33 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const sharp = require('sharp');
+const fs = require('fs-extra');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const Admin = require('../../models/adminmodel');
-const Message = require('../../models/messageModel');
+// const Message = require('../../models/messageModel');
+
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(createError.BadRequest('Wrong file type! (Please upload only jpg or png.)'), false);
+    }
+};
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 10
+    },
+    fileFilter: fileFilter
+});
 
 // GET admin dashboard
 router.get('/', checkAdmin, (req, res) => {
@@ -120,10 +141,51 @@ router.get("/logout", async (req, res) => {
     res.redirect('/admin/login');
 })
 
-// GET notification messages
-router.get("/message", async (req, res) => {
-    const message = await Message.find().sort({ _id: -1 }).limit(5)
-    res.json(message)
+// GET profile
+router.get('/profile', checkAdmin, async (req, res) => {
+    const admin = await Admin.findById(req.admin.id)
+    res.render('admin_profile', {
+        admin
+    })
 })
+
+// Post profile
+router.post('/profile', checkAdmin, upload.single('image'), [
+    check('name', 'name must have a value').notEmpty(),
+], async (req, res) => {
+    try {
+        if (typeof req.file !== 'undefined') {
+            oldImage = "public" + req.admin.image;
+
+            let extArray = req.file.mimetype.split("/");
+            let extension = extArray[extArray.length - 1];
+            const filename = req.admin.id + '.' + extension;
+            req.body.image = '/uploads/admin/' + filename;
+            if (!fs.existsSync('./public/uploads/admin')) {
+                fs.mkdirSync('./public/uploads/admin', { recursive: true });
+            }
+            fs.remove(oldImage, function (err) {
+                if (err) { console.log(err); }
+            })
+            await sharp(req.file.buffer)
+                .resize({ width: 500, height: 500 })
+                .toFile('./public/uploads/admin/' + filename);
+        }
+
+        await Admin.findOneAndUpdate({ _id: req.admin.id }, req.body, { new: true, runValidators: true });
+        req.flash('green','Profile updated successfully.');
+        res.redirect(req.originalUrl);
+    } catch (error) {
+        console.log(error.message);
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
+    }
+})
+
+// GET notification messages
+// router.get("/message", async (req, res) => {
+//     const message = await Message.find().sort({ _id: -1 }).limit(5)
+//     res.json(message)
+// })
 
 module.exports = router;

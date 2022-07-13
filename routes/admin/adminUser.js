@@ -13,6 +13,28 @@ router.get('/', checkAdmin, async (req, res) => {
     });
 });
 
+// GET user by id
+router.get('/:id', checkAdmin, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (user == null) {
+            req.flash('red', 'User not found!');
+            return res.redirect('/admin/user');
+        }
+        res.render('user_view', {
+            user
+        })
+    } catch (error) {
+        if (error.name === 'CastError') {
+            req.flash('red', `User not found!`);
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+        }
+        res.redirect('/admin/user');
+    }
+})
+
 // block user
 router.get('/block/:id', checkAdmin, async (req, res) => {
     try {

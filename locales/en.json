@@ -16,7 +16,8 @@
         "subject": "Subject is required.",
         "message": "Message is required.",
         "resume": "Please provide resume.",
-        "file": "Wrong file type! (Please upload only pdf, doc or docx)"
+        "resumeFile": "Wrong file type! (Please upload only pdf, doc or docx)",
+        "imageFile": "Wrong file type! (Please upload only jpg or png.)"
     },
     "error": {
         "emailReg": "Email already registered.",

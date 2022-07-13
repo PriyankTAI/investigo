@@ -5,6 +5,7 @@ const validator = require("validator");
 const createError = require('http-errors');
 
 const adminSchema = new mongoose.Schema({
+    name: String,
     email: {
         type: String,
         required: true,
@@ -17,7 +18,12 @@ const adminSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-    }
+    },
+    image: String,
+    facebook: String,
+    linkedin: String,
+    twitter: String,
+    instagram: String
 })
 
 // generating tokens

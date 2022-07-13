@@ -53,11 +53,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['particular', 'individual']
     },
-    // interest: [{
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'Project',
-    //     required: true,
-    // }],
     image: {
         type: String,
     },

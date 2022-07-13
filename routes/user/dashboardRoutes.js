@@ -45,7 +45,7 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + req.user.image;
 
-            let extArray = file.mimetype.split("/");
+            let extArray = req.file.mimetype.split("/");
             let extension = extArray[extArray.length - 1];
             const filename = req.user.id + '.' + extension;
             req.body.image = '/uploads/users/' + filename;

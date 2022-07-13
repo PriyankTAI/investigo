@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- BEGIN: VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css"> -->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
@@ -64,9 +64,11 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Sr</th>
+                                                                <th>Avatar</th>
                                                                 <th>User Name</th>
                                                                 <th>Email</th>
                                                                 <th>userId</th>
+                                                                <th>View</th>
                                                                 <th>Action</th>
                                                             </tr>
                                                         </thead>
@@ -74,9 +76,11 @@
                                                             <% for( let i=0; i < users.length; i++ ) { %>
                                                                 <tr>
                                                                     <td><%= i+1 %></td>
+                                                                    <td><img src="<%= users[i].image %>" alt="IMG" height="64" onerror="this.onerror=null; this.src='/uploads/default_user.jpg';"></td>
                                                                     <td><%= users[i].fname + ' ' + users[i].lname %></td>
                                                                     <td><%= users[i].email %></td>
                                                                     <td><%= users[i].userId %></td>
+                                                                    <td><a href="/admin/user/<%= users[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                                     <td>
                                                                         <% if (users[i].blocked) { %>
                                                                             <a href="/admin/user/unblock/<%= users[i].id %>" class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2" onclick="return confirm('Are you sure want to unblock this user?');">unblock</a>

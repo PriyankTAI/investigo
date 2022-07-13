@@ -76,7 +76,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
         }
         await project.save();
         await sharp(req.file.buffer)
-            .resize({ width: 1000, height: 723 })
+            // .resize({ width: 1000, height: 723 })
             .toFile('./public/uploads/project/' + filename);
         req.flash('green', `Project added successfully`);
         res.redirect('/admin/project')
@@ -119,7 +119,6 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
-        const { title, description } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg)
@@ -150,7 +149,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
                 if (err) { console.log(err); }
             })
             await sharp(req.file.buffer)
-                .resize({ width: 1000, height: 723 })
+                // .resize({ width: 1000, height: 723 })
                 .toFile('./public/uploads/project/' + filename);
         } else {
             await project.save();

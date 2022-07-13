@@ -133,52 +133,6 @@ router.get('/blog/:id', async (req, res, next) => {
     }
 })
 
-// GET add interest
-router.get('/interest/add/:id', checkUser, async (req, res, next) => {
-    try {
-        const p = await Project.findById(req.params.id);
-        if (p == null) {
-            // given id is not a project
-            // console.log(`Invalid project id: ${id}`);
-            return next(createError.BadRequest(`Please provide valid project id.`));
-        }
-        const user = await User.findById(req.user.id);
-        if (!user.interest.includes(req.params.id)) {
-            user.interest.push(req.params.id);
-            await user.save();
-        }
-        res.json({
-            status: 'success',
-            interest: user.interest
-        })
-    } catch (error) {
-        console.log(error.message);
-        if (error.name == 'CastError') {
-            return next(createError.BadRequest(`Please provide valid project id.`));
-        }
-        next(error)
-    }
-})
-
-// GET remove interest
-router.get('/interest/remove/:id', checkUser, async (req, res, next) => {
-    try {
-        const user = await User.findById(req.user.id);
-        user.interest = user.interest.filter((value) => value != req.params.id);
-        await user.save();
-        res.json({
-            status: 'success',
-            interest: user.interest
-        })
-    } catch (error) {
-        console.log(error.message);
-        if (error.name == 'CastError') {
-            return next(createError.BadRequest(`Please provide valid project id.`));
-        }
-        next(error)
-    }
-})
-
 // POST add newsletter
 router.post('/newsletter', async (req, res, next) => {
     try {
