@@ -8,7 +8,7 @@ const fs = require('fs-extra');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-const Admin = require('../../models/adminModel');
+const Admin = require('../../models/adminModelerr');
 // const Message = require('../../models/messageModel');
 
 const multer = require('multer');

@@ -7,7 +7,7 @@ const { sendOtp } = require('../../helpers/sendEmail');
 
 const checkUser = require('../../middleware/authMiddleware');
 
-const User = require('../../models/userModelRenameErr');
+const User = require('../../models/userModel');
 const Otp = require('../../models/otpModel');
 
 // POST register
