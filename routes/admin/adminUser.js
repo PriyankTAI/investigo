@@ -3,7 +3,7 @@ const router = express.Router();
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-const User = require('../../models/userModel');
+const User = require('../../models/userModelRenameErr');
 
 // Get all user
 router.get('/', checkAdmin, async (req, res) => {

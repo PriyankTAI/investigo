@@ -5,7 +5,7 @@ const customId = require("custom-id");
 
 const checkUser = require('../../middleware/authMiddleware');
 
-const User = require('../../models/userModel');
+const User = require('../../models/userModelRenameErr');
 const Package = require('../../models/packageModel');
 const Project = require('../../models/projectModel');
 const Category = require('../../models/categoryModel');
