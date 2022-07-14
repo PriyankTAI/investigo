@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const Admin = require('../models/adminModelerr');
+const Admin = require('../models/adminModel');
 
 const checkAdmin = function (req, res, next) {
     const token = req.cookies['jwtAdmin'];
