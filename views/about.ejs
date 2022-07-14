@@ -86,13 +86,16 @@
     <script>
         $(function(){
             if($('textarea#ta').length){
-                CKEDITOR.replace('ta');
+                CKEDITOR.replace('ta', {
+                    filebrowserUploadUrl: '/admin/upload',
+                });
             }
             if($("[data-fancybox]").length){
                 $("[data-fancybox]").fancybox();
             }
         });
     </script>
+    <!-- <script src="https://cdn.ckeditor.com/4.6.2/standard-all/ckeditor.js"></script> -->
 </body>
 <%- include('_layouts/alert') %>
 </html>

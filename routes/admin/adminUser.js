@@ -3,7 +3,7 @@ const router = express.Router();
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-const User = require('../../models/usermodel');
+const User = require('../../models/userModel');
 
 // Get all user
 router.get('/', checkAdmin, async (req, res) => {

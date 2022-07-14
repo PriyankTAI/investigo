@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
 
-const User = require('../models/usermodel');
+const User = require('../models/userModel');
 
 const checkUser = function (req, res, next) {
     const token = req.headers["authorization"];

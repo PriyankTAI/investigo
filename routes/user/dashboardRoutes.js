@@ -6,7 +6,7 @@ const sharp = require('sharp');
 
 const checkUser = require('../../middleware/authMiddleware');
 
-const User = require('../../models/usermodel');
+const User = require('../../models/userModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();

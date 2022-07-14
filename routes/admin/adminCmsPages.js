@@ -7,6 +7,26 @@ const Contact = require('../../models/contactModel');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
+const sharp = require('sharp');
+const multer = require('multer');
+const fs = require('fs-extra');
+const storage = multer.memoryStorage();
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 10
+    },
+    fileFilter: fileFilter
+});
+
 // about us
 router.get("/about_us", checkAdmin, async (req, res) => {
     try {
@@ -187,5 +207,25 @@ router.post('/contact', checkAdmin, [
         res.status(500).send("An error occured")
     }
 });
+
+// uploader
+router.post('/upload', upload.single('upload'), async (req, res) => {
+    try {
+        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+        if (!fs.existsSync('./public/uploads/ckeditor')) {
+            fs.mkdirSync('./public/uploads/ckeditor', { recursive: true });
+        }
+        await sharp(req.file.buffer)
+            // .resize({ width: 1000, height: 723 })
+            .toFile('./public/uploads/ckeditor/' + filename);
+        // res.send('/uploads/ckeditor/'+filename)
+        const url = `/uploads/ckeditor/${filename}`
+        const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}', "message");</script>`
+        res.send(send)
+    } catch (error) {
+        res.send(error.message);
+        console.log(error.message);
+    }
+})
 
 module.exports = router;
