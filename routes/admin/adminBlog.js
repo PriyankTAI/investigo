@@ -43,6 +43,9 @@ router.get("/", checkAdmin, async (req, res) => {
 
 // GET add blog
 router.get("/add", checkAdmin, async (req, res) => {
+    if (!req.admin.name) {
+        req.flash('orange', 'You should create your profile before adding a blog.');
+    }
     res.render("add_blog", { image: req.admin.image });
 });
 
@@ -53,7 +56,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
     check('category', 'Please select category').notEmpty(),
 ], async (req, res) => {
     try {
-        const { title, content, category, tags } = req.body;
+        const { title, content, description, category, tags } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg)
@@ -64,6 +67,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
         const blog = new Blog({
             title,
             content,
+            description,
             category,
             tags: tagsArray,
             creator: req.admin.id,
@@ -74,7 +78,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
         }
         await blog.save();
         await sharp(req.file.buffer)
-            .resize({ width: 1000, height: 723 })
+            // .resize({ width: 1000, height: 723 })
             .toFile('./public/uploads/blog/' + filename);
         req.flash('green', `Blog added successfully`);
         res.redirect('/admin/blog')
@@ -115,7 +119,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
     check('category', 'Please select category').notEmpty(),
 ], async (req, res) => {
     try {
-        const { title, content, category, tags } = req.body;
+        const { title, content, description, category, tags } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg)
@@ -130,6 +134,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         const tagsArray = tags.split(',').filter(item => item !== '');
         blog.title = title;
         blog.content = content;
+        blog.description = description;
         blog.category = category;
         blog.tags = tagsArray;
         if (typeof req.file !== 'undefined') {
@@ -145,7 +150,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
                 if (err) { console.log(err); }
             })
             await sharp(req.file.buffer)
-                .resize({ width: 1000, height: 723 })
+                // .resize({ width: 1000, height: 723 })
                 .toFile('./public/uploads/blog/' + filename);
         } else {
             await blog.save();
@@ -179,5 +184,26 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
         }
     }
 });
+
+// uploader
+router.post('/upload', upload.single('upload'), async (req, res) => {
+    try {
+        console.log('this route');
+        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+        if (!fs.existsSync('./public/uploads/blog')) {
+            fs.mkdirSync('./public/uploads/blog', { recursive: true });
+        }
+        await sharp(req.file.buffer)
+            // .resize({ width: 1000, height: 723 })
+            .toFile('./public/uploads/blog/' + filename);
+
+        const url = `/uploads/blog/${filename}`
+        const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}');</script>`
+        res.send(send);
+    } catch (error) {
+        res.send(error.message);
+        console.log(error.message);
+    }
+})
 
 module.exports = router;

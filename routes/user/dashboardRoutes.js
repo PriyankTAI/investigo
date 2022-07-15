@@ -60,6 +60,7 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
                 .toFile('./public/uploads/users/' + filename);
         }
 
+        req.body.userId = undefined;
         const user = await User.findOneAndUpdate({ _id: req.user.id }, req.body, { new: true, runValidators: true });
         res.json({
             status: "success",
