@@ -31,7 +31,7 @@ const Project = require('../../models/projectModel');
 // GET project
 router.get("/", checkAdmin, async (req, res) => {
     try {
-        const projects = await Project.find();
+        const projects = await Project.find().sort('-_id');
         res.status(201).render("project", {
             projects,
             image: req.admin.image

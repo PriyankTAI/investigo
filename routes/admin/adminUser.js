@@ -7,7 +7,7 @@ const User = require('../../models/userModel');
 
 // Get all user
 router.get('/', checkAdmin, async (req, res) => {
-    const users = await User.find();
+    const users = await User.find().sort('-_id');
     res.render("user", {
         users,
         image: req.admin.image

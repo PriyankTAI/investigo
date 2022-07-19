@@ -30,7 +30,7 @@ const Blog = require('../../models/blogModel');
 // GET blog
 router.get("/", checkAdmin, async (req, res) => {
     try {
-        const blogs = await Blog.find().populate('category');
+        const blogs = await Blog.find().populate('category').sort('-_id');
         res.status(201).render("blog", {
             blogs,
             image: req.admin.image

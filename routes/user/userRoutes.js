@@ -51,7 +51,7 @@ router.get('/package', async (req, res, next) => {
 // GET all projects
 router.get('/project', async (req, res, next) => {
     try {
-        const projects = await Project.find().select('-__v');
+        const projects = await Project.find().select('-__v').sort('-_id');
         res.json({
             status: "success",
             total: projects.length,
@@ -101,7 +101,7 @@ router.get('/category', async (req, res, next) => {
 // GET all blogs
 router.get('/blog', async (req, res, next) => {
     try {
-        const blogs = await Blog.find().select('-content -tags -creator -__v');
+        const blogs = await Blog.find().select('-content -tags -creator -__v').sort('-_id');
 
         const counts = {};
         for (const el of blogs) {
