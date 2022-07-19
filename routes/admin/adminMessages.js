@@ -23,7 +23,6 @@ router.get('/:id', checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
         const message = await Message.findById(id);
-        message.time = formatAMPM(message.date);
         res.render("admin_msg_view", {
             message,
             image: req.admin.image
