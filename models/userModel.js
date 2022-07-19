@@ -5,12 +5,8 @@ const validator = require("validator");
 const createError = require('http-errors');
 
 const userSchema = new mongoose.Schema({
-    googleId: {
-        type: String
-    },
-    facebookId: {
-        type: String
-    },
+    googleId: String,
+    facebookId: String,
     userId: {
         type: String,
         unique: true
@@ -46,25 +42,17 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    phone: {
-        type: String,
-    },
+    phone: String,
     youAre: {
         type: String,
         enum: ['particular', 'individual']
     },
-    image: {
-        type: String,
-    },
-    instagram: {
-        type: String,
-    },
-    linkedin: {
-        type: String,
-    },
-    website: {
-        type: String,
-    },
+    image: String,
+    instagram: String,
+    linkedin: String,
+    website: String,
+    announcements: Boolean,
+    feedback: Boolean,
     blocked: {
         type: Boolean,
         default: false
