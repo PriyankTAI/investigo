@@ -188,7 +188,6 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
 // uploader
 router.post('/upload', upload.single('upload'), async (req, res) => {
     try {
-        console.log('this route');
         const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
         if (!fs.existsSync('./public/uploads/blog')) {
             fs.mkdirSync('./public/uploads/blog', { recursive: true });

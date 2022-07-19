@@ -101,11 +101,18 @@ router.get('/category', async (req, res, next) => {
 // GET all blogs
 router.get('/blog', async (req, res, next) => {
     try {
-        const blogs = await Blog.find().populate('category', '-date -__v').select('-__v');
+        const blogs = await Blog.find().select('-content -tags -creator -__v');
+
+        const counts = {};
+        for (const el of blogs) {
+            counts[el.category] = counts[el.category] ? counts[el.category] + 1 : 1;
+        }
+
         res.json({
             status: "success",
             total: blogs.length,
-            blogs
+            blogs,
+            counts
         })
     } catch (error) {
         console.log(error);
