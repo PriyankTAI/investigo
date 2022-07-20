@@ -53,6 +53,7 @@ router.get("/add", checkAdmin, async (req, res) => {
 router.post('/add', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
     check('content', 'content must have a value').notEmpty(),
+    check('description', 'description must have a value').notEmpty(),
     check('category', 'Please select category').notEmpty(),
 ], async (req, res) => {
     try {
@@ -116,6 +117,7 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
 router.post('/edit/:id', checkAdmin, upload.single('image'), [
     check('title', 'title must have a value').notEmpty(),
     check('content', 'content must have a value').notEmpty(),
+    check('description', 'description must have a value').notEmpty(),
     check('category', 'Please select category').notEmpty(),
 ], async (req, res) => {
     try {
