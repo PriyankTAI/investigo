@@ -127,7 +127,6 @@ router.get('/blog/:id', async (req, res, next) => {
         if (blog == null) {
             return next(createError.BadRequest(`Blog not found.`));
         }
-        blog.image = process.env.BASE_URL + blog.image
         res.json({
             status: "success",
             blog

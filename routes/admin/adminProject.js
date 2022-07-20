@@ -62,7 +62,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
             req.flash('red', validationErrors.errors[0].msg);
             return res.redirect(req.originalUrl);
         }
-        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
         const project = new Project({
             title: req.body.title,
             category: req.body.category,
@@ -141,7 +141,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + project.image;
 
-            const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+            const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
             project.image = '/uploads/project/' + filename;
             if (!fs.existsSync('./public/uploads/project')) {
                 fs.mkdirSync('./public/uploads/project', { recursive: true });

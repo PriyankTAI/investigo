@@ -61,7 +61,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
             req.flash('red', validationErrors.errors[0].msg);
             return res.redirect(req.originalUrl)
         }
-        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
         const monthlyReturn = req.body.monthlyReturn || (annualReturn / 12).toFixed(2);
         const dailyReturn = req.body.dailyReturn || (monthlyReturn / 30).toFixed(2);
         const package = new Package({
@@ -151,7 +151,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + package.image;
 
-            const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+            const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
             package.image = '/uploads/package/' + filename;
             if (!fs.existsSync('./public/uploads/package')) {
                 fs.mkdirSync('./public/uploads/package', { recursive: true });

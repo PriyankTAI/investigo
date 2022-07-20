@@ -63,7 +63,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
             req.flash('red', validationErrors.errors[0].msg)
             return res.redirect(req.originalUrl);
         }
-        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
         const tagsArray = tags.split(',').filter(item => item !== '');
         const blog = new Blog({
             title,
@@ -142,7 +142,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + blog.image;
 
-            const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+            const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
             blog.image = '/uploads/blog/' + filename;
             if (!fs.existsSync('./public/uploads/blog')) {
                 fs.mkdirSync('./public/uploads/blog', { recursive: true });
@@ -190,7 +190,7 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
 // uploader
 router.post('/upload', upload.single('upload'), async (req, res) => {
     try {
-        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
         if (!fs.existsSync('./public/uploads/blog')) {
             fs.mkdirSync('./public/uploads/blog', { recursive: true });
         }
@@ -198,7 +198,7 @@ router.post('/upload', upload.single('upload'), async (req, res) => {
             // .resize({ width: 1000, height: 723 })
             .toFile('./public/uploads/blog/' + filename);
 
-        const url = `/uploads/blog/${filename}`
+        const url = `${process.env.BASE_URL}/uploads/blog/${filename}`
         const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}');</script>`
         res.send(send);
     } catch (error) {
