@@ -45,9 +45,6 @@ app.set('view engine', 'ejs');
 // static path
 app.use(express.static(path.join(__dirname, "/public")));
 
-// set global errors var
-// app.locals.errors = null;
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET));
@@ -55,7 +52,7 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 // session
 app.use(require('cookie-session')({
     secret: process.env.SESSION_SECRET,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
 }));
 

@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
     },
     national: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
     fname: {
         type: String,

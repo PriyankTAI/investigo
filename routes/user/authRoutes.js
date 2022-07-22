@@ -55,7 +55,7 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
     try {
         const { email, password, googleId, facebookId } = req.body;
-        const userExist = await User.findOne({ email });
+        const userExist = await User.findOne({ email }).select('-__v');
         if (password) { // password
             if (!userExist) {
                 return next(createError.BadRequest(`Invalid email or password.`));

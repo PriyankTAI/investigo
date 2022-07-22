@@ -56,17 +56,23 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
                 if (err) { console.log(err); }
             })
             await sharp(req.file.buffer)
-                .resize({ width: 500, height: 500 })
+                .resize({ width: 400, height: 400 })
                 .toFile('./public/uploads/users/' + filename);
         }
 
         req.body.userId = undefined;
-        const user = await User.findOneAndUpdate({ _id: req.user.id }, req.body, { new: true, runValidators: true });
+        const user = await User.findOneAndUpdate({ _id: req.user.id }, req.body, { new: true, runValidators: true }).select('-__v');
         res.json({
             status: "success",
             user
         });
     } catch (error) {
+        if (error.code == '11000' && Object.keys(error.keyValue) == 'national') {
+            return next(createError.BadRequest('National number is already registered.'))
+        }
+        if (error.code == '11000' && Object.keys(error.keyValue) == 'email') {
+            return next(createError.BadRequest('Email is already registered.'))
+        }
         console.log(error.message);
         next(error);
     }

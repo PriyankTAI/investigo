@@ -11,7 +11,7 @@ const checkUser = function (req, res, next) {
                 console.log("ERROR: " + err.message);
                 return next(createError.Unauthorized("Invalid token"));
             }
-            User.findById(decodedToken._id, function (err, user) {
+            User.findById(decodedToken._id, '-__v', function (err, user) {
                 if (err) {
                     console.log("ERROR: " + err.message);
                     return next(createError.InternalServerError("Some error occured!"));
