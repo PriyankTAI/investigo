@@ -71,7 +71,7 @@
     </div>
     <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="accordion">
         <li class="bold">
-            <a class="waves-effect waves-cyan" href="/admin">
+            <a class="waves-effect waves-cyan <%= url == '/admin' ? 'active' : ''%>" href="/admin">
                 <i class="material-icons">desktop_windows</i>
                 <span class="menu-title" data-i18n="Dashboard">Dashboard</span>
             </a>
@@ -143,19 +143,19 @@
             </div>
         </li> -->
         <li class="bold">
-            <a class="waves-effect waves-cyan" href="/admin/blog">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/blog') ? 'active' : '' %>" href="/admin/blog">
                 <i class="material-icons">content_paste</i>
                 <span class="menu-title">Blogs</span>
             </a>
         </li>
         <li class="bold">
-            <a class="waves-effect waves-cyan" href="/admin/package">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/package') ? 'active' : '' %>" href="/admin/package">
                 <i class="material-icons">view_carousel</i>
                 <span class="menu-title">Packages</span>
             </a>
         </li>
         <li class="bold">
-            <a class="waves-effect waves-cyan" href="/admin/project">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/project') ? 'active' : '' %>" href="/admin/project">
                 <i class="material-icons">widgets</i>
                 <span class="menu-title">Projects</span>
             </a>
@@ -171,13 +171,13 @@
             <i class="navigation-header-icon material-icons">more_horiz</i>
         </li>
         <li class="bold">
-            <a class="waves-effect waves-cyan" href="/admin/user">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/user') ? 'active' : '' %>" href="/admin/user">
                 <i class="material-icons">person</i>
                 <span class="menu-title">User Management</span>
             </a>
         </li>
         <li class="bold">
-            <a class="waves-effect waves-cyan" href="/admin/messages">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/messages') ? 'active' : '' %>" href="/admin/messages">
                 <i class="material-icons">message</i>
                 <span class="menu-title">User Messages</span>
             </a>
@@ -187,7 +187,7 @@
             <i class="navigation-header-icon material-icons">more_horiz</i>
         </li>
         <li class="bold">
-            <a class="waves-effect waves-cyan" href="/admin/admin">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/admin') ? 'active' : '' %>" href="/admin/admin">
                 <i class="material-icons">account_circle</i>
                 <span class="menu-title">Admin List</span>
             </a>
