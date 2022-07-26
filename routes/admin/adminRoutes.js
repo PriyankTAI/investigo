@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -230,9 +229,13 @@ router.post('/admin/add', checkAdmin, async (req, res) => {
         req.flash('green', `Admin added successfully`);
         res.redirect('/admin/admin');
     } catch (error) {
-        console.log(error.message);
-        req.flash('red', error.message);
-        res.redirect(req.originalUrl);
+        if (error.code == 11000) {
+            req.flash('red', `Admin already exist with '${req.body.email}'.`);
+            res.redirect(req.originalUrl);
+        } else {
+            console.log(error);
+            res.send(error.message);
+        }
     }
 })
 
@@ -240,6 +243,10 @@ router.post('/admin/add', checkAdmin, async (req, res) => {
 router.get('/admin/:id', checkAdmin, async (req, res) => {
     try {
         const admin = await Admin.findById(req.params.id);
+        if (admin == null) {
+            req.flash('red', `Admin not found!`);
+            return res.redirect('/admin/admin');
+        }
         res.render('admin_view', {
             admin,
             image: req.admin.image

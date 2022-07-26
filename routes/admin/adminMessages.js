@@ -7,9 +7,9 @@ const Message = require('../../models/messageModel');
 // GET all messages
 router.get('/', checkAdmin, async (req, res) => {
     try {
-        const messages = await Message.find().sort({ _id: -1 });
+        const msgs = await Message.find().sort({ _id: -1 });
         res.render("admin_msg", {
-            messages,
+            msgs,
             image: req.admin.image
         })
     } catch (error) {
@@ -23,13 +23,22 @@ router.get('/:id', checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
         const message = await Message.findById(id);
+        if (message == null) {
+            req.flash('red', `Message not found!`);
+            return res.redirect('/admin/messages');
+        }
         res.render("admin_msg_view", {
             message,
             image: req.admin.image
         })
     } catch (error) {
-        console.log(error);
-        res.send(error.message)
+        if (error.name === 'CastError') {
+            req.flash('red', `Message not found!`);
+            res.redirect('/admin/messages');
+        } else {
+            console.log(error);
+            res.send(error)
+        }
     }
 })
 

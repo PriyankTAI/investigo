@@ -56,6 +56,8 @@
                                     <div class="card">
                                         <div class="card-content">
                                             <h4 class="card-title">User Messages</h4>
+                                            <!-- errors -->
+                                            <%- messages('messages', locals) %>
                                             <div class="row">
                                                 <div class="col s12">
                                                     <table id="page-length-option" class="display">
@@ -71,15 +73,15 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <% for( let i=0; i < messages.length; i++ ) { %>
+                                                            <% for( let i=0; i < msgs.length; i++ ) { %>
                                                                 <tr>
                                                                     <td><%= i+1 %></td>
-                                                                    <td><%= messages[i].fname + " " + messages[i].lname %></td>
-                                                                    <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= messages[i].email %></td>
-                                                                    <td><%= messages[i].phone %></td>
-                                                                    <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= messages[i].subject %></td>
-                                                                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= messages[i].message %></td>
-                                                                    <td><a href="/admin/messages/<%= messages[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
+                                                                    <td><%= msgs[i].fname + " " + msgs[i].lname %></td>
+                                                                    <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= msgs[i].email %></td>
+                                                                    <td><%= msgs[i].phone %></td>
+                                                                    <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= msgs[i].subject %></td>
+                                                                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= msgs[i].message %></td>
+                                                                    <td><a href="/admin/messages/<%= msgs[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                                 </tr>
                                                             <% } %>
                                                         </tbody>
@@ -108,6 +110,7 @@
         <!-- END PAGE VENDOR JS-->
         <!-- BEGIN THEME  JS-->
         <script src="/app-assets/js/plugins.js"></script>
+        <script src="/app-assets/js/scripts/ui-alerts.js"></script>
         <!-- END THEME  JS-->
         <!-- BEGIN PAGE LEVEL JS-->
         <script src="/app-assets/js/scripts/data-tables.js"></script>
