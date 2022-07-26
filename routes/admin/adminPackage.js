@@ -79,7 +79,6 @@ router.post('/add', checkAdmin, upload.single('image'), [
         }
         await package.save();
         await sharp(req.file.buffer)
-            // .resize({ width: 1000, height: 723 })
             .toFile('./public/uploads/package/' + filename);
         req.flash('green', `Package added successfully`);
         res.redirect('/admin/package')
@@ -161,7 +160,6 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
                 if (err) { console.log(err); }
             })
             await sharp(req.file.buffer)
-                // .resize({ width: 1000, height: 723 })
                 .toFile('./public/uploads/package/' + filename);
         } else {
             await package.save();

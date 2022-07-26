@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-//project schema
+// project schema
 var projectSchema = mongoose.Schema({
     title: {
         type: String,

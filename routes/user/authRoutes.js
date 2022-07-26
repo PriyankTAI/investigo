@@ -46,9 +46,9 @@ router.post("/register", async (req, res, next) => {
     }
 })
 
-// TODO: 
+// NOTE:
 // if registered with method and tries another method
-// 1. combine methods
+// 1. combine methods (not safe)
 // 2. show message to login with right method (current)
 
 // POST login

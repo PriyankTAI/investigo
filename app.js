@@ -26,7 +26,6 @@ i18n
     .init({
         backend: {
             loadPath: __dirname + '/locales/{{lng}}.json',
-            // addPath: __dirname + '/locales/{{lng}}.missing.json'
         },
         fallbackLng: 'en',
         lowerCaseLng: true,
@@ -85,17 +84,8 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-// io.on('connection', function (socket) {
-//     console.log('A user connected: '+socket.id);
-
-//     socket.on('disconnect', function () {
-//         console.log('A user disconnected: '+socket.id);
-//     });
-// });
-
 // io middleware
 app.use('/contact', (req, res, next) => {
-    // console.log('io');
     req.io = io;
     next()
 });

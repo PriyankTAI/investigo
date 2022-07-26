@@ -32,4 +32,18 @@ const applicationSchema = new mongoose.Schema({
     }
 })
 
+// pre validate trim value
+applicationSchema.pre('validate', function (next) {
+    if (this.fname) {
+        this.fname = this.fname.trim();
+    }
+    if (this.lname) {
+        this.lname = this.lname.trim();
+    }
+    if (this.phone) {
+        this.phone = this.phone.trim();
+    }
+    next();
+});
+
 module.exports = new mongoose.model("application", applicationSchema);

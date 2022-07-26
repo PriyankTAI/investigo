@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
         // required: [true, 'Password is required'],
         validate(value) {
             if (!validator.isLength(value, { min: 6, max: 1000 })) {
-                throw Error("Length of the password should be between 6-1000");
+                throw Error("Password should be atleast 6 characters long.");
             }
         }
     },
@@ -74,6 +74,9 @@ userSchema.methods.generateAuthToken = async function () {
 // converting password into hash
 userSchema.pre("save", async function (next) {
     if (this.isModified("password")) {
+        if (this.password == undefined) {
+            return next(createError.BadRequest('Password is required.'));
+        }
         this.password = await bcrypt.hash(this.password, 10);
     }
     next();
@@ -81,12 +84,16 @@ userSchema.pre("save", async function (next) {
 
 // pre validate trim value
 userSchema.pre('validate', function (next) {
-    if (this.name) {
-        this.name = this.name.trim();
+    if (this.fname) {
+        this.fname = this.fname.trim();
+    }
+    if (this.lname) {
+        this.lname = this.lname.trim();
     }
     if (this.password) {
         this.password = this.password.trim();
     }
     next();
 });
+
 module.exports = new mongoose.model("User", userSchema);

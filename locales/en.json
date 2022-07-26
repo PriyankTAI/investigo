@@ -10,8 +10,9 @@
         "fname": "First name is required.",
         "lname": "Last name is required.",
         "email": "Email is required.",
-        "password": "Length of the password must be between 6-1000.",
         "emailInvalid": "Email is Invalid.",
+        "pass": "Email is required.",
+        "passInvalid": "Password should be atleast 6 characters long.",
         "phone": "Phone is required.",
         "subject": "Subject is required.",
         "message": "Message is required.",
@@ -21,6 +22,7 @@
     },
     "error": {
         "emailReg": "Email already registered.",
+        "nationalReg": "National number is already registered.",
         "invalidCred": "Invalid email or password!",
         "loginGoogle": "Please login with google.",
         "loginFacebook": "Please login with facebook.",

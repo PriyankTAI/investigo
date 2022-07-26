@@ -9,7 +9,6 @@ const fs = require('fs-extra');
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const Admin = require('../../models/adminModel');
-// const Message = require('../../models/messageModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -255,11 +254,5 @@ router.get('/admin/:id', checkAdmin, async (req, res) => {
         res.redirect('/admin/admin');
     }
 })
-
-// GET notification messages
-// router.get("/message", async (req, res) => {
-//     const message = await Message.find().sort({ _id: -1 }).limit(5)
-//     res.json(message)
-// })
 
 module.exports = router;

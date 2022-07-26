@@ -79,7 +79,6 @@ router.post('/add', checkAdmin, upload.single('image'), [
         }
         await blog.save();
         await sharp(req.file.buffer)
-            // .resize({ width: 1000, height: 723 })
             .toFile('./public/uploads/blog/' + filename);
         req.flash('green', `Blog added successfully`);
         res.redirect('/admin/blog')
@@ -152,7 +151,6 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
                 if (err) { console.log(err); }
             })
             await sharp(req.file.buffer)
-                // .resize({ width: 1000, height: 723 })
                 .toFile('./public/uploads/blog/' + filename);
         } else {
             await blog.save();
@@ -195,7 +193,6 @@ router.post('/upload', upload.single('upload'), async (req, res) => {
             fs.mkdirSync('./public/uploads/blog', { recursive: true });
         }
         await sharp(req.file.buffer)
-            // .resize({ width: 1000, height: 723 })
             .toFile('./public/uploads/blog/' + filename);
 
         const url = `${process.env.BASE_URL}/uploads/blog/${filename}`

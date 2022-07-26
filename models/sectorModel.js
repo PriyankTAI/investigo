@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Category schema
 const sectorSchema = mongoose.Schema({
     name: {
         type: String,

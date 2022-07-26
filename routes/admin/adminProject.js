@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-// const formatDate = require('../../helpers/formateDate');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
@@ -77,7 +76,6 @@ router.post('/add', checkAdmin, upload.single('image'), [
         }
         await project.save();
         await sharp(req.file.buffer)
-            // .resize({ width: 1000, height: 723 })
             .toFile('./public/uploads/project/' + filename);
         req.flash('green', `Project added successfully`);
         res.redirect('/admin/project')
@@ -151,7 +149,6 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
                 if (err) { console.log(err); }
             })
             await sharp(req.file.buffer)
-                // .resize({ width: 1000, height: 723 })
                 .toFile('./public/uploads/project/' + filename);
         } else {
             await project.save();
