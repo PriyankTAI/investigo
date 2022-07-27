@@ -4,10 +4,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const sharp = require('sharp');
 const fs = require('fs-extra');
+const isToday = require('../../helpers/isToday');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const Admin = require('../../models/adminModel');
+const User = require('../../models/userModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -27,9 +29,24 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
+// user morgan in development fix apis that take more time
 // GET admin dashboard
-router.get('/', checkAdmin, (req, res) => {
-    res.render("dashboard", { image: req.admin.image });
+router.get('/', checkAdmin, async (req, res) => {
+    const [users] = await Promise.all([
+        await User.find().select('date'),
+    ])
+    
+    newUsers = 0;
+    for (let i = 0; i < users.length; i++) {
+        if (isToday(users[i].date)) {
+            newUsers++;
+        }
+    }
+    res.render("dashboard", {
+        image: req.admin.image,
+        users: users.length,
+        newUsers,
+    });
 });
 
 // GET admin login

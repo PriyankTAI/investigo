@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const createError = require('http-errors');
 const customId = require("custom-id");
 
@@ -167,14 +166,14 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
         }
         const fileName = '/uploads/resume/' + customId({ randomLength: 1 }) + '_' + req.file.originalname;
         const path = './public' + fileName;
-        const message = new Application({
+        const application = new Application({
             fname: req.body.fname,
             lname: req.body.lname,
             email: req.body.email,
             phone: req.body.phone,
             resume: fileName
         })
-        await message.save();
+        await application.save();
 
         // save resume to file
         if (!fs.existsSync('./public/uploads/resume')) {

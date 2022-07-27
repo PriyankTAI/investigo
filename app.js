@@ -90,12 +90,19 @@ app.use('/contact', (req, res, next) => {
     next()
 });
 
+// Development logging
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 // routes
 app.get('/', (req, res) => res.send("Backend running..."));
 app.use('/', require('./routes/user/authRoutes'));
 app.use('/', require('./routes/user/CmsPages'));
 app.use('/', require('./routes/user/userRoutes'));
 app.use('/', require('./routes/user/dashboardRoutes'));
+app.use('/', require('./routes/user/paymentRoutes'));
 
 app.use(function (req, res, next) {
     res.locals.url = req.originalUrl;

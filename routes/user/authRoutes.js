@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
 const customId = require("custom-id");

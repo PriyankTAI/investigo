@@ -54,6 +54,10 @@ const userSchema = new mongoose.Schema({
     website: String,
     announcements: Boolean,
     feedback: Boolean,
+    date: {
+        type: Date,
+        default: Date.now()
+    },
     blocked: {
         type: Boolean,
         default: false
