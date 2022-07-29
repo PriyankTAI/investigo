@@ -67,17 +67,17 @@ router.get('/project/:id', async (req, res, next) => {
     try {
         const project = await Project.findById(req.params.id).select('-__v');
         if (project == null) {
-            return next(createError.BadRequest('Project not found.'))
+            return next(createError.NotFound('Project not found.'))
         }
         res.json({
             status: "success",
             project
         })
     } catch (error) {
-        console.log(error.message);
         if (error.name == 'CastError') {
-            return next(createError.BadRequest(`Project not found.`));
+            return next(createError.NotFound(`Project not found.`));
         }
+        console.log(error.message);
         next(error);
     }
 })
@@ -124,17 +124,17 @@ router.get('/blog/:id', async (req, res, next) => {
     try {
         const blog = await Blog.findById(req.params.id).populate('creator', 'image name facebook twitter instagram linkedin').select('-__v');
         if (blog == null) {
-            return next(createError.BadRequest(`Blog not found.`));
+            return next(createError.NotFound(`Blog not found.`));
         }
         res.json({
             status: "success",
             blog
         })
     } catch (error) {
-        console.log(error.message);
         if (error.name == 'CastError') {
-            return next(createError.BadRequest(`Blog not found.`));
+            return next(createError.NotFound(`Blog not found.`));
         }
+        console.log(error.message);
         next(error)
     }
 })

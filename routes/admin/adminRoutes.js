@@ -29,11 +29,10 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-// user morgan in development fix apis that take more time
 // GET admin dashboard
 router.get('/', checkAdmin, async (req, res) => {
     const [users] = await Promise.all([
-        await User.find().select('date'),
+        User.find().select('date'),
     ])
     
     newUsers = 0;
