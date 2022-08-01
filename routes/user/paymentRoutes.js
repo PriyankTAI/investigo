@@ -5,26 +5,42 @@ const stripe = Stripe(process.env.STRIPE_KEY_SECRET);
 
 const checkUser = require('../../middleware/authMiddleware');
 
+const Package = require('../../models/packageModel')
+const Project = require('../../models/projectModel')
+
 // get public key
 router.get('/config', (req, res) => {
     res.json({ key: process.env.STRIPE_KEY_PUBLIC });
 })
 
 // create payment intent
-router.post('/create-payment-intent', checkUser, async (req, res) => {
+router.post('/create-payment-intent', checkUser, async (req, res, next) => {
     try {
-        const total = 0; // calculate total
+        const [package, project] = await Promise.all([
+            Package.findById(req.body.package),
+            Project.findById(req.body.project),
+        ])
+
+        if (!package) return next(createError.BadRequest('Invalid package id.'));
+        if (!project) return next(createError.BadRequest('Invalid project id.'));
+
+        const total = package.price;
         const paymentIntent = await stripe.paymentIntents.create({
             amount: total * 100,
-            currency: 'inr', // change currency
+            currency: 'EUR',
             payment_method: 'pm_card_visa',
             payment_method_types: ['card'],
+            // description: `User: ${req.user.id}`
         });
-        console.log(paymentIntent);
+        // console.log(paymentIntent);
         res.json({ client_secret: paymentIntent.client_secret })
     } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ error: error.message })
+        if (error.name === 'CastError') {
+            return next(createError.BadRequest('invalid id for package or project.'))
+        }
+        console.log(error);
+        next(createError.InternalServerError())
+        // res.status(500).json({ error: error.message })
     }
 })
 
