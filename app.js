@@ -121,6 +121,7 @@ app.use('/admin/project', require('./routes/admin/adminProject'));
 app.use('/admin/sector', require('./routes/admin/adminSector'));
 app.use('/admin/category', require('./routes/admin/adminCategory'));
 app.use('/admin/blog', require('./routes/admin/adminBlog'));
+app.use('/admin/order', require('./routes/admin/adminOrder'));
 
 // test language route
 app.get('/lang', (req, res) => {

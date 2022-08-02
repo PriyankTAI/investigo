@@ -14,8 +14,8 @@
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css"> -->
     <!-- END: VENDOR CSS-->
     <!-- BEGIN: Page Level CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
@@ -81,6 +81,7 @@
                                                                 <!-- <td><%= projects[i].date.toLocaleDateString() %></td> -->
                                                                 <td><%= projects[i].date.toDateString() %></td>
                                                                 <td>
+                                                                    <a href="/admin/project/<%= projects[i].id %>"><i class="material-icons">remove_red_eye</i></a>
                                                                     <a href="/admin/project/edit/<%= projects[i].id %>"><i class="material-icons">create</i></a>
                                                                     <a href="/admin/project/delete/<%= projects[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                                                                 </td>

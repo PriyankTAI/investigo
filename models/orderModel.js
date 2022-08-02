@@ -15,14 +15,12 @@ const orderSchema = new mongoose.Schema({
         ref: 'Project',
         required: [true, 'Order must have a project']
     },
-    orderdate: {
+    orderDate: {
         type: Date,
         default: Date.now()
     },
-    // paymentmode: {
-    //     type: String,
-    //     required: true
-    // },
+    endDate: Date,
+    paymentType: String,
     amount: Number,
     paymentId: String,
 })

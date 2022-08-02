@@ -25,6 +25,7 @@ const upload = multer({
 
 // GET model
 const Project = require('../../models/projectModel');
+const Order = require('../../models/orderModel')
 
 // GET project
 router.get("/", checkAdmin, async (req, res) => {
@@ -39,6 +40,37 @@ router.get("/", checkAdmin, async (req, res) => {
         res.status(500).send("An error occured")
     }
 });
+
+// GET project by id
+router.get('/:id', checkAdmin, async (req, res) => {
+    try {
+        const [project, orders] = await Promise.all([
+            Project.findById(req.params.id),
+            Order.find({ project: req.params.id })
+                .populate('project package user')
+                .sort('-_id')
+        ])
+
+        if (project == null) {
+            req.flash('red', 'Project not found!');
+            return res.redirect('/admin/project');
+        }
+
+        res.render('project_view', {
+            project,
+            orders,
+            image: req.admin.image
+        })
+    } catch (error) {
+        if (error.name === 'CastError') {
+            req.flash('red', `Project not found!`);
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+        }
+        res.redirect('/admin/project');
+    }
+})
 
 // GET add project
 router.get("/add", checkAdmin, (req, res) => {

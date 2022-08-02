@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const User = require('../../models/userModel');
+const Order = require('../../models/orderModel');
 
 // Get all user
 router.get('/', checkAdmin, async (req, res) => {
@@ -17,13 +17,21 @@ router.get('/', checkAdmin, async (req, res) => {
 // GET user by id
 router.get('/:id', checkAdmin, async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        const [user, orders] = await Promise.all([
+            User.findById(req.params.id),
+            Order.find({user: req.params.id})
+                .populate('project package')
+                .sort('-_id')
+        ])
+
         if (user == null) {
             req.flash('red', 'User not found!');
             return res.redirect('/admin/user');
         }
+        
         res.render('user_view', {
             user,
+            orders,
             image: req.admin.image
         })
     } catch (error) {

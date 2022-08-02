@@ -10,6 +10,7 @@ const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const Admin = require('../../models/adminModel');
 const User = require('../../models/userModel');
+const Order = require('../../models/orderModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -31,20 +32,31 @@ const upload = multer({
 
 // GET admin dashboard
 router.get('/', checkAdmin, async (req, res) => {
-    const [users] = await Promise.all([
+    const [users, orders] = await Promise.all([
         User.find().select('date'),
+        Order.find().select('orderDate'),
     ])
-    
+
     newUsers = 0;
     for (let i = 0; i < users.length; i++) {
         if (isToday(users[i].date)) {
             newUsers++;
         }
     }
+
+    newOrders = 0;
+    for (let i = 0; i < orders.length; i++) {
+        if (isToday(orders[i].orderDate)) {
+            newOrders++;
+        }
+    }
+
     res.render("dashboard", {
         image: req.admin.image,
         users: users.length,
         newUsers,
+        orders: orders.length,
+        newOrders
     });
 });
 

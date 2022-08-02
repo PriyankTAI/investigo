@@ -6,6 +6,7 @@ const sharp = require('sharp');
 const checkUser = require('../../middleware/authMiddleware');
 
 const User = require('../../models/userModel');
+const Order = require('../../models/orderModel')
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -72,6 +73,41 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
         if (error.code == '11000' && Object.keys(error.keyValue) == 'email') {
             return next(createError.BadRequest('Email is already registered.'))
         }
+        console.log(error.message);
+        next(error);
+    }
+})
+
+// GET all invesments (enddate?)
+router.get('/investment', checkUser, async (req, res) => {
+    try {
+        const orders = await Order.find({ user: req.user.id })
+            .populate('project', 'title image')
+            .populate('package', 'title monthlyReturn')
+            .select('paymenttype orderDate amount endDate');
+        res.json({
+            status: "success",
+            total: orders.length,
+            orders
+        });
+    } catch (error) {
+        console.log(error.message);
+        next(error);
+    }
+})
+
+// GET all transactions
+router.get('/tramsactions', checkUser, async (req, res, next) => {
+    try {
+        const orders = await Order.find({ user: req.user.id })
+            .populate('project', 'title image')
+            .select('paymentType orderDate');
+        res.json({
+            status: "success",
+            total: orders.length,
+            orders
+        });
+    } catch (error) {
         console.log(error.message);
         next(error);
     }
