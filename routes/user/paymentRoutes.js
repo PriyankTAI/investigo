@@ -14,6 +14,36 @@ router.get('/config', (req, res) => {
 })
 
 // create payment intent
+router.post('/payment', checkUser, async (req, res, next) => {
+    try {
+        const token = req.body.token;
+        const [package, project] = await Promise.all([
+            Package.findById(req.body.package),
+            Project.findById(req.body.project),
+        ])
+
+        if (!package) return next(createError.BadRequest('Invalid package id.'));
+        if (!project) return next(createError.BadRequest('Invalid project id.'));
+
+        const total = package.price;
+        await stripe.charges.create({
+            amount: total,
+            currency: 'usd',
+            description: 'Example charge',
+            source: token,
+        });
+
+        res.json({ status: 'success' })
+    } catch (error) {
+        if (error.name === 'CastError') {
+            return next(createError.BadRequest('invalid id for package or project.'))
+        }
+        console.log(error);
+        res.json({ status: 'fail', error: error.message })
+    }
+})
+
+// create payment intent
 router.post('/create-payment-intent', checkUser, async (req, res, next) => {
     try {
         const [package, project] = await Promise.all([
@@ -45,17 +75,33 @@ router.post('/create-payment-intent', checkUser, async (req, res, next) => {
 })
 
 // place order after stripe
-router.post('/stripe/create', checkUser, async (req, res) => {
+router.post('/order', checkUser, async (req, res, next) => {
     try {
-        const paymentIntent = await stripe.paymentIntents.retrieve(req.body.intentId);
-        if (paymentIntent.status != 'succeeded') {
-            return res.send({ error: `Payment status: '${paymentIntent.status}'` })
-        }
+        // const paymentIntent = await stripe.paymentIntents.retrieve(req.body.intentId);
+        // if (paymentIntent.status != 'succeeded') {
+        //     return res.send({
+        //         status: 'fail',
+        //         error: `Payment status: '${paymentIntent.status}'`
+        //     })
+        // }
+        // const amount = paymentIntent.amount/100;
+        const amount = 100;
+
         // create order
-        res.send({ status: `success` })
+        const order = await Order.create({
+            user: req.user.id,
+            package: req.body.package,
+            project: req.body.project,
+            amount
+        })
+
+        res.send({ status: `success`, order })
     } catch (error) {
         console.log(error);
-        next(createError.InternalServerError())
+        if (error.type == 'StripeInvalidRequestError') {
+            return next(createError.BadRequest(error.message))
+        }
+        next(error)
     }
 })
 
