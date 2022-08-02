@@ -13,10 +13,12 @@ router.get('/config', (req, res) => {
     res.json({ key: process.env.STRIPE_KEY_PUBLIC });
 })
 
-// create payment intent
+// create charge
 router.post('/payment', checkUser, async (req, res, next) => {
     try {
         const token = req.body.token;
+        console.log(`token: ${token}`);
+        
         const [package, project] = await Promise.all([
             Package.findById(req.body.package),
             Project.findById(req.body.project),
