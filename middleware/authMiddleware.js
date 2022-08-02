@@ -9,7 +9,7 @@ const checkUser = function (req, res, next) {
         jwt.verify(token, process.env.SECRET_KEY, function (err, decodedToken) {
             if (err) {
                 console.log("ERROR: " + err.message);
-                return next(createError.Unauthorized("Invalid token"));
+                return next(createError.Unauthorized("Invalid token or expired."));
             }
             User.findById(decodedToken._id, '-__v', function (err, user) {
                 if (err) {
