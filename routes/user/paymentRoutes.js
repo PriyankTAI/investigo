@@ -50,6 +50,7 @@ router.post('/payment', checkUser, async (req, res, next) => {
 router.post('/create-payment-intent', checkUser, async (req, res, next) => {
     try {
         console.log(`package: ${req.body.package}`);
+        console.log(`project: ${req.body.project}`);
         const package = await Package.findById(req.body.package);
         if (!package) return next(createError.BadRequest('Invalid package id.'));
         const total = package.price;
