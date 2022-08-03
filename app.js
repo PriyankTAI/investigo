@@ -94,8 +94,8 @@ app.use('/contact', (req, res, next) => {
 app.get('/uploads/*', (req, res) => res.end())
 
 // Development logging
-// const morgan = require('morgan');
 // if (process.env.NODE_ENV === 'development') {
+//     const morgan = require('morgan');
 //     app.use(morgan('dev'));
 // }
 

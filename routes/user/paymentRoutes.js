@@ -14,51 +14,16 @@ router.get('/config', (req, res) => {
     res.json({ key: process.env.STRIPE_KEY_PUBLIC });
 })
 
-// create charge
-router.post('/payment', checkUser, async (req, res, next) => {
-    try {
-        const token = req.body.token;
-        console.log(`token: ${token}`);
-
-        const [package, project] = await Promise.all([
-            Package.findById(req.body.package),
-            Project.findById(req.body.project),
-        ])
-
-        if (!package) return next(createError.BadRequest('Invalid package id.'));
-        if (!project) return next(createError.BadRequest('Invalid project id.'));
-
-        const total = package.price;
-        await stripe.charges.create({
-            amount: total,
-            currency: 'usd',
-            description: 'Example charge',
-            source: token,
-        });
-
-        res.json({ status: 'success' })
-    } catch (error) {
-        if (error.name === 'CastError') {
-            return next(createError.BadRequest('invalid id for package or project.'))
-        }
-        console.log(error);
-        res.json({ status: 'fail', error: error.message })
-    }
-})
-
 // create payment intent
 router.post('/create-payment-intent', checkUser, async (req, res, next) => {
     try {
-        console.log(req.body);
-        console.log(`package: ${req.body.package}`);
-        console.log(`project: ${req.body.project}`);
         const package = await Package.findById(req.body.package);
         if (!package) return next(createError.BadRequest('Invalid package id.'));
         const total = package.price;
 
         const paymentIntent = await stripe.paymentIntents.create({
             amount: total * 100,
-            currency: 'INR',
+            currency: 'EUR',
             payment_method: 'pm_card_visa',
             payment_method_types: ['card'],
         });
