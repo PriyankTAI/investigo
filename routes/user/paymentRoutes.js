@@ -63,7 +63,7 @@ router.post('/create-payment-intent', checkUser, async (req, res, next) => {
             payment_method_types: ['card'],
         });
 
-        res.json({ client_secret: paymentIntent.client_secret })
+        res.json({ status: `success`, client_secret: paymentIntent.client_secret })
     } catch (error) {
         console.log(error);
         if (error.name === 'CastError') {

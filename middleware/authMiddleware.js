@@ -27,6 +27,7 @@ const checkUser = function (req, res, next) {
             });
         });
     } else {
+        console.log('no token');
         next(createError.Unauthorized("Please Provide Auth token"));
     }
 }

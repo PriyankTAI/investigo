@@ -94,10 +94,10 @@ app.use('/contact', (req, res, next) => {
 app.get('/uploads/*', (req, res) => res.end())
 
 // Development logging
-// const morgan = require('morgan');
-// if (process.env.NODE_ENV === 'development') {
-//     app.use(morgan('dev'));
-// }
+const morgan = require('morgan');
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
 
 // routes
 app.get('/', (req, res) => res.send("Backend running..."));
