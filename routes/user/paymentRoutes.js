@@ -51,6 +51,7 @@ router.post('/create-payment-intent', checkUser, async (req, res, next) => {
     try {
         console.log(`package: ${req.body.package}`);
         const package = await Package.findById(req.body.package);
+        if (!package) return next(createError.BadRequest('Invalid package id.'));
         const total = package.price;
 
         const paymentIntent = await stripe.paymentIntents.create({
