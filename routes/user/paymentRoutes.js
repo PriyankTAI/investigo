@@ -49,7 +49,7 @@ router.post('/payment', checkUser, async (req, res, next) => {
 // create payment intent
 router.post('/create-payment-intent', checkUser, async (req, res, next) => {
     try {
-        console.log(`body: ${req.body}`);
+        console.log(req.body);
         console.log(`package: ${req.body.package}`);
         console.log(`project: ${req.body.project}`);
         const package = await Package.findById(req.body.package);
