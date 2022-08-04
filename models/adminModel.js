@@ -16,9 +16,7 @@ const adminSchema = new mongoose.Schema({
             }
         }
     },
-    password: {
-        type: String,
-    },
+    password: String,
     image: String,
     facebook: String,
     linkedin: String,

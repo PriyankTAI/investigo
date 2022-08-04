@@ -38,7 +38,10 @@ var projectSchema = mongoose.Schema({
         type: String,
         required: [true, 'Location is required'],
     },
-    // lat long
+    coordinates: {
+        lat: String,
+        lng: String
+    },
     date: {
         type: Date,
         default: Date.now,

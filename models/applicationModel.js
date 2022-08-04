@@ -23,9 +23,7 @@ const applicationSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Phone is required'],
     },
-    resume: {
-        type: String
-    },
+    resume: String,
     date: {
         type: Date,
         default: Date.now()

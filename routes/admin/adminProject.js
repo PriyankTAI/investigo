@@ -41,37 +41,6 @@ router.get("/", checkAdmin, async (req, res) => {
     }
 });
 
-// GET project by id
-router.get('/:id', checkAdmin, async (req, res) => {
-    try {
-        const [project, orders] = await Promise.all([
-            Project.findById(req.params.id),
-            Order.find({ project: req.params.id })
-                .populate('project package user')
-                .sort('-_id')
-        ])
-
-        if (project == null) {
-            req.flash('red', 'Project not found!');
-            return res.redirect('/admin/project');
-        }
-
-        res.render('project_view', {
-            project,
-            orders,
-            image: req.admin.image
-        })
-    } catch (error) {
-        if (error.name === 'CastError') {
-            req.flash('red', `Project not found!`);
-        } else {
-            console.log(error);
-            req.flash('red', error.message);
-        }
-        res.redirect('/admin/project');
-    }
-})
-
 // GET add project
 router.get("/add", checkAdmin, (req, res) => {
     res.render("add_project", { image: req.admin.image });
@@ -100,6 +69,10 @@ router.post('/add', checkAdmin, upload.single('image'), [
             description: req.body.description,
             totalAmount: req.body.totalAmount,
             location: req.body.location,
+            coordinates: {
+                lat: req.body.lat,
+                lng: req.body.lng
+            },
             image: '/uploads/project/' + filename
         })
         if (!fs.existsSync('./public/uploads/project')) {
@@ -167,6 +140,8 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         project.description = req.body.description;
         project.totalAmount = req.body.totalAmount;
         project.location = req.body.location;
+        project.coordinates.lat = req.body.lat;
+        project.coordinates.lng = req.body.lng;
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + project.image;
 
@@ -218,5 +193,36 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
         }
     }
 });
+
+// GET project by id
+router.get('/:id', checkAdmin, async (req, res) => {
+    try {
+        const [project, orders] = await Promise.all([
+            Project.findById(req.params.id),
+            Order.find({ project: req.params.id })
+                .populate('project package user')
+                .sort('-_id')
+        ])
+
+        if (project == null) {
+            req.flash('red', 'Project not found!');
+            return res.redirect('/admin/project');
+        }
+
+        res.render('project_view', {
+            project,
+            orders,
+            image: req.admin.image
+        })
+    } catch (error) {
+        if (error.name === 'CastError') {
+            req.flash('red', `Project not found!`);
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+        }
+        res.redirect('/admin/project');
+    }
+})
 
 module.exports = router;

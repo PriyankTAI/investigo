@@ -41,37 +41,6 @@ router.get("/", checkAdmin, async (req, res) => {
     }
 });
 
-// GET package by id
-router.get('/:id', checkAdmin, async (req, res) => {
-    try {
-        const [package, orders] = await Promise.all([
-            Package.findById(req.params.id),
-            Order.find({ package: req.params.id })
-                .populate('project package user')
-                .sort('-_id')
-        ])
-
-        if (package == null) {
-            req.flash('red', 'Package not found!');
-            return res.redirect('/admin/package');
-        }
-
-        res.render('package_view', {
-            package,
-            orders,
-            image: req.admin.image
-        })
-    } catch (error) {
-        if (error.name === 'CastError') {
-            req.flash('red', `Package not found!`);
-        } else {
-            console.log(error);
-            req.flash('red', error.message);
-        }
-        res.redirect('/admin/package');
-    }
-})
-
 // GET add package
 router.get("/add", checkAdmin, (req, res) => {
     res.render("add_package", { image: req.admin.image });
@@ -233,5 +202,36 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
         }
     }
 });
+
+// GET package by id
+router.get('/:id', checkAdmin, async (req, res) => {
+    try {
+        const [package, orders] = await Promise.all([
+            Package.findById(req.params.id),
+            Order.find({ package: req.params.id })
+                .populate('project package user')
+                .sort('-_id')
+        ])
+
+        if (package == null) {
+            req.flash('red', 'Package not found!');
+            return res.redirect('/admin/package');
+        }
+
+        res.render('package_view', {
+            package,
+            orders,
+            image: req.admin.image
+        })
+    } catch (error) {
+        if (error.name === 'CastError') {
+            req.flash('red', `Package not found!`);
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+        }
+        res.redirect('/admin/package');
+    }
+})
 
 module.exports = router;

@@ -80,7 +80,11 @@
                                                             </tr>
                                                             <tr>
                                                                 <th>Location</th>
-                                                                <td><%= project.location %>%</td>
+                                                                <td><%= project.location %></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Coordinates</th>
+                                                                <td><%= project.coordinates.lat + ", " + project.coordinates.lng %></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

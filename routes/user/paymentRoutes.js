@@ -24,7 +24,6 @@ router.post('/create-payment-intent', checkUser, async (req, res, next) => {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: total * 100,
             currency: process.env.CURRENCY,
-            payment_method: 'pm_card_visa',
             payment_method_types: ['card'],
         });
 
@@ -49,7 +48,6 @@ router.post('/order', checkUser, async (req, res, next) => {
             })
         }
         const amount = paymentIntent.amount / 100;
-        // const amount = 100;
 
         const [package, project] = await Promise.all([
             Package.findById(req.body.package),
@@ -72,6 +70,7 @@ router.post('/order', checkUser, async (req, res, next) => {
         })
 
         // change data of investors in project
+        // (update invested field)
 
         res.send({ status: `success`, order })
     } catch (error) {

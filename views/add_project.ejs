@@ -93,14 +93,23 @@
                                                             <div class="input-field col m6 s12">
                                                                 <input placeholder="Total amount" id="totalAmount" name="totalAmount" type="number">
                                                                 <small><div id="error5" class="error"></div></small>
-                                                                <label for="title">Total amount</label>
+                                                                <label for="totalAmount">Total amount</label>
                                                             </div>
                                                             <div class="input-field col m6 s12">
                                                                 <input placeholder="Location" id="location" name="location" type="text">
                                                                 <small><div id="error6" class="error"></div></small>
                                                                 <label for="location">Location</label>
                                                             </div>
-                                                            <!-- hidden lat long -->
+                                                            <div class="input-field col m6 s12">
+                                                                <input placeholder="Latitude" id="lat" name="lat" type="text">
+                                                                <small><div id="error8" class="error"></div></small>
+                                                                <label for="lat">Latitude</label>
+                                                            </div>
+                                                            <div class="input-field col m6 s12">
+                                                                <input placeholder="Longitude" id="lng" name="lng" type="text">
+                                                                <small><div id="error9" class="error"></div></small>
+                                                                <label for="lng">Longitude</label>
+                                                            </div>
                                                             <div class="input-field col s12">
                                                                 Upload Image
                                                                 <input type="file" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required/>
@@ -131,6 +140,8 @@
             const descriptionC = document.getElementById('description');
             const amountC = document.getElementById('totalAmount');
             const locationC = document.getElementById('location');
+            const latC = document.getElementById('lat');
+            const lngC = document.getElementById('lng');
 
             formC.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -144,6 +155,8 @@
                 const descriptionValue = descriptionC.value.trim();
                 const amountValue = amountC.value.trim();
                 const locationValue = locationC.value.trim();
+                const lat = latC.value.trim();
+                const lng = lngC.value.trim();
                 const filevalue = document.getElementById('input-file-now').value;
                 const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
 
@@ -196,11 +209,30 @@
                     returnVal = false;
                 }
 
+                if (lat == '') {
+                    document.getElementById('error8').innerText = 'Please enter latitude.';
+                    returnVal = false;
+                } else if (!(isFinite(lat) && Math.abs(lat) <= 90)) {
+                    document.getElementById('error8').innerText = 'Please enter valid latitude.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error8').innerText = '';
+                }
+
+                if (lng == '') {
+                    document.getElementById('error9').innerText = 'Please enter longitude.';
+                    returnVal = false;
+                } else if (!(isFinite(lng) && Math.abs(lng) <= 180)) {
+                    document.getElementById('error9').innerText = 'Please enter valid longitude.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('error9').innerText = '';
+                }
+
                 if (returnVal) {
                     formC.submit();
                 }
             }
-
         </script>
         <!-- BEGIN VENDOR JS-->
         <script src="/app-assets/js/vendors.min.js"></script>
