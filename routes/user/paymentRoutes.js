@@ -24,6 +24,7 @@ router.post('/create-payment-intent', checkUser, async (req, res, next) => {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: total * 100,
             currency: process.env.CURRENCY,
+            payment_method: 'pm_card_visa',
             payment_method_types: ['card'],
         });
 
