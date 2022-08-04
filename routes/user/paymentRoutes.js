@@ -24,7 +24,7 @@ router.post('/create-payment-intent', checkUser, async (req, res, next) => {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: total * 100,
             currency: process.env.CURRENCY,
-            payment_method: 'pm_card_visa',
+            // payment_method: 'pm_card_visa',
             payment_method_types: ['card'],
         });
 
@@ -66,6 +66,7 @@ router.post('/order', checkUser, async (req, res, next) => {
             user: req.user.id,
             package: req.body.package,
             project: req.body.project,
+            intentId: req.body.intentId,
             endDate: date,
             amount
         })
@@ -75,13 +76,16 @@ router.post('/order', checkUser, async (req, res, next) => {
 
         res.send({ status: `success`, order })
     } catch (error) {
-        console.log(error);
+        if (error.code === 11000) {
+            return next(createError.BadRequest('Order already created with this paymentIntentId'))
+        }
         if (error.name === 'CastError') {
             return next(createError.BadRequest('invalid id for package or project.'))
         }
         if (error.type == 'StripeInvalidRequestError') {
             return next(createError.BadRequest(error.message))
         }
+        console.log(error);
         next(error)
     }
 })
