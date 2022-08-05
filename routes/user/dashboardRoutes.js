@@ -97,7 +97,7 @@ router.get('/investment', checkUser, async (req, res) => {
 })
 
 // GET all transactions
-router.get('/tramsactions', checkUser, async (req, res, next) => {
+router.get('/tramsaction', checkUser, async (req, res, next) => {
     try {
         const orders = await Order.find({ user: req.user.id })
             .populate('project', 'title image')

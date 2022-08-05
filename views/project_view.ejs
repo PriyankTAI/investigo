@@ -19,105 +19,151 @@
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/style.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/page-users.css">
     <!-- END: Page Level CSS-->
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/custom/custom.css">
+    <!-- END: Custom CSS-->
 </head>
 <!-- END: Head-->
 
 <body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
     <%- include('_layouts/sidenavbar') %>
 
-        <!-- BEGIN: Page Main-->
-        <div id="main">
-            <div class="row">
-                <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col s12 m6 l6">
-                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Project details</span></h5>
-                            </div>
-                            <div class="col s12 m6 l6 right-align-md">
-                                <ol class="breadcrumbs mb-0">
-                                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/project">Project</a></li>
-                                    <li class="breadcrumb-item active">Project details</li>
-                                </ol>
-                            </div>
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Project details</span></h5>
+                        </div>
+                        <div class="col s12 m6 l6 right-align-md">
+                            <ol class="breadcrumbs mb-0">
+                                <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/admin/project">Project</a></li>
+                                <li class="breadcrumb-item active">Project details</li>
+                            </ol>
                         </div>
                     </div>
                 </div>
-                <div class="col s12">
-                    <div class="container">
-                        <div class="section section-data-tables">
-                            <!-- Page Length Options -->
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <h4 class="card-title">Project details</h4>
-                                            <div class="row">
-                                                <div class="col s12">
-                                                    <table class="display striped">
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>Title</th>
-                                                                <td><%= project.title %></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Category</th>
-                                                                <td><%= project.category %></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Property</th>
-                                                                <td><%= project.property %></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Description</th>
-                                                                <td><%= project.description %></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Total Amount</th>
-                                                                <td><%= project.totalAmount %></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Location</th>
-                                                                <td><%= project.location %></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Coordinates</th>
-                                                                <td><%= project.coordinates.lat + ", " + project.coordinates.lng %></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-    
-                                                    <% if (orders.length > 0) { %>
-                                                        <h6 class="mb-2 mt-4">Orders</h6>
-                                                        <table id="page-length-option" class="display">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Sr</th>
-                                                                    <th>User email</th>
-                                                                    <th>UserId</th>
-                                                                    <th>Package</th>
-                                                                    <th>View</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <% for( let i=0; i < orders.length; i++ ) { %>
-                                                                    <tr>
-                                                                        <td><%= i+1 %></td>
-                                                                        <td><%= orders[i].user.email %></td>
-                                                                        <td><%= orders[i].user.userId %></td>
-                                                                        <td><%= orders[i].package.title %></td>
-                                                                        <td><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
-                                                                    </tr>
-                                                                <% } %>
-                                                            </tbody>
-                                                        </table>
-                                                    <% } %>
-                                                </div>
+            </div>
+            <div class="col s12">
+                <div class="container">
+                    <div class="section section-data-tables users-view">
+                        <!-- Page Length Options -->
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <h4 class="card-title">Project details</h4>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <table class="display striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Title</th>
+                                                            <td><%= project.title %></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Category</th>
+                                                            <td><%= project.category %></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Property</th>
+                                                            <td><%= project.property %></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Description</th>
+                                                            <td><%= project.description %></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Location</th>
+                                                            <td><%= project.location %></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Coordinates</th>
+                                                            <td><%= project.coordinates.lat + ", " + project.coordinates.lng %></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            <div class="row">
-                                                <a href="/admin/project" class="btn btn-danger mt-2" style="margin-left: 15px;">Back</a>
+                                        </div>
+                                        <div class="row">
+                                            <a href="/admin/project" class="btn btn-danger mt-2" style="margin-left: 15px;">Back</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row overflow">
+                            <div class="col s12 overflow">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <h4 class="card-title">Investors</h4>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <!-- TODO: add data -->
+                                                <div class="row indigo lighten-5 border-radius-4">
+                                                    <div class="col s12 m3 users-view-timeline">
+                                                        <h6 class="indigo-text m-0">Total: <span><%= project.totalAmount %></span></h6>
+                                                    </div>
+                                                    <div class="col s12 m3 users-view-timeline">
+                                                        <h6 class="indigo-text m-0">Invested: <span><%= project.invested %></span></h6>
+                                                    </div>
+                                                    <div class="col s12 m3 users-view-timeline">
+                                                        <h6 class="indigo-text m-0">Percentage: <span><%= (project.invested/project.totalAmount * 100).toFixed(2) %>%</span></h6>
+                                                    </div>
+                                                    <div class="col s12 m3 users-view-timeline">
+                                                        <h6 class="indigo-text m-0">investors: <span><%= project.investors %></span></h6>
+                                                    </div>
+                                                </div>
+                                                <table class="centered mt-2">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Package</th>
+                                                            <th>Investors</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% for( let i = 0; i < docs.length; i++ ) { %>
+                                                        <tr>
+                                                            <td><%= docs[i].package[0].title %></td>
+                                                            <td><%= docs[i].numberOfOrders %></td>
+                                                            <td><%= docs[i].numberOfOrders * docs[i].package[0].price %></td>
+                                                        </tr>
+                                                        <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="col s12 overflow">
+                                                <h6 class="mb-2 mt-4">Orders</h6>
+                                                <table id="page-length-option" class="display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sr</th>
+                                                            <th>User email</th>
+                                                            <th>UserId</th>
+                                                            <th>Package</th>
+                                                            <th>View</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% for( let i=0; i < orders.length; i++ ) { %>
+                                                        <tr>
+                                                            <td><%= i+1 %></td>
+                                                            <td><%= orders[i].user.email %></td>
+                                                            <td><%= orders[i].user.userId %></td>
+                                                            <td><%= orders[i].package.title %></td>
+                                                            <td><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
+                                                        </tr>
+                                                        <% } %>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -125,21 +171,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content-overlay"></div>
                 </div>
+                <div class="content-overlay"></div>
             </div>
         </div>
-        <!-- END: Page Main-->
+    </div>
+    <!-- END: Page Main-->
 
-        <!-- BEGIN VENDOR JS-->
-        <script src="/app-assets/js/vendors.min.js"></script>
-        <!-- BEGIN VENDOR JS-->
-        <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
-        <!-- BEGIN THEME  JS-->
-        <script src="/app-assets/js/plugins.js"></script>
-        <script src="/app-assets/js/scripts/ui-alerts.js"></script>
-        <script src="/app-assets/js/scripts/data-tables.js"></script>
-        <!-- END THEME  JS-->
+    <!-- BEGIN VENDOR JS-->
+    <script src="/app-assets/js/vendors.min.js"></script>
+    <!-- BEGIN VENDOR JS-->
+    <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+    <!-- BEGIN THEME  JS-->
+    <script src="/app-assets/js/plugins.js"></script>
+    <script src="/app-assets/js/scripts/ui-alerts.js"></script>
+    <script src="/app-assets/js/scripts/data-tables.js"></script>
+    <!-- END THEME  JS-->
 </body>
 <%- include('_layouts/alert') %>
+
 </html>

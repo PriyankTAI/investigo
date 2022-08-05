@@ -19,6 +19,11 @@ const orderSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
+    intentId: {
+        type: String,
+        required: [true, 'Please provide paymentIntent id.'],
+        unique: true
+    },
     endDate: Date,
     paymentType: String,
     amount: Number,

@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const createError = require('http-errors');
+const { authenticator } = require('otplib')
 
 const userSchema = new mongoose.Schema({
     googleId: String,
@@ -43,6 +44,11 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
+    secret: String,
+    twofa: {
+        type: Boolean,
+        default: false
+    },
     phone: String,
     youAre: {
         type: String,
@@ -72,6 +78,15 @@ userSchema.methods.generateAuthToken = async function () {
     } catch (error) {
         createError.BadRequest(error);
         console.log("error: " + error);
+    }
+}
+
+userSchema.methods.verifyCode = async function (code) {
+    try {
+        return authenticator.check(code, this.secret)
+    } catch (error) {
+        console.log("error: " + error);
+        next(error);
     }
 }
 

@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
@@ -197,11 +198,22 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
 // GET project by id
 router.get('/:id', checkAdmin, async (req, res) => {
     try {
-        const [project, orders] = await Promise.all([
+        const [project, orders, docs] = await Promise.all([
             Project.findById(req.params.id),
             Order.find({ project: req.params.id })
                 .populate('project package user')
-                .sort('-_id')
+                .sort('-_id'),
+            Order.aggregate([
+                { $match: { project: mongoose.Types.ObjectId(req.params.id) } },
+                {
+                    $group: {
+                        _id: '$package',
+                        numberOfOrders: { $sum: 1 }
+                    }
+                },
+                { $sort: { _id: 1 } },
+                { $lookup: { from: 'packages', localField: '_id', foreignField: '_id', as: 'package' } }
+            ])
         ])
 
         if (project == null) {
@@ -212,8 +224,9 @@ router.get('/:id', checkAdmin, async (req, res) => {
         res.render('project_view', {
             project,
             orders,
+            docs,
             image: req.admin.image
-        })
+        });
     } catch (error) {
         if (error.name === 'CastError') {
             req.flash('red', `Project not found!`);

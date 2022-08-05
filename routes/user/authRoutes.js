@@ -2,6 +2,8 @@ const router = require('express').Router();
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
 const customId = require("custom-id");
+const { authenticator } = require('otplib') // generate totp
+const QRCode = require('qrcode') // change url to qr
 const { sendOtp } = require('../../helpers/sendEmail');
 
 const checkUser = require('../../middleware/authMiddleware');
@@ -228,7 +230,72 @@ router.post("/reset_pass", async (req, res, next) => {
         }
         user.password = password;
         await user.save();
-        return res.status(200).json({ status: "success", message: "Password changed successfully" });
+        return res.status(200).json({
+            status: "success",
+            message: "Password changed successfully"
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+})
+
+// create secret and return qrcode
+router.get('/get-2fa-qr', checkUser, async (req, res, next) => {
+    try {
+        if (req.user.twofa)
+            return res.status(401).json({
+                status: "fail",
+                message: "2 factor authentication already enabled."
+            });
+
+        const email = req.user.email;
+        const secret = authenticator.generateSecret();
+
+        // update and store secret in user
+        await User.findByIdAndUpdate(req.user.id, { secret });
+
+        // generate qr
+        QRCode.toDataURL(authenticator.keyuri(email, 'Investigo', secret), (err, url) => {
+            if (err) {
+                console.log(err);
+                return next(createError.InternalServerError());
+            }
+
+            res.json({ url });
+        })
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+})
+
+// enable 2fa
+router.post('/enable-2fa', checkUser, async (req, res, next) => {
+    try {
+        const user = req.user;
+
+        if (user.twofa)
+            return res.status(401).json({
+                status: "fail",
+                message: "2 factor authentication already enabled."
+            });
+
+        const verify = await user.verifyCode(req.body.code);
+
+        if (!verify)
+            return res.status(401).json({
+                status: "fail",
+                message: "Fail to verify code!"
+            });
+
+        user.twofa = true;
+        await user.save();
+
+        return res.json({
+            status: "Success",
+            message: "2 factor authentication enabled."
+        });
     } catch (error) {
         console.log(error);
         next(error);

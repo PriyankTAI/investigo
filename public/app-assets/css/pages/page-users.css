@@ -48,10 +48,10 @@
     padding: .8rem .8rem;
 }
 
-.users-list-wrapper .users-list-table .dataTables_paginate
+/* Pagination button styling */
+/* .users-list-wrapper .users-list-table .dataTables_paginate
 {
-    /* Pagination button styling */
-}
+} */
 
 .users-list-wrapper .users-list-table .dataTables_paginate .paginate_button
 {
@@ -96,9 +96,15 @@
     padding: 2rem;
 }
 
+.users-view .users-view-timeline h6
+{
+    text-align: center;
+}
+
 .users-view .users-view-timeline h6 span
 {
-    font-size: 2rem;
+    /* font-size: 2rem; */
+    font-size: 1.7rem;
 
     vertical-align: middle;
 }
