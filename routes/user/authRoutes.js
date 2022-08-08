@@ -270,6 +270,7 @@ router.post("/reset_pass", async (req, res, next) => {
 // create secret and return qrcode
 router.get('/get-2fa-qr', checkUser, async (req, res, next) => {
     try {
+        console.log(`user: ${req.user.email}`);
         if (req.user.twofa)
             return res.status(401).json({
                 status: "fail",
@@ -301,6 +302,7 @@ router.get('/get-2fa-qr', checkUser, async (req, res, next) => {
 router.post('/enable-2fa', checkUser, async (req, res, next) => {
     try {
         const user = req.user;
+        console.log(`user: ${req.user.email}`);
 
         if (user.twofa)
             return res.status(401).json({
@@ -308,6 +310,7 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
                 message: "Two factor authentication already enabled."
             });
 
+        console.log(typeof req.body.code);
         console.log(req.body.code);
         const verify = await user.verifyCode(req.body.code);
 
