@@ -20,7 +20,7 @@ router.post("/register", async (req, res, next) => {
             await userExist.save();
             return res.status(200).json({
                 status: "success",
-                message: "google user, password added"
+                message: "google/facebook user, password added"
             })
         }
         if (userExist) {
@@ -72,6 +72,9 @@ router.post("/login", async (req, res, next) => {
             const isMatch = await bcrypt.compare(password, userExist.password);
             if (!isMatch) {
                 return next(createError.BadRequest(`Invalid email or password.`));
+            }
+            if (userExist.twofa) {
+                return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
             }
             const token = await userExist.generateAuthToken();
             return res.status(200).json({ status: "success", token, user: userExist })
@@ -139,6 +142,30 @@ router.post("/login", async (req, res, next) => {
         if (error.keyValue && error.keyValue.userId) {
             return next(createError.InternalServerError('An error occured. Please try again.'));
         }
+        next(error);
+    }
+})
+
+// POST login 2fa
+router.post("/two-factor-login", async (req, res, next) => {
+    try {
+        const { email, code } = req.body;
+        const user = await User.findOne({ email });
+        if (!user.secret) {
+            return next(createError.BadRequest("Two factor authentication is not enabled!"));
+        }
+
+        const verify = await user.verifyCode(code);
+        if (!verify)
+            return res.status(401).json({
+                status: "fail",
+                message: "Fail to verify code!"
+            });
+
+        const token = await user.generateAuthToken();
+        return res.status(200).json({ status: "success", token, user });
+    } catch (error) {
+        console.log(error);
         next(error);
     }
 })
@@ -246,7 +273,7 @@ router.get('/get-2fa-qr', checkUser, async (req, res, next) => {
         if (req.user.twofa)
             return res.status(401).json({
                 status: "fail",
-                message: "2 factor authentication already enabled."
+                message: "Two factor authentication already enabled."
             });
 
         const email = req.user.email;
@@ -278,9 +305,10 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
         if (user.twofa)
             return res.status(401).json({
                 status: "fail",
-                message: "2 factor authentication already enabled."
+                message: "Two factor authentication already enabled."
             });
 
+        console.log(req.body.code);
         const verify = await user.verifyCode(req.body.code);
 
         if (!verify)
@@ -294,7 +322,7 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
 
         return res.json({
             status: "Success",
-            message: "2 factor authentication enabled."
+            message: "Two factor authentication enabled."
         });
     } catch (error) {
         console.log(error);

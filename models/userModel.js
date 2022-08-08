@@ -76,17 +76,18 @@ userSchema.methods.generateAuthToken = async function () {
         const token = jwt.sign({ _id: this._id.toString() }, process.env.SECRET_KEY, { expiresIn: '90d' });
         return token;
     } catch (error) {
+        console.log(error);
         createError.BadRequest(error);
-        console.log("error: " + error);
     }
 }
 
-userSchema.methods.verifyCode = async function (code) {
+// verify 2fa code
+userSchema.methods.verifyCode = function (code) {
     try {
         return authenticator.check(code, this.secret)
     } catch (error) {
-        console.log("error: " + error);
-        next(error);
+        // console.log(error);
+        createError.BadRequest(error);
     }
 }
 

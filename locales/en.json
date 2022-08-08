@@ -41,6 +41,13 @@
         "notMatch": "Password and confirm password do not match.",
         "updated": "Password updated."
     },
+    "2fa": {
+        "already": "Two factor authentication already enabled.",
+        "enabled": "Two factor authentication enabled.",
+        "required": "Two Factor Authentication required.",
+        "notEnabled": "Two factor authentication is not enabled!",
+        "failCode": "Fail to verify code!"
+    },
     "notReg": "Please enter registerd email.",
     "passChanged": "Password changed successfully.",
     "msg": "Message sent successfully.",

@@ -29,6 +29,9 @@ const upload = multer({
 // GET profile
 router.get('/profile', checkUser, async (req, res, next) => {
     try {
+        req.user.password = undefined;
+        req.user.blocked = undefined;
+        req.user.secret = undefined;
         res.json({
             status: "success",
             user: req.user
@@ -61,7 +64,11 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
         }
 
         req.body.userId = undefined;
-        const user = await User.findOneAndUpdate({ _id: req.user.id }, req.body, { new: true, runValidators: true }).select('-__v');
+        req.body.blocked = undefined;
+        req.body.secret = undefined;
+        req.body.twofa = undefined;
+        req.body.password = undefined;
+        const user = await User.findOneAndUpdate({ _id: req.user.id }, req.body, { new: true, runValidators: true }).select('-__v -password');
         res.json({
             status: "success",
             user
@@ -78,7 +85,7 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
     }
 })
 
-// GET all invesments (enddate?)
+// GET all invesments
 router.get('/investment', checkUser, async (req, res) => {
     try {
         const orders = await Order.find({ user: req.user.id })
@@ -97,7 +104,7 @@ router.get('/investment', checkUser, async (req, res) => {
 })
 
 // GET all transactions
-router.get('/tramsaction', checkUser, async (req, res, next) => {
+router.get('/transaction', checkUser, async (req, res, next) => {
     try {
         const orders = await Order.find({ user: req.user.id })
             .populate('project', 'title image')
