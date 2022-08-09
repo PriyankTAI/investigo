@@ -51,10 +51,22 @@ router.post('/create-payment-intent', checkUser, async (req, res, next) => {
         if (!package) return next(createError.BadRequest('Invalid package id.'));
         const total = package.price;
 
+        const customer = await stripe.customers.create({
+            email: req.user.email,
+            // address: {
+            //     line1: '510 Townsend St',
+            //     postal_code: '98140',
+            //     city: 'San Francisco',
+            //     state: 'CA',
+            //     country: 'US',
+            // },
+        });
+
         const paymentIntent = await stripe.paymentIntents.create({
             amount: total * 100,
             currency: process.env.CURRENCY,
-            // receipt_email: req.user.email,
+            customer: customer.id,
+            receipt_email: req.user.email,
             // payment_method: 'pm_card_visa',
             // payment_method_types: ['card'],
         });
@@ -94,12 +106,15 @@ router.post('/order', checkUser, async (req, res, next) => {
         const date = new Date(Date.now());
         date.setMonth(date.getMonth() + package.term);
 
+        // console.log(paymentIntent.charges.data[0].payment_method_details.card?.brand);
+        const paymentType = paymentIntent.charges.data[0].payment_method_details.card?.brand || 'Card';
         const order = await Order.create({
             user: req.user.id,
             package: req.body.package,
             project: req.body.project,
             intentId: req.body.intentId,
             endDate: date,
+            paymentType,
             amount
         })
 

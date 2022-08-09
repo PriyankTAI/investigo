@@ -85,6 +85,24 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
     }
 })
 
+// GET all orders
+router.get('/order', checkUser, async (req, res) => {
+    try {
+        const orders = await Order.find({ user: req.user.id })
+            .populate('project', 'title image')
+            .populate('package', 'title monthlyReturn')
+            .select('paymenttype orderDate amount endDate');
+        res.json({
+            status: "success",
+            total: orders.length,
+            orders
+        });
+    } catch (error) {
+        console.log(error.message);
+        next(error);
+    }
+});
+
 // GET all invesments
 router.get('/investment', checkUser, async (req, res) => {
     try {

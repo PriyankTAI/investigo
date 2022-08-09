@@ -45,10 +45,7 @@ const userSchema = new mongoose.Schema({
         }
     },
     secret: String,
-    twofa: {
-        type: Boolean,
-        default: false
-    },
+    twofa: Boolean,
     phone: String,
     youAre: {
         type: String,
