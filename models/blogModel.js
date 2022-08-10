@@ -18,6 +18,7 @@ const blogSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    contentFr: String,
     content: {
         type: String,
         required: true,

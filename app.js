@@ -91,7 +91,7 @@ app.use('/contact', (req, res, next) => {
 });
 
 // end file not found req
-app.get('/uploads/*', (req, res) => res.end())
+// app.get('/uploads/*', (req, res) => res.end())
 
 // Development logging
 // if (process.env.NODE_ENV === 'development') {

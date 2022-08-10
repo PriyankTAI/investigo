@@ -14,17 +14,15 @@ const Otp = require('../../models/otpModel');
 // POST register
 router.post("/register", async (req, res, next) => {
     try {
-        const userExist = await User.findOne({ email: req.body.email })
-        if (userExist && (userExist.googleid || userExist.facebookId)) {
-            userExist.password = req.body.password;
-            await userExist.save();
-            return res.status(200).json({
-                status: "success",
-                message: "google/facebook user, password added"
-            })
-        }
+        const userExist = await User.findOne({ email: req.body.email }).select('-__v -blocked -secret');
         if (userExist) {
-            return next(createError.BadRequest(`email already registered`));
+            if (userExist.googleId) {
+                return next(createError.BadRequest(`Already registered with google.`));
+            }
+            if (userExist.facebookId) {
+                return next(createError.BadRequest(`Already registered with facebook.`));
+            }
+            return next(createError.BadRequest(`Email already registered`));
         }
         const id = customId({});
         const user = new User({
@@ -56,7 +54,7 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
     try {
         const { email, password, googleId, facebookId } = req.body;
-        const userExist = await User.findOne({ email }).select('-__v');
+        const userExist = await User.findOne({ email }).select('-__v -blocked -secret');
         if (password) { // password
             if (!userExist) {
                 return next(createError.BadRequest(`Invalid email or password.`));
@@ -156,7 +154,7 @@ router.post("/login", async (req, res, next) => {
 router.post("/two-factor-login", async (req, res, next) => {
     try {
         const { email, code } = req.body;
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).select('-__v -blocked -password');
         if (!user.secret) {
             return next(createError.BadRequest("Two factor authentication is not enabled!"));
         }
@@ -169,6 +167,8 @@ router.post("/two-factor-login", async (req, res, next) => {
             });
 
         const token = await user.generateAuthToken();
+        // hide secret
+        user.secret = undefined;
         return res.status(200).json({ status: "success", token, user });
     } catch (error) {
         console.log(error);

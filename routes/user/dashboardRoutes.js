@@ -29,6 +29,7 @@ const upload = multer({
 // GET profile
 router.get('/profile', checkUser, async (req, res, next) => {
     try {
+        // hide details
         req.user.password = undefined;
         req.user.blocked = undefined;
         req.user.secret = undefined;
@@ -63,12 +64,19 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
                 .toFile('./public/uploads/users/' + filename);
         }
 
+        // not allowed to change
         req.body.userId = undefined;
         req.body.blocked = undefined;
         req.body.secret = undefined;
         req.body.twofa = undefined;
         req.body.password = undefined;
-        const user = await User.findOneAndUpdate({ _id: req.user.id }, req.body, { new: true, runValidators: true }).select('-__v -password');
+
+        const user = await User.findOneAndUpdate(
+            { _id: req.user.id },
+            req.body,
+            { new: true, runValidators: true }
+        ).select('-__v -password -secret -blocked');
+
         res.json({
             status: "success",
             user
@@ -109,7 +117,7 @@ router.get('/investment', checkUser, async (req, res) => {
         const orders = await Order.find({ user: req.user.id })
             .populate('project', 'title image')
             .populate('package', 'title monthlyReturn')
-            .select('paymenttype orderDate amount endDate');
+            .select('paymentType orderDate amount endDate');
         res.json({
             status: "success",
             total: orders.length,

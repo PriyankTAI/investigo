@@ -6460,7 +6460,8 @@ small
             transition: color .28s ease, background-color .28s ease;
     text-overflow: ellipsis;
 
-    color: rgba(41, 182, 246, .7);
+    /* color: rgba(41, 182, 246, .7); */
+    color: #6b6f82;
 }
 
 .tabs .tab a:focus,
@@ -6473,7 +6474,9 @@ small
 .tabs .tab a:hover,
 .tabs .tab a.active
 {
-    color: #29b6f6;
+    /* color: #29b6f6; */
+    color: #6b6f82;
+    font-weight: bolder;
     background-color: transparent;
 }
 

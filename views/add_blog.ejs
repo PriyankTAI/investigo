@@ -54,6 +54,13 @@
                                         <div class="card-content">
                                             <div class="row">
                                                 <div class="col s12">
+                                                    <div class="col s12 mb-3">
+                                                        <ul class="tabs">
+                                                            <li class="tab col s3"><a href="#test1">English</a></li>
+                                                            <li class="tab col s3"><a href="#test2">French</a></li>
+                                                            <li class="tab col s3 disabled"><a href="#test3">Dutch</a></li>
+                                                        </ul>
+                                                    </div>
                                                     <!-- errors -->
                                                     <%- messages('messages', locals) %>
                                                         <form method="POST" onsubmit="validate()" action="/admin/blog/add" id="form" enctype="multipart/form-data">
@@ -82,9 +89,18 @@
                                                                 <input type="file" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required/>
                                                                 <small><div id="error4" class="error"></div></small>
                                                             </div>
-                                                            <div class="input-field col s12">
-                                                                Content
-                                                                <textarea name="content" class="form-control" id="ta" cols="30" rows="10" placeholder="content"></textarea>
+                                                            
+                                                            <div id="test1" class="col s12">
+                                                                <div class="input-field">
+                                                                    Content
+                                                                    <textarea name="content" class="form-control ta" id="ta" cols="30" rows="10" placeholder="content">English</textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div id="test2" class="col s12">
+                                                                <div class="input-field">
+                                                                    Content
+                                                                    <textarea name="contentFr" class="form-control ta" id="ta" cols="30" rows="10" placeholder="content">French</textarea>
+                                                                </div>
                                                             </div>
                                                             <div class="input-field col m12 s12">
                                                                 <input placeholder="" id="form-tags-1" name="tags" type="text" value="">
@@ -176,8 +192,8 @@
         <script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
         <script>
             $(function(){
-                if($('textarea#ta').length){
-                    CKEDITOR.replace('ta', {
+                if($('textarea.ta').length){
+                    CKEDITOR.replaceAll('ta', {
                         filebrowserUploadUrl: '/admin/blog/upload',
                         format_tags: 'p;h1;h2;h3;h4;h5;h6'
                     });

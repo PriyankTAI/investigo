@@ -56,7 +56,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
     check('category', 'Please select category').notEmpty(),
 ], async (req, res) => {
     try {
-        const { title, content, description, category, tags } = req.body;
+        const { title, content, description, category, tags, contentFr } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg)
@@ -67,6 +67,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
         const blog = new Blog({
             title,
             content,
+            contentFr,
             description,
             category,
             tags: tagsArray,
@@ -83,7 +84,8 @@ router.post('/add', checkAdmin, upload.single('image'), [
         res.redirect('/admin/blog')
     } catch (error) {
         console.log(error);
-        res.send(error.message)
+        req.flash('red', error.message);
+        res.redirect('/admin/blog')
     }
 });
 
