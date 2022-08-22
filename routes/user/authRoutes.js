@@ -322,6 +322,14 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
                 message: "Fail to verify code!"
             });
 
+        // generate and store recovery code
+        // var digits = '0123456789';
+        // let generated = '';
+        // for (let i = 0; i < 8; i++) {
+        //     generated += digits[Math.floor(Math.random() * 10)];
+        // }
+        // user.recoveryCode = generated;
+
         user.twofa = true;
         await user.save();
 
@@ -329,6 +337,40 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
             status: "Success",
             message: "Two factor authentication enabled."
         });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+})
+
+// GET recover account
+router.get('/recover', async (req, res, next) => {
+    try {
+        const email = req.body.email;
+        const user = await User.findOne({ email });
+        if (!user)
+            return next(createError.BadRequest('Email is not registered.'));
+
+        const secret = user.secret;
+        if (!secret) {
+            console.log(`user.secret is ${user.secret}!`);
+            return next(createError.BadRequest('Two factor authentication is not enabled.'));
+        }
+        
+        // check recovery code
+        // if (req.body.recoveryCode != user.recoveryCode) {
+        //     return next(createError.BadRequest('Wrong recovery code.'));
+        // }
+
+        // generate qr
+        QRCode.toDataURL(authenticator.keyuri(email, 'Investigo', secret), (err, url) => {
+            if (err) {
+                console.log(err);
+                return next(createError.InternalServerError());
+            }
+
+            res.json({ url });
+        })
     } catch (error) {
         console.log(error);
         next(error);

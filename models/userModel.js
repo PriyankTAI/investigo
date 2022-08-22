@@ -46,6 +46,13 @@ const userSchema = new mongoose.Schema({
     },
     secret: String,
     twofa: Boolean,
+    // twofa: {
+    //     enabled: true,
+    //     type: {
+    //         type: String,
+    //         enum: ['app', 'otp']
+    //     }
+    // },
     phone: String,
     youAre: {
         type: String,
@@ -57,6 +64,10 @@ const userSchema = new mongoose.Schema({
     website: String,
     announcements: Boolean,
     feedback: Boolean,
+    active: {
+        type: Boolean,
+        default: true
+    },
     date: {
         type: Date,
         default: Date.now()

@@ -61,7 +61,7 @@
                                                             <li class="tab col s3 disabled"><a href="#test3">Dutch</a></li>
                                                         </ul>
                                                     </div>
-                                                    <!-- errors -->
+                                                    <%# errors %>
                                                     <%- messages('messages', locals) %>
                                                         <form method="POST" onsubmit="validate()" action="/admin/blog/add" id="form" enctype="multipart/form-data">
                                                             <div class="input-field col m6 s12">
@@ -93,13 +93,13 @@
                                                             <div id="test1" class="col s12">
                                                                 <div class="input-field">
                                                                     Content
-                                                                    <textarea name="content" class="form-control ta" id="ta" cols="30" rows="10" placeholder="content">English</textarea>
+                                                                    <textarea name="content" class="form-control ta" id="ta" cols="30" rows="10" placeholder="content">lorem</textarea>
                                                                 </div>
                                                             </div>
                                                             <div id="test2" class="col s12">
                                                                 <div class="input-field">
                                                                     Content
-                                                                    <textarea name="contentFr" class="form-control ta" id="ta" cols="30" rows="10" placeholder="content">French</textarea>
+                                                                    <textarea name="contentFr" class="form-control ta" id="ta" cols="30" rows="10" placeholder="content">ipsum</textarea>
                                                                 </div>
                                                             </div>
                                                             <div class="input-field col m12 s12">

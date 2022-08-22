@@ -121,7 +121,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
     check('category', 'Please select category').notEmpty(),
 ], async (req, res) => {
     try {
-        const { title, content, description, category, tags } = req.body;
+        const { title, content, description, category, tags, contentFr } = req.body;
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg)
@@ -136,6 +136,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         const tagsArray = tags.split(',').filter(item => item !== '');
         blog.title = title;
         blog.content = content;
+        blog.contentFr = contentFr;
         blog.description = description;
         blog.category = category;
         blog.tags = tagsArray;
