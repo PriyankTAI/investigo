@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // page schema
-var pageSchema = mongoose.Schema({
+const pageSchema = mongoose.Schema({
     title: {
         type: String,
         required: [true, 'Title is required'],

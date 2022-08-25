@@ -5,13 +5,33 @@ const checkAdmin = require('../../middleware/authAdminMiddleware');
 const Order = require('../../models/orderModel');
 
 // Get all orders
-router.get('/', checkAdmin, async (req, res) => {
-    const orders = await Order.find()
-        .populate('project package user')
-        .sort('-_id');
+// router.get('/', checkAdmin, async (req, res) => {
+//     const orders = await Order.find()
+//         .populate('project package user')
+//         .sort('-_id');
 
-    res.render("order", {
+//     res.render("order", {
+//         orders,
+//         image: req.admin.image
+//     });
+// });
+
+// Get all orders pagination
+router.get('/', checkAdmin, async (req, res) => {
+    const page = req.query.page || 1;
+    const perPage = 10;
+    const skip = (page - 1) * perPage;
+
+    const [orders, count] = await Promise.all([
+        Order.find().sort('-_id').populate('project package user').skip(skip).limit(perPage),
+        Order.count()
+    ])
+
+    res.render("order_pagination", {
         orders,
+        skip,
+        current: page,
+        pages: Math.ceil(count / perPage),
         image: req.admin.image
     });
 });

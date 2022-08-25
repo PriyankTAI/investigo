@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const createError = require('http-errors');
-const Stripe = require('stripe');
-const stripe = Stripe(process.env.STRIPE_KEY_SECRET);
+const stripe = require('stripe')(process.env.STRIPE_KEY_SECRET);
 
 const checkUser = require('../../middleware/authMiddleware');
 

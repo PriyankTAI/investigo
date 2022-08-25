@@ -32,7 +32,8 @@ router.get("/about_us", checkAdmin, async (req, res) => {
         const page = await Page.findOne({ title: 'About Us' })
         const content = page.content;
         res.status(201).render("about", {
-            content
+            content,
+            image: req.admin.image
         });
     } catch (error) {
         console.log(error);
@@ -46,14 +47,14 @@ router.post('/about_us', checkAdmin, [
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
         req.flash('red', 'Content must have a value.')
-        return res.redirect('/admin/about_us')
+        return res.redirect('/admin/cms/about_us')
     }
     try {
         const page = await Page.findOne({ title: 'About Us' })
         page.content = req.body.content;
         await page.save()
         req.flash('green', 'About us updated successfully.')
-        res.redirect('/admin/about_us')
+        res.redirect('/admin/cms/about_us')
     } catch (error) {
         console.log(error);
         res.status(500).send("An error occured")
@@ -66,8 +67,8 @@ router.get("/faqs", checkAdmin, async (req, res) => {
         const page = await Page.findOne({ title: 'FAQs' })
         const content = page.content;
         res.status(201).render("faqs", {
-            title: 'FAQs',
-            content
+            content,
+            image: req.admin.image
         });
     } catch (error) {
         console.log(error);
@@ -81,14 +82,14 @@ router.post('/faqs', checkAdmin, [
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
         req.flash('red', 'Content must have a value.')
-        return res.redirect('/admin/faqs')
+        return res.redirect('/admin/cms/faqs')
     }
     try {
         const page = await Page.findOne({ title: 'FAQs' })
         page.content = req.body.content;
         await page.save();
         req.flash('green', 'FAQs updated successfully.')
-        res.redirect('/admin/faqs')
+        res.redirect('/admin/cms/faqs')
     } catch (error) {
         console.log(error);
         res.status(500).send("An error occured")
@@ -101,7 +102,8 @@ router.get("/terms_con", checkAdmin, async (req, res) => {
         const page = await Page.findOne({ title: 'Terms & Condition' })
         const content = page.content;
         res.status(201).render("terms", {
-            content
+            content,
+            image: req.admin.image
         });
     } catch (error) {
         console.log(error);
@@ -115,14 +117,14 @@ router.post('/terms_con', checkAdmin, [
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
         req.flash('red', 'Content must have a values.')
-        return res.redirect('/admin/terms_con')
+        return res.redirect('/admin/cms/terms_con')
     }
     try {
         const page = await Page.findOne({ title: 'Terms & Condition' })
         page.content = req.body.content;
         await page.save()
         req.flash('green', 'Terms & Conditions updated successfully.')
-        res.redirect('/admin/terms_con')
+        res.redirect('/admin/cms/terms_con')
     } catch (error) {
         console.log(error);
         res.status(500).send("An error occurred")
@@ -135,7 +137,8 @@ router.get("/privacy_policy", checkAdmin, async (req, res) => {
         const page = await Page.findOne({ title: 'Privacy Policy' })
         const content = page.content;
         res.status(201).render("privacy", {
-            content
+            content,
+            image: req.admin.image
         });
     } catch (error) {
         console.log(error);
@@ -149,14 +152,14 @@ router.post('/privacy_policy', checkAdmin, [
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
         req.flash('red', 'Content must have a value.')
-        return res.redirect('/admin/privacy_policy')
+        return res.redirect('/admin/cms/privacy_policy')
     }
     try {
         const page = await Page.findOne({ title: 'Privacy Policy' })
         page.content = req.body.content;
         await page.save()
         req.flash('green', 'Privacy Policy updated successfully.')
-        res.redirect('/admin/privacy_policy')
+        res.redirect('/admin/cms/privacy_policy')
     } catch (error) {
         console.log(error);
         res.status(500).send("An error occured")
@@ -171,7 +174,8 @@ router.get("/contact", checkAdmin, async (req, res) => {
         const contact = await Contact.findOne();
         res.status(201).render("contact", {
             content,
-            contact
+            contact,
+            image: req.admin.image
         });
     } catch (error) {
         console.log(error);
@@ -191,7 +195,7 @@ router.post('/contact', checkAdmin, [
         const validationErrors = validationResult(req)
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg)
-            return res.redirect('/admin/contact')
+            return res.redirect('/admin/cms/contact')
         }
         page.content = req.body.content || '';
         await page.save()
@@ -200,7 +204,7 @@ router.post('/contact', checkAdmin, [
         contact.address = req.body.address;
         await contact.save()
         req.flash('green', 'Contact Us updated successfully.')
-        res.redirect('/admin/contact')
+        res.redirect('/admin/cms/contact')
     } catch (error) {
         console.log(error);
         res.status(500).send("An error occured")

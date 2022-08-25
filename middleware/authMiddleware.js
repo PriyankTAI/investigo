@@ -16,12 +16,13 @@ const checkUser = function (req, res, next) {
                     console.log("ERROR: " + err.message);
                     return next(createError.InternalServerError("Some error occured!"));
                 }
-                if (!user) {
+
+                if (!user)
                     return next(createError.Unauthorized("Please login first"));
-                }
-                if (user.blocked == true) {
+
+                if (user.blocked == true)
                     return next(createError.Unauthorized("Sorry! You are blocked, Please contact Admin."));
-                }
+
                 req.user = user;
                 next();
             });

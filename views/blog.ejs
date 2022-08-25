@@ -31,63 +31,62 @@
 <body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
     <%- include('_layouts/sidenavbar') %>
 
-        <!-- BEGIN: Page Main-->
-        <div id="main">
-            <div class="row">
-                <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
-                    <!-- Search for small screen-->
-                    <div class="container">
-                        <div class="row">
-                            <div class="col s12 m6 l6">
-                                <h5 class="breadcrumbs-title mt-0 mb-0"><span>Blogs</span></h5>
-                            </div>
-                            <div class="col s12 m6 l6 right-align-md">
-                                <a class="btn gradient-45deg-purple-deep-orange pull-right" href="/admin/blog/add">Add Blog</a>
-                            </div>
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                <!-- Search for small screen-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Blogs</span></h5>
+                        </div>
+                        <div class="col s12 m6 l6 right-align-md">
+                            <a class="btn gradient-45deg-purple-deep-orange pull-right" href="/admin/blog/add">Add Blog</a>
                         </div>
                     </div>
                 </div>
-                <div class="col s12">
-                    <div class="container">
-                        <div class="section section-data-tables">
-                            <!-- Page Length Options -->
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <h4 class="card-title">Blogs</h4>
-                                            <!-- errors -->
-                                            <%- messages('messages', locals) %>
-                                            <div class="row">
-                                                <div class="col s12 overflow">
-                                                    <table id="page-length-option" class="display">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Sr</th>
-                                                                <th>Title</th>
-                                                                <th>Category</th>
-                                                                <th>Date</th>
-                                                                <th>Image</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+            </div>
+            <div class="col s12">
+                <div class="container">
+                    <div class="section section-data-tables">
+                        <!-- Page Length Options -->
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <h4 class="card-title">Blogs</h4>
+                                        <!-- errors -->
+                                        <%- messages('messages', locals) %>
+                                        <div class="row">
+                                            <div class="col s12 overflow">
+                                                <table id="page-length-option" class="display">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sr</th>
+                                                            <th>Title</th>
+                                                            <th>Category</th>
+                                                            <th>Date</th>
+                                                            <th>Image</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
                                                         <% for( let i = 0; i < blogs.length; i++ ) { %>
-                                                            <tr>
-                                                                <td><%= i+1 %></td>
-                                                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= blogs[i].title %></td>
-                                                                <td><%= blogs[i].category %></td>
-                                                                <td><%= blogs[i].date.toDateString() %></td>
-                                                                <td><img src="<%= blogs[i].image %>" alt="IMG" width="100" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
-                                                                <td>
-                                                                    <a href="/admin/blog/edit/<%= blogs[i].id %>"><i class="material-icons">create</i></a>
-                                                                    <a href="/admin/blog/delete/<%= blogs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
-                                                                </td>
-                                                            </tr>
+                                                        <tr>
+                                                            <td><%= i+1 %></td>
+                                                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= blogs[i].title %></td>
+                                                            <td><%= blogs[i].category %></td>
+                                                            <td><%= blogs[i].date.toLocaleDateString('en-GB') %></td>
+                                                            <td><img src="<%= blogs[i].image %>" alt="IMG" width="100" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
+                                                            <td>
+                                                                <a href="/admin/blog/edit/<%= blogs[i].id %>"><i class="material-icons">create</i></a>
+                                                                <a href="/admin/blog/delete/<%= blogs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                                                            </td>
+                                                        </tr>
                                                         <% } %>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -95,27 +94,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content-overlay"></div>
                 </div>
+                <div class="content-overlay"></div>
             </div>
         </div>
-        <!-- END: Page Main-->
+    </div>
+    <!-- END: Page Main-->
 
-        <!-- BEGIN VENDOR JS-->
-        <script src="/app-assets/js/vendors.min.js"></script>
-        <!-- BEGIN VENDOR JS-->
-        <!-- BEGIN PAGE VENDOR JS-->
-        <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
-        <!-- <script src="/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
+    <!-- BEGIN VENDOR JS-->
+    <script src="/app-assets/js/vendors.min.js"></script>
+    <!-- BEGIN VENDOR JS-->
+    <!-- BEGIN PAGE VENDOR JS-->
+    <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
         <script src="/app-assets/vendors/data-tables/js/dataTables.select.min.js"></script> -->
-        <!-- END PAGE VENDOR JS-->
-        <!-- BEGIN THEME  JS-->
-        <script src="/app-assets/js/plugins.js"></script>
-        <script src="/app-assets/js/scripts/ui-alerts.js"></script>
-        <!-- END THEME  JS-->
-        <!-- BEGIN PAGE LEVEL JS-->
-        <script src="/app-assets/js/scripts/data-tables.js"></script>
-        <!-- END PAGE LEVEL JS-->
+    <!-- END PAGE VENDOR JS-->
+    <!-- BEGIN THEME  JS-->
+    <script src="/app-assets/js/plugins.js"></script>
+    <script src="/app-assets/js/scripts/ui-alerts.js"></script>
+    <!-- END THEME  JS-->
+    <!-- BEGIN PAGE LEVEL JS-->
+    <script src="/app-assets/js/scripts/data-tables.js"></script>
+    <!-- END PAGE LEVEL JS-->
 </body>
 <%- include('_layouts/alert') %>
+
 </html>

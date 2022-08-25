@@ -54,7 +54,7 @@
                                                 <h4 class="card-title">Contact Us</h4>
                                                 <!-- errors -->
                                                 <%- messages('messages', locals) %>
-                                                <form method="POST" action="/admin/contact" id="form" onsubmit="validate()">
+                                                <form method="POST" action="/admin/cms/contact" id="form" onsubmit="validate()">
                                                     <div class="input-field col m6 s12">
                                                         <input placeholder="Phone No" id="phone" name="phone" type="text" value="<%= contact.phone %>">
                                                         <small><div id="error1" class="error"></div></small>

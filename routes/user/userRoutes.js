@@ -7,7 +7,6 @@ const customId = require("custom-id");
 // const User = require('../../models/userModel');
 const Package = require('../../models/packageModel');
 const Project = require('../../models/projectModel');
-const Category = require('../../models/categoryModel');
 const Blog = require('../../models/blogModel');
 const Newsletter = require('../../models/newsletterModel');
 const Application = require('../../models/applicationModel');
@@ -78,21 +77,6 @@ router.get('/project/:id', async (req, res, next) => {
             return next(createError.NotFound(`Project not found.`));
         }
         console.log(error.message);
-        next(error);
-    }
-})
-
-// GET all category
-router.get('/category', async (req, res, next) => {
-    try {
-        const categories = await Category.find().select('-__v');
-        res.json({
-            status: "success",
-            total: categories.length,
-            categories
-        });
-    } catch (error) {
-        console.log(error);
         next(error);
     }
 })

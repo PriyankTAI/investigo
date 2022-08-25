@@ -45,9 +45,10 @@ const userSchema = new mongoose.Schema({
         }
     },
     secret: String,
+    recoveryCode: String,
     twofa: Boolean,
     // twofa: {
-    //     enabled: true,
+    //     enabled: Boolean,
     //     type: {
     //         type: String,
     //         enum: ['app', 'otp']
@@ -64,10 +65,6 @@ const userSchema = new mongoose.Schema({
     website: String,
     announcements: Boolean,
     feedback: Boolean,
-    active: {
-        type: Boolean,
-        default: true
-    },
     date: {
         type: Date,
         default: Date.now()

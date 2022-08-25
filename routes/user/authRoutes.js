@@ -11,10 +11,19 @@ const checkUser = require('../../middleware/authMiddleware');
 const User = require('../../models/userModel');
 const Otp = require('../../models/otpModel');
 
+const generateCode = length => {
+    var digits = '0123456789';
+    let generated = '';
+    for (let i = 0; i < length; i++) {
+        generated += digits[Math.floor(Math.random() * 10)];
+    }
+    return generated;
+}
+
 // POST register
 router.post("/register", async (req, res, next) => {
     try {
-        const userExist = await User.findOne({ email: req.body.email }).select('-__v -blocked -secret');
+        const userExist = await User.findOne({ email: req.body.email });
         if (userExist) {
             if (userExist.googleId) {
                 return next(createError.BadRequest(`Already registered with google.`));
@@ -22,7 +31,7 @@ router.post("/register", async (req, res, next) => {
             if (userExist.facebookId) {
                 return next(createError.BadRequest(`Already registered with facebook.`));
             }
-            return next(createError.BadRequest(`Email already registered`));
+            return next(createError.BadRequest(`Email already registered.`));
         }
         const id = customId({});
         const user = new User({
@@ -35,7 +44,7 @@ router.post("/register", async (req, res, next) => {
         })
         const token = await user.generateAuthToken();
         await user.save();
-        res.status(200).json({ status: "success", token, user })
+        res.status(200).json({ status: "success", token, user });
     } catch (error) {
         console.log(error.message);
         if (error.keyValue && error.keyValue.userId) {
@@ -231,11 +240,7 @@ router.post("/forgot", async (req, res, next) => {
 
         let otp = await Otp.findOne({ userId: user._id });
         if (!otp) {
-            var digits = '0123456789';
-            let generated = '';
-            for (let i = 0; i < 6; i++) {
-                generated += digits[Math.floor(Math.random() * 10)];
-            }
+            const generated = generateCode(6);
             otp = await new Otp({
                 userId: user.id,
                 otp: generated
@@ -323,18 +328,15 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
             });
 
         // generate and store recovery code
-        // var digits = '0123456789';
-        // let generated = '';
-        // for (let i = 0; i < 8; i++) {
-        //     generated += digits[Math.floor(Math.random() * 10)];
-        // }
-        // user.recoveryCode = generated;
+        const recoveryCode = generateCode(8);
+        user.recoveryCode = recoveryCode;
 
         user.twofa = true;
         await user.save();
 
         return res.json({
             status: "Success",
+            recoveryCode,
             message: "Two factor authentication enabled."
         });
     } catch (error) {
@@ -344,7 +346,7 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
 })
 
 // GET recover account
-router.get('/recover', async (req, res, next) => {
+router.post('/recover', async (req, res, next) => {
     try {
         const email = req.body.email;
         const user = await User.findOne({ email });
@@ -356,11 +358,10 @@ router.get('/recover', async (req, res, next) => {
             console.log(`user.secret is ${user.secret}!`);
             return next(createError.BadRequest('Two factor authentication is not enabled.'));
         }
-        
+
         // check recovery code
-        // if (req.body.recoveryCode != user.recoveryCode) {
-        //     return next(createError.BadRequest('Wrong recovery code.'));
-        // }
+        if (req.body.recoveryCode != user.recoveryCode)
+            return next(createError.BadRequest('Wrong recovery code.'));
 
         // generate qr
         QRCode.toDataURL(authenticator.keyuri(email, 'Investigo', secret), (err, url) => {

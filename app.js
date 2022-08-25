@@ -29,7 +29,8 @@ i18n
         },
         fallbackLng: 'en',
         lowerCaseLng: true,
-        preload: ['en', 'fr', 'du'],
+        preload: ['en', 'fr'],
+        // preload: ['en', 'fr', 'du'],
         saveMissing: true
     });
 
@@ -71,7 +72,6 @@ const corsOptions = {
 }
 app.options('*', cors(corsOptions));
 
-
 // caching disabled for every route
 app.use(function (req, res, next) {
     res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
@@ -89,9 +89,6 @@ app.use('/contact', (req, res, next) => {
     req.io = io;
     next()
 });
-
-// end file not found req
-// app.get('/uploads/*', (req, res) => res.end())
 
 // Development logging
 // if (process.env.NODE_ENV === 'development') {
@@ -113,13 +110,11 @@ app.use(function (req, res, next) {
 });
 
 app.use('/admin', require('./routes/admin/adminRoutes'));
-app.use('/admin', require('./routes/admin/adminCmsPages'));
+app.use('/admin/cms', require('./routes/admin/adminCmsPages'));
 app.use('/admin/user', require('./routes/admin/adminUser'));
 app.use('/admin/messages', require('./routes/admin/adminMessages'));
 app.use('/admin/package', require('./routes/admin/adminPackage'));
 app.use('/admin/project', require('./routes/admin/adminProject'));
-app.use('/admin/sector', require('./routes/admin/adminSector'));
-app.use('/admin/category', require('./routes/admin/adminCategory'));
 app.use('/admin/blog', require('./routes/admin/adminBlog'));
 app.use('/admin/order', require('./routes/admin/adminOrder'));
 
