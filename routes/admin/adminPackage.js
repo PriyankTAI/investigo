@@ -72,14 +72,14 @@ router.post('/add', checkAdmin, upload.single('image'), [
             dailyReturn,
             monthlyReturn,
             term,
-            image: '/uploads/package/' + filename
+            image: `/uploads/package/${filename}`
         })
         if (!fs.existsSync('./public/uploads/package')) {
             fs.mkdirSync('./public/uploads/package', { recursive: true });
         }
         await package.save();
         await sharp(req.file.buffer)
-            .toFile('./public/uploads/package/' + filename);
+            .toFile(`./public/uploads/package/${filename}`);
         req.flash('green', `Package added successfully`);
         res.redirect('/admin/package')
     } catch (error) {
@@ -151,7 +151,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
             oldImage = "public" + package.image;
 
             const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
-            package.image = '/uploads/package/' + filename;
+            package.image = `/uploads/package/${filename}`;
             if (!fs.existsSync('./public/uploads/package')) {
                 fs.mkdirSync('./public/uploads/package', { recursive: true });
             }
@@ -160,7 +160,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
                 if (err) { console.log(err); }
             })
             await sharp(req.file.buffer)
-                .toFile('./public/uploads/package/' + filename);
+                .toFile(`./public/uploads/package/${filename}`);
         } else {
             await package.save();
         }
@@ -182,26 +182,26 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
 });
 
 // GET delete package
-router.get("/delete/:id", checkAdmin, async (req, res) => {
-    try {
-        const id = req.params.id;
-        const package = await Package.findByIdAndRemove(id);
-        image = "public" + package.image;
-        fs.remove(image, function (err) {
-            if (err) { console.log(err); }
-        })
-        req.flash('green', `Package deleted successfully`);
-        res.redirect('/admin/package')
-    } catch (error) {
-        if (error.name === 'CastError' || error.name === 'TypeError') {
-            req.flash('red', `Package not found!`);
-            res.redirect('/admin/package');
-        } else {
-            console.log(error);
-            res.send(error)
-        }
-    }
-});
+// router.get("/delete/:id", checkAdmin, async (req, res) => {
+//     try {
+//         const id = req.params.id;
+//         const package = await Package.findByIdAndRemove(id);
+//         image = "public" + package.image;
+//         fs.remove(image, function (err) {
+//             if (err) { console.log(err); }
+//         })
+//         req.flash('green', `Package deleted successfully`);
+//         res.redirect('/admin/package')
+//     } catch (error) {
+//         if (error.name === 'CastError' || error.name === 'TypeError') {
+//             req.flash('red', `Package not found!`);
+//             res.redirect('/admin/package');
+//         } else {
+//             console.log(error);
+//             res.send(error)
+//         }
+//     }
+// });
 
 // GET package by id
 router.get('/:id', checkAdmin, async (req, res) => {

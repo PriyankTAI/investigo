@@ -11,6 +11,7 @@ const checkAdmin = require('../../middleware/authAdminMiddleware');
 const Admin = require('../../models/adminModel');
 const User = require('../../models/userModel');
 const Order = require('../../models/orderModel');
+const Message = require('../../models/messageModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -194,12 +195,12 @@ router.post('/profile', checkAdmin, upload.single('image'), [
         }
 
         if (typeof req.file !== 'undefined') {
-            oldImage = "public" + req.admin.image;
+            oldImage = `public${req.admin.image}`;
 
             let extArray = req.file.mimetype.split("/");
             let extension = extArray[extArray.length - 1];
             const filename = req.admin.id + '.' + extension;
-            req.body.image = '/uploads/admin/' + filename;
+            req.body.image = `/uploads/admin/${filename}`;
             if (!fs.existsSync('./public/uploads/admin')) {
                 fs.mkdirSync('./public/uploads/admin', { recursive: true });
             }
@@ -289,5 +290,16 @@ router.get('/admin/:id', checkAdmin, async (req, res) => {
         res.redirect('/admin/admin');
     }
 })
+
+// get notifications
+router.get('/notification', async (req, res, next) => {
+    try {
+        const messages = await Message.find().sort('-_id').limit(5);
+        res.json({ messages });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
 
 module.exports = router;

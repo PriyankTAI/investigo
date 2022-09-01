@@ -6,7 +6,8 @@ const sharp = require('sharp');
 const checkUser = require('../../middleware/authMiddleware');
 
 const User = require('../../models/userModel');
-const Order = require('../../models/orderModel')
+const Order = require('../../models/orderModel');
+const Withdraw = require('../../models/withdrawModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -142,6 +143,30 @@ router.get('/transaction', checkUser, async (req, res, next) => {
         });
     } catch (error) {
         console.log(error.message);
+        next(error);
+    }
+})
+
+// withdraw request
+router.post('/withdraw', checkUser, async (req, res, next) => {
+    try {
+        const order = await Order.findById(order).populate('package');
+        // calculate amount
+        // const amount = (1 + (order.package.annualReturn / 100)) * order.package.amount;
+
+        await Withdraw.create({
+            user: req.user.id,
+            order: req.body.order,
+            // amount,
+            // paymentMethod
+        })
+
+        res.status(201).json({
+            status: "success",
+            message: "Withdraw request created."
+        })
+    } catch (error) {
+        console.log(error);
         next(error);
     }
 })

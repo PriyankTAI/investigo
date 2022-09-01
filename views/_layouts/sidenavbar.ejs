@@ -14,13 +14,36 @@
                             <i class="material-icons">search</i>
                         </a>
                     </li> -->
+                    <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none</i></a>
+                        <ul class="dropdown-content" id="notifications-dropdown" tabindex="0">
+                            <li tabindex="0">
+                                <h6>NOTIFICATIONS<a class="right" href="javascript:void(0);" style="color: #03a9f4;">view all</a></h6>
+                            </li>
+                            <li class="divider" tabindex="0"></li>
+                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle cyan small">message</span> A new order has been placed!</a>
+                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
+                            </li>
+                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle red small">stars</span> Completed the task</a>
+                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">3 days ago</time>
+                            </li>
+                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">settings</span> Settings updated</a>
+                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">4 days ago</time>
+                            </li>
+                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle deep-orange small">today</span> Director meeting started</a>
+                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>
+                            </li>
+                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle amber small">trending_up</span> Generate monthly report</a>
+                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown">
                             <span class="avatar-status">
                                 <% if (typeof image != 'undefined') { %>
-                                    <img src="<%= image %>" alt="avatar">
+                                <img src="<%= image %>" alt="avatar">
                                 <% } else { %>
-                                    <img src="/uploads/default_user.jpg" alt="avatar">
+                                <img src="/uploads/default_user.jpg" alt="avatar">
                                 <% } %>
                             </span>
                         </a>
@@ -62,7 +85,7 @@
     <div class="brand-sidebar">
         <h1 class="logo-wrapper">
             <a class="brand-logo darken-1" href="/admin">
-                <img class="hide-on-med-and-down" src="/app-assets/images/logo/logo-light.png" alt="materialize logo" />
+                <img class="hide-on-med-and-down" src="/app-assets/images/logo/logo-light.svg" alt="materialize logo" />
                 <img class="show-on-medium-and-down hide-on-med-and-up" src="/app-assets/images/logo/favicon.png" alt="materialize logo" />
                 <!-- <span class="logo-text hide-on-med-and-down">Investigo</span> -->
             </a>
@@ -81,7 +104,7 @@
             <i class="navigation-header-icon material-icons">more_horiz</i>
         </li>
         <li class="bold <%= url.startsWith('/admin/cms') ? 'active' : '' %>">
-            <a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)">
+            <a class="collapsible-header waves-effect waves-cyan" href="javascript:void(0);">
                 <i class="material-icons">content_paste</i>
                 <span class="menu-title" data-i18n="Pages">Content Pages</span>
             </a>
@@ -120,28 +143,6 @@
                 </ul>
             </div>
         </li>
-        <!-- <li class="bold">
-            <a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)">
-                <i class="material-icons">format_align_left</i>
-                <span class="menu-title" data-i18n="Pages">Manage Blogs</span>
-            </a>
-            <div class="collapsible-body">
-                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                    <li>
-                        <a href="/admin/category">
-                            <i class="material-icons">radio_button_unchecked</i>
-                            <span data-i18n="Blog">Blog Category</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/blog">
-                            <i class="material-icons">radio_button_unchecked</i>
-                            <span data-i18n="Blog">Blogs</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li> -->
         <li class="bold">
             <a class="waves-effect waves-cyan <%= url.startsWith('/admin/blog') ? 'active' : '' %>" href="/admin/blog">
                 <i class="material-icons">format_align_left</i>
@@ -171,9 +172,15 @@
             </a>
         </li>
         <li class="bold">
-            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/messages') ? 'active' : '' %>" href="/admin/messages">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/message') ? 'active' : '' %>" href="/admin/message">
                 <i class="material-icons">message</i>
                 <span class="menu-title">User Messages</span>
+            </a>
+        </li>
+        <li class="bold">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/application') ? 'active' : '' %>" href="/admin/application">
+                <i class="material-icons">find_in_page</i>
+                <span class="menu-title">Applications</span>
             </a>
         </li>
         <li class="navigation-header">
@@ -199,3 +206,11 @@
     </ul>
     <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
 </aside>
+<!-- <script>
+    const bellIcon = document.querySelector('.notification-button')
+    bellIcon.addEventListener('click', async e => {
+        const response = await fetch('/admin/notification');
+        const data = await response.json();
+        console.log(data);
+    })
+</script> -->

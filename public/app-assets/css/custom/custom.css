@@ -11,5 +11,11 @@ PLACE HERE YOUR OWN CSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER 
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
 
 .overflow {
-	overflow-x: auto;
+    overflow-x: auto;
+}
+
+@media only screen and (max-width: 600px) {
+    .btn-breadcrumbs {
+		margin-top: 1rem;
+    }
 }

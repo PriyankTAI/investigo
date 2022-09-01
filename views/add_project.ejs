@@ -57,7 +57,7 @@
                                                     <!-- errors -->
                                                     <%- messages('messages', locals) %>
                                                         <form method="POST" onsubmit="validate()" action="/admin/project/add" id="form" enctype="multipart/form-data">
-                                                            <div class="input-field col m12">
+                                                            <div class="input-field col s12">
                                                                 <input placeholder="Title" id="title" name="title" type="text">
                                                                 <small><div id="error1" class="error"></div></small>
                                                                 <label for="title">Title</label>
@@ -84,7 +84,7 @@
                                                                 <label>Select property</label>
                                                                 <small><div id="error3" class="error"></div></small>
                                                             </div>
-                                                            <div class="input-field col m12">
+                                                            <div class="input-field col s12">
                                                                 <textarea id="description" class="materialize-textarea" name="description" placeholder="Enter content here"></textarea>
                                                                 <!-- <input placeholder="Description" id="description" name="description" type="text"> -->
                                                                 <small><div id="error4" class="error"></div></small>
@@ -110,9 +110,14 @@
                                                                 <small><div id="error9" class="error"></div></small>
                                                                 <label for="lng">Longitude</label>
                                                             </div>
-                                                            <div class="input-field col s12">
-                                                                Upload Image
-                                                                <input type="file" accept="image/*" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required/>
+                                                            <div class="input-field col m6 s12">
+                                                                Upload image
+                                                                <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required/>
+                                                                <small><div id="error7" class="error"></div></small>
+                                                            </div>
+                                                            <div class="input-field col m6 s12">
+                                                                Upload gallery images
+                                                                <input type="file" accept="image/png, image/jpeg" name="gallery" class="dropify" data-disable-remove="true" multiple required/>
                                                                 <small><div id="error7" class="error"></div></small>
                                                             </div>
                                                             <button type="submit" class="btn purple ml-1">Submit</button>

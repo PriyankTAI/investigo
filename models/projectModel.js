@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // project schema
-var projectSchema = mongoose.Schema({
+const projectSchema = mongoose.Schema({
     title: {
         type: String,
         required: [true, 'Title is required'],
@@ -34,6 +34,7 @@ var projectSchema = mongoose.Schema({
         type: String,
         required: [true, 'Image is required'],
     },
+    gallery: [String],
     location: {
         type: String,
         required: [true, 'Location is required'],

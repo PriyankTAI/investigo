@@ -60,6 +60,7 @@
         "already": "Email is already in our newsletter list.",
         "success": "Email added to our newsletter list."
     },
+    "withdraw": "Withdraw request created.",
     "404": "404 not found!",
     "home": {
         "title": "Hello World!"

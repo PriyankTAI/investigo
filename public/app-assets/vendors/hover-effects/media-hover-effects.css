@@ -14,7 +14,7 @@
 	float: left;
 	overflow: hidden;
 	margin: 10px 1%;
-	min-width: 320px;
+	/* min-width: 320px; */
 	max-width: 480px;
 	max-height: 360px;
 	width: 100%;
@@ -974,7 +974,7 @@ figure.effect-zoe figcaption {
 	top: auto;
 	bottom: 0;
 	padding: 1em;
-	height: 3.75em;
+	height: 3.2em;
 	background: #fff;
 	color: #3c4a50;
 	-webkit-transition: -webkit-transform 0.35s;

@@ -112,7 +112,8 @@ app.use(function (req, res, next) {
 app.use('/admin', require('./routes/admin/adminRoutes'));
 app.use('/admin/cms', require('./routes/admin/adminCmsPages'));
 app.use('/admin/user', require('./routes/admin/adminUser'));
-app.use('/admin/messages', require('./routes/admin/adminMessages'));
+app.use('/admin/message', require('./routes/admin/adminMessages'));
+app.use('/admin/application', require('./routes/admin/adminApplication'));
 app.use('/admin/package', require('./routes/admin/adminPackage'));
 app.use('/admin/project', require('./routes/admin/adminProject'));
 app.use('/admin/blog', require('./routes/admin/adminBlog'));
@@ -135,7 +136,14 @@ app.all('*', (req, res, next) => {
 
 // error handler
 app.use((error, req, res, next) => {
-    // console.log(error.name);
+    // console.log(error);
+    if (req.originalUrl.startsWith('/admin')) {
+        req.flash('red', error.message);
+        if (req.originalUrl.startsWith('/admin/project/gallery/'))
+            return res.redirect(`/admin/project/gallery/${req._params.id}`);
+        return res.redirect(req.originalUrl);
+    }
+
     if (error.name === "ValidationError") {
         let errors = {};
         Object.keys(error.errors).forEach((key) => {

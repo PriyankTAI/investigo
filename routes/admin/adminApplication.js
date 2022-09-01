@@ -2,14 +2,14 @@ const router = require('express').Router();
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-const Message = require('../../models/messageModel');
+const Application = require('../../models/applicationModel');
 
-// GET all messages
+// GET all applications
 router.get('/', checkAdmin, async (req, res) => {
     try {
-        const msgs = await Message.find().sort({ _id: -1 });
-        res.render("admin_msg", {
-            msgs,
+        const applications = await Application.find().sort({ _id: -1 });
+        res.render("admin_application", {
+            applications,
             image: req.admin.image
         })
     } catch (error) {
@@ -18,23 +18,23 @@ router.get('/', checkAdmin, async (req, res) => {
     }
 })
 
-// GET a message
+// GET an application
 router.get('/:id', checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
-        const message = await Message.findById(id);
-        if (message == null) {
-            req.flash('red', `Message not found!`);
-            return res.redirect('/admin/message');
+        const application = await Application.findById(id);
+        if (application == null) {
+            req.flash('red', `Application not found!`);
+            return res.redirect('/admin/application');
         }
-        res.render("admin_msg_view", {
-            message,
+        res.render("admin_application_view", {
+            application,
             image: req.admin.image
         })
     } catch (error) {
         if (error.name === 'CastError') {
-            req.flash('red', `Message not found!`);
-            res.redirect('/admin/message');
+            req.flash('red', `Application not found!`);
+            res.redirect('/admin/application');
         } else {
             console.log(error);
             res.send(error)
