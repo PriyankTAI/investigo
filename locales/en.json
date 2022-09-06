@@ -17,6 +17,7 @@
         "subject": "Subject is required.",
         "message": "Message is required.",
         "resume": "Please provide resume.",
+        "withdraw": "Withdraw request must belong to a order.",
         "resumeFile": "Wrong file type! (Please upload only pdf, doc or docx)",
         "imageFile": "Wrong file type! (Please upload only jpg or png.)"
     },
@@ -28,6 +29,7 @@
         "loginFacebook": "Please login with facebook.",
         "loginCred": "Please login with email and password.",
         "provideMethod": "Please provide password, googleId or facebookId.",
+        "withdrawOrder": "Withdraw already request for this order.",
         "server": "An error occured, Please try again."
     },
     "changePass": {

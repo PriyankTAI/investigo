@@ -11,7 +11,8 @@ const checkAdmin = require('../../middleware/authAdminMiddleware');
 const Admin = require('../../models/adminModel');
 const User = require('../../models/userModel');
 const Order = require('../../models/orderModel');
-const Message = require('../../models/messageModel');
+// const Message = require('../../models/messageModel');
+const Withdraw = require('../../models/withdrawModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -33,32 +34,70 @@ const upload = multer({
 
 // GET admin dashboard
 router.get('/', checkAdmin, async (req, res) => {
-    const [users, orders] = await Promise.all([
-        User.find().select('date'),
-        Order.find().select('orderDate'),
-    ])
+    try {
+        const [users, orders] = await Promise.all([
+            User.find().select('date'),
+            Order.find().populate('package'),
+        ])
 
-    newUsers = 0;
-    for (let i = 0; i < users.length; i++) {
-        if (isToday(users[i].date)) {
-            newUsers++;
+        var newUsers = 0;
+        for (let i = 0; i < users.length; i++) {
+            if (isToday(users[i].date)) {
+                newUsers++;
+            }
         }
-    }
 
-    newOrders = 0;
-    for (let i = 0; i < orders.length; i++) {
-        if (isToday(orders[i].orderDate)) {
-            newOrders++;
+        var newOrders = 0;
+        for (let i = 0; i < orders.length; i++) {
+            if (isToday(orders[i].orderDate)) {
+                newOrders++;
+            }
         }
-    }
 
-    res.render("dashboard", {
-        image: req.admin.image,
-        users: users.length,
-        newUsers,
-        orders: orders.length,
-        newOrders
-    });
+        // investments
+        var allInvestment = 0;
+        var newInvestment = 0;
+        for (let i = 0; i < orders.length; i++) {
+            allInvestment += orders[i].amount;
+            if (isToday(orders[i].orderDate)) {
+                newInvestment += orders[i].amount;
+            }
+        }
+
+        // interests
+        var allInterest = 0;
+        var newInterest = 0;
+        var second = Date.now();
+        for (let i = 0; i < orders.length; i++) {
+            if (orders[i].withdrawn) {
+                // calculate yearly interest
+                var value = (orders[i].package.annualReturn / 100) * orders[i].amount;
+            } else {
+                // calculate daily interest * days
+                var first = Date.parse(orders[i].orderDate.toJSON().substring(0, 10));
+                var days = Math.round((second - first) / (1000 * 60 * 60 * 24));
+                var value = (orders[i].package.dailyReturn * days / 100) * orders[i].amount;
+                // today's interest
+                newInterest += (orders[i].package.dailyReturn / 100) * orders[i].amount;
+            }
+            allInterest += value;
+        }
+
+        res.render("dashboard", {
+            image: req.admin.image,
+            users: users.length,
+            newUsers,
+            orders: orders.length,
+            newOrders,
+            allInvestment,
+            newInvestment,
+            allInterest: Math.round(allInterest),
+            newInterest: Math.round(newInterest),
+        });
+    } catch (error) {
+        console.log(error);
+        res.send(error.message);
+    }
 });
 
 // GET admin login
@@ -294,8 +333,8 @@ router.get('/admin/:id', checkAdmin, async (req, res) => {
 // get notifications
 router.get('/notification', async (req, res, next) => {
     try {
-        const messages = await Message.find().sort('-_id').limit(5);
-        res.json({ messages });
+        const withdraws = await Withdraw.find().sort('-_id').limit(5).populate('user');
+        res.json({ withdraws });
     } catch (error) {
         console.log(error);
         next(error);

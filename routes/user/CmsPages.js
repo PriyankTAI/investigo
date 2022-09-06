@@ -1,9 +1,35 @@
 const router = require('express').Router();
+const multilingual = require('../../helpers/multilingual');
 
 // models
 const Contact = require('../../models/contactModel');
 const Page = require('../../models/pageModel');
+const Test = require('../../models/testModel');
 const Message = require('../../models/messageModel');
+
+// test
+router.get("/test", async (req, res, next) => {
+    try {
+        // One
+        // const test = await Test.findOne({});
+        // const newTest = multilingual(test, req);
+        // res.json({
+        //     status: "success",
+        //     test: newTest
+        // });
+
+        // Many
+        const tests = await Test.find({});
+        const newTests = tests.map(el => multilingual(el, req));
+        res.json({
+            status: "success",
+            tests: newTests
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
 
 // about us
 router.get("/about_us", async (req, res, next) => {
@@ -85,17 +111,9 @@ router.get("/contact", async (req, res, next) => {
 // POST message
 router.post("/contact", async (req, res, next) => {
     try {
-        // console.log(req.io);
-        const message = new Message({
-            fname: req.body.fname,
-            lname: req.body.lname,
-            email: req.body.email,
-            phone: req.body.phone,
-            subject: req.body.subject,
-            message: req.body.message
-        })
-        await message.save();
-        req.io.emit('msg', message);
+        const message = await Message.create(req.body);
+
+        io.emit('msg', message);
         res.status(201).json({
             status: "success",
             message: "Message sent successfully",

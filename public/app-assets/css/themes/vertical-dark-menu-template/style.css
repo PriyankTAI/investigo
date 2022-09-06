@@ -8601,7 +8601,8 @@ span.badge.pill
     font-size: 1.2rem;
 
     position: relative;
-    top: 4px;
+    /* top: 4px; */
+    top: 2px;
 
     display: inline-block;
 

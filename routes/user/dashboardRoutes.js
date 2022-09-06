@@ -8,6 +8,7 @@ const checkUser = require('../../middleware/authMiddleware');
 const User = require('../../models/userModel');
 const Order = require('../../models/orderModel');
 const Withdraw = require('../../models/withdrawModel');
+const PaymentMethod = require('../../models/paymentMethodModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -92,7 +93,43 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
         console.log(error.message);
         next(error);
     }
-})
+});
+
+// GET payment methods
+router.get('/paymentMethod', checkUser, async (req, res, next) => {
+    try {
+        const paymentMethods = await PaymentMethod.find({ user: req.user.id });
+
+        res.json({
+            status: "success",
+            paymentMethods
+        });
+    } catch (error) {
+        console.log(error.message);
+        next(error);
+    }
+});
+
+// POST add payment method
+router.post('/paymentMethod', checkUser, async (req, res, next) => {
+    try {
+        await PaymentMethod.create({
+            user: req.user.id,
+            card: req.body.card,
+            expiry: req.body.expiry
+        });
+
+        // find and update user?
+
+        res.json({
+            status: "success",
+            message: "Payment method added."
+        });
+    } catch (error) {
+        console.log(error.message);
+        next(error);
+    }
+});
 
 // GET all orders
 router.get('/order', checkUser, async (req, res) => {
@@ -150,25 +187,49 @@ router.get('/transaction', checkUser, async (req, res, next) => {
 // withdraw request
 router.post('/withdraw', checkUser, async (req, res, next) => {
     try {
-        const order = await Order.findById(order).populate('package');
-        // calculate amount
-        // const amount = (1 + (order.package.annualReturn / 100)) * order.package.amount;
+        const order = await Order.findById(req.body.order).populate('package');
+        if (!order)
+            return next(createError.BadRequest('Invalid order id.'));
 
-        await Withdraw.create({
+        // check date
+        if (Date.now() < Date.parse(order.endDate.toJSON().substring(0, 10)))
+            return next(createError.BadRequest('Not yet available.'));
+
+        // calculate amount
+        const amount = Math.round(
+            (1 + (order.package.annualReturn / 100)) * order.amount
+        );
+
+        let withdraw = await Withdraw.create({
             user: req.user.id,
             order: req.body.order,
-            // amount,
-            // paymentMethod
-        })
+            paymentMethod: req.body.paymentMethod,
+            amount
+        });
+        withdraw = await withdraw.populate('user');
+
+        // notify with socket.io
+        io.emit('withdraw', withdraw);
+
+        // set order to withdrawn
+        order.withdrawn = true;
+        await order.save();
 
         res.status(201).json({
             status: "success",
             message: "Withdraw request created."
         })
     } catch (error) {
+        if (error.code === 11000)
+            return next(createError.BadRequest('Withdraw already requested for this order.'));
         console.log(error);
         next(error);
     }
 })
 
 module.exports = router;
+
+// to check date
+// today.setHours(0, 0, 0, 0);
+// date.toJSON().substring(0,10)
+// console.log(Date.now() > Date.parse('2022-09-03T00:00:00.000+00:00'));

@@ -83,12 +83,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-
-// io middleware
-app.use('/contact', (req, res, next) => {
-    req.io = io;
-    next()
-});
+global.io = io;
 
 // Development logging
 // if (process.env.NODE_ENV === 'development') {
@@ -112,6 +107,7 @@ app.use(function (req, res, next) {
 app.use('/admin', require('./routes/admin/adminRoutes'));
 app.use('/admin/cms', require('./routes/admin/adminCmsPages'));
 app.use('/admin/user', require('./routes/admin/adminUser'));
+app.use('/admin/withdraw', require('./routes/admin/adminWithdraw'));
 app.use('/admin/message', require('./routes/admin/adminMessages'));
 app.use('/admin/application', require('./routes/admin/adminApplication'));
 app.use('/admin/package', require('./routes/admin/adminPackage'));
@@ -124,9 +120,14 @@ app.get('/lang', (req, res) => {
     res.send(req.t('home.title'));
 });
 
+// 404 uploads
+app.all('/uploads/*', (req, res) => {
+    res.status(404).render("404", { message: 'File not found!' });
+});
+
 // 404 admin
 app.all('/admin/*', (req, res) => {
-    res.render("404");
+    res.status(404).render("404", { message: `Page not found!` });
 });
 
 // 404
@@ -138,10 +139,10 @@ app.all('*', (req, res, next) => {
 app.use((error, req, res, next) => {
     // console.log(error);
     if (req.originalUrl.startsWith('/admin')) {
-        req.flash('red', error.message);
-        if (req.originalUrl.startsWith('/admin/project/gallery/'))
+        if (req.originalUrl.startsWith('/admin/project/gallery/')) {
+            req.flash('red', error.message);
             return res.redirect(`/admin/project/gallery/${req._params.id}`);
-        return res.redirect(req.originalUrl);
+        }
     }
 
     if (error.name === "ValidationError") {

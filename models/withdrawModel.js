@@ -7,14 +7,19 @@ const withdrawSchema = new mongoose.Schema({
     },
     order: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Order'
+        ref: 'Order',
+        required: [true, 'Withdraw request must belong to a order.'],
+        unique: true
     },
     amount: Number,
     date: {
         type: Date,
         default: Date.now()
     },
-    paymentMethod: String // change as requirement
-})
+    paymentMethod: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'PaymentMethod'
+    }
+});
 
 module.exports = new mongoose.model("Withdraw", withdrawSchema);

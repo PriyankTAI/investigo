@@ -89,54 +89,74 @@
                                                     <td><%= user.email %></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>userId:</td>
+                                                    <td>UserId:</td>
                                                     <td><%= user.userId %></td>
                                                 </tr>
                                                 <% if (user.national) { %>
-                                                    <tr>
-                                                        <td>National number:</td>
-                                                        <td><%= user.national %></td>
-                                                    </tr>
+                                                <tr>
+                                                    <td>National number:</td>
+                                                    <td><%= user.national %></td>
+                                                </tr>
                                                 <% } %>
                                                 <% if (user.phone) { %>
-                                                    <tr>
-                                                        <td>Phone number:</td>
-                                                        <td><%= user.phone %></td>
-                                                    </tr>
+                                                <tr>
+                                                    <td>Phone number:</td>
+                                                    <td><%= user.phone %></td>
+                                                </tr>
                                                 <% } %>
                                                 <% if (user.youAre) { %>
-                                                    <tr>
-                                                        <td>User type:</td>
-                                                        <td><%= user.youAre %></td>
-                                                    </tr>
+                                                <tr>
+                                                    <td>User type:</td>
+                                                    <td><%= user.youAre %></td>
+                                                </tr>
                                                 <% } %>
                                             </tbody>
                                         </table>
 
+                                        <% if (paymentMethods.length > 0) { %>
+                                        <h6 class="mb-1 mt-2">Payment methods</h6>
+                                        <table class="striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Card number</th>
+                                                    <th>Expiry</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% for( let i = 0; i < paymentMethods.length; i++ ) { %>
+                                                <tr>
+                                                    <td><%= paymentMethods[i].card %></td>
+                                                    <td><%= paymentMethods[i].expiry %></td>
+                                                </tr>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                        <% } %>
+
                                         <% if (user.instagram || user.website || user.linkedin) { %>
-                                            <h6 class="mb-2 mt-2"><i class="material-icons">link</i> Social Links</h6>
-                                            <table class="striped">
-                                                <tbody>
-                                                    <% if (user.instagram) { %>
-                                                        <tr>
-                                                            <td>Instagram:</td>
-                                                            <td><a href="<%= user.instagram %>"><%= user.instagram %></a></td>
-                                                        </tr>
-                                                    <% } %>
-                                                    <% if (user.linkedin) { %>
-                                                        <tr>
-                                                            <td>Linkedin:</td>
-                                                            <td><a href="<%= user.linkedin %>"><%= user.linkedin %></a></td>
-                                                        </tr>
-                                                    <% } %>
-                                                    <% if (user.website) { %>
-                                                        <tr>
-                                                            <td>Website:</td>
-                                                            <td><a href="<%= user.website %>"><%= user.website %></a></td>
-                                                        </tr>
-                                                    <% } %>
-                                                </tbody>
-                                            </table>
+                                        <h6 class="mb-2 mt-2"><i class="material-icons">link</i> Social Links</h6>
+                                        <table class="striped">
+                                            <tbody>
+                                                <% if (user.instagram) { %>
+                                                <tr>
+                                                    <td>Instagram:</td>
+                                                    <td><a href="<%= user.instagram %>"><%= user.instagram %></a></td>
+                                                </tr>
+                                                <% } %>
+                                                <% if (user.linkedin) { %>
+                                                <tr>
+                                                    <td>Linkedin:</td>
+                                                    <td><a href="<%= user.linkedin %>"><%= user.linkedin %></a></td>
+                                                </tr>
+                                                <% } %>
+                                                <% if (user.website) { %>
+                                                <tr>
+                                                    <td>Website:</td>
+                                                    <td><a href="<%= user.website %>"><%= user.website %></a></td>
+                                                </tr>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
                                         <% } %>
 
                                         <% if (orders.length > 0) { %>
@@ -156,13 +176,13 @@
                                                         </thead>
                                                         <tbody>
                                                             <% for( let i=0; i < orders.length; i++ ) { %>
-                                                                <tr>
-                                                                    <td><%= i+1 %></td>
-                                                                    <td><%= orders[i].package.title %></td>
-                                                                    <td><%= orders[i].project.title %></td>
-                                                                    <td><%= orders[i].orderDate.toDateString() %></td>
-                                                                    <td><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
-                                                                </tr>
+                                                            <tr>
+                                                                <td><%= i+1 %></td>
+                                                                <td><%= orders[i].package.title %></td>
+                                                                <td><%= orders[i].project.title %></td>
+                                                                <td><%= orders[i].orderDate.toDateString() %></td>
+                                                                <td><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
+                                                            </tr>
                                                             <% } %>
                                                         </tbody>
                                                     </table>
@@ -208,4 +228,5 @@
     <!-- END PAGE LEVEL JS-->
 </body>
 <%- include('_layouts/alert') %>
+
 </html>

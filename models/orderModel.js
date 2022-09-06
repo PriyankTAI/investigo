@@ -24,6 +24,10 @@ const orderSchema = new mongoose.Schema({
         required: [true, 'Please provide paymentIntent id.'],
         unique: true
     },
+    withdrawn: {
+        type: Boolean,
+        default: false
+    },
     endDate: Date,
     paymentType: String,
     amount: Number,

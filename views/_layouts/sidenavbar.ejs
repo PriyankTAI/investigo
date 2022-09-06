@@ -17,24 +17,14 @@
                     <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none</i></a>
                         <ul class="dropdown-content" id="notifications-dropdown" tabindex="0">
                             <li tabindex="0">
-                                <h6>NOTIFICATIONS<a class="right" href="javascript:void(0);" style="color: #03a9f4;">view all</a></h6>
+                                <h6>NOTIFICATIONS<a class="right" href="/admin/withdraw" style="color: #03a9f4;">view all</a></h6>
                             </li>
                             <li class="divider" tabindex="0"></li>
-                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle cyan small">message</span> A new order has been placed!</a>
-                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
-                            </li>
-                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle red small">stars</span> Completed the task</a>
-                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">3 days ago</time>
-                            </li>
-                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">settings</span> Settings updated</a>
-                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">4 days ago</time>
-                            </li>
-                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle deep-orange small">today</span> Director meeting started</a>
-                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>
-                            </li>
-                            <li tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle amber small">trending_up</span> Generate monthly report</a>
-                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
-                            </li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
                         </ul>
                     </li>
                     <li>
@@ -172,6 +162,12 @@
             </a>
         </li>
         <li class="bold">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/withdraw') ? 'active' : '' %>" href="/admin/withdraw">
+                <i class="material-icons">account_balance_wallet</i>
+                <span class="menu-title">Withdraw requests</span>
+            </a>
+        </li>
+        <li class="bold">
             <a class="waves-effect waves-cyan <%= url.startsWith('/admin/message') ? 'active' : '' %>" href="/admin/message">
                 <i class="material-icons">message</i>
                 <span class="menu-title">User Messages</span>
@@ -206,11 +202,23 @@
     </ul>
     <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
 </aside>
-<!-- <script>
-    const bellIcon = document.querySelector('.notification-button')
+<script>
+    const bellIcon = document.querySelector('.notification-button');
+    const ul = document.querySelector('#notifications-dropdown');
     bellIcon.addEventListener('click', async e => {
         const response = await fetch('/admin/notification');
         const data = await response.json();
-        console.log(data);
+        const elements = document.getElementsByClassName('notification');
+        console.log(elements);
+        while (elements.length > 0) {
+            elements[0].parentNode.removeChild(elements[0]);
+        }
+        data.withdraws.forEach(element => {
+            let z = document.createElement('li');
+            z.className = "notification";
+            z.tabIndex = "0"
+            z.innerHTML = `<a class="black-text" href="/admin/withdraw/${element._id}"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> Withdraw request by ${element.user.fname} ${element.user.lname}</a>`;
+            ul.appendChild(z);
+        });
     })
-</script> -->
+</script>

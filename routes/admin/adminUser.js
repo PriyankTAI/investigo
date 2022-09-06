@@ -4,6 +4,7 @@ const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const User = require('../../models/userModel');
 const Order = require('../../models/orderModel');
+const PaymentMethod = require('../../models/paymentMethodModel');
 
 // Get all user
 // router.get('/', checkAdmin, async (req, res) => {
@@ -37,12 +38,13 @@ router.get('/', checkAdmin, async (req, res) => {
 // GET user by id
 router.get('/:id', checkAdmin, async (req, res) => {
     try {
-        const [user, orders] = await Promise.all([
+        const [user, paymentMethods, orders] = await Promise.all([
             User.findById(req.params.id),
+            PaymentMethod.find({ user: req.params.id }),
             Order.find({ user: req.params.id })
                 .populate('project package')
                 .sort('-_id')
-        ])
+        ]);
 
         if (user == null) {
             req.flash('red', 'User not found!');
@@ -52,8 +54,9 @@ router.get('/:id', checkAdmin, async (req, res) => {
         res.render('user_view', {
             user,
             orders,
+            paymentMethods,
             image: req.admin.image
-        })
+        });
     } catch (error) {
         if (error.name === 'CastError') {
             req.flash('red', `User not found!`);

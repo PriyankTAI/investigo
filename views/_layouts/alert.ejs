@@ -1,11 +1,15 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket = io();
-    // socket.on("connect", () => {
-    //     console.log(socket.id);
-    // });
-    socket.on("msg", (msg) => {
-        // console.log(msg);
-        M.toast({ html: `<span>${msg.message}<br>-${msg.fname} ${msg.lname}</span>` })
-    })
+    socket.on("msg", msg => {
+        M.toast({
+            html: `<span>${msg.message}<br>-${msg.fname} ${msg.lname}</span>`
+        });
+    });
+    socket.on("withdraw", data => {
+        console.log(data);
+        M.toast({
+            html: `<span>Withdraw request by ${data.user.fname} ${data.user.lname}</span>`
+        });
+    });
 </script>

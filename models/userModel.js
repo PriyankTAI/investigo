@@ -65,6 +65,10 @@ const userSchema = new mongoose.Schema({
     website: String,
     announcements: Boolean,
     feedback: Boolean,
+    // paymentMethod: [{
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'PaymentMethod',
+    // }],
     date: {
         type: Date,
         default: Date.now()

@@ -5,8 +5,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Application | Investigo</title>
+    <meta user.name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>Withdraw requests | Investigo</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -39,12 +39,12 @@
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Applications</span></h5>
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Withdraw requests</span></h5>
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
                             <ol class="breadcrumbs mb-0">
                                 <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                <li class="breadcrumb-item active">Applications</li>
+                                <li class="breadcrumb-item active">Withdraw requests</li>
                             </ol>
                         </div>
                     </div>
@@ -53,13 +53,11 @@
             <div class="col s12">
                 <div class="container">
                     <div class="section section-data-tables">
-                        <!-- Page Length Options -->
                         <div class="row">
                             <div class="col s12">
                                 <div class="card">
                                     <div class="card-content">
-                                        <!-- <h4 class="card-title">Applications</h4> -->
-                                        <!-- errors -->
+                                        <%# errors %>
                                         <%- messages('messages', locals) %>
                                         <div class="row">
                                             <div class="col s12 overflow">
@@ -67,24 +65,32 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Sr</th>
-                                                            <th>Name</th>
-                                                            <th>Email</th>
-                                                            <th>Phone</th>
-                                                            <th>Date</th>
+                                                            <th>User name</th>
+                                                            <th>UserId</th>
+                                                            <th>Amount</th>
+                                                            <th>Card</th>
+                                                            <th>Expiry</th>
+                                                            <!-- <th>Date and Time</th> -->
                                                             <th>View</th>
+                                                            <!-- <th>Action</th> -->
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <% for( let i=0; i < applications.length; i++ ) { %>
+                                                        <% for( let i=0; i < withdraws.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td><%= applications[i].fname + " " + applications[i].lname %></td>
-                                                            <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= applications[i].email %></td>
-                                                            <td><%= applications[i].phone %></td>
-                                                            <td><%= applications[i].date.toLocaleDateString('en-GB') %></td>
+                                                            <td><%= withdraws[i].user.fname + " " + withdraws[i].user.lname %></td>
+                                                            <td><%= withdraws[i].user.userId %></td>
+                                                            <td><%= withdraws[i].amount %></td>
+                                                            <td><%= withdraws[i].paymentMethod.card %></td>
+                                                            <td><%= withdraws[i].paymentMethod.expiry %></td>
+                                                            <!-- <td><% withdraws[i].date.toLocaleDateString('en-GB', { hour: "2-digit", minute: "2-digit", hour12: true }) %></td> -->
                                                             <td>
-                                                                <a href="/admin/application/<%= applications[i].id %>"><i class="material-icons">remove_red_eye</i></a>
+                                                                <a href="/admin/withdraw/<%= withdraws[i].id %>"><i class="material-icons">remove_red_eye</i></a>
                                                             </td>
+                                                            <!-- <td>
+                                                                <a href="#" class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2">Paid</a>
+                                                            </td> -->
                                                         </tr>
                                                         <% } %>
                                                     </tbody>
