@@ -17,7 +17,7 @@ router.get('/', checkAdmin, async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.send(error.message)
+        res.send(error.message);
     }
 });
 

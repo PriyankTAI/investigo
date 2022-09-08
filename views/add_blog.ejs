@@ -54,23 +54,30 @@
                                     <div class="card-content">
                                         <div class="row">
                                             <div class="col s12">
-                                                <div class="col s12 mb-3">
+                                                <!-- <div class="col s12 mb-3">
                                                     <ul class="tabs">
                                                         <li class="tab col s3"><a href="#test1">English</a></li>
                                                         <li class="tab col s3"><a href="#test2">French</a></li>
                                                     </ul>
-                                                </div>
+                                                </div> -->
                                                 <%# errors %>
                                                 <%- messages('messages', locals) %>
                                                 <form method="POST" onsubmit="validate()" action="/admin/blog/add" id="form" enctype="multipart/form-data">
                                                     <div class="input-field col m6 s12">
-                                                        <input placeholder="Title" id="title" name="title" type="text">
+                                                        <input placeholder="English Title" id="title" name="title" type="text">
                                                         <small>
                                                             <div id="error1" class="error"></div>
                                                         </small>
                                                         <label for="title">Title</label>
                                                     </div>
                                                     <div class="input-field col m6 s12">
+                                                        <input placeholder="French Title" id="title" name="title" type="text">
+                                                        <small>
+                                                            <div id="error1" class="error"></div>
+                                                        </small>
+                                                        <label for="title">Title</label>
+                                                    </div>
+                                                    <div class="input-field col s12">
                                                         <select id="cat" name="category">
                                                             <option value="">Select category</option>
                                                             <option value="News">News</option>
@@ -83,7 +90,14 @@
                                                         </small>
                                                     </div>
                                                     <div class="input-field col s12">
-                                                        <textarea id="textarea2" class="materialize-textarea" name="description" placeholder="Enter description here"></textarea>
+                                                        <textarea id="textarea2" class="materialize-textarea" name="description" placeholder="Enter description in English"></textarea>
+                                                        <label for="textarea2">Description</label>
+                                                        <small>
+                                                            <div id="error3" class="error"></div>
+                                                        </small>
+                                                    </div>
+                                                    <div class="input-field col s12">
+                                                        <textarea id="textarea2" class="materialize-textarea" name="description" placeholder="Enter description in French"></textarea>
                                                         <label for="textarea2">Description</label>
                                                         <small>
                                                             <div id="error3" class="error"></div>
@@ -97,7 +111,7 @@
                                                         </small>
                                                     </div>
 
-                                                    <div id="test1" class="col s12">
+                                                    <!-- <div id="test1" class="col s12">
                                                         <div class="input-field">
                                                             Content
                                                             <textarea name="content" class="form-control ta" id="ta1" cols="30" rows="10" placeholder="content">lorem</textarea>
@@ -108,7 +122,7 @@
                                                             Content
                                                             <textarea name="contentFr" class="form-control ta" id="ta2" cols="30" rows="10" placeholder="content">ipsum</textarea>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="input-field col m12 s12">
                                                         <input placeholder="" id="form-tags-1" name="tags" type="text" value="">
                                                         <label for="form-tags-1_tag" style="top: -5px;">Tags</label>

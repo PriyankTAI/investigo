@@ -20,11 +20,11 @@
                                 <h6>NOTIFICATIONS<a class="right" href="/admin/withdraw" style="color: #03a9f4;">view all</a></h6>
                             </li>
                             <li class="divider" tabindex="0"></li>
-                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
-                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
-                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
-                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
-                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> A new order has been placed!</a></li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> Loading....</a></li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> Loading....</a></li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> Loading....</a></li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> Loading....</a></li>
+                            <li class="notification" tabindex="0"><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> Loading....</a></li>
                         </ul>
                     </li>
                     <li>
@@ -38,7 +38,6 @@
                             </span>
                         </a>
                     </li>
-
                 </ul>
                 <ul class="dropdown-content" id="profile-dropdown">
                     <li>
@@ -209,7 +208,6 @@
         const response = await fetch('/admin/notification');
         const data = await response.json();
         const elements = document.getElementsByClassName('notification');
-        console.log(elements);
         while (elements.length > 0) {
             elements[0].parentNode.removeChild(elements[0]);
         }

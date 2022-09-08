@@ -136,8 +136,8 @@ router.get('/order', checkUser, async (req, res) => {
     try {
         const orders = await Order.find({ user: req.user.id })
             .populate('project', 'title image')
-            .populate('package', 'title monthlyReturn')
-            .select('paymentType orderDate amount endDate');
+            .populate('package', 'title monthlyReturn dailyReturn annualReturn')
+            .select('paymentType orderDate amount endDate withdrawn');
         res.json({
             status: "success",
             total: orders.length,

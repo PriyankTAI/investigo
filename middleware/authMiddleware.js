@@ -19,6 +19,8 @@ const checkUser = function (req, res, next) {
 
                 if (!user)
                     return next(createError.Unauthorized("Please login first"));
+                    
+                // if token in db
 
                 if (user.blocked == true)
                     return next(createError.Unauthorized("Sorry! You are blocked, Please contact Admin."));

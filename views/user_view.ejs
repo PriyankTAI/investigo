@@ -81,32 +81,32 @@
                                         <table class="striped">
                                             <tbody>
                                                 <tr>
-                                                    <td>Name:</td>
+                                                    <th style="width: 200px;">Name:</th>
                                                     <td><%= user.fname + " " + user.lname %></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>E-mail:</td>
+                                                    <th>E-mail:</th>
                                                     <td><%= user.email %></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>UserId:</td>
+                                                    <th>UserId:</th>
                                                     <td><%= user.userId %></td>
                                                 </tr>
                                                 <% if (user.national) { %>
                                                 <tr>
-                                                    <td>National number:</td>
+                                                    <th>National number:</th>
                                                     <td><%= user.national %></td>
                                                 </tr>
                                                 <% } %>
                                                 <% if (user.phone) { %>
                                                 <tr>
-                                                    <td>Phone number:</td>
+                                                    <th>Phone number:</th>
                                                     <td><%= user.phone %></td>
                                                 </tr>
                                                 <% } %>
                                                 <% if (user.youAre) { %>
                                                 <tr>
-                                                    <td>User type:</td>
+                                                    <th>User type:</th>
                                                     <td><%= user.youAre %></td>
                                                 </tr>
                                                 <% } %>
@@ -118,7 +118,7 @@
                                         <table class="striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Card number</th>
+                                                    <th style="width: 200px;">Card number</th>
                                                     <th>Expiry</th>
                                                 </tr>
                                             </thead>
@@ -193,7 +193,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <a href="/admin/user" class="btn btn-danger mt-2" style="margin-left: 15px;">Back</a>
+                                    <a onclick="history.back()" class="btn btn-danger mt-2" style="margin-left: 15px;">Back</a>
                                 </div>
                             </div>
                         </div>

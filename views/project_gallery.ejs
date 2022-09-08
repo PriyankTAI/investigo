@@ -79,7 +79,7 @@
                             <% for( let i = 0; i < project.gallery.length; i++ ) { %>
                             <div class="col s12 m3 grid">
                                 <figure class="effect-zoe z-depth-2">
-                                    <img src="<%= project.gallery[i] %>" alt="gallery image" />
+                                    <img src="<%= project.gallery[i] %>" alt="gallery image" onerror="this.onerror=null; this.src='/uploads/no_image_available_416x242.jpg';" />
                                     <figcaption>
                                         <p class="icon-links">
                                             <a href="/admin/project/gallery/<%= project.id %>/delete/<%= i %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
