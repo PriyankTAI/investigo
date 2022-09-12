@@ -69,13 +69,13 @@ router.get('/', checkAdmin, async (req, res) => {
         var newInterest = 0;
         var second = Date.now();
         for (let i = 0; i < orders.length; i++) {
-            if (orders[i].withdrawn) {
+            var first = Date.parse(orders[i].orderDate.toJSON().substring(0, 10));
+            var days = Math.round((second - first) / (1000 * 60 * 60 * 24));
+            if (days >= 365) {
                 // calculate yearly interest
                 var value = (orders[i].package.annualReturn / 100) * orders[i].amount;
             } else {
                 // calculate daily interest * days
-                var first = Date.parse(orders[i].orderDate.toJSON().substring(0, 10));
-                var days = Math.round((second - first) / (1000 * 60 * 60 * 24));
                 var value = (orders[i].package.dailyReturn * days / 100) * orders[i].amount;
                 // today's interest
                 newInterest += (orders[i].package.dailyReturn / 100) * orders[i].amount;

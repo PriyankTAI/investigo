@@ -96,6 +96,11 @@
                                                                 <label for="totalAmount">Total amount</label>
                                                             </div>
                                                             <div class="input-field col m6 s12">
+                                                                <input placeholder="City" id="city" name="city" type="text">
+                                                                <small><div id="cityErr" class="error"></div></small>
+                                                                <label for="city">City</label>
+                                                            </div>
+                                                            <div class="input-field col m12 s12">
                                                                 <input placeholder="Location" id="location" name="location" type="text">
                                                                 <small><div id="error6" class="error"></div></small>
                                                                 <label for="location">Location</label>
@@ -110,15 +115,20 @@
                                                                 <small><div id="error9" class="error"></div></small>
                                                                 <label for="lng">Longitude</label>
                                                             </div>
-                                                            <div class="input-field col m6 s12">
+                                                            <div class="input-field col m4 s12">
                                                                 Upload image
                                                                 <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required/>
                                                                 <small><div id="error7" class="error"></div></small>
                                                             </div>
-                                                            <div class="input-field col m6 s12">
+                                                            <div class="input-field col m4 s12">
                                                                 Upload gallery images
-                                                                <input type="file" accept="image/png, image/jpeg" name="gallery" class="dropify" data-disable-remove="true" multiple required/>
+                                                                <input type="file" accept="image/png, image/jpeg" name="gallery" class="dropify" data-disable-remove="true" multiple/>
                                                                 <small><div id="error7" class="error"></div></small>
+                                                            </div>
+                                                            <div class="input-field col m4 s12">
+                                                                Upload icon
+                                                                <input type="file" accept="image/png, image/jpeg" name="icon" id="icon" class="dropify" data-disable-remove="true" required/>
+                                                                <small><div id="iconErr" class="error"></div></small>
                                                             </div>
                                                             <button type="submit" class="btn purple ml-1">Submit</button>
                                                             <a href="/admin/project" class="btn btn-danger">Cancel</a>
@@ -145,6 +155,7 @@
             const descriptionC = document.getElementById('description');
             const amountC = document.getElementById('totalAmount');
             const locationC = document.getElementById('location');
+            const cityC = document.getElementById('city');
             const latC = document.getElementById('lat');
             const lngC = document.getElementById('lng');
 
@@ -160,10 +171,13 @@
                 const descriptionValue = descriptionC.value.trim();
                 const amountValue = amountC.value.trim();
                 const locationValue = locationC.value.trim();
+                const cityValue = cityC.value.trim();
                 const lat = latC.value.trim();
                 const lng = lngC.value.trim();
                 const filevalue = document.getElementById('input-file-now').value;
                 const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
+                const iconvalue = document.getElementById('icon').value;
+                const iconExt = iconvalue.substring(iconvalue.lastIndexOf('.') + 1);
 
                 if (titleValue == '') {
                     document.getElementById('error1').innerText = 'Please enter title.';
@@ -207,10 +221,24 @@
                     document.getElementById('error6').innerText = '';
                 }
 
+                if (cityValue == '') {
+                    document.getElementById('cityErr').innerText = 'Please enter city.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('cityErr').innerText = '';
+                }
+
                 if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
                     document.getElementById('error7').innerText = '';
                 } else {
                     document.getElementById('error7').innerText = 'Wrong file type.';
+                    returnVal = false;
+                }
+
+                if (iconExt == 'png' || iconExt == 'jpeg' || iconExt == 'jpg') {
+                    document.getElementById('iconErr').innerText = '';
+                } else {
+                    document.getElementById('iconErr').innerText = 'Wrong file type.';
                     returnVal = false;
                 }
 

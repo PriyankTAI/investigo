@@ -34,7 +34,15 @@ const projectSchema = mongoose.Schema({
         type: String,
         required: [true, 'Image is required'],
     },
+    icon: {
+        type: String,
+        required: [true, 'Icon is required'],
+    },
     gallery: [String],
+    city: {
+        type: String,
+        required: [true, 'City is required'],
+    },
     location: {
         type: String,
         required: [true, 'Location is required'],

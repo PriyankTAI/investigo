@@ -72,7 +72,7 @@
                                                             <th>Expiry</th>
                                                             <!-- <th>Date and Time</th> -->
                                                             <th>View</th>
-                                                            <!-- <th>Action</th> -->
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -88,9 +88,13 @@
                                                             <td>
                                                                 <a href="/admin/withdraw/<%= withdraws[i].id %>"><i class="material-icons">remove_red_eye</i></a>
                                                             </td>
-                                                            <!-- <td>
-                                                                <a href="#" class="waves-effect border-round waves-light btn gradient-45deg-green-teal mr-1 mb-2">Paid</a>
-                                                            </td> -->
+                                                            <td>
+                                                                <% if (withdraws[i].status == 'paid') { %>
+                                                                <span class="chip myBadge">paid</span>
+                                                                <% } else { %>
+                                                                <a href="/admin/withdraw/paid/<%= withdraws[i].id %>" class="waves-effect border-round waves-light btn blue mr-1 mb-2" onclick="return confirm('Are you sure?');">Paid</a>
+                                                                <% } %>
+                                                            </td>
                                                         </tr>
                                                         <% } %>
                                                     </tbody>

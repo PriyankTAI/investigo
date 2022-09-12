@@ -137,9 +137,9 @@ app.all('*', (req, res, next) => {
 
 // error handler
 app.use((error, req, res, next) => {
-    // console.log(error);
+    // console.log(error.name);
     if (req.originalUrl.startsWith('/admin')) {
-        if (req.originalUrl.startsWith('/admin/project/gallery/')) {
+        if (req.originalUrl.startsWith('/admin/project/gallery/') && req._params) {
             req.flash('red', error.message);
             return res.redirect(`/admin/project/gallery/${req._params.id}`);
         }
@@ -150,6 +150,20 @@ app.use((error, req, res, next) => {
         Object.keys(error.errors).forEach((key) => {
             errors[key] = error.errors[key].message;
             // errors[key] = req.t(error.errors[key].message);
+        });
+        return res.status(400).send({
+            status: "fail",
+            errors
+        });
+    }
+
+    if (error.name == "BadRequestError" && error.message.errors) {
+        let errors = {};
+        Object.keys(error.message.errors).forEach((key) => {
+            let myKey = key;
+            if (myKey.includes('.')) myKey = myKey.split('.').pop();
+            errors[myKey] = error.message.errors[key].message;
+            // errors[key] = req.t(error.message.errors[key].message);
         });
         return res.status(400).send({
             status: "fail",

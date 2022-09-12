@@ -41,9 +41,9 @@ router.post("/register", async (req, res, next) => {
             password: req.body.password,
             userId: id,
             youAre: req.body.youAre
-        })
-        const token = await user.generateAuthToken();
-        await user.save();
+        });
+        const token = await user.generateAuthToken(req.body.device);
+        // await user.save();
         res.status(200).json({ status: "success", token, user });
     } catch (error) {
         console.log(error.message);
@@ -62,7 +62,7 @@ router.post("/register", async (req, res, next) => {
 // POST login
 router.post("/login", async (req, res, next) => {
     try {
-        const { email, password, googleId, facebookId } = req.body;
+        const { email, password, googleId, facebookId, device } = req.body;
         const userExist = await User.findOne({ email }).select('-__v -blocked -secret');
         if (password) { // password
             if (!userExist) {
@@ -83,8 +83,8 @@ router.post("/login", async (req, res, next) => {
             if (userExist.twofa) {
                 return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
             }
-            const token = await userExist.generateAuthToken();
-            return res.status(200).json({ status: "success", token, user: userExist })
+            const token = await userExist.generateAuthToken(device);
+            return res.status(200).json({ status: "success", token, user: userExist });
         } else if (googleId) { // google
             if (userExist) {
                 if (!userExist.googleId) {
@@ -101,8 +101,8 @@ router.post("/login", async (req, res, next) => {
                 if (userExist.twofa) {
                     return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
                 }
-                const token = await userExist.generateAuthToken();
-                return res.status(200).json({ status: "success", token, user: userExist })
+                const token = await userExist.generateAuthToken(device);
+                return res.status(200).json({ status: "success", token, user: userExist });
             } else {
                 const id = customId({});
                 const user = new User({
@@ -112,9 +112,9 @@ router.post("/login", async (req, res, next) => {
                     userId: id,
                     googleId,
                 })
-                const token = await user.generateAuthToken();
-                await user.save();
-                return res.status(200).json({ status: "success", token, user })
+                const token = await user.generateAuthToken(device);
+                // await user.save();
+                return res.status(200).json({ status: "success", token, user });
             }
         } else if (facebookId) { // facebook
             if (userExist) {
@@ -132,8 +132,8 @@ router.post("/login", async (req, res, next) => {
                 if (userExist.twofa) {
                     return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
                 }
-                const token = await userExist.generateAuthToken();
-                return res.status(200).json({ status: "success", token, user: userExist })
+                const token = await userExist.generateAuthToken(device);
+                return res.status(200).json({ status: "success", token, user: userExist });
             } else {
                 const id = customId({});
                 const user = new User({
@@ -142,48 +142,83 @@ router.post("/login", async (req, res, next) => {
                     email: req.body.email,
                     userId: id,
                     facebookId
-                })
-                const token = await user.generateAuthToken();
-                await user.save();
-                return res.status(200).json({ status: "success", token, user })
+                });
+                const token = await user.generateAuthToken(device);
+                // await user.save();
+                return res.status(200).json({ status: "success", token, user });
             }
         } else {
             return next(createError.BadRequest(`Please provide password, googleId or facebookId.`));
         }
     } catch (error) {
-        console.log(error.message);
+        // console.log(error.message);
         if (error.keyValue && error.keyValue.userId) {
             return next(createError.InternalServerError('An error occured. Please try again.'));
         }
         next(error);
     }
-})
+});
 
 // POST login 2fa
 router.post("/two-factor-login", async (req, res, next) => {
     try {
-        const { email, code } = req.body;
+        const { email, code, device } = req.body;
         const user = await User.findOne({ email }).select('-__v -blocked -password');
-        if (!user.secret) {
+
+        if (!user)
+            return next(createError.BadRequest("Email not registered."));
+        if (!user.secret)
             return next(createError.BadRequest("Two factor authentication is not enabled!"));
-        }
 
         const verify = await user.verifyCode(code);
         if (!verify)
-            return res.status(401).json({
-                status: "fail",
-                message: "Fail to verify code!"
-            });
+            return next(createError.BadRequest("Fail to verify code!"));
 
-        const token = await user.generateAuthToken();
+        const token = await user.generateAuthToken(device);
         // hide secret
         user.secret = undefined;
         return res.status(200).json({ status: "success", token, user });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
-})
+});
+
+// POST logout
+router.get("/logout", checkUser, async (req, res, next) => {
+    try {
+        // remove this token
+        req.user.tokens = req.user.tokens.filter(e => {
+            return e.token !== req.token;
+        });
+        await req.user.save();
+        return res.status(200).json({
+            status: "success",
+            message: "logged out successfully."
+        });
+    } catch (error) {
+        // console.log(error);
+        next(error);
+    }
+});
+
+// POST logoutAll
+router.get("/logoutall", checkUser, async (req, res, next) => {
+    try {
+        // remove all token exept this
+        req.user.tokens = req.user.tokens.filter(e => {
+            return e.token === req.token;
+        });
+        await req.user.save();
+        return res.status(200).json({
+            status: "success",
+            message: "logged out other devices."
+        });
+    } catch (error) {
+        // console.log(error);
+        next(error);
+    }
+});
 
 // POST Change Pass
 router.post("/changepass", checkUser, async (req, res, next) => {
@@ -227,7 +262,7 @@ router.post("/changepass", checkUser, async (req, res, next) => {
         console.log(error.message);
         next(error);
     }
-})
+});
 
 // POST forgot pass
 router.post("/forgot", async (req, res, next) => {
@@ -256,7 +291,7 @@ router.post("/forgot", async (req, res, next) => {
         console.log(error);
         next(error);
     }
-})
+});
 
 // POST reset password
 router.post("/reset_pass", async (req, res, next) => {
@@ -276,22 +311,23 @@ router.post("/reset_pass", async (req, res, next) => {
         console.log(error);
         next(error);
     }
-})
+});
 
 // create secret and return qrcode
 router.get('/get-2fa-qr', checkUser, async (req, res, next) => {
     try {
         if (req.user.twofa)
-            return res.status(409).json({
-                status: "fail",
-                message: "Two factor authentication already enabled."
-            });
+            return next(createError.Conflict("Two factor authentication already enabled."));
 
         const email = req.user.email;
-        const secret = req.user.secret ? req.user.secret : authenticator.generateSecret();
 
-        // update and store secret in user
-        await User.findByIdAndUpdate(req.user.id, { secret });
+        let secret;
+        if (req.user.secret) {
+            secret = req.user.secret;
+        } else {
+            secret = authenticator.generateSecret();
+            await User.findByIdAndUpdate(req.user.id, { secret });
+        }
 
         // generate qr
         QRCode.toDataURL(authenticator.keyuri(email, 'Investigo', secret), (err, url) => {
@@ -301,12 +337,12 @@ router.get('/get-2fa-qr', checkUser, async (req, res, next) => {
             }
 
             res.json({ url });
-        })
+        });
     } catch (error) {
         console.log(error);
         next(error);
     }
-})
+});
 
 // enable 2fa
 router.post('/enable-2fa', checkUser, async (req, res, next) => {
@@ -314,18 +350,12 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
         const user = req.user;
 
         if (user.twofa)
-            return res.status(409).json({
-                status: "fail",
-                message: "Two factor authentication already enabled."
-            });
+            return next(createError.Conflict("Two factor authentication already enabled."));
 
         const verify = await user.verifyCode(req.body.code);
 
         if (!verify)
-            return res.status(401).json({
-                status: "fail",
-                message: "Fail to verify code!"
-            });
+            return next(createError.Conflict("Fail to verify code!"));
 
         // generate and store recovery code
         const recoveryCode = generateCode(8);
@@ -343,7 +373,35 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
         console.log(error);
         next(error);
     }
-})
+});
+
+// disable 2fa
+router.post("/disable-2fa", checkUser, async (req, res, next) => {
+    try {
+        const user = req.user;
+
+        if (!user.twofa)
+            return next(createError.Conflict("Two factor authentication already disabled."));
+
+        const verify = await user.verifyCode(req.body.code);
+
+        if (!verify)
+            return next(createError.Conflict("Fail to verify code!"));
+
+        user.secret = undefined;
+        user.recoveryCode = undefined;
+        user.twofa = undefined;
+        await user.save();
+
+        return res.json({
+            status: "Success",
+            message: "Two factor authentication disabled."
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
 
 // GET recover account
 router.post('/recover', async (req, res, next) => {
@@ -376,6 +434,6 @@ router.post('/recover', async (req, res, next) => {
         console.log(error);
         next(error);
     }
-})
+});
 
 module.exports = router;

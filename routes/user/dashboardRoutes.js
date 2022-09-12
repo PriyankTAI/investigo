@@ -182,7 +182,21 @@ router.get('/transaction', checkUser, async (req, res, next) => {
         console.log(error.message);
         next(error);
     }
-})
+});
+
+// get all withdraw
+router.get('/withdraw', checkUser, async (req, res, next) => {
+    try {
+        const withdraws = await Withdraw.find().sort({ _id: -1 });
+        res.json({
+            status: "success",
+            withdraws
+        })
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
 
 // withdraw request
 router.post('/withdraw', checkUser, async (req, res, next) => {
@@ -225,11 +239,6 @@ router.post('/withdraw', checkUser, async (req, res, next) => {
         console.log(error);
         next(error);
     }
-})
+});
 
 module.exports = router;
-
-// to check date
-// today.setHours(0, 0, 0, 0);
-// date.toJSON().substring(0,10)
-// console.log(Date.now() > Date.parse('2022-09-03T00:00:00.000+00:00'));

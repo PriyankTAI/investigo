@@ -45,7 +45,8 @@ router.get("/add", checkAdmin, async (req, res) => {
     if (!req.admin.name) {
         req.flash('orange', 'You should create your profile before adding a blog.');
     }
-    res.render("add_blog", { image: req.admin.image });
+    // res.render("add_blog", { image: req.admin.image });
+    res.render("add_blog_test", { image: req.admin.image });
 });
 
 // POST add blog

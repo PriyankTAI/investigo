@@ -19,7 +19,12 @@ const withdrawSchema = new mongoose.Schema({
     paymentMethod: {
         type: mongoose.Schema.ObjectId,
         ref: 'PaymentMethod'
-    }
+    },
+    status: {
+        type: String,
+        enum: ['Processing', 'Paid'],
+        default: 'Processing'
+    },
 });
 
 module.exports = new mongoose.model("Withdraw", withdrawSchema);

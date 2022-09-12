@@ -48,4 +48,22 @@ router.get('/:id', checkAdmin, async (req, res) => {
     }
 });
 
+// change status to paid
+router.get('/paid/:id', checkAdmin, async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Withdraw.findByIdAndUpdate(id, { status: 'paid' });
+        req.flash('green', 'Withdraw status changed to paid.');
+        res.redirect('/admin/withdraw');
+    } catch (error) {
+        if (error.name === 'CastError' || error.name === 'TypeError') {
+            req.flash('red', `Withdraw not found!`);
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+        }
+        res.redirect('/admin/withdraw');
+    }
+});
+
 module.exports = router;

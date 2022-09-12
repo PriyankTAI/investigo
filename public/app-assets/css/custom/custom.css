@@ -14,6 +14,19 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     overflow-x: auto;
 }
 
+.myBadge {
+	/* display: inline-block; */
+	font-size: 15px;
+	height: 36px;
+	line-height: 36px;
+	letter-spacing: .5px;
+	padding: 0 2rem;
+	text-transform: capitalize;
+	border-radius: 150px;
+    color: rgba(0, 0, 0, 0.8);
+	font-weight: 700;
+}
+
 @media only screen and (max-width: 600px) {
     .btn-breadcrumbs {
 		margin-top: 1rem;

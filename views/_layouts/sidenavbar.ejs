@@ -214,9 +214,9 @@
         data.withdraws.forEach(element => {
             let z = document.createElement('li');
             z.className = "notification";
-            z.tabIndex = "0"
+            z.tabIndex = "0";
             z.innerHTML = `<a class="black-text" href="/admin/withdraw/${element._id}"><span class="material-icons icon-bg-circle teal small">account_balance_wallet</span> Withdraw request by ${element.user.fname} ${element.user.lname}</a>`;
             ul.appendChild(z);
         });
-    })
+    });
 </script>

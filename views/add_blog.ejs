@@ -63,19 +63,39 @@
                                                 <%# errors %>
                                                 <%- messages('messages', locals) %>
                                                 <form method="POST" onsubmit="validate()" action="/admin/blog/add" id="form" enctype="multipart/form-data">
-                                                    <div class="input-field col m6 s12">
-                                                        <input placeholder="English Title" id="title" name="title" type="text">
-                                                        <small>
-                                                            <div id="error1" class="error"></div>
-                                                        </small>
-                                                        <label for="title">Title</label>
+                                                    <div class="col s6">
+                                                        <h4 class="card-title">English</h4>
+                                                        <div class="input-field">
+                                                            <input placeholder="English Title" id="title" name="title" type="text">
+                                                            <small>
+                                                                <div id="error1" class="error"></div>
+                                                            </small>
+                                                            <label for="title">Title</label>
+                                                        </div>
+                                                        <div class="input-field">
+                                                            <textarea id="textarea2" class="materialize-textarea" name="description" placeholder="Enter description in English"></textarea>
+                                                            <label for="textarea2">Description</label>
+                                                            <small>
+                                                                <div id="error3" class="error"></div>
+                                                            </small>
+                                                        </div>
                                                     </div>
-                                                    <div class="input-field col m6 s12">
-                                                        <input placeholder="French Title" id="title" name="title" type="text">
-                                                        <small>
-                                                            <div id="error1" class="error"></div>
-                                                        </small>
-                                                        <label for="title">Title</label>
+                                                    <div class="col s6">
+                                                        <h4 class="card-title">French</h4>
+                                                        <div class="input-field">
+                                                            <input placeholder="French Title" id="title" name="title" type="text">
+                                                            <small>
+                                                                <div id="error1" class="error"></div>
+                                                            </small>
+                                                            <label for="title">Title</label>
+                                                        </div>
+                                                        <div class="input-field">
+                                                            <textarea id="textarea2" class="materialize-textarea" name="description" placeholder="Enter description in French"></textarea>
+                                                            <label for="textarea2">Description</label>
+                                                            <small>
+                                                                <div id="error3" class="error"></div>
+                                                            </small>
+                                                        </div>
                                                     </div>
                                                     <div class="input-field col s12">
                                                         <select id="cat" name="category">
@@ -87,20 +107,6 @@
                                                         <label>Select category</label>
                                                         <small>
                                                             <div id="error5" class="error"></div>
-                                                        </small>
-                                                    </div>
-                                                    <div class="input-field col s12">
-                                                        <textarea id="textarea2" class="materialize-textarea" name="description" placeholder="Enter description in English"></textarea>
-                                                        <label for="textarea2">Description</label>
-                                                        <small>
-                                                            <div id="error3" class="error"></div>
-                                                        </small>
-                                                    </div>
-                                                    <div class="input-field col s12">
-                                                        <textarea id="textarea2" class="materialize-textarea" name="description" placeholder="Enter description in French"></textarea>
-                                                        <label for="textarea2">Description</label>
-                                                        <small>
-                                                            <div id="error3" class="error"></div>
                                                         </small>
                                                     </div>
                                                     <div class="input-field col s12">

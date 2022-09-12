@@ -44,6 +44,18 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
+    // last login
+    tokens: [{
+        token: String,
+        device: {
+            type: String,
+            required: [true, 'Device is required'],
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    }],
     secret: String,
     recoveryCode: String,
     twofa: Boolean,
@@ -77,16 +89,23 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-})
+});
 
 // generating tokens
-userSchema.methods.generateAuthToken = async function () {
+userSchema.methods.generateAuthToken = async function (device) {
     try {
-        const token = jwt.sign({ _id: this._id.toString() }, process.env.SECRET_KEY, { expiresIn: '90d' });
+        const token = jwt.sign(
+            { _id: this._id.toString() },
+            process.env.SECRET_KEY,
+            { expiresIn: '90d' }
+        );
+        this.tokens = this.tokens.concat({ token, device });
+        // this.lastLogin
+        await this.save();
         return token;
     } catch (error) {
-        console.log(error);
-        createError.BadRequest(error);
+        // console.log(error);
+        throw createError.BadRequest(error);
     }
 }
 

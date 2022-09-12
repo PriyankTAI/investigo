@@ -3,8 +3,11 @@
         "invalidToken": "Invalid token or expired.",
         "someError": "Some error occured!",
         "login": "Please login first.",
+        "loginAgain": "You are logged out, please login again.",
         "blocked": "Sorry! You are blocked, Please contact Admin.",
-        "provideToken": "Please Provide Auth token."
+        "provideToken": "Please Provide Auth token.",
+        "logout": "logged out successfully.",
+        "logoutAll": "logged out other devices."
     },
     "validation": {
         "fname": "First name is required.",
@@ -13,6 +16,7 @@
         "emailInvalid": "Email is Invalid.",
         "pass": "Email is required.",
         "passInvalid": "Password should be atleast 6 characters long.",
+        "device": "Device is required.",
         "phone": "Phone is required.",
         "subject": "Subject is required.",
         "message": "Message is required.",
