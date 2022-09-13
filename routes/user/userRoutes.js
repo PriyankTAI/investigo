@@ -85,6 +85,7 @@ router.get('/project/:id', async (req, res, next) => {
 // GET all blogs
 router.get('/blog', async (req, res, next) => {
     try {
+        console.log(req.headers['accept-language']);
         let blogs = await Blog.find()
             .select('-content -tags -creator -__v')
             .sort('-_id');

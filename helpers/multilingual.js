@@ -1,5 +1,9 @@
 module.exports = (doc, req) => {
-    const lang = doc[`${req.headers['accept-language'] || 'en'}`];
+    const accepted = ['en', 'fr'];
+    let language = accepted.includes(req.headers['accept-language'])
+        ? req.headers['accept-language']
+        : 'en';
+    const lang = doc[language];
     const newDoc = { ...doc._doc, ...lang }
     delete newDoc.en;
     delete newDoc.fr;
