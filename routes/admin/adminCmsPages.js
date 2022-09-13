@@ -46,8 +46,8 @@ router.post('/about_us', checkAdmin, [
 ], async function (req, res) {
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
-        req.flash('red', 'Content must have a value.')
-        return res.redirect('/admin/cms/about_us')
+        req.flash('red', 'Content must have a value.');
+        return res.redirect('/admin/cms/about_us');
     }
     try {
         const page = await Page.findOne({ title: 'About Us' })
@@ -81,8 +81,8 @@ router.post('/faqs', checkAdmin, [
 ], async function (req, res) {
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
-        req.flash('red', 'Content must have a value.')
-        return res.redirect('/admin/cms/faqs')
+        req.flash('red', 'Content must have a value.');
+        return res.redirect('/admin/cms/faqs');
     }
     try {
         const page = await Page.findOne({ title: 'FAQs' })
@@ -116,8 +116,8 @@ router.post('/terms_con', checkAdmin, [
 ], async function (req, res) {
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
-        req.flash('red', 'Content must have a values.')
-        return res.redirect('/admin/cms/terms_con')
+        req.flash('red', 'Content must have a values.');
+        return res.redirect('/admin/cms/terms_con');
     }
     try {
         const page = await Page.findOne({ title: 'Terms & Condition' })
@@ -151,8 +151,8 @@ router.post('/privacy_policy', checkAdmin, [
 ], async function (req, res) {
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
-        req.flash('red', 'Content must have a value.')
-        return res.redirect('/admin/cms/privacy_policy')
+        req.flash('red', 'Content must have a value.');
+        return res.redirect('/admin/cms/privacy_policy');
     }
     try {
         const page = await Page.findOne({ title: 'Privacy Policy' })
@@ -194,8 +194,8 @@ router.post('/contact', checkAdmin, [
 
         const validationErrors = validationResult(req)
         if (validationErrors.errors.length > 0) {
-            req.flash('red', validationErrors.errors[0].msg)
-            return res.redirect('/admin/cms/contact')
+            req.flash('red', validationErrors.errors[0].msg);
+            return res.redirect('/admin/cms/contact');
         }
         page.content = req.body.content || '';
         await page.save()
@@ -214,21 +214,21 @@ router.post('/contact', checkAdmin, [
 // uploader
 router.post('/upload', upload.single('upload'), async (req, res) => {
     try {
-        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname;
+        const filename = Date.now() + req.file.originalname;
         if (!fs.existsSync('./public/uploads/ckeditor')) {
             fs.mkdirSync('./public/uploads/ckeditor', { recursive: true });
         }
         await sharp(req.file.buffer)
             // .resize({ width: 1000, height: 723 })
             .toFile('./public/uploads/ckeditor/' + filename);
-        // res.send('/uploads/ckeditor/'+filename)
-        const url = `/uploads/ckeditor/${filename}`
-        const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}', "message");</script>`
-        res.send(send)
+
+        const url = `/uploads/ckeditor/${filename}`;
+        const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}');</script>`;
+        res.send(send);
     } catch (error) {
         res.send(error.message);
         console.log(error.message);
     }
-})
+});
 
 module.exports = router;

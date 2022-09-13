@@ -81,7 +81,7 @@
                                                                     <td><img src="<%= admins[i].image %>" alt="IMG" height="64" onerror="this.onerror=null; this.src='/uploads/default_user.jpg';"></td>
                                                                     <td><%= admins[i].name || 'Pending' %></td>
                                                                     <td><%= admins[i].email %></td>
-                                                                    <td><a href="/admin/admin/<%= admins[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
+                                                                    <td style="max-width: 60px;"><a href="/admin/admin/<%= admins[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                                 </tr>
                                                             <% } %>
                                                         </tbody>

@@ -85,7 +85,7 @@
                                                             <td><%= withdraws[i].paymentMethod.card %></td>
                                                             <td><%= withdraws[i].paymentMethod.expiry %></td>
                                                             <!-- <td><% withdraws[i].date.toLocaleDateString('en-GB', { hour: "2-digit", minute: "2-digit", hour12: true }) %></td> -->
-                                                            <td>
+                                                            <td style="max-width: 75px;">
                                                                 <a href="/admin/withdraw/<%= withdraws[i].id %>"><i class="material-icons">remove_red_eye</i></a>
                                                             </td>
                                                             <td>

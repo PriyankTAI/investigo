@@ -87,7 +87,9 @@
     <script>
         $(function(){
             if($('textarea#ta').length){
-                CKEDITOR.replace('ta');
+                CKEDITOR.replace('ta', {
+                    filebrowserUploadUrl: '/admin/cms/upload',
+                });
             }
             if($("[data-fancybox]").length){
                 $("[data-fancybox]").fancybox();

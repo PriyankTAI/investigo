@@ -79,7 +79,7 @@
                                                             <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= projects[i].description %></td>
                                                             <td><img src="<%= projects[i].image %>" alt="IMG" height="80" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
                                                             <td><%= projects[i].date.toLocaleDateString('en-GB') %></td>
-                                                            <td>
+                                                            <td style="max-width: 80px;">
                                                                 <a href="/admin/project/<%= projects[i].id %>"><i class="material-icons">remove_red_eye</i></a>
                                                                 <a href="/admin/project/edit/<%= projects[i].id %>"><i class="material-icons">create</i></a>
                                                                 <a href="/admin/project/gallery/<%= projects[i].id %>"><i class="material-icons">collections</i></a>

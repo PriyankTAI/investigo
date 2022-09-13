@@ -79,7 +79,7 @@
                                                             <td><%= blogs[i].category %></td>
                                                             <td><%= blogs[i].date.toLocaleDateString('en-GB') %></td>
                                                             <td><img src="<%= blogs[i].image %>" alt="IMG" width="100" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
-                                                            <td>
+                                                            <td style="max-width: 70px;">
                                                                 <a href="/admin/blog/edit/<%= blogs[i].id %>"><i class="material-icons">create</i></a>
                                                                 <a href="/admin/blog/delete/<%= blogs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                                                             </td>

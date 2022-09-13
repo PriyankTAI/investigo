@@ -87,7 +87,7 @@
                                                             <td><%= packages[i].annualReturn + '%' %></td>
                                                             <td><%= packages[i].term + ' months' %></td>
                                                             <td><img src="<%= packages[i].image %>" alt="IMG" height="80" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
-                                                            <td>
+                                                            <td style="max-width: 70px;">
                                                                 <a href="/admin/package/<%= packages[i].id %>"><i class="material-icons">remove_red_eye</i></a>
                                                                 <a href="/admin/package/edit/<%= packages[i].id %>"><i class="material-icons">create</i></a>
                                                             </td>

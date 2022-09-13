@@ -36,7 +36,7 @@ router.get("/", checkAdmin, async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        res.status(500).send("An error occured");
     }
 });
 
@@ -107,7 +107,7 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
             res.redirect('/admin/blog');
         } else {
             console.log(error);
-            res.send(error)
+            res.send(error);
         }
     }
 });
@@ -169,14 +169,14 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
             if (err) { console.log(err); }
         })
         req.flash('green', `Blog deleted successfully`);
-        res.redirect('/admin/blog')
+        res.redirect('/admin/blog');
     } catch (error) {
         if (error.name === 'CastError' || error.name === 'TypeError') {
             req.flash('red', `Blog not found!`);
             res.redirect('/admin/blog');
         } else {
             console.log(error);
-            res.send(error)
+            res.send(error);
         }
     }
 });
@@ -184,20 +184,20 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
 // uploader
 router.post('/upload', upload.single('upload'), async (req, res) => {
     try {
-        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
+        const filename = Date.now() + req.file.originalname.replace(" ", "");
         if (!fs.existsSync('./public/uploads/blog')) {
             fs.mkdirSync('./public/uploads/blog', { recursive: true });
         }
         await sharp(req.file.buffer)
             .toFile('./public/uploads/blog/' + filename);
 
-        const url = `${process.env.BASE_URL}/uploads/blog/${filename}`
-        const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}');</script>`
+        const url = `${process.env.BASE_URL}/uploads/blog/${filename}`;
+        const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}');</script>`;
         res.send(send);
     } catch (error) {
         res.send(error.message);
         console.log(error.message);
     }
-})
+});
 
 module.exports = router;
