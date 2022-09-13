@@ -21,8 +21,8 @@ const checkUser = function (req, res, next) {
                 if (!user)
                     return next(createError.Unauthorized("Please login first"));
 
-                if (user.tokens.filter(e => e.token === token).length == 0)
-                    return next(createError.Unauthorized("You are logged out, please login again."));
+                // if (user.tokens.filter(e => e.token === token).length == 0)
+                //     return next(createError.Unauthorized("You are logged out, please login again."));
 
                 if (user.blocked == true)
                     return next(createError.Unauthorized("Sorry! You are blocked, Please contact Admin."));

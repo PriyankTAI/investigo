@@ -42,7 +42,7 @@ router.post("/register", async (req, res, next) => {
             userId: id,
             youAre: req.body.youAre
         });
-        const token = await user.generateAuthToken(req.body.device);
+        const token = await user.generateAuthToken();
         // await user.save();
         res.status(200).json({ status: "success", token, user });
     } catch (error) {
@@ -62,7 +62,7 @@ router.post("/register", async (req, res, next) => {
 // POST login
 router.post("/login", async (req, res, next) => {
     try {
-        const { email, password, googleId, facebookId, device } = req.body;
+        const { email, password, googleId, facebookId } = req.body;
         const userExist = await User.findOne({ email }).select('-__v -blocked -secret');
         if (password) { // password
             if (!userExist) {
@@ -83,7 +83,7 @@ router.post("/login", async (req, res, next) => {
             if (userExist.twofa) {
                 return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
             }
-            const token = await userExist.generateAuthToken(device);
+            const token = await userExist.generateAuthToken();
             return res.status(200).json({ status: "success", token, user: userExist });
         } else if (googleId) { // google
             if (userExist) {
@@ -101,7 +101,7 @@ router.post("/login", async (req, res, next) => {
                 if (userExist.twofa) {
                     return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
                 }
-                const token = await userExist.generateAuthToken(device);
+                const token = await userExist.generateAuthToken();
                 return res.status(200).json({ status: "success", token, user: userExist });
             } else {
                 const id = customId({});
@@ -112,7 +112,7 @@ router.post("/login", async (req, res, next) => {
                     userId: id,
                     googleId,
                 })
-                const token = await user.generateAuthToken(device);
+                const token = await user.generateAuthToken();
                 // await user.save();
                 return res.status(200).json({ status: "success", token, user });
             }
@@ -132,7 +132,7 @@ router.post("/login", async (req, res, next) => {
                 if (userExist.twofa) {
                     return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
                 }
-                const token = await userExist.generateAuthToken(device);
+                const token = await userExist.generateAuthToken();
                 return res.status(200).json({ status: "success", token, user: userExist });
             } else {
                 const id = customId({});
@@ -143,7 +143,7 @@ router.post("/login", async (req, res, next) => {
                     userId: id,
                     facebookId
                 });
-                const token = await user.generateAuthToken(device);
+                const token = await user.generateAuthToken();
                 // await user.save();
                 return res.status(200).json({ status: "success", token, user });
             }
@@ -162,7 +162,7 @@ router.post("/login", async (req, res, next) => {
 // POST login 2fa
 router.post("/two-factor-login", async (req, res, next) => {
     try {
-        const { email, code, device } = req.body;
+        const { email, code } = req.body;
         const user = await User.findOne({ email }).select('-__v -blocked -password');
 
         if (!user)
@@ -174,7 +174,7 @@ router.post("/two-factor-login", async (req, res, next) => {
         if (!verify)
             return next(createError.BadRequest("Fail to verify code!"));
 
-        const token = await user.generateAuthToken(device);
+        const token = await user.generateAuthToken();
         // hide secret
         user.secret = undefined;
         return res.status(200).json({ status: "success", token, user });
