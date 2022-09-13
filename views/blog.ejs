@@ -75,7 +75,7 @@
                                                         <% for( let i = 0; i < blogs.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= blogs[i].title %></td>
+                                                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= blogs[i].en.title %></td>
                                                             <td><%= blogs[i].category %></td>
                                                             <td><%= blogs[i].date.toLocaleDateString('en-GB') %></td>
                                                             <td><img src="<%= blogs[i].image %>" alt="IMG" width="100" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>

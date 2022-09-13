@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { check, validationResult } = require('express-validator');
+// const { check, validationResult } = require('express-validator');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
@@ -50,43 +50,41 @@ router.get("/add", checkAdmin, async (req, res) => {
 });
 
 // POST add blog
-router.post('/add', checkAdmin, upload.single('image'), [
-    check('title', 'title must have a value').notEmpty(),
-    check('content', 'content must have a value').notEmpty(),
-    check('description', 'description must have a value').notEmpty(),
-    check('category', 'Please select category').notEmpty(),
-], async (req, res) => {
+router.post('/add', checkAdmin, upload.single('image'), async (req, res) => {
     try {
-        const { title, content, description, category, tags, contentFr } = req.body;
-        const validationErrors = validationResult(req);
-        if (validationErrors.errors.length > 0) {
-            req.flash('red', validationErrors.errors[0].msg)
-            return res.redirect(req.originalUrl);
-        }
-        const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
-        const tagsArray = tags.split(',').filter(item => item !== '');
-        const blog = new Blog({
-            title,
-            content,
-            contentFr,
-            description,
-            category,
+        const filename = Date.now() + req.file.originalname.replace(" ", "");
+        const tagsArray = req.body.tags.split(',').filter(item => item !== '');
+
+        await Blog.create({
+            en: {
+                title: req.body.EnTitle,
+                description: req.body.EnDesc,
+                content: req.body.EnContent
+            },
+            fr: {
+                title: req.body.FrTitle,
+                description: req.body.FrDesc,
+                content: req.body.FrContent
+            },
+            category: req.body.category,
             tags: tagsArray,
             creator: req.admin.id,
             image: '/uploads/blog/' + filename
-        })
+        });
+
         if (!fs.existsSync('./public/uploads/blog')) {
             fs.mkdirSync('./public/uploads/blog', { recursive: true });
         }
-        await blog.save();
+
         await sharp(req.file.buffer)
             .toFile('./public/uploads/blog/' + filename);
+
         req.flash('green', `Blog added successfully`);
-        res.redirect('/admin/blog')
+        res.redirect('/admin/blog');
     } catch (error) {
         console.log(error);
         req.flash('red', error.message);
-        res.redirect('/admin/blog')
+        res.redirect('/admin/blog');
     }
 });
 
@@ -99,7 +97,7 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Blog not found!`);
             return res.redirect('/admin/blog');
         }
-        res.status(201).render("edit_blog", {
+        res.status(201).render("edit_blog_test", {
             blog,
             image: req.admin.image
         });
@@ -115,36 +113,30 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
 });
 
 // POST Edit blog
-router.post('/edit/:id', checkAdmin, upload.single('image'), [
-    check('title', 'title must have a value').notEmpty(),
-    check('content', 'content must have a value').notEmpty(),
-    check('description', 'description must have a value').notEmpty(),
-    check('category', 'Please select category').notEmpty(),
-], async (req, res) => {
+router.post('/edit/:id', checkAdmin, upload.single('image'), async (req, res) => {
     try {
-        const { title, content, description, category, tags, contentFr } = req.body;
-        const validationErrors = validationResult(req);
-        if (validationErrors.errors.length > 0) {
-            req.flash('red', validationErrors.errors[0].msg)
-            return res.redirect(req.originalUrl);
-        }
         const id = req.params.id;
         const blog = await Blog.findById(id);
         if (blog == null) {
             req.flash('red', `Blog not found!`);
             return res.redirect('/admin/blog');
         }
-        const tagsArray = tags.split(',').filter(item => item !== '');
-        blog.title = title;
-        blog.content = content;
-        blog.contentFr = contentFr;
-        blog.description = description;
-        blog.category = category;
+
+        const tagsArray = req.body.tags.split(',').filter(item => item !== '');
+
+        blog.en.title = req.body.EnTitle;
+        blog.en.description = req.body.EnDesc;
+        blog.en.content = req.body.EnContent;
+        blog.fr.title = req.body.FrTitle;
+        blog.fr.description = req.body.FrDesc;
+        blog.fr.content = req.body.FrContent;
+        blog.category = req.body.category;
         blog.tags = tagsArray;
+
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + blog.image;
 
-            const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
+            const filename = Date.now() + req.file.originalname.replace(" ", "");
             blog.image = '/uploads/blog/' + filename;
             if (!fs.existsSync('./public/uploads/blog')) {
                 fs.mkdirSync('./public/uploads/blog', { recursive: true });
@@ -158,8 +150,9 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         } else {
             await blog.save();
         }
+
         req.flash('green', `Blog edited successfully`);
-        res.redirect('/admin/blog')
+        res.redirect('/admin/blog');
     } catch (error) {
         res.send(error.message);
         console.log(error);

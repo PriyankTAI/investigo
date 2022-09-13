@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Add Blog | Investigo</title>
+    <title>Edit Blog | Investigo</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -33,13 +33,13 @@
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Add Blog</span></h5>
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Edit Blog</span></h5>
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
                             <ol class="breadcrumbs mb-0">
                                 <li class="breadcrumb-item"><a href="/admin">Home</a></li>
                                 <li class="breadcrumb-item"><a href="/admin/blog">Blog</a></li>
-                                <li class="breadcrumb-item active">Add Blog</li>
+                                <li class="breadcrumb-item active">Edit Blog</li>
                             </ol>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                                 <%- messages('messages', locals) %>
                             </div>
                         </div>
-                        <form method="POST" onsubmit="validate()" action="/admin/blog/add" id="form" enctype="multipart/form-data">
+                        <form method="POST" onsubmit="validate()" action="/admin/blog/edit/<%= blog._id %>" id="form" enctype="multipart/form-data">
                             <div class="col s12">
                                 <div class="card">
                                     <div class="card-content">
@@ -62,14 +62,14 @@
                                             <div class="col s12">
                                                 <h4 class="card-title">English</h4>
                                                 <div class="input-field col s12">
-                                                    <input placeholder="Title" id="EnTitle" name="EnTitle" type="text">
+                                                    <input placeholder="Title" id="EnTitle" name="EnTitle" type="text"  value="<%= blog.en.title %>">
                                                     <small>
                                                         <div id="EnTitleErr" class="error"></div>
                                                     </small>
                                                     <label for="EnTitle">Title</label>
                                                 </div>
                                                 <div class="input-field col s12">
-                                                    <textarea id="EnDesc" class="materialize-textarea" name="EnDesc" placeholder="Enter description"></textarea>
+                                                    <textarea id="EnDesc" class="materialize-textarea" name="EnDesc" placeholder="Enter description"><%= blog.en.description %></textarea>
                                                     <label for="EnDesc">Description</label>
                                                     <small>
                                                         <div id="EnDescErr" class="error"></div>
@@ -77,7 +77,7 @@
                                                 </div>
                                                 <div class="input-field col s12">
                                                     Content
-                                                    <textarea name="EnContent" class="form-control ta" id="ta1" cols="30" rows="10" placeholder="content"></textarea>
+                                                    <textarea name="EnContent" class="form-control ta" id="ta1" cols="30" rows="10" placeholder="content"><%= blog.en.content%></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -91,14 +91,14 @@
                                             <div class="col s12">
                                                 <h4 class="card-title">French</h4>
                                                 <div class="input-field col s12">
-                                                    <input placeholder="French Title" id="FrTitle" name="FrTitle" type="text">
+                                                    <input placeholder="French Title" id="FrTitle" name="FrTitle" type="text" value="<%= blog.fr.title %>">
                                                     <small>
                                                         <div id="FrTitleErr" class="error"></div>
                                                     </small>
                                                     <label for="FrTitle">Title</label>
                                                 </div>
                                                 <div class="input-field col s12">
-                                                    <textarea id="FrDesc" class="materialize-textarea" name="FrDesc" placeholder="Enter description in French"></textarea>
+                                                    <textarea id="FrDesc" class="materialize-textarea" name="FrDesc" placeholder="Enter description in French"><%= blog.fr.description %></textarea>
                                                     <label for="FrDesc">Description</label>
                                                     <small>
                                                         <div id="FrDescErr" class="error"></div>
@@ -106,7 +106,7 @@
                                                 </div>
                                                 <div class="input-field col s12">
                                                     Content
-                                                    <textarea name="FrContent" class="form-control ta" id="ta2" cols="30" rows="10" placeholder="content"></textarea>
+                                                    <textarea name="FrContent" class="form-control ta" id="ta2" cols="30" rows="10" placeholder="content"><%= blog.fr.content %></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -121,10 +121,10 @@
                                                 <!-- <h4 class="card-title"></h4> -->
                                                 <div class="input-field col s12">
                                                     <select id="cat" name="category">
-                                                        <option value="">Select category</option>
-                                                        <option value="News">News</option>
-                                                        <option value="Articals">Articals</option>
-                                                        <option value="Resources">Resources</option>
+                                                        <option value="" <%= blog.category == '' ? 'selected' : '' %>>Select category</option>
+                                                        <option value="News" <%= blog.category == 'News' ? 'selected' : '' %>>News</option>
+                                                        <option value="Articals" <%= blog.category == 'Articals' ? 'selected' : '' %>>Articals</option>
+                                                        <option value="Resources" <%= blog.category == 'Resources' ? 'selected' : '' %>>Resources</option>
                                                     </select>
                                                     <label>Select category</label>
                                                     <small>
@@ -133,13 +133,13 @@
                                                 </div>
                                                 <div class="input-field col s12">
                                                     Upload Image
-                                                    <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required />
+                                                    <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" data-default-file="<%= blog.image %>" />
                                                     <small>
                                                         <div id="error4" class="error"></div>
                                                     </small>
                                                 </div>
                                                 <div class="input-field col m12 s12">
-                                                    <input placeholder="" id="form-tags-1" name="tags" type="text" value="">
+                                                    <input placeholder="" id="form-tags-1" name="tags" type="text" value="<%= blog.tags.join(',') %>">
                                                     <label for="form-tags-1_tag" style="top: -5px;">Tags</label>
                                                 </div>
                                                 <div class="col s12">
@@ -206,7 +206,9 @@
                 document.getElementById('FrDescErr').innerText = '';
             }
 
-            if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+            if (filevalue == '') {
+                document.getElementById('error4').innerText = '';
+            } else if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
                 document.getElementById('error4').innerText = '';
             } else {
                 document.getElementById('error4').innerText = 'Wrong file type.';
