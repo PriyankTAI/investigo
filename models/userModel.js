@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    // lastLogin: Date,
+    lastLogin: Date,
     tokens: [{
         token: String,
         device: {
@@ -100,7 +100,7 @@ userSchema.methods.generateAuthToken = async function () {
             { expiresIn: '90d' }
         );
         // this.tokens = this.tokens.concat({ token, device });
-        // this.lastLogin = Date.now();
+        this.lastLogin = Date.now();
         await this.save();
         return token;
     } catch (error) {

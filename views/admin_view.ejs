@@ -89,7 +89,7 @@
                                         <table class="striped">
                                             <tbody>
                                                 <tr>
-                                                    <td>Name:</td>
+                                                    <td style="width: 200px;">Name:</td>
                                                     <td><%= admin.name || 'Pending' %></td>
                                                 </tr>
                                                 <tr>
@@ -99,35 +99,35 @@
                                             </tbody>
                                         </table>
                                         <% if (admin.instagram || admin.twitter || admin.linkedin || admin.facebook) { %>
-                                            <h6 class="mb-2 mt-2"><i class="material-icons">link</i> Social Links</h6>
-                                            <table class="striped">
-                                                <tbody>
-                                                    <% if (admin.facebook) { %>
-                                                        <tr>
-                                                            <td>Facebook:</td>
-                                                            <td><a href="<%= admin.facebook %>"><%= admin.facebook %></a></td>
-                                                        </tr>
-                                                    <% } %>
-                                                    <% if (admin.twitter) { %>
-                                                        <tr>
-                                                            <td>Twitter:</td>
-                                                            <td><a href="<%= admin.twitter %>"><%= admin.twitter %></a></td>
-                                                        </tr>
-                                                    <% } %>
-                                                    <% if (admin.instagram) { %>
-                                                        <tr>
-                                                            <td>Instagram:</td>
-                                                            <td><a href="<%= admin.instagram %>"><%= admin.instagram %></a></td>
-                                                        </tr>
-                                                    <% } %>
-                                                    <% if (admin.linkedin) { %>
-                                                        <tr>
-                                                            <td>Linkedin:</td>
-                                                            <td><a href="<%= admin.linkedin %>"><%= admin.linkedin %></a></td>
-                                                        </tr>
-                                                    <% } %>
-                                                </tbody>
-                                            </table>
+                                        <h6 class="mb-2 mt-2"><i class="material-icons">link</i> Social Links</h6>
+                                        <table class="striped">
+                                            <tbody>
+                                                <% if (admin.facebook) { %>
+                                                <tr>
+                                                    <td style="width: 200px;">Facebook:</td>
+                                                    <td><a href="<%= admin.facebook %>"><%= admin.facebook %></a></td>
+                                                </tr>
+                                                <% } %>
+                                                <% if (admin.twitter) { %>
+                                                <tr>
+                                                    <td style="width: 200px;">Twitter:</td>
+                                                    <td><a href="<%= admin.twitter %>"><%= admin.twitter %></a></td>
+                                                </tr>
+                                                <% } %>
+                                                <% if (admin.instagram) { %>
+                                                <tr>
+                                                    <td style="width: 200px;">Instagram:</td>
+                                                    <td><a href="<%= admin.instagram %>"><%= admin.instagram %></a></td>
+                                                </tr>
+                                                <% } %>
+                                                <% if (admin.linkedin) { %>
+                                                <tr>
+                                                    <td style="width: 200px;">Linkedin:</td>
+                                                    <td><a href="<%= admin.linkedin %>"><%= admin.linkedin %></a></td>
+                                                </tr>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
                                         <% } %>
                                     </div>
                                 </div>
@@ -163,4 +163,5 @@
     <!-- END PAGE LEVEL JS-->
 </body>
 <%- include('_layouts/alert') %>
+
 </html>
