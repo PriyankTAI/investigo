@@ -1,15 +1,25 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-//package schema
-var packageSchema = mongoose.Schema({
-    title: {
-        type: String,
-        required: [true, 'Title is required'],
-        unique: true,
+const packageSchema = mongoose.Schema({
+    en: {
+        title: {
+            type: String,
+            required: [true, 'English title is required'],
+        },
+        description: {
+            type: String,
+            required: [true, 'English description is required'],
+        },
     },
-    description: {
-        type: String,
-        required: [true, 'Description is required'],
+    fr: {
+        title: {
+            type: String,
+            required: [true, 'French title is required'],
+        },
+        description: {
+            type: String,
+            required: [true, 'French description is required'],
+        },
     },
     price: {
         type: Number,

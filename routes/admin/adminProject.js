@@ -13,9 +13,9 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true);
     } else {
-        // cb(null, false);
-        req._params = req.params;
-        cb(new Error('Wrong file type! (Please upload only jpg or png.)'));
+        cb(null, false);
+        // req._params = req.params;
+        // cb(new Error('Wrong file type! (Please upload only jpg or png.)'));
     }
 };
 const upload = multer({

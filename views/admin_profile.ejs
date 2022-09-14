@@ -87,7 +87,7 @@
                                                                 <label for="pass">LinkedIn</label>
                                                             </div>
                                                             <div class="input-field col mt-1 s12">
-                                                                <button type="submit" class="btn purple" style="margin-right: 10px;">Submit</button>
+                                                                <button type="submit" class="btn purple" id="submitBtn" style="margin-right: 10px;">Submit</button>
                                                                 <a onclick="history.back()" class="btn">Cancel</a>
                                                             </div>
                                                         </form>
@@ -136,6 +136,7 @@
                 }
 
                 if (returnVal) {
+                    document.getElementById('submitBtn').disabled = true;
                     formC.submit();
                 }
             }

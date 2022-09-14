@@ -143,7 +143,7 @@
                                                     <label for="form-tags-1_tag" style="top: -5px;">Tags</label>
                                                 </div>
                                                 <div class="col s12">
-                                                    <button type="submit" class="btn purple">Submit</button>
+                                                    <button type="submit" class="btn purple" id="submitBtn">Submit</button>
                                                     <a href="/admin/blog" class="btn btn-danger">Cancel</a>
                                                 </div>
                                             </div>
@@ -223,6 +223,7 @@
             }
 
             if (returnVal) {
+                document.getElementById('submitBtn').disabled = true;
                 formC.submit();
             }
         }

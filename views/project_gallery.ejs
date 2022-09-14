@@ -60,7 +60,7 @@
                                 <div class="error"></div>
                             </small>
                         </div>
-                        <button type="submit" class="btn purple">Submit</button>
+                        <button type="submit" class="btn purple submitBtn">Submit</button>
                     </form>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                                                 <div class="error"></div>
                                             </small>
                                         </div>
-                                        <button type="submit" class="btn purple">Submit</button>
+                                        <button type="submit" class="btn purple submitBtn">Submit</button>
                                     </form>
                                 </div>
                             </div>
@@ -169,6 +169,7 @@
             }
 
             if (returnVal) {
+                el.querySelector('.submitBtn').disabled = true;
                 el.submit();
             }
         }

@@ -178,7 +178,7 @@
                                                             <% for( let i=0; i < orders.length; i++ ) { %>
                                                             <tr>
                                                                 <td><%= i+1 %></td>
-                                                                <td><%= orders[i].package.title %></td>
+                                                                <td><%= orders[i].package.en.title %></td>
                                                                 <td><%= orders[i].project.title %></td>
                                                                 <td><%= orders[i].orderDate.toDateString() %></td>
                                                                 <td><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>

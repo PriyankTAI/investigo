@@ -138,12 +138,13 @@ app.all('*', (req, res, next) => {
 // error handler
 app.use((error, req, res, next) => {
     // console.log(error.name);
-    if (req.originalUrl.startsWith('/admin')) {
-        if (req.originalUrl.startsWith('/admin/project/gallery/') && req._params) {
-            req.flash('red', error.message);
-            return res.redirect(`/admin/project/gallery/${req._params.id}`);
-        }
-    }
+
+    // if (req.originalUrl.startsWith('/admin')) {
+    //     if (req.originalUrl.startsWith('/admin/project/gallery/') && req._params) {
+    //         req.flash('red', error.message);
+    //         return res.redirect(`/admin/project/gallery/${req._params.id}`);
+    //     }
+    // }
 
     if (error.name === "ValidationError") {
         let errors = {};

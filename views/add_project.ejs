@@ -130,7 +130,7 @@
                                                                 <input type="file" accept="image/png, image/jpeg" name="icon" id="icon" class="dropify" data-disable-remove="true" required/>
                                                                 <small><div id="iconErr" class="error"></div></small>
                                                             </div>
-                                                            <button type="submit" class="btn purple ml-1">Submit</button>
+                                                            <button type="submit" class="btn purple ml-1" id="submitBtn">Submit</button>
                                                             <a href="/admin/project" class="btn btn-danger">Cancel</a>
                                                         </form>
                                                 </div>
@@ -263,6 +263,7 @@
                 }
 
                 if (returnVal) {
+                    document.getElementById('submitBtn').disabled = true;
                     formC.submit();
                 }
             }

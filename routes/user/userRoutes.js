@@ -35,7 +35,9 @@ const upload = multer({
 // GET all packages
 router.get('/package', async (req, res, next) => {
     try {
-        const packages = await Package.find().select('-__v');
+        let packages = await Package.find().select('-__v');
+        packages = packages.map(el => multilingual(el, req));
+
         res.json({
             status: "success",
             total: packages.length,
@@ -85,7 +87,6 @@ router.get('/project/:id', async (req, res, next) => {
 // GET all blogs
 router.get('/blog', async (req, res, next) => {
     try {
-        console.log(req.headers['accept-language']);
         let blogs = await Blog.find()
             .select('-content -tags -creator -__v')
             .sort('-_id');

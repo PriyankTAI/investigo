@@ -81,8 +81,8 @@
                                                         <% for( let i = 0; i < packages.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td><%= packages[i].title %></td>
-                                                            <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= packages[i].description %></td>
+                                                            <td><%= packages[i].en.title %></td>
+                                                            <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= packages[i].en.description %></td>
                                                             <td><%= packages[i].price %></td>
                                                             <td><%= packages[i].annualReturn + '%' %></td>
                                                             <td><%= packages[i].term + ' months' %></td>

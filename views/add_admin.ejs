@@ -73,7 +73,7 @@
                                                                 <small><div id="error3" class="error"></div></small>
                                                                 <label for="cpass">Confirm password</label>
                                                             </div>
-                                                            <button type="submit" class="btn purple ml-1">Submit</button>
+                                                            <button type="submit" class="btn purple ml-1" id="submitBtn">Submit</button>
                                                             <a href="/admin/admin" class="btn btn-danger">Cancel</a>
                                                         </form>
                                                 </div>
@@ -137,6 +137,7 @@
                 }
 
                 if (returnVal) {
+                    document.getElementById('submitBtn').disabled = true;
                     formC.submit();
                 }
             }

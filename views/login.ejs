@@ -53,7 +53,7 @@
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
+                                    <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit" id="submitBtn">Log In</button>
                                 </div>
                             </div>
                         </form>
@@ -99,8 +99,9 @@
             } else {
                 document.getElementById('error2').innerText = '';
             }
-            // return returnVal;
+
             if (returnVal) {
+                document.getElementById('submitBtn').disabled = true;
                 form.submit();
             }
         }
