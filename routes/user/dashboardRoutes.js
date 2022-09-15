@@ -116,6 +116,7 @@ router.post('/paymentMethod', checkUser, async (req, res, next) => {
         await PaymentMethod.create({
             user: req.user.id,
             card: req.body.card,
+            network: req.body.network,
             expiry: req.body.expiry
         });
 
