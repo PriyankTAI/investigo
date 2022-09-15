@@ -137,11 +137,16 @@
                                                         <label for="totalAmount">Total amount</label>
                                                     </div>
                                                     <div class="input-field col m6 s12">
+                                                        <input placeholder="Annual Return" id="annualReturn" name="annualReturn" value="<%= project.annualReturn %>" type="text">
+                                                        <small><div id="annualReturnErr" class="error"></div></small>
+                                                        <label for="annualReturn">Annual Return</label>
+                                                    </div>
+                                                    <div class="input-field col m6 s12">
                                                         <input placeholder="City" id="city" name="city" value="<%= project.city %>" type="text">
                                                         <small><div id="cityErr" class="error"></div></small>
                                                         <label for="city">City</label>
                                                     </div>
-                                                    <div class="input-field col m12 s12">
+                                                    <div class="input-field col m6 s12">
                                                         <input placeholder="Location" id="location" name="location" value="<%= project.location %>" type="text">
                                                         <small><div id="error6" class="error"></div></small>
                                                         <label for="location">Location</label>
@@ -198,6 +203,7 @@
                 const categoryValue = document.getElementById('cat').value.trim();
                 const propertyValue = document.getElementById('property').value.trim();
                 const amountValue = document.getElementById('totalAmount').value.trim();
+                const annualReturnValue = document.getElementById('annualReturn').value.trim();
                 const locationValue = document.getElementById('location').value.trim();
                 const cityValue = document.getElementById('city').value.trim();
                 const lat = document.getElementById('lat').value.trim();
@@ -254,6 +260,13 @@
                     returnVal = false;
                 } else {
                     document.getElementById('error5').innerText = '';
+                }
+
+                if (annualReturnValue == '') {
+                    document.getElementById('annualReturnErr').innerText = 'Please enter annual return.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('annualReturnErr').innerText = '';
                 }
 
                 if (locationValue == '') {

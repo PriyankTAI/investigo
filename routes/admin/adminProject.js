@@ -62,6 +62,7 @@ router.post('/add', checkAdmin, upload.fields([
     check('category', 'category must have a value').notEmpty(),
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
+    check('annualReturn', 'annual return must have a value').notEmpty(),
     check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
@@ -107,6 +108,7 @@ router.post('/add', checkAdmin, upload.fields([
             category: req.body.category,
             property: req.body.property,
             totalAmount: req.body.totalAmount,
+            annualReturn: req.body.annualReturn,
             location: req.body.location,
             city: req.body.city,
             coordinates: {
@@ -162,13 +164,14 @@ router.post('/edit/:id', checkAdmin, upload.fields([
     check('category', 'category must have a value').notEmpty(),
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
+    check('annualReturn', 'annual return must have a value').notEmpty(),
     check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
-            req.flash('red', validationErrors.errors[0].msg)
+            req.flash('red', validationErrors.errors[0].msg);
             return res.redirect(req.originalUrl);
         }
 
@@ -186,6 +189,7 @@ router.post('/edit/:id', checkAdmin, upload.fields([
         project.category = req.body.category;
         project.property = req.body.property;
         project.totalAmount = req.body.totalAmount;
+        project.annualReturn = req.body.annualReturn;
         project.location = req.body.location;
         project.city = req.body.city;
         project.coordinates.lat = req.body.lat;
@@ -225,14 +229,15 @@ router.post('/edit/:id', checkAdmin, upload.fields([
         await project.save();
 
         req.flash('green', `Project edited successfully`);
-        res.redirect('/admin/project')
+        res.redirect('/admin/project');
     } catch (error) {
         if (error.name === 'CastError') {
             req.flash('red', `Project not found!`);
             res.redirect('/admin/project');
         } else {
-            res.send(error.message);
             console.log(error);
+            req.flash('red', error.message);
+            res.redirect('/admin/project');
         }
     }
 });

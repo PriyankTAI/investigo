@@ -42,6 +42,10 @@ const projectSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    annualReturn: {
+        type: String,
+        required: [true, 'Annual return is required'],
+    },
     image: {
         type: String,
         required: [true, 'Image is required'],
