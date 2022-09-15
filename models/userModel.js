@@ -92,14 +92,14 @@ const userSchema = new mongoose.Schema({
 });
 
 // generating tokens
-userSchema.methods.generateAuthToken = async function () {
+userSchema.methods.generateAuthToken = async function (device) {
     try {
         const token = jwt.sign(
             { _id: this._id.toString() },
             process.env.SECRET_KEY,
             { expiresIn: '90d' }
         );
-        // this.tokens = this.tokens.concat({ token, device });
+        this.tokens = this.tokens.concat({ token, device });
         this.lastLogin = Date.now();
         await this.save();
         return token;
