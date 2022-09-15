@@ -7,10 +7,8 @@ const pageSchema = mongoose.Schema({
         required: [true, 'Title is required'],
         unique: true,
     },
-    content: {
-        type: String,
-        // required:true
-    },
+    en: { content: String },
+    fr: { content: String },
 });
 
 module.exports = new mongoose.model("Page", pageSchema);

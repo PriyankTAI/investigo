@@ -26,7 +26,7 @@ const sendOtp = function (to, otp) {
     }
     sgMail
         .send(msg)
-        .then(() => console.log('Email sent'))
+        // .then(() => console.log('Email sent'))
         .catch((error) => console.error(error))
 }
 

@@ -14,7 +14,7 @@
         "lname": "Last name is required.",
         "email": "Email is required.",
         "emailInvalid": "Email is Invalid.",
-        "pass": "Email is required.",
+        "pass": "Password is required.",
         "passInvalid": "Password should be atleast 6 characters long.",
         "device": "Device is required.",
         "phone": "Phone is required.",
@@ -29,6 +29,8 @@
         "cardExpiry": "Expiry date is required."
     },
     "error": {
+        "emailRegG": "Already registered with google.",
+        "emailRegF": "Already registered with facebook.",
         "emailReg": "Email already registered.",
         "nationalReg": "National number is already registered.",
         "invalidCred": "Invalid email or password!",
@@ -53,7 +55,7 @@
     "2fa": {
         "already": "Two factor authentication already enabled.",
         "enabled": "Two factor authentication enabled.",
-        "required": "Two Factor Authentication required.",
+        "required": "Two Factor authentication required.",
         "notEnabled": "Two factor authentication is not enabled!",
         "failCode": "Fail to verify code!"
     },

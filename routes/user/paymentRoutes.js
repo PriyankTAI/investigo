@@ -13,7 +13,7 @@ router.get('/config', (req, res) => {
     res.json({ key: process.env.STRIPE_KEY_PUBLIC });
 })
 
-// create checkout session
+// create checkout session // not using
 router.post('/create-checkout-session', checkUser, async (req, res, next) => {
     try {
         const package = await Package.findById(req.body.package);
@@ -25,7 +25,7 @@ router.post('/create-checkout-session', checkUser, async (req, res, next) => {
                 price_data: {
                     currency: 'EUR',
                     product_data: {
-                        name: package.title,
+                        name: package.en.title,
                         images: [process.env.BASE_URL + package.image]
                     },
                     unit_amount: package.price * 100,

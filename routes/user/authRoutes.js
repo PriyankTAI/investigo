@@ -46,7 +46,7 @@ router.post("/register", async (req, res, next) => {
         // await user.save();
         res.status(200).json({ status: "success", token, user });
     } catch (error) {
-        console.log(error.message);
+        // console.log(error.message);
         if (error.keyValue && error.keyValue.userId) {
             return next(createError.InternalServerError('An error occured. Please try again.'));
         }
@@ -281,6 +281,7 @@ router.post("/forgot", async (req, res, next) => {
                 otp: generated
             }).save();
         }
+        // if sms recovery send sms or email
         sendOtp(user.email, otp.otp);
         return res.status(200).json({
             status: "success",

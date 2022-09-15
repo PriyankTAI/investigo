@@ -1,5 +1,5 @@
 const router = require('express').Router();
-// const multilingual = require('../../helpers/multilingual');
+const multilingual = require('../../helpers/multilingual');
 
 // models
 const Contact = require('../../models/contactModel');
@@ -9,7 +9,8 @@ const Message = require('../../models/messageModel');
 // about us
 router.get("/about_us", async (req, res, next) => {
     try {
-        const page = await Page.findOne({ title: 'About Us' })
+        let page = await Page.findOne({ title: 'About Us' });
+        page = multilingual(page, req);
         const content = page.content;
         res.json({
             status: "success",
@@ -24,7 +25,8 @@ router.get("/about_us", async (req, res, next) => {
 // faqs
 router.get("/faqs", async (req, res, next) => {
     try {
-        const page = await Page.findOne({ title: 'FAQs' })
+        let page = await Page.findOne({ title: 'FAQs' });
+        page = multilingual(page, req);
         const content = page.content;
         res.json({
             status: "success",
@@ -39,7 +41,8 @@ router.get("/faqs", async (req, res, next) => {
 // terms
 router.get("/terms_con", async (req, res, next) => {
     try {
-        const page = await Page.findOne({ title: 'Terms & Condition' })
+        let page = await Page.findOne({ title: 'Terms & Condition' });
+        page = multilingual(page, req);
         const content = page.content;
         res.json({
             status: "success",
@@ -54,7 +57,8 @@ router.get("/terms_con", async (req, res, next) => {
 // privacy
 router.get("/privacy_policy", async (req, res, next) => {
     try {
-        const page = await Page.findOne({ title: 'Privacy Policy' })
+        let page = await Page.findOne({ title: 'Privacy Policy' });
+        page = multilingual(page, req);
         const content = page.content;
         res.json({
             status: "success",
@@ -69,7 +73,8 @@ router.get("/privacy_policy", async (req, res, next) => {
 // contact
 router.get("/contact", async (req, res, next) => {
     try {
-        const page = await Page.findOne({ title: 'Contact' })
+        let page = await Page.findOne({ title: 'Contact' });
+        page = multilingual(page, req);
         const content = page.content;
         const contact = await Contact.findOne();
         res.json({

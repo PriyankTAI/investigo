@@ -29,185 +29,208 @@ const upload = multer({
 // about us
 router.get("/about_us", checkAdmin, async (req, res) => {
     try {
-        const page = await Page.findOne({ title: 'About Us' })
-        const content = page.content;
+        const page = await Page.findOne({ title: 'About Us' });
         res.status(201).render("about", {
-            content,
+            page,
             image: req.admin.image
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
 router.post('/about_us', checkAdmin, [
-    check('content', 'Content must have a value').notEmpty(),
+    check('EnContent', 'English content must have a value').notEmpty(),
+    check('FrContent', 'French content must have a value').notEmpty(),
 ], async function (req, res) {
-    const validationErrors = validationResult(req)
+    const validationErrors = validationResult(req);
     if (validationErrors.errors.length > 0) {
-        req.flash('red', 'Content must have a value.');
-        return res.redirect('/admin/cms/about_us');
+        req.flash('red', validationErrors.errors[0].msg);
+        return res.redirect(req.originalUrl);
     }
     try {
-        const page = await Page.findOne({ title: 'About Us' })
-        page.content = req.body.content;
-        await page.save()
-        req.flash('green', 'About us updated successfully.')
-        res.redirect('/admin/cms/about_us')
+        const page = await Page.findOne({ title: 'About Us' });
+        page.en.content = req.body.EnContent;
+        page.fr.content = req.body.FrContent;
+        await page.save();
+
+        req.flash('green', 'About us updated successfully.');
+        res.redirect('/admin/cms/about_us');
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
 // faqs
 router.get("/faqs", checkAdmin, async (req, res) => {
     try {
-        const page = await Page.findOne({ title: 'FAQs' })
-        const content = page.content;
+        const page = await Page.findOne({ title: 'FAQs' });
         res.status(201).render("faqs", {
-            content,
+            page,
             image: req.admin.image
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
 router.post('/faqs', checkAdmin, [
-    check('content', 'Content must have a value').notEmpty(),
+    check('EnContent', 'English content must have a value').notEmpty(),
+    check('FrContent', 'French content must have a value').notEmpty(),
 ], async function (req, res) {
-    const validationErrors = validationResult(req)
+    const validationErrors = validationResult(req);
     if (validationErrors.errors.length > 0) {
-        req.flash('red', 'Content must have a value.');
-        return res.redirect('/admin/cms/faqs');
+        req.flash('red', validationErrors.errors[0].msg);
+        return res.redirect(req.originalUrl);
     }
     try {
-        const page = await Page.findOne({ title: 'FAQs' })
-        page.content = req.body.content;
+        const page = await Page.findOne({ title: 'FAQs' });
+        page.en.content = req.body.EnContent;
+        page.fr.content = req.body.FrContent;
         await page.save();
+
         req.flash('green', 'FAQs updated successfully.')
         res.redirect('/admin/cms/faqs')
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
 // terms
 router.get("/terms_con", checkAdmin, async (req, res) => {
     try {
-        const page = await Page.findOne({ title: 'Terms & Condition' })
-        const content = page.content;
+        const page = await Page.findOne({ title: 'Terms & Condition' });
         res.status(201).render("terms", {
-            content,
+            page,
             image: req.admin.image
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
 router.post('/terms_con', checkAdmin, [
-    check('content', 'Content must have a value').notEmpty(),
+    check('EnContent', 'English content must have a value').notEmpty(),
+    check('FrContent', 'French content must have a value').notEmpty(),
 ], async function (req, res) {
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
-        req.flash('red', 'Content must have a values.');
-        return res.redirect('/admin/cms/terms_con');
+        req.flash('red', validationErrors.errors[0].msg);
+        return res.redirect(req.originalUrl);
     }
     try {
-        const page = await Page.findOne({ title: 'Terms & Condition' })
-        page.content = req.body.content;
-        await page.save()
-        req.flash('green', 'Terms & Conditions updated successfully.')
-        res.redirect('/admin/cms/terms_con')
+        const page = await Page.findOne({ title: 'Terms & Condition' });
+        page.en.content = req.body.EnContent;
+        page.fr.content = req.body.FrContent;
+        await page.save();
+
+        req.flash('green', 'Terms & Conditions updated successfully.');
+        res.redirect('/admin/cms/terms_con');
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occurred")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
 // privacy
 router.get("/privacy_policy", checkAdmin, async (req, res) => {
     try {
-        const page = await Page.findOne({ title: 'Privacy Policy' })
-        const content = page.content;
+        const page = await Page.findOne({ title: 'Privacy Policy' });
         res.status(201).render("privacy", {
-            content,
+            page,
             image: req.admin.image
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
 router.post('/privacy_policy', checkAdmin, [
-    check('content', 'Content must have a value').notEmpty(),
+    check('EnContent', 'English content must have a value').notEmpty(),
+    check('FrContent', 'French content must have a value').notEmpty(),
 ], async function (req, res) {
     const validationErrors = validationResult(req)
     if (validationErrors.errors.length > 0) {
-        req.flash('red', 'Content must have a value.');
-        return res.redirect('/admin/cms/privacy_policy');
+        req.flash('red', validationErrors.errors[0].msg);
+        return res.redirect(req.originalUrl);
     }
     try {
-        const page = await Page.findOne({ title: 'Privacy Policy' })
-        page.content = req.body.content;
-        await page.save()
-        req.flash('green', 'Privacy Policy updated successfully.')
-        res.redirect('/admin/cms/privacy_policy')
+        const page = await Page.findOne({ title: 'Privacy Policy' });
+        page.en.content = req.body.EnContent;
+        page.fr.content = req.body.FrContent;
+        await page.save();
+
+        req.flash('green', 'Privacy Policy updated successfully.');
+        res.redirect('/admin/cms/privacy_policy');
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
 // contact
 router.get("/contact", checkAdmin, async (req, res) => {
     try {
-        const page = await Page.findOne({ title: 'Contact' })
-        const content = page.content;
+        const page = await Page.findOne({ title: 'Contact' });
         const contact = await Contact.findOne();
         res.status(201).render("contact", {
-            content,
+            page,
             contact,
             image: req.admin.image
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
 router.post('/contact', checkAdmin, [
+    check('EnContent', 'English content must have a value').notEmpty(),
+    check('FrContent', 'French content must have a value').notEmpty(),
     check('phone', 'Phone must have a value').notEmpty(),
     check('email', 'Email must have a valid value').isEmail(),
     check('address', 'Address must have a value').notEmpty(),
 ], async function (req, res) {
     try {
-        const page = await Page.findOne({ title: 'Contact' })
+        const page = await Page.findOne({ title: 'Contact' });
         const contact = await Contact.findOne();
 
-        const validationErrors = validationResult(req)
+        const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg);
-            return res.redirect('/admin/cms/contact');
+            return res.redirect(req.originalUrl);
         }
-        page.content = req.body.content || '';
-        await page.save()
+
+        page.en.content = req.body.EnContent;
+        page.fr.content = req.body.FrContent;
+        await page.save();
+
         contact.phone = req.body.phone;
         contact.email = req.body.email;
         contact.address = req.body.address;
-        await contact.save()
-        req.flash('green', 'Contact Us updated successfully.')
-        res.redirect('/admin/cms/contact')
+        await contact.save();
+
+        req.flash('green', 'Contact Us updated successfully.');
+        res.redirect('/admin/cms/contact');
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
     }
 });
 
