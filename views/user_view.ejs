@@ -119,6 +119,7 @@
                                             <thead>
                                                 <tr>
                                                     <th style="width: 200px;">Card number</th>
+                                                    <th style="width: 200px;">Network</th>
                                                     <th>Expiry</th>
                                                 </tr>
                                             </thead>
@@ -126,6 +127,7 @@
                                                 <% for( let i = 0; i < paymentMethods.length; i++ ) { %>
                                                 <tr>
                                                     <td><%= paymentMethods[i].card %></td>
+                                                    <td><%= paymentMethods[i].network %></td>
                                                     <td><%= paymentMethods[i].expiry %></td>
                                                 </tr>
                                                 <% } %>
@@ -179,7 +181,7 @@
                                                             <tr>
                                                                 <td><%= i+1 %></td>
                                                                 <td><%= orders[i].package.en.title %></td>
-                                                                <td><%= orders[i].project.title %></td>
+                                                                <td><%= orders[i].project.en.title %></td>
                                                                 <td><%= orders[i].orderDate.toDateString() %></td>
                                                                 <td><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                             </tr>

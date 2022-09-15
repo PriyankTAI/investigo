@@ -55,11 +55,14 @@ router.post('/add', checkAdmin, upload.fields([
     { name: 'icon', maxCount: 1 },
     { name: 'gallery' }
 ]), [
-    check('title', 'title must have a value').notEmpty(),
+    check('EnTitle', 'English title must have a value').notEmpty(),
+    check('EnDesc', 'English description must have a value').notEmpty(),
+    check('FrTitle', 'French title must have a value').notEmpty(),
+    check('FrDesc', 'French description must have a value').notEmpty(),
     check('category', 'category must have a value').notEmpty(),
     check('property', 'property must have a value').notEmpty(),
-    check('description', 'description must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
+    check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
@@ -92,11 +95,17 @@ router.post('/add', checkAdmin, upload.fields([
             }
         }
 
-        const project = new Project({
-            title: req.body.title,
+        await Project.create({
+            en: {
+                title: req.body.EnTitle,
+                description: req.body.EnDesc,
+            },
+            fr: {
+                title: req.body.FrTitle,
+                description: req.body.FrDesc,
+            },
             category: req.body.category,
             property: req.body.property,
-            description: req.body.description,
             totalAmount: req.body.totalAmount,
             location: req.body.location,
             city: req.body.city,
@@ -107,11 +116,10 @@ router.post('/add', checkAdmin, upload.fields([
             image: `/uploads/project/${filename}`,
             icon: `/uploads/project/${iconfilename}`,
             gallery
-        })
-        await project.save();
+        });
 
         req.flash('green', `Project added successfully`);
-        res.redirect('/admin/project')
+        res.redirect('/admin/project');
     } catch (error) {
         console.log(error);
         res.send(error.message);
@@ -147,11 +155,14 @@ router.post('/edit/:id', checkAdmin, upload.fields([
     { name: 'image', maxCount: 1 },
     { name: 'icon', maxCount: 1 }
 ]), [
-    check('title', 'title must have a value').notEmpty(),
+    check('EnTitle', 'English title must have a value').notEmpty(),
+    check('EnDesc', 'English description must have a value').notEmpty(),
+    check('FrTitle', 'French title must have a value').notEmpty(),
+    check('FrDesc', 'French description must have a value').notEmpty(),
     check('category', 'category must have a value').notEmpty(),
     check('property', 'property must have a value').notEmpty(),
-    check('description', 'description must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
+    check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
@@ -160,16 +171,20 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             req.flash('red', validationErrors.errors[0].msg)
             return res.redirect(req.originalUrl);
         }
+
         const id = req.params.id;
         const project = await Project.findById(id);
         if (project == null) {
             req.flash('red', `Project not found!`);
             return res.redirect('/admin/project');
         }
-        project.title = req.body.title;
+
+        project.en.title = req.body.EnTitle;
+        project.en.description = req.body.EnDesc;
+        project.fr.title = req.body.FrTitle;
+        project.fr.description = req.body.FrDesc;
         project.category = req.body.category;
         project.property = req.body.property;
-        project.description = req.body.description;
         project.totalAmount = req.body.totalAmount;
         project.location = req.body.location;
         project.city = req.body.city;

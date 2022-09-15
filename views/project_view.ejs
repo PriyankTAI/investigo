@@ -57,26 +57,44 @@
                             <div class="col s12">
                                 <div class="card">
                                     <div class="card-content">
-                                        <!-- <h4 class="card-title">Project details</h4> -->
                                         <div class="row">
                                             <div class="col s12">
+                                                <h6 class="mb-1 mt-2">English:</h6>
                                                 <table class="display striped">
                                                     <tbody>
                                                         <tr>
-                                                            <th>Title</th>
-                                                            <td><%= project.title %></td>
+                                                            <th style="width: 200px;">Title</th>
+                                                            <td><%= project.en.title %></td>
                                                         </tr>
                                                         <tr>
-                                                            <th>Category</th>
+                                                            <th>Description</th>
+                                                            <td><%= project.en.description %></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <h6 class="mb-1 mt-2">French:</h6>
+                                                <table class="display striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width: 200px;">Title</th>
+                                                            <td><%= project.fr.title %></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Description</th>
+                                                            <td><%= project.fr.description %></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <h6 class="mb-1 mt-2"></h6>
+                                                <table class="display striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width: 200px;">Category</th>
                                                             <td><%= project.category %></td>
                                                         </tr>
                                                         <tr>
                                                             <th>Property</th>
                                                             <td><%= project.property %></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Description</th>
-                                                            <td><%= project.description %></td>
                                                         </tr>
                                                         <tr>
                                                             <th>Location</th>
@@ -98,12 +116,12 @@
                             </div>
                         </div>
 
-                        <div class="row overflow">
-                            <div class="col s12 overflow">
+                        <div class="row">
+                            <div class="col s12">
                                 <div class="card">
                                     <div class="card-content">
                                         <h4 class="card-title">Investors</h4>
-                                        <div class="row">
+                                        <div class="row overflow">
                                             <div class="col s12">
                                                 <div class="row indigo lighten-5 border-radius-4">
                                                     <div class="col s12 m3 users-view-timeline">

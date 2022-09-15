@@ -69,6 +69,7 @@
                                                             <th>UserId</th>
                                                             <th>Amount</th>
                                                             <th>Card</th>
+                                                            <th>Network</th>
                                                             <th>Expiry</th>
                                                             <!-- <th>Date and Time</th> -->
                                                             <th>View</th>
@@ -83,6 +84,7 @@
                                                             <td><%= withdraws[i].user.userId %></td>
                                                             <td><%= withdraws[i].amount %></td>
                                                             <td><%= withdraws[i].paymentMethod.card %></td>
+                                                            <td><%= withdraws[i].paymentMethod.network %></td>
                                                             <td><%= withdraws[i].paymentMethod.expiry %></td>
                                                             <!-- <td><% withdraws[i].date.toLocaleDateString('en-GB', { hour: "2-digit", minute: "2-digit", hour12: true }) %></td> -->
                                                             <td style="max-width: 75px;">

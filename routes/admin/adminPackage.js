@@ -137,7 +137,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
     try {
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
-            req.flash('red', validationErrors.errors[0].msg)
+            req.flash('red', validationErrors.errors[0].msg);
             return res.redirect(req.originalUrl);
         }
 
@@ -163,7 +163,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         if (typeof req.file !== 'undefined') {
             oldImage = "public" + package.image;
 
-            const filename = new Date().toISOString().replace(/:/g, '-') + req.file.originalname.replace(" ", "");
+            const filename = Date.now() + req.file.originalname.replace(" ", "");
             package.image = `/uploads/package/${filename}`;
             if (!fs.existsSync('./public/uploads/package')) {
                 fs.mkdirSync('./public/uploads/package', { recursive: true });

@@ -75,8 +75,8 @@
                                                         <% for( let i = 0; i < projects.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td><%= projects[i].title %></td>
-                                                            <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= projects[i].description %></td>
+                                                            <td><%= projects[i].en.title %></td>
+                                                            <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= projects[i].en.description %></td>
                                                             <td><img src="<%= projects[i].image %>" alt="IMG" height="80" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
                                                             <td><%= projects[i].date.toLocaleDateString('en-GB') %></td>
                                                             <td style="max-width: 80px;">

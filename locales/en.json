@@ -23,7 +23,10 @@
         "resume": "Please provide resume.",
         "withdraw": "Withdraw request must belong to a order.",
         "resumeFile": "Wrong file type! (Please upload only pdf, doc or docx)",
-        "imageFile": "Wrong file type! (Please upload only jpg or png.)"
+        "imageFile": "Wrong file type! (Please upload only jpg or png.)",
+        "cardNum": "Card number is required.",
+        "cardNetword": "Card network is required.",
+        "cardExpiry": "Expiry date is required."
     },
     "error": {
         "emailReg": "Email already registered.",

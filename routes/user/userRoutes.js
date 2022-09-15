@@ -52,7 +52,9 @@ router.get('/package', async (req, res, next) => {
 // GET all projects
 router.get('/project', async (req, res, next) => {
     try {
-        const projects = await Project.find().select('-__v').sort('-_id');
+        let projects = await Project.find().select('-__v').sort('-_id');
+        projects = projects.map(el => multilingual(el, req));
+
         res.json({
             status: "success",
             total: projects.length,
@@ -67,7 +69,9 @@ router.get('/project', async (req, res, next) => {
 // GET project by id
 router.get('/project/:id', async (req, res, next) => {
     try {
-        const project = await Project.findById(req.params.id).select('-__v');
+        let project = await Project.findById(req.params.id).select('-__v');
+        project = multilingual(project, req);
+
         if (project == null) {
             return next(createError.NotFound('Project not found.'))
         }

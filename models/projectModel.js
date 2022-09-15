@@ -2,13 +2,25 @@ const mongoose = require('mongoose');
 
 // project schema
 const projectSchema = mongoose.Schema({
-    title: {
-        type: String,
-        required: [true, 'Title is required'],
+    en: {
+        title: {
+            type: String,
+            required: [true, 'English title is required'],
+        },
+        description: {
+            type: String,
+            required: [true, 'English description is required'],
+        },
     },
-    description: {
-        type: String,
-        required: [true, 'Description is required'],
+    fr: {
+        title: {
+            type: String,
+            required: [true, 'French title is required'],
+        },
+        description: {
+            type: String,
+            required: [true, 'French description is required'],
+        },
     },
     category: {
         type: String,
