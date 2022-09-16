@@ -188,7 +188,8 @@ router.get('/transaction', checkUser, async (req, res, next) => {
 // get all withdraw
 router.get('/withdraw', checkUser, async (req, res, next) => {
     try {
-        const withdraws = await Withdraw.find().sort({ _id: -1 });
+        const withdraws = await Withdraw.find({ user: req.user.id })
+            .sort({ _id: -1 });
         res.json({
             status: "success",
             withdraws
