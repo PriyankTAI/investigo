@@ -26,12 +26,12 @@ router.post("/register", async (req, res, next) => {
         const userExist = await User.findOne({ email: req.body.email });
         if (userExist) {
             if (userExist.googleId) {
-                return next(createError.BadRequest(`Already registered with google.`));
+                return next(createError.BadRequest('error.emailRegG'));
             }
             if (userExist.facebookId) {
-                return next(createError.BadRequest(`Already registered with facebook.`));
+                return next(createError.BadRequest('error.emailRegF'));
             }
-            return next(createError.BadRequest(`Email already registered.`));
+            return next(createError.BadRequest('error.emailReg'));
         }
         const id = customId({});
         const user = new User({
@@ -48,7 +48,7 @@ router.post("/register", async (req, res, next) => {
     } catch (error) {
         // console.log(error.message);
         if (error.keyValue && error.keyValue.userId) {
-            return next(createError.InternalServerError('An error occured. Please try again.'));
+            return next(createError.InternalServerError('error.server'));
         }
         next(error);
     }
@@ -66,22 +66,22 @@ router.post("/login", async (req, res, next) => {
         const userExist = await User.findOne({ email }).select('-__v -blocked -secret');
         if (password) { // password
             if (!userExist) {
-                return next(createError.BadRequest(`Invalid email or password.`));
+                return next(createError.BadRequest('error.invalidCred'));
             }
             if (!userExist.password) {
                 if (userExist.googleId) {
-                    return next(createError.BadRequest(`Please login with google.`));
+                    return next(createError.BadRequest('error.loginGoogle'));
                 }
                 if (userExist.facebookId) {
-                    return next(createError.BadRequest(`Please login with facebook.`));
+                    return next(createError.BadRequest('error.loginFacebook'));
                 }
             }
             const isMatch = await bcrypt.compare(password, userExist.password);
             if (!isMatch) {
-                return next(createError.BadRequest(`Invalid email or password.`));
+                return next(createError.BadRequest('error.invalidCred'));
             }
             if (userExist.twofa) {
-                return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
+                return res.status(200).json({ status: "success", message: req.t("2fa.required") });
             }
             const token = await userExist.generateAuthToken(device);
             return res.status(200).json({ status: "success", token, user: userExist });
@@ -89,17 +89,17 @@ router.post("/login", async (req, res, next) => {
             if (userExist) {
                 if (!userExist.googleId) {
                     if (userExist.facebookId) {
-                        return next(createError.BadRequest(`Please login with facebook.`));
+                        return next(createError.BadRequest('error.loginFacebook'));
                     }
                     if (userExist.password) {
-                        return next(createError.BadRequest(`Please login with email and password.`));
+                        return next(createError.BadRequest('error.loginCred'));
                     }
                 }
                 if (userExist.googleId != googleId) {
                     return next(createError.BadRequest(`Invalid google id.`));
                 }
                 if (userExist.twofa) {
-                    return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
+                    return res.status(200).json({ status: "success", message: req.t("2fa.required") });
                 }
                 const token = await userExist.generateAuthToken(device);
                 return res.status(200).json({ status: "success", token, user: userExist });
@@ -111,7 +111,7 @@ router.post("/login", async (req, res, next) => {
                     email: req.body.email,
                     userId: id,
                     googleId,
-                })
+                });
                 const token = await user.generateAuthToken(device);
                 // await user.save();
                 return res.status(200).json({ status: "success", token, user });
@@ -120,17 +120,17 @@ router.post("/login", async (req, res, next) => {
             if (userExist) {
                 if (!userExist.facebookId) {
                     if (userExist.googleId) {
-                        return next(createError.BadRequest(`Please login with google.`));
+                        return next(createError.BadRequest('error.loginGoogle'));
                     }
                     if (userExist.password) {
-                        return next(createError.BadRequest(`Please login with email and password.`));
+                        return next(createError.BadRequest('error.loginCred'));
                     }
                 }
                 if (userExist.facebookId != facebookId) {
                     return next(createError.BadRequest(`Invalid facebook id.`));
                 }
                 if (userExist.twofa) {
-                    return res.status(200).json({ status: "success", message: "Two Factor Authentication required." });
+                    return res.status(200).json({ status: "success", message: req.t("2fa.required") });
                 }
                 const token = await userExist.generateAuthToken(device);
                 return res.status(200).json({ status: "success", token, user: userExist });
@@ -153,7 +153,7 @@ router.post("/login", async (req, res, next) => {
     } catch (error) {
         // console.log(error.message);
         if (error.keyValue && error.keyValue.userId) {
-            return next(createError.InternalServerError('An error occured. Please try again.'));
+            return next(createError.InternalServerError('error.server'));
         }
         next(error);
     }
@@ -168,11 +168,11 @@ router.post("/two-factor-login", async (req, res, next) => {
         if (!user)
             return next(createError.BadRequest("Email not registered."));
         if (!user.secret)
-            return next(createError.BadRequest("Two factor authentication is not enabled!"));
+            return next(createError.BadRequest("2fa.notEnabled"));
 
         const verify = await user.verifyCode(code);
         if (!verify)
-            return next(createError.BadRequest("Fail to verify code!"));
+            return next(createError.BadRequest("2fa.failCode"));
 
         const token = await user.generateAuthToken(device);
         // hide secret
@@ -194,7 +194,7 @@ router.get("/logout", checkUser, async (req, res, next) => {
         await req.user.save();
         return res.status(200).json({
             status: "success",
-            message: "logged out successfully."
+            message: req.t("auth.logout")
         });
     } catch (error) {
         // console.log(error);
@@ -212,7 +212,7 @@ router.get("/logoutall", checkUser, async (req, res, next) => {
         await req.user.save();
         return res.status(200).json({
             status: "success",
-            message: "logged out other devices."
+            message: req.t("auth.logoutAll")
         });
     } catch (error) {
         // console.log(error);
@@ -226,37 +226,37 @@ router.post("/changepass", checkUser, async (req, res, next) => {
         const user = req.user;
         if (!user.password) {
             if (user.googleId) {
-                return next(createError.BadRequest(`You are a google user can not change password!`));
+                return next(createError.BadRequest('changePass.google'));
             }
             if (user.facebookId) {
-                return next(createError.BadRequest(`You are a facebook user can not change password!`));
+                return next(createError.BadRequest('changePass.facebook'));
             }
         }
         const { currentpass, newpass, cfnewpass } = req.body;
         if (!currentpass || currentpass.length < 6) {
-            return next(createError.BadRequest(`Password should be atleast 6 characters long`));
+            return next(createError.BadRequest('changePass.pass'));
         }
         if (!newpass || newpass.length < 6) {
-            return next(createError.BadRequest(`New Password should be atleast 6 characters long`));
+            return next(createError.BadRequest('changePass.newPass'));
         }
         if (!cfnewpass || cfnewpass.length < 6) {
-            return next(createError.BadRequest(`Confirm Password should be atleast 6 characters long`));
+            return next(createError.BadRequest('changePass.cfPass'));
         }
         const isMatch = await bcrypt.compare(currentpass, user.password);
         if (!isMatch) {
-            return next(createError.BadRequest(`Wrong current password`));
+            return next(createError.BadRequest('changePass.wrongPass'));
         }
         if (currentpass == newpass) {
-            return next(createError.BadRequest(`New password can not be same as current password`));
+            return next(createError.BadRequest('changePass.samePass'));
         }
         if (newpass != cfnewpass) {
-            return next(createError.BadRequest(`Password and confirm password do not match`));
+            return next(createError.BadRequest('changePass.notMatch'));
         }
         user.password = newpass;
         await user.save();
         return res.status(200).json({
             status: "success",
-            message: "password updated"
+            message: req.t('changePass.updated')
         });
     } catch (error) {
         console.log(error.message);
@@ -270,7 +270,7 @@ router.post("/forgot", async (req, res, next) => {
         const email = req.body.email;
         const user = await User.findOne({ email });
         if (user == null) {
-            return next(createError.BadRequest(`Please enter registerd email`));
+            return next(createError.BadRequest('notReg'));
         }
 
         let otp = await Otp.findOne({ userId: user._id });
@@ -300,13 +300,13 @@ router.post("/reset_pass", async (req, res, next) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         if (user == null) {
-            return next(createError.BadRequest(`Please enter registerd email`));
+            return next(createError.BadRequest('notReg'));
         }
         user.password = password;
         await user.save();
         return res.status(200).json({
             status: "success",
-            message: "Password changed successfully"
+            message: req.t('passChanged')
         });
     } catch (error) {
         console.log(error);
@@ -318,7 +318,7 @@ router.post("/reset_pass", async (req, res, next) => {
 router.get('/get-2fa-qr', checkUser, async (req, res, next) => {
     try {
         if (req.user.twofa)
-            return next(createError.Conflict("Two factor authentication already enabled."));
+            return next(createError.Conflict('2fa.already'));
 
         const email = req.user.email;
 
@@ -351,12 +351,12 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
         const user = req.user;
 
         if (user.twofa)
-            return next(createError.Conflict("Two factor authentication already enabled."));
+            return next(createError.Conflict('2fa.already'));
 
         const verify = await user.verifyCode(req.body.code);
 
         if (!verify)
-            return next(createError.Conflict("Fail to verify code!"));
+            return next(createError.Conflict('2fa.failCode'));
 
         // generate and store recovery code
         const recoveryCode = generateCode(8);
@@ -368,7 +368,7 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
         return res.json({
             status: "Success",
             recoveryCode,
-            message: "Two factor authentication enabled."
+            message: req.t('2fa.enabled')
         });
     } catch (error) {
         console.log(error);
@@ -382,12 +382,12 @@ router.post("/disable-2fa", checkUser, async (req, res, next) => {
         const user = req.user;
 
         if (!user.twofa)
-            return next(createError.Conflict("Two factor authentication already disabled."));
+            return next(createError.Conflict('2fa.notEnabled'));
 
         const verify = await user.verifyCode(req.body.code);
 
         if (!verify)
-            return next(createError.Conflict("Fail to verify code!"));
+            return next(createError.Conflict('2fa.failCode'));
 
         user.secret = undefined;
         user.recoveryCode = undefined;
@@ -396,7 +396,7 @@ router.post("/disable-2fa", checkUser, async (req, res, next) => {
 
         return res.json({
             status: "Success",
-            message: "Two factor authentication disabled."
+            message: req.t('2fa.disabled')
         });
     } catch (error) {
         console.log(error);
@@ -410,17 +410,17 @@ router.post('/recover', async (req, res, next) => {
         const email = req.body.email;
         const user = await User.findOne({ email });
         if (!user)
-            return next(createError.BadRequest('Email is not registered.'));
+            return next(createError.BadRequest('notReg'));
 
         const secret = user.secret;
         if (!secret) {
             console.log(`user.secret is ${user.secret}!`);
-            return next(createError.BadRequest('Two factor authentication is not enabled.'));
+            return next(createError.BadRequest('2fa.notEnabled'));
         }
 
         // check recovery code
         if (req.body.recoveryCode != user.recoveryCode)
-            return next(createError.BadRequest('Wrong recovery code.'));
+            return next(createError.BadRequest('2fa.wrongRecovery'));
 
         // generate qr
         QRCode.toDataURL(authenticator.keyuri(email, 'Investigo', secret), (err, url) => {

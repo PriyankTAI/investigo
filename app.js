@@ -85,6 +85,15 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 global.io = io;
 
+// io.on('connection', function (io) {
+//     console.log(`new connection: ${io.id}`);
+//     io.on('join', function (data) {
+//         console.log('join received');
+//         io.join(data.email);
+//         io.emit('admin2@gmail.com', { msg: 'finally..' })
+//     });
+// });
+
 // Development logging
 // if (process.env.NODE_ENV === 'development') {
 //     const morgan = require('morgan');
@@ -115,11 +124,6 @@ app.use('/admin/project', require('./routes/admin/adminProject'));
 app.use('/admin/blog', require('./routes/admin/adminBlog'));
 app.use('/admin/order', require('./routes/admin/adminOrder'));
 
-// test language route
-app.get('/lang', (req, res) => {
-    res.send(req.t('home.title'));
-});
-
 // 404 uploads
 app.all('/uploads/*', (req, res) => {
     res.status(404).render("404", { message: 'File not found!' });
@@ -149,8 +153,8 @@ app.use((error, req, res, next) => {
     if (error.name === "ValidationError") {
         let errors = {};
         Object.keys(error.errors).forEach((key) => {
-            errors[key] = error.errors[key].message;
-            // errors[key] = req.t(error.errors[key].message);
+            // errors[key] = error.errors[key].message;
+            errors[key] = req.t(error.errors[key].message);
         });
         return res.status(400).send({
             status: "fail",
@@ -163,8 +167,8 @@ app.use((error, req, res, next) => {
         Object.keys(error.message.errors).forEach((key) => {
             let myKey = key;
             if (myKey.includes('.')) myKey = myKey.split('.').pop();
-            errors[myKey] = error.message.errors[key].message;
-            // errors[key] = req.t(error.message.errors[key].message);
+            // errors[myKey] = error.message.errors[key].message;
+            errors[myKey] = req.t(error.message.errors[key].message);
         });
         return res.status(400).send({
             status: "fail",
@@ -172,9 +176,13 @@ app.use((error, req, res, next) => {
         });
     }
 
+    if (error.message.toString().includes(': ') && error.name == "BadRequestError") {
+        error.message = error.message.toString().split(': ').pop();
+        // console.log(error.message);
+    }
     res.status(error.status || 500).json({
         status: "fail",
-        message: error.message,
+        message: req.t(error.message),
     })
 })
 

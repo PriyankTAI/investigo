@@ -7,17 +7,16 @@ const paymentMethodSchema = new mongoose.Schema({
     },
     card: {
         type: String,
-        required: [true, "Card number is required."]
+        required: [true, "validation.cardNum"]
     },
     network: {
         type: String,
-        required: [true, "Card network is required."]
+        required: [true, "validation.cardNetwork"]
     },
     expiry: {
         type: String,
-        required: [true, "Expiry date is required."]
+        required: [true, "validation.cardExpiry"]
     }
-
-})
+});
 
 module.exports = mongoose.model("PaymentMethod", paymentMethodSchema);

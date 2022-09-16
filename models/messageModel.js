@@ -4,38 +4,38 @@ const validator = require("validator");
 const messageSchema = new mongoose.Schema({
     fname: {
         type: String,
-        required: [true, 'First name is required'],
+        required: [true, 'validation.fname'],
     },
     lname: {
         type: String,
-        required: [true, 'Last name is required'],
+        required: [true, 'validation.lname'],
     },
     email: {
         type: String,
-        required: [true, 'Email is required'],
+        required: [true, 'validation.email'],
         validate(value) {
             if (!validator.isEmail(value)) {
-                throw new Error("Email is invalid")
+                throw new Error("validation.emailInvalid")
             }
         }
     },
     phone: {
         type: String,
-        required: [true, 'Phone is required'],
+        required: [true, 'validation.phone'],
     },
     subject: {
         type: String,
-        required: [true, 'Subject is required'],
+        required: [true, 'validation.subject'],
     },
     message: {
         type: String,
-        required: [true, 'Message is required'],
+        required: [true, 'validation.message'],
     },
     date: {
         type: Date,
         default: Date.now()
     }
-})
+});
 
 // pre validate trim value
 messageSchema.pre('validate', function (next) {

@@ -21,7 +21,7 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'application/pdf' || file.mimetype === 'application/msword' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
         cb(null, true);
     } else {
-        cb(createError.BadRequest('Wrong file type! (Please upload only pdf, doc or docx)'), false);
+        cb(createError.BadRequest('validation.resumeFile'), false);
     }
 };
 const upload = multer({
@@ -47,7 +47,7 @@ router.get('/package', async (req, res, next) => {
         console.log(error);
         next(error);
     }
-})
+});
 
 // GET all projects
 router.get('/project', async (req, res, next) => {
@@ -59,12 +59,12 @@ router.get('/project', async (req, res, next) => {
             status: "success",
             total: projects.length,
             projects
-        })
+        });
     } catch (error) {
         console.log(error);
-        next(error)
+        next(error);
     }
-})
+});
 
 // GET project by id
 router.get('/project/:id', async (req, res, next) => {
@@ -73,20 +73,20 @@ router.get('/project/:id', async (req, res, next) => {
         project = multilingual(project, req);
 
         if (project == null) {
-            return next(createError.NotFound('Project not found.'))
+            return next(createError.NotFound('notFound.project'));
         }
         res.json({
             status: "success",
             project
-        })
+        });
     } catch (error) {
         if (error.name == 'CastError') {
-            return next(createError.NotFound(`Project not found.`));
+            return next(createError.NotFound('notFound.project'));
         }
         console.log(error.message);
         next(error);
     }
-})
+});
 
 // GET all blogs
 router.get('/blog', async (req, res, next) => {
@@ -121,7 +121,7 @@ router.get('/blog/:id', async (req, res, next) => {
             .select('-__v');
 
         if (blog == null)
-            return next(createError.NotFound(`Blog not found.`));
+            return next(createError.NotFound('notFound.blog'));
 
         blog = multilingual(blog, req);
 
@@ -131,7 +131,7 @@ router.get('/blog/:id', async (req, res, next) => {
         });
     } catch (error) {
         if (error.name == 'CastError')
-            return next(createError.NotFound(`Blog not found.`));
+            return next(createError.NotFound('notFound.blog'));
         console.log(error.message);
         next(error);
     }
@@ -143,24 +143,24 @@ router.post('/newsletter', async (req, res, next) => {
         const { email } = req.body;
         const emailExist = await Newsletter.findOne({ email });
         if (emailExist)
-            return next(createError.BadRequest('email is already in our newsletter list.'));
+            return next(createError.BadRequest('newsletter.already'));
 
         await Newsletter.create({ email });
         res.status(201).json({
             status: 'success',
-            message: 'Email added to our newsletter list.'
+            message: req.t('newsletter.success')
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
-})
+});
 
 // POST application
 router.post('/application', upload.single('resume'), async (req, res, next) => {
     try {
         if (req.file == undefined) {
-            return next(createError.BadRequest('Please provide resume.'));
+            return next(createError.BadRequest('validation.resume'));
         }
         const fileName = '/uploads/resume/' + customId({ randomLength: 1 }) + '_' + req.file.originalname;
         const path = './public' + fileName;
@@ -170,7 +170,7 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
             email: req.body.email,
             phone: req.body.phone,
             resume: fileName
-        })
+        });
         await application.save();
 
         // save resume to file
@@ -181,12 +181,12 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
 
         res.status(201).json({
             status: "success",
-            message: "Application registerd successfully"
+            message: req.t('application')
         });
     } catch (error) {
-        console.log(error.message);
+        // console.log(error.message);
         next(error);
     }
-})
+});
 
 module.exports = router;

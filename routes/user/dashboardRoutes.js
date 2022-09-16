@@ -17,7 +17,7 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true);
     } else {
-        cb(createError.BadRequest('Wrong file type! (Please upload only jpg or png.)'), false);
+        cb(createError.BadRequest('validation.imageFile'), false);
     }
 };
 const upload = multer({
@@ -41,7 +41,7 @@ router.get('/profile', checkUser, async (req, res, next) => {
         });
     } catch (error) {
         console.log(error.message);
-        next(error)
+        next(error);
     }
 })
 
@@ -85,10 +85,10 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
         });
     } catch (error) {
         if (error.code == '11000' && Object.keys(error.keyValue) == 'national') {
-            return next(createError.BadRequest('National number is already registered.'))
+            return next(createError.BadRequest('error.nationalReg'));
         }
         if (error.code == '11000' && Object.keys(error.keyValue) == 'email') {
-            return next(createError.BadRequest('Email is already registered.'))
+            return next(createError.BadRequest('error.emailReg'));
         }
         console.log(error.message);
         next(error);
@@ -124,10 +124,10 @@ router.post('/paymentMethod', checkUser, async (req, res, next) => {
 
         res.json({
             status: "success",
-            message: "Payment method added."
+            message: req.t('payment')
         });
     } catch (error) {
-        console.log(error.message);
+        // console.log(error.message);
         next(error);
     }
 });
@@ -193,7 +193,7 @@ router.get('/withdraw', checkUser, async (req, res, next) => {
         res.json({
             status: "success",
             withdraws
-        })
+        });
     } catch (error) {
         console.log(error);
         next(error);
@@ -209,7 +209,7 @@ router.post('/withdraw', checkUser, async (req, res, next) => {
 
         // check date
         if (Date.now() < Date.parse(order.endDate.toJSON().substring(0, 10)))
-            return next(createError.BadRequest('Not yet available.'));
+            return next(createError.BadRequest('notYet'));
 
         // calculate amount
         const amount = Math.round(
@@ -233,11 +233,11 @@ router.post('/withdraw', checkUser, async (req, res, next) => {
 
         res.status(201).json({
             status: "success",
-            message: "Withdraw request created."
-        })
+            message: req.t('withdraw')
+        });
     } catch (error) {
         if (error.code === 11000)
-            return next(createError.BadRequest('Withdraw already requested for this order.'));
+            return next(createError.BadRequest('error.withdrawOrder'));
         console.log(error);
         next(error);
     }

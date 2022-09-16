@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const createError = require('http-errors');
-const { authenticator } = require('otplib')
+const { authenticator } = require('otplib');
 
 const userSchema = new mongoose.Schema({
     googleId: String,
@@ -19,28 +19,27 @@ const userSchema = new mongoose.Schema({
     },
     fname: {
         type: String,
-        required: [true, 'First name is required'],
+        required: [true, 'validation.fname'],
     },
     lname: {
         type: String,
-        required: [true, 'Last name is required'],
+        required: [true, 'validation.lname'],
     },
     email: {
         type: String,
-        required: [true, 'Email is required'],
+        required: [true, 'validation.email'],
         unique: true,
         validate(value) {
             if (!validator.isEmail(value)) {
-                throw new Error("Email is invalid")
+                throw new Error("validation.emailInvalid")
             }
         }
     },
     password: {
         type: String,
-        // required: [true, 'Password is required'],
         validate(value) {
             if (!validator.isLength(value, { min: 6, max: 1000 })) {
-                throw Error("Password should be atleast 6 characters long.");
+                throw Error("validation.passInvalid");
             }
         }
     },
@@ -49,7 +48,7 @@ const userSchema = new mongoose.Schema({
         token: String,
         device: {
             type: String,
-            required: [true, 'Device is required'],
+            required: [true, 'validation.device'],
         },
         date: {
             type: Date,
@@ -112,7 +111,7 @@ userSchema.methods.generateAuthToken = async function (device) {
 // verify 2fa code
 userSchema.methods.verifyCode = function (code) {
     try {
-        return authenticator.check(code, this.secret)
+        return authenticator.check(code, this.secret);
     } catch (error) {
         // console.log(error);
         createError.BadRequest(error);
@@ -123,7 +122,7 @@ userSchema.methods.verifyCode = function (code) {
 userSchema.pre("save", async function (next) {
     if (this.isModified("password")) {
         if (this.password == undefined) {
-            return next(createError.BadRequest('Password is required.'));
+            return next(createError.BadRequest('validation.pass'));
         }
         this.password = await bcrypt.hash(this.password, 10);
     }

@@ -96,7 +96,7 @@ router.post("/contact", async (req, res, next) => {
         io.emit('msg', message);
         res.status(201).json({
             status: "success",
-            message: "Message sent successfully",
+            message: req.t('msg'),
         });
     } catch (error) {
         next(error);

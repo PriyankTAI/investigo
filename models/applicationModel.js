@@ -4,24 +4,24 @@ const validator = require("validator");
 const applicationSchema = new mongoose.Schema({
     fname: {
         type: String,
-        required: [true, 'First name is required'],
+        required: [true, 'validation.fname'],
     },
     lname: {
         type: String,
-        required: [true, 'Last name is required'],
+        required: [true, 'validation.lname'],
     },
     email: {
         type: String,
-        required: [true, 'Email is required'],
+        required: [true, 'validation.email'],
         validate(value) {
             if (!validator.isEmail(value)) {
-                throw new Error("Email is invalid")
+                throw new Error("validation.emailInvalid")
             }
         }
     },
     phone: {
         type: String,
-        required: [true, 'Phone is required'],
+        required: [true, 'validation.phone'],
     },
     resume: String,
     date: {

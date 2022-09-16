@@ -21,11 +21,10 @@
         "subject": "Subject is required.",
         "message": "Message is required.",
         "resume": "Please provide resume.",
-        "withdraw": "Withdraw request must belong to a order.",
         "resumeFile": "Wrong file type! (Please upload only pdf, doc or docx)",
         "imageFile": "Wrong file type! (Please upload only jpg or png.)",
         "cardNum": "Card number is required.",
-        "cardNetword": "Card network is required.",
+        "cardNetwork": "Card network is required.",
         "cardExpiry": "Expiry date is required."
     },
     "error": {
@@ -37,7 +36,6 @@
         "loginGoogle": "Please login with google.",
         "loginFacebook": "Please login with facebook.",
         "loginCred": "Please login with email and password.",
-        "provideMethod": "Please provide password, googleId or facebookId.",
         "withdrawOrder": "Withdraw already request for this order.",
         "server": "An error occured, Please try again."
     },
@@ -55,9 +53,11 @@
     "2fa": {
         "already": "Two factor authentication already enabled.",
         "enabled": "Two factor authentication enabled.",
+        "disabled": "Two factor authentication disabled.",
         "required": "Two Factor authentication required.",
         "notEnabled": "Two factor authentication is not enabled!",
-        "failCode": "Fail to verify code!"
+        "failCode": "Fail to verify code!",
+        "wrongRecovery": "Wrong recovery code."
     },
     "notReg": "Please enter registerd email.",
     "passChanged": "Password changed successfully.",
@@ -71,9 +71,7 @@
         "already": "Email is already in our newsletter list.",
         "success": "Email added to our newsletter list."
     },
+    "payment": "Payment method added.",
     "withdraw": "Withdraw request created.",
-    "404": "404 not found!",
-    "home": {
-        "title": "Hello World!"
-    }
+    "notYet": "Can not withdraw yet!"
 }
