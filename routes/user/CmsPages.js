@@ -4,6 +4,7 @@ const multilingual = require('../../helpers/multilingual');
 // models
 const Contact = require('../../models/contactModel');
 const Page = require('../../models/pageModel');
+const FAQs = require('../../models/faqsModel');
 const Message = require('../../models/messageModel');
 
 // about us
@@ -25,12 +26,12 @@ router.get("/about_us", async (req, res, next) => {
 // faqs
 router.get("/faqs", async (req, res, next) => {
     try {
-        let page = await Page.findOne({ title: 'FAQs' });
-        page = multilingual(page, req);
-        const content = page.content;
+        let faqs = await FAQs.find().select('-_id -__v');
+        faqs = faqs.map(el => multilingual(el, req));
+
         res.json({
             status: "success",
-            content
+            content: faqs
         });
     } catch (error) {
         console.log(error);
@@ -101,6 +102,6 @@ router.post("/contact", async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-})
+});
 
 module.exports = router;

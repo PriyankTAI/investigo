@@ -38,7 +38,7 @@ router.get('/', checkAdmin, async (req, res) => {
         const [users, orders] = await Promise.all([
             User.find().select('date'),
             Order.find().populate('package'),
-        ])
+        ]);
 
         var newUsers = 0;
         for (let i = 0; i < users.length; i++) {

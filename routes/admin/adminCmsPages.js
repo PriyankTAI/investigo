@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { check, validationResult } = require('express-validator');
 
 const Page = require('../../models/pageModel');
+const FAQs = require('../../models/faqsModel');
 const Contact = require('../../models/contactModel');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
@@ -58,45 +59,6 @@ router.post('/about_us', checkAdmin, [
 
         req.flash('green', 'About us updated successfully.');
         res.redirect('/admin/cms/about_us');
-    } catch (error) {
-        console.log(error);
-        req.flash('red', error.message);
-        res.redirect(req.originalUrl);
-    }
-});
-
-// faqs
-router.get("/faqs", checkAdmin, async (req, res) => {
-    try {
-        const page = await Page.findOne({ title: 'FAQs' });
-        res.status(201).render("faqs", {
-            page,
-            image: req.admin.image
-        });
-    } catch (error) {
-        console.log(error);
-        req.flash('red', error.message);
-        res.redirect(req.originalUrl);
-    }
-});
-
-router.post('/faqs', checkAdmin, [
-    check('EnContent', 'English content must have a value').notEmpty(),
-    check('FrContent', 'French content must have a value').notEmpty(),
-], async function (req, res) {
-    const validationErrors = validationResult(req);
-    if (validationErrors.errors.length > 0) {
-        req.flash('red', validationErrors.errors[0].msg);
-        return res.redirect(req.originalUrl);
-    }
-    try {
-        const page = await Page.findOne({ title: 'FAQs' });
-        page.en.content = req.body.EnContent;
-        page.fr.content = req.body.FrContent;
-        await page.save();
-
-        req.flash('green', 'FAQs updated successfully.')
-        res.redirect('/admin/cms/faqs')
     } catch (error) {
         console.log(error);
         req.flash('red', error.message);
@@ -251,6 +213,144 @@ router.post('/upload', upload.single('upload'), async (req, res) => {
     } catch (error) {
         res.send(error.message);
         console.log(error.message);
+    }
+});
+
+// GET all faqs
+router.get("/faqs", checkAdmin, async (req, res) => {
+    try {
+        const faqs = await FAQs.find();
+        res.status(201).render("faqs_new", {
+            faqs,
+            image: req.admin.image
+        });
+    } catch (error) {
+        console.log(error);
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
+    }
+});
+
+// GET add faq
+router.get("/faqs/add", checkAdmin, async (req, res) => {
+    res.render("add_faq", { image: req.admin.image });
+});
+
+// POST add faq
+router.post("/faqs/add", checkAdmin, [
+    check('EnQue', 'English question must have a value').notEmpty(),
+    check('EnAns', 'English answer must have a value').notEmpty(),
+    check('FrQue', 'French question must have a value').notEmpty(),
+    check('FrAns', 'French answer must have a value').notEmpty(),
+], async (req, res) => {
+    try {
+        const validationErrors = validationResult(req);
+        if (validationErrors.errors.length > 0) {
+            req.flash('red', validationErrors.errors[0].msg);
+            return res.redirect(req.originalUrl);
+        }
+
+        await FAQs.create({
+            en: {
+                question: req.body.EnQue,
+                answer: req.body.EnAns,
+            },
+            fr: {
+                question: req.body.FrQue,
+                answer: req.body.FrAns,
+            },
+            category: req.body.category,
+        });
+
+        req.flash('green', `FAQ added successfully.`);
+        res.redirect('/admin/cms/faqs');
+    } catch (error) {
+        req.flash('red', error.message);
+        res.redirect('/admin/cms/faqs');
+    }
+});
+
+// GET edit faq
+router.get("/faqs/edit/:id", checkAdmin, async (req, res) => {
+    try {
+        const faq = await FAQs.findById(req.params.id);
+        if (faq == null) {
+            req.flash('red', `FAQ not found!`);
+            return res.redirect('/admin/cms/faqs');
+        }
+
+        res.status(201).render("edit_faq", {
+            faq,
+            image: req.admin.image
+        });
+    } catch (error) {
+        if (error.name === 'CastError') {
+            req.flash('red', `FAQ not found!`);
+            res.redirect('/admin/cms/faqs');
+        } else {
+            req.flash('red', error.message);
+            res.redirect('/admin/cms/faqs');
+        }
+    }
+});
+
+// POST Edit project
+router.post('/faqs/edit/:id', checkAdmin, [
+    check('EnQue', 'English question must have a value').notEmpty(),
+    check('EnAns', 'English answer must have a value').notEmpty(),
+    check('FrQue', 'French question must have a value').notEmpty(),
+    check('FrAns', 'French answer must have a value').notEmpty(),
+], async (req, res) => {
+    try {
+        const validationErrors = validationResult(req);
+        if (validationErrors.errors.length > 0) {
+            req.flash('red', validationErrors.errors[0].msg);
+            return res.redirect(req.originalUrl);
+        }
+
+        const faq = await FAQs.findById(req.params.id);
+        if (faq == null) {
+            req.flash('red', `FAQ not found!`);
+            return res.redirect('/admin/cms/faqs');
+        }
+
+        faq.en.question = req.body.EnQue;
+        faq.en.answer = req.body.EnAns;
+        faq.fr.question = req.body.FrQue;
+        faq.fr.answer = req.body.FrAns;
+        faq.category = req.body.category;
+        await faq.save();
+
+        req.flash('green', `FAQ edited successfully.`);
+        res.redirect('/admin/cms/faqs');
+    } catch (error) {
+        if (error.name === 'CastError') {
+            req.flash('red', `FAQ not found!`);
+            res.redirect('/admin/cms/faqs');
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+            res.redirect(req.originalUrl);
+        }
+    }
+});
+
+// GET delete faq
+router.get("/faqs/delete/:id", checkAdmin, async (req, res) => {
+    try {
+        await FAQs.findByIdAndRemove(req.params.id);
+
+        req.flash('green', `FAQ deleted successfully.`);
+        res.redirect('/admin/cms/faqs');
+    } catch (error) {
+        if (error.name === 'CastError' || error.name === 'TypeError') {
+            req.flash('red', `FAQ not found!`);
+            res.redirect('/admin/cms/faqs');
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+            res.redirect('/admin/cms/faqs');
+        }
     }
 });
 
