@@ -2,6 +2,7 @@ const router = require('express').Router();
 const createError = require('http-errors');
 const fs = require('fs-extra');
 const sharp = require('sharp');
+const multilingual = require('../../helpers/multilingual');
 
 const checkUser = require('../../middleware/authMiddleware');
 
@@ -133,12 +134,20 @@ router.post('/paymentMethod', checkUser, async (req, res, next) => {
 });
 
 // GET all orders
-router.get('/order', checkUser, async (req, res) => {
+router.get('/order', checkUser, async (req, res, next) => {
     try {
-        const orders = await Order.find({ user: req.user.id })
-            .populate('project', 'title image')
-            .populate('package', 'title monthlyReturn dailyReturn annualReturn')
+        let orders = await Order.find({ user: req.user.id })
+            .populate('project', 'en.title image')
+            .populate('package', 'monthlyReturn dailyReturn annualReturn')
             .select('paymentType orderDate amount endDate withdrawn');
+
+        orders = orders.map(el => {
+            el = el.toObject();
+            el.project.title = el.project.en.title;
+            el.project.en = undefined;
+            return el;
+        });
+
         res.json({
             status: "success",
             total: orders.length,
@@ -151,7 +160,7 @@ router.get('/order', checkUser, async (req, res) => {
 });
 
 // GET all invesments
-router.get('/investment', checkUser, async (req, res) => {
+router.get('/investment', checkUser, async (req, res, next) => {
     try {
         const orders = await Order.find({ user: req.user.id })
             .populate('project', 'title image')

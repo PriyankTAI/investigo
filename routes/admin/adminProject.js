@@ -348,7 +348,7 @@ router.get('/gallery/:id', checkAdmin, async (req, res) => {
         }
         res.redirect('/admin/project');
     }
-})
+});
 
 // GET project by id
 router.get('/:id', checkAdmin, async (req, res) => {
@@ -368,8 +368,8 @@ router.get('/:id', checkAdmin, async (req, res) => {
                 },
                 { $sort: { _id: 1 } },
                 { $lookup: { from: 'packages', localField: '_id', foreignField: '_id', as: 'package' } }
-            ])
-        ])
+            ]),
+        ]);
 
         if (project == null) {
             req.flash('red', 'Project not found!');
@@ -391,6 +391,6 @@ router.get('/:id', checkAdmin, async (req, res) => {
         }
         res.redirect('/admin/project');
     }
-})
+});
 
 module.exports = router;
