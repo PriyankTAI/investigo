@@ -4,11 +4,13 @@ module.exports = (doc, req) => {
         ? req.headers['accept-language']
         : 'en';
     const lang = doc[language];
-    const newDoc = { ...doc._doc, ...lang };
+    let spread = doc.toObject ? doc.toObject() : doc;
+    const newDoc = { ...spread , ...lang };
     delete newDoc.en;
     delete newDoc.fr;
     return newDoc;
 }
 
-// const newDoc = { ...doc.toObject(), ...lang } // can include options
+// doc._doc
+// doc.toObject() // can include options
 // https://stackoverflow.com/questions/7503450/how-do-you-turn-a-mongoose-document-into-a-plain-object

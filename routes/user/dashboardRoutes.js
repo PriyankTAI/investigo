@@ -137,14 +137,14 @@ router.post('/paymentMethod', checkUser, async (req, res, next) => {
 router.get('/order', checkUser, async (req, res, next) => {
     try {
         let orders = await Order.find({ user: req.user.id })
-            .populate('project', 'en.title image')
-            .populate('package', 'monthlyReturn dailyReturn annualReturn')
+            .populate('project', 'en.title fr.title image')
+            .populate('package', 'en.title fr.title monthlyReturn dailyReturn annualReturn')
             .select('paymentType orderDate amount endDate withdrawn');
 
         orders = orders.map(el => {
             el = el.toObject();
-            el.project.title = el.project.en.title;
-            el.project.en = undefined;
+            el.project = multilingual(el.project, req);
+            el.package = multilingual(el.package, req);
             return el;
         });
 
@@ -162,10 +162,18 @@ router.get('/order', checkUser, async (req, res, next) => {
 // GET all invesments
 router.get('/investment', checkUser, async (req, res, next) => {
     try {
-        const orders = await Order.find({ user: req.user.id })
-            .populate('project', 'title image')
-            .populate('package', 'title monthlyReturn')
+        let orders = await Order.find({ user: req.user.id })
+            .populate('project', 'en.title fr.title image')
+            .populate('package', 'en.title fr.title monthlyReturn')
             .select('paymentType orderDate amount endDate');
+
+        orders = orders.map(el => {
+            el = el.toObject();
+            el.project = multilingual(el.project, req);
+            el.package = multilingual(el.package, req);
+            return el;
+        });
+
         res.json({
             status: "success",
             total: orders.length,
@@ -180,9 +188,16 @@ router.get('/investment', checkUser, async (req, res, next) => {
 // GET all transactions
 router.get('/transaction', checkUser, async (req, res, next) => {
     try {
-        const orders = await Order.find({ user: req.user.id })
-            .populate('project', 'title image')
+        let orders = await Order.find({ user: req.user.id })
+            .populate('project', 'en.title fr.title image')
             .select('paymentType orderDate');
+
+        orders = orders.map(el => {
+            el = el.toObject();
+            el.project = multilingual(el.project, req);
+            return el;
+        });
+
         res.json({
             status: "success",
             total: orders.length,
