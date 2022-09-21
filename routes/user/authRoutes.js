@@ -192,6 +192,7 @@ router.get("/logout", checkUser, async (req, res, next) => {
             return e.token !== req.token;
         });
         await req.user.save();
+
         return res.status(200).json({
             status: "success",
             message: req.t("auth.logout")
@@ -206,13 +207,35 @@ router.get("/logout", checkUser, async (req, res, next) => {
 router.get("/logoutall", checkUser, async (req, res, next) => {
     try {
         // remove all token exept this
-        req.user.tokens = req.user.tokens.filter(e => {
-            return e.token === req.token;
-        });
+        // req.user.tokens = req.user.tokens.filter(e => {
+        //     return e.token === req.token;
+        // });
+        // remove all tokens
+        req.user.tokens = [];
         await req.user.save();
+
         return res.status(200).json({
             status: "success",
             message: req.t("auth.logoutAll")
+        });
+    } catch (error) {
+        // console.log(error);
+        next(error);
+    }
+});
+
+// logout by id
+router.get("/logout/:id", checkUser, async (req, res, next) => {
+    try {
+        // remove token with given id
+        req.user.tokens = req.user.tokens.filter(e => {
+            return e.id !== req.params.id;
+        });
+        await req.user.save();
+
+        return res.status(200).json({
+            status: "success",
+            message: req.t("auth.logout")
         });
     } catch (error) {
         // console.log(error);

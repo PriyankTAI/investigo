@@ -65,7 +65,7 @@ router.post('/add', checkAdmin, upload.single('image'), [
 
         const filename = Date.now() + req.file.originalname.replace(" ", "");
         const monthlyReturn = req.body.monthlyReturn || (req.body.annualReturn / 12).toFixed(2);
-        const dailyReturn = req.body.dailyReturn || (monthlyReturn / 30).toFixed(2);
+        const dailyReturn = req.body.dailyReturn || (req.body.annualReturn / 365).toFixed(4);
 
         await Package.create({
             en: {
@@ -143,7 +143,7 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
 
         const id = req.params.id;
         const monthlyReturn = req.body.monthlyReturn || (req.body.annualReturn / 12).toFixed(2);
-        const dailyReturn = req.body.dailyReturn || (monthlyReturn / 30).toFixed(2);
+        const dailyReturn = req.body.dailyReturn || (req.body.annualReturn / 365).toFixed(4);
         const package = await Package.findById(id);
         if (package == null) {
             req.flash('red', `Package not found!`);

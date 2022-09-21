@@ -7,7 +7,7 @@
         "blocked": "Sorry! You are blocked, Please contact Admin.",
         "provideToken": "Please Provide Auth token.",
         "logout": "logged out successfully.",
-        "logoutAll": "logged out other devices."
+        "logoutAll": "logged out all devices."
     },
     "validation": {
         "fname": "First name is required.",
