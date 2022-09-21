@@ -5,11 +5,11 @@ module.exports = (doc, req) => {
         : 'en';
     const lang = doc[language];
     let spread = doc.toObject ? doc.toObject() : doc;
-    const newDoc = { ...spread , ...lang };
+    const newDoc = { ...spread, ...lang };
     delete newDoc.en;
     delete newDoc.fr;
     return newDoc;
-}
+};
 
 // doc._doc
 // doc.toObject() // can include options
