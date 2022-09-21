@@ -78,7 +78,7 @@ router.post('/add', checkAdmin, upload.fields([
 
         const filename = Date.now() + req.files.image[0].originalname.replace(" ", "");
         await sharp(req.files.image[0].buffer)
-            .resize({ width: 426, height: 242 })
+            // .resize({ width: 426, height: 242 })
             .toFile(`./public/uploads/project/${filename}`);
 
         const iconfilename = Date.now() + req.files.icon[0].originalname.replace(" ", "");
@@ -207,7 +207,7 @@ router.post('/edit/:id', checkAdmin, upload.fields([
                 if (err) { console.log(err); }
             })
             await sharp(req.files.image[0].buffer)
-                .resize({ width: 426, height: 242 })
+                // .resize({ width: 426, height: 242 })
                 .toFile(`./public/uploads/project/${filename}`);
         }
 
