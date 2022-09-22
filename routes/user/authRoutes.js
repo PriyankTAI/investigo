@@ -236,6 +236,7 @@ router.get("/logout/:id", checkUser, async (req, res, next) => {
         return res.status(200).json({
             status: "success",
             message: req.t("auth.logout"),
+            token: req.token,
             user: req.user
         });
     } catch (error) {
