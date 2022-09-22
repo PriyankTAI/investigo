@@ -205,7 +205,7 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             }
             fs.remove(oldImage, function (err) {
                 if (err) { console.log(err); }
-            })
+            });
             await sharp(req.files.image[0].buffer)
                 // .resize({ width: 426, height: 242 })
                 .toFile(`./public/uploads/project/${filename}`);
