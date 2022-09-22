@@ -18,6 +18,8 @@ const adminSchema = new mongoose.Schema({
     },
     password: String,
     image: String,
+    phone: String,
+    address: String,
     facebook: String,
     linkedin: String,
     twitter: String,

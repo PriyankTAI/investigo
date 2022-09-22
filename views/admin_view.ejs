@@ -50,7 +50,7 @@
             <div class="col s12">
                 <div class="container">
                     <!-- users view start -->
-                    <div class="section users-view">
+                    <div class="section">
                         <!-- users view media object start -->
                         <div class="card-panel">
                             <div class="row">
@@ -72,18 +72,6 @@
                         <!-- users view card details start -->
                         <div class="card">
                             <div class="card-content">
-                                <!-- TODO: add data -->
-                                <!-- <div class="row indigo lighten-5 border-radius-4 mb-2">
-                                    <div class="col s12 m4 users-view-timeline">
-                                        <h6 class="indigo-text m-0">Posts: <span>125</span></h6>
-                                    </div>
-                                    <div class="col s12 m4 users-view-timeline">
-                                        <h6 class="indigo-text m-0">Followers: <span>534</span></h6>
-                                    </div>
-                                    <div class="col s12 m4 users-view-timeline">
-                                        <h6 class="indigo-text m-0">Following: <span>256</span></h6>
-                                    </div>
-                                </div> -->
                                 <div class="row">
                                     <div class="col s12">
                                         <table class="striped">
@@ -96,9 +84,21 @@
                                                     <td>E-mail:</td>
                                                     <td><%= admin.email %></td>
                                                 </tr>
+                                                <% if (admin.phone) { %>
+                                                <tr>
+                                                    <td>Phone:</td>
+                                                    <td><%= admin.phone %></td>
+                                                </tr>
+                                                <% } %>
+                                                <% if (admin.address) { %>
+                                                <tr>
+                                                    <td>Address:</td>
+                                                    <td><%= admin.address %></td>
+                                                </tr>
+                                                <% } %>
                                             </tbody>
                                         </table>
-                                        <% if (admin.instagram || admin.twitter || admin.linkedin || admin.facebook) { %>
+                                        <!-- <% if (admin.instagram || admin.twitter || admin.linkedin || admin.facebook) { %>
                                         <h6 class="mb-2 mt-2"><i class="material-icons">link</i> Social Links</h6>
                                         <table class="striped">
                                             <tbody>
@@ -128,7 +128,7 @@
                                                 <% } %>
                                             </tbody>
                                         </table>
-                                        <% } %>
+                                        <% } %> -->
                                     </div>
                                 </div>
                                 <div class="row">

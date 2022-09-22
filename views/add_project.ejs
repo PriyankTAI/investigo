@@ -141,25 +141,20 @@
                                                         <small><div id="annualReturnErr" class="error"></div></small>
                                                         <label for="annualReturn">Annual Return</label>
                                                     </div>
-                                                    <div class="input-field col m6 s12">
+                                                    <!-- <div class="input-field col m6 s12">
                                                         <input placeholder="City" id="city" name="city" type="text">
                                                         <small><div id="cityErr" class="error"></div></small>
                                                         <label for="city">City</label>
-                                                    </div>
-                                                    <div class="input-field col m6 s12">
+                                                    </div> -->
+                                                    <div class="input-field col s12">
                                                         <input placeholder="Location" id="location" name="location" type="text">
                                                         <small><div id="error6" class="error"></div></small>
                                                         <label for="location">Location</label>
                                                     </div>
-                                                    <div class="input-field col m6 s12">
-                                                        <input placeholder="Latitude" id="lat" name="lat" type="text">
+                                                    <div class="input-field col s12">
+                                                        <input placeholder="Map url" id="url" name="url" type="text">
                                                         <small><div id="error8" class="error"></div></small>
-                                                        <label for="lat">Latitude</label>
-                                                    </div>
-                                                    <div class="input-field col m6 s12">
-                                                        <input placeholder="Longitude" id="lng" name="lng" type="text">
-                                                        <small><div id="error9" class="error"></div></small>
-                                                        <label for="lng">Longitude</label>
+                                                        <label for="url">Map url</label>
                                                     </div>
                                                     <div class="input-field col m4 s12">
                                                         Upload image
@@ -210,9 +205,8 @@
                 const amountValue = document.getElementById('totalAmount').value.trim();
                 const annualReturnValue = document.getElementById('annualReturn').value.trim();
                 const locationValue = document.getElementById('location').value.trim();
-                const cityValue = document.getElementById('city').value.trim();
-                const lat = document.getElementById('lat').value.trim();
-                const lng = document.getElementById('lng').value.trim();
+                // const cityValue = document.getElementById('city').value.trim();
+                const urlValue = document.getElementById('url').value.trim();
                 const filevalue = document.getElementById('input-file-now').value;
                 const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
                 const iconvalue = document.getElementById('icon').value;
@@ -281,12 +275,12 @@
                     document.getElementById('error6').innerText = '';
                 }
 
-                if (cityValue == '') {
-                    document.getElementById('cityErr').innerText = 'Please enter city.';
-                    returnVal = false;
-                } else {
-                    document.getElementById('cityErr').innerText = '';
-                }
+                // if (cityValue == '') {
+                //     document.getElementById('cityErr').innerText = 'Please enter city.';
+                //     returnVal = false;
+                // } else {
+                //     document.getElementById('cityErr').innerText = '';
+                // }
 
                 if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
                     document.getElementById('error7').innerText = '';
@@ -302,24 +296,11 @@
                     returnVal = false;
                 }
 
-                if (lat == '') {
-                    document.getElementById('error8').innerText = 'Please enter latitude.';
-                    returnVal = false;
-                } else if (!(isFinite(lat) && Math.abs(lat) <= 90)) {
-                    document.getElementById('error8').innerText = 'Please enter valid latitude.';
+                if (urlValue == '') {
+                    document.getElementById('error8').innerText = 'Please enter map url.';
                     returnVal = false;
                 } else {
                     document.getElementById('error8').innerText = '';
-                }
-
-                if (lng == '') {
-                    document.getElementById('error9').innerText = 'Please enter longitude.';
-                    returnVal = false;
-                } else if (!(isFinite(lng) && Math.abs(lng) <= 180)) {
-                    document.getElementById('error9').innerText = 'Please enter valid longitude.';
-                    returnVal = false;
-                } else {
-                    document.getElementById('error9').innerText = '';
                 }
 
                 if (returnVal) {

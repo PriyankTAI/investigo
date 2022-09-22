@@ -63,7 +63,7 @@ router.post('/add', checkAdmin, upload.fields([
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
     check('annualReturn', 'annual return must have a value').notEmpty(),
-    check('city', 'city must have a value').notEmpty(),
+    // check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
@@ -110,11 +110,8 @@ router.post('/add', checkAdmin, upload.fields([
             totalAmount: req.body.totalAmount,
             annualReturn: req.body.annualReturn,
             location: req.body.location,
-            city: req.body.city,
-            coordinates: {
-                lat: req.body.lat,
-                lng: req.body.lng
-            },
+            // city: req.body.city,
+            url: req.body.url,
             image: `/uploads/project/${filename}`,
             icon: `/uploads/project/${iconfilename}`,
             gallery
@@ -165,7 +162,7 @@ router.post('/edit/:id', checkAdmin, upload.fields([
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
     check('annualReturn', 'annual return must have a value').notEmpty(),
-    check('city', 'city must have a value').notEmpty(),
+    // check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
@@ -191,9 +188,8 @@ router.post('/edit/:id', checkAdmin, upload.fields([
         project.totalAmount = req.body.totalAmount;
         project.annualReturn = req.body.annualReturn;
         project.location = req.body.location;
-        project.city = req.body.city;
-        project.coordinates.lat = req.body.lat;
-        project.coordinates.lng = req.body.lng;
+        // project.city = req.body.city;
+        project.url = req.body.url;
 
         if (typeof req.files.image !== 'undefined') {
             oldImage = "public" + project.image;

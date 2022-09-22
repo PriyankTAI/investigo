@@ -55,18 +55,22 @@ const projectSchema = mongoose.Schema({
         required: [true, 'Icon is required'],
     },
     gallery: [String],
-    city: {
-        type: String,
-        required: [true, 'City is required'],
-    },
+    // city: {
+    //     type: String,
+    //     required: [true, 'City is required'],
+    // },
     location: {
         type: String,
         required: [true, 'Location is required'],
     },
-    coordinates: {
-        lat: String,
-        lng: String
+    url: {
+        type: String,
+        required: [true, 'Map url is required'],
     },
+    // coordinates: {
+    //     lat: String,
+    //     lng: String
+    // },
     date: {
         type: Date,
         default: Date.now,

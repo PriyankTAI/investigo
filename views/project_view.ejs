@@ -100,13 +100,14 @@
                                                             <th>Annual return</th>
                                                             <td><%= project.annualReturn %></td>
                                                         </tr>
+                                                        
                                                         <tr>
                                                             <th>Location</th>
                                                             <td><%= project.location %></td>
                                                         </tr>
                                                         <tr>
-                                                            <th>Coordinates</th>
-                                                            <td><%= project.coordinates.lat + ", " + project.coordinates.lng %></td>
+                                                            <th>Url</th>
+                                                            <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= project.url %></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
