@@ -28,6 +28,10 @@ const orderSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    withdraw: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Withdraw',
+    },
     endDate: Date,
     paymentType: String,
     amount: Number,

@@ -159,6 +159,29 @@ router.get('/order', checkUser, async (req, res, next) => {
     }
 });
 
+// GET completed-orders
+router.get('/completed-orders', checkUser, async (req, res, next) => {
+    try {
+        let date = new Date();
+        date.setDate(date.getDate() + 1);
+
+        let orders = await Order.find({
+            user: req.user.id,
+            endDate: {
+                $lte: new Date(date).toDateString()
+            }
+        }).populate('withdraw', 'status');
+
+        res.json({
+            status: "success",
+            orders
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
 // GET all invesments
 router.get('/investment', checkUser, async (req, res, next) => {
     try {
@@ -227,9 +250,15 @@ router.get('/withdraw', checkUser, async (req, res, next) => {
 // withdraw request
 router.post('/withdraw', checkUser, async (req, res, next) => {
     try {
-        const order = await Order.findById(req.body.order).populate('package');
+        const [order, paymentMethod] = await Promise.all([
+            Order.findById(req.body.order).populate('package'),
+            PaymentMethod.findOne({ _id: req.body.paymentMethod, user: req.user.id }),
+        ]);
+
         if (!order)
             return next(createError.BadRequest('Invalid order id.'));
+        if (!paymentMethod)
+            return next(createError.BadRequest('Invalid paymentMethod id.'));
 
         // check date
         if (Date.now() < Date.parse(order.endDate.toJSON().substring(0, 10)))
@@ -253,6 +282,8 @@ router.post('/withdraw', checkUser, async (req, res, next) => {
 
         // set order to withdrawn
         order.withdrawn = true;
+        // set withdraw id
+        order.withdraw = withdraw.id;
         await order.save();
 
         res.status(201).json({
