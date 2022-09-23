@@ -58,7 +58,10 @@ const userSchema = new mongoose.Schema({
     }],
     secret: String,
     recoveryCode: String,
-    twofa: Boolean,
+    twofa: {
+        type: Boolean,
+        default: false,
+    },
     // twofa: {
     //     enabled: Boolean,
     //     type: {

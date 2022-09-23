@@ -391,10 +391,14 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
         user.twofa = true;
         await user.save();
 
+        // hide secret
+        user.secret = undefined;
+
         return res.json({
             status: "Success",
             recoveryCode,
-            message: req.t('2fa.enabled')
+            message: req.t('2fa.enabled'),
+            user
         });
     } catch (error) {
         console.log(error);
@@ -417,12 +421,13 @@ router.post("/disable-2fa", checkUser, async (req, res, next) => {
 
         user.secret = undefined;
         user.recoveryCode = undefined;
-        user.twofa = undefined;
+        user.twofa = false;
         await user.save();
 
         return res.json({
             status: "Success",
-            message: req.t('2fa.disabled')
+            message: req.t('2fa.disabled'),
+            user
         });
     } catch (error) {
         console.log(error);
