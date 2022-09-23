@@ -357,7 +357,8 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
 
         return res.status(200).json({
             status: "success",
-            message: "Phone number verified succefully."
+            message: "Phone number verified succefully.",
+            user: req.user
         });
     } catch (error) {
         console.log(error);
