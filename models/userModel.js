@@ -70,6 +70,7 @@ const userSchema = new mongoose.Schema({
     //     }
     // },
     phone: String,
+    numberToVerify: String,
     phoneVerified: {
         type: Boolean,
         default: false,

@@ -326,6 +326,8 @@ router.post('/get-verify-otp', checkUser, async (req, res, next) => {
         }
 
         await sendSms(req.body.phone, otp.otp);
+        req.user.numberToVerify = req.body.phone;
+        await req.user.save();
 
         return res.status(200).json({
             status: "success",
@@ -353,6 +355,8 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
 
         // update user
         req.user.phoneVerified = true;
+        req.user.phone = req.user.numberToVerify;
+        req.user.numberToVerify = undefined;
         req.user.save();
 
         return res.status(200).json({
