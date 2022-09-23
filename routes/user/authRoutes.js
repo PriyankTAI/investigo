@@ -306,8 +306,9 @@ router.post("/forgot", async (req, res, next) => {
                 otp: generated
             }).save();
         }
-        // if sms recovery send sms or email
+
         sendOtp(user.email, otp.otp);
+
         return res.status(200).json({
             status: "success",
             email: user.email,

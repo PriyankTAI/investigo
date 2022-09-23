@@ -3,6 +3,7 @@ const createError = require('http-errors');
 const fs = require('fs-extra');
 const sharp = require('sharp');
 const multilingual = require('../../helpers/multilingual');
+const { sendSms } = require('../../helpers/sendSms');
 
 const checkUser = require('../../middleware/authMiddleware');
 
@@ -10,6 +11,7 @@ const User = require('../../models/userModel');
 const Order = require('../../models/orderModel');
 const Withdraw = require('../../models/withdrawModel');
 const PaymentMethod = require('../../models/paymentMethodModel');
+const Otp = require('../../models/otpModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -28,6 +30,15 @@ const upload = multer({
     },
     fileFilter: fileFilter
 });
+
+const generateCode = length => {
+    var digits = '0123456789';
+    let generated = '';
+    for (let i = 0; i < length; i++) {
+        generated += digits[Math.floor(Math.random() * 10)];
+    }
+    return generated;
+}
 
 // GET profile
 router.get('/profile', checkUser, async (req, res, next) => {
@@ -293,6 +304,62 @@ router.post('/withdraw', checkUser, async (req, res, next) => {
     } catch (error) {
         if (error.code === 11000)
             return next(createError.BadRequest('error.withdrawOrder'));
+        console.log(error);
+        next(error);
+    }
+});
+
+// POST get-verify-otp phone
+router.post('/get-verify-otp', checkUser, async (req, res, next) => {
+    try {
+        // check if already verified
+        if (req.user.phoneVerified)
+            return next(createError.Conflict('Phone already verified.'));
+
+        let otp = await Otp.findOne({ userId: req.user._id });
+        if (!otp) {
+            const generated = generateCode(6);
+            otp = await Otp.create({
+                userId: req.user.id,
+                otp: generated
+            });
+        }
+
+        await sendSms(req.body.phone, otp.otp);
+
+        return res.status(200).json({
+            status: "success",
+            otp: otp.otp
+        });
+    } catch (error) {
+        if (error.code == 21408)
+            return next(createError.BadRequest('Invalid phone number.'));
+        console.log(error);
+        next(error);
+    }
+});
+
+// POST verify-phone
+router.post('/verify-phone', checkUser, async (req, res, next) => {
+    try {
+        // check if already verified
+        if (req.user.phoneVerified)
+            return next(createError.Conflict('Phone already verified.'));
+
+        // verify otp
+        const otp = await Otp.findOne({ userId: req.user._id });
+        if (!otp || otp.otp !== req.body.otp)
+            return next(createError.BadRequest('Failed to verify otp.'));
+
+        // update user
+        req.user.phoneVerified = true;
+        req.user.save();
+
+        return res.status(200).json({
+            status: "success",
+            message: "Phone number verified succefully."
+        });
+    } catch (error) {
         console.log(error);
         next(error);
     }

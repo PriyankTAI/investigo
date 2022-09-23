@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'validation.email'],
         unique: true,
+        lowercase: true,
         validate(value) {
             if (!validator.isEmail(value)) {
                 throw new Error("validation.emailInvalid")
@@ -66,6 +67,10 @@ const userSchema = new mongoose.Schema({
     //     }
     // },
     phone: String,
+    phoneVerified: {
+        type: Boolean,
+        default: false,
+    },
     youAre: {
         type: String,
         enum: ['particular', 'individual']
