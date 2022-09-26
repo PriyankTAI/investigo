@@ -99,12 +99,12 @@
             </a>
             <div class="collapsible-body">
                 <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                    <li>
+                    <!-- <li>
                         <a class="<%= url.startsWith('/admin/cms/about_us') ? 'active' : '' %>" href="/admin/cms/about_us">
                             <i class="material-icons">radio_button_unchecked</i>
                             <span data-i18n="Contact">About Us</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a class="<%= url.startsWith('/admin/cms/privacy_policy') ? 'active' : '' %>" href="/admin/cms/privacy_policy">
                             <i class="material-icons">radio_button_unchecked</i>
@@ -118,15 +118,33 @@
                         </a>
                     </li>
                     <li>
+                        <a class="<%= url.startsWith('/admin/cms/career') ? 'active' : '' %>" href="/admin/cms/career">
+                            <i class="material-icons">radio_button_unchecked</i>
+                            <span data-i18n="Blog">Career</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="<%= url.startsWith('/admin/cms/terms_con') ? 'active' : '' %>" href="/admin/cms/terms_con">
                             <i class="material-icons">radio_button_unchecked</i>
                             <span data-i18n="Blog">Terms & Conditions</span>
                         </a>
                     </li>
                     <li>
+                        <a class="<%= url.startsWith('/admin/cms/cookie_policy') ? 'active' : '' %>" href="/admin/cms/cookie_policy">
+                            <i class="material-icons">radio_button_unchecked</i>
+                            <span data-i18n="Blog">Cookie Policy</span>
+                        </a>
+                    </li>
+                    <!-- <li>
                         <a class="<%= url.startsWith('/admin/cms/contact') ? 'active' : '' %>" href="/admin/cms/contact">
                             <i class="material-icons">radio_button_unchecked</i>
                             <span data-i18n="Blog">Contact Us</span>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a class="<%= url.startsWith('/admin/cms/key_risks') ? 'active' : '' %>" href="/admin/cms/key_risks">
+                            <i class="material-icons">radio_button_unchecked</i>
+                            <span data-i18n="Blog">Key Risks</span>
                         </a>
                     </li>
                 </ul>

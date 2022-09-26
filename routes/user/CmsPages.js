@@ -1,27 +1,29 @@
 const router = require('express').Router();
+const createError = require('http-errors');
 const multilingual = require('../../helpers/multilingual');
 
 // models
-const Contact = require('../../models/contactModel');
+// const Contact = require('../../models/contactModel');
 const Page = require('../../models/pageModel');
 const FAQs = require('../../models/faqsModel');
 const Message = require('../../models/messageModel');
+const Career = require('../../models/careerModel');
 
 // about us
-router.get("/about_us", async (req, res, next) => {
-    try {
-        let page = await Page.findOne({ title: 'About Us' });
-        page = multilingual(page, req);
-        const content = page.content;
-        res.json({
-            status: "success",
-            content
-        });
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
-});
+// router.get("/about_us", async (req, res, next) => {
+//     try {
+//         let page = await Page.findOne({ title: 'About Us' });
+//         page = multilingual(page, req);
+//         const content = page.content;
+//         res.json({
+//             status: "success",
+//             content
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         next(error);
+//     }
+// });
 
 // faqs
 router.get("/faqs", async (req, res, next) => {
@@ -71,23 +73,96 @@ router.get("/privacy_policy", async (req, res, next) => {
     }
 });
 
-// contact
-router.get("/contact", async (req, res, next) => {
+// cookie
+router.get("/cookie_policy", async (req, res, next) => {
     try {
-        let page = await Page.findOne({ title: 'Contact' });
+        let page = await Page.findOne({ title: 'Cookie Policy' });
         page = multilingual(page, req);
         const content = page.content;
-        const contact = await Contact.findOne();
         res.json({
             status: "success",
-            content,
-            contact
+            content
         });
     } catch (error) {
         console.log(error);
         next(error);
     }
 });
+
+// key risks
+router.get("/key_risks", async (req, res, next) => {
+    try {
+        let page = await Page.findOne({ title: 'Key Risks' });
+        page = multilingual(page, req);
+        const content = page.content;
+        res.json({
+            status: "success",
+            content
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
+// GET all careers
+router.get('/career', async (req, res, next) => {
+    try {
+        let careers = await Career.find();
+        careers = careers.map(el => multilingual(el, req));
+
+        const categories = new Set();
+        careers.forEach(el => categories.add(el.category));
+
+        res.json({
+            status: "success",
+            categories: [...categories],
+            careers,
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
+// GET a career with id
+router.get('/career/:id', async (req, res, next) => {
+    try {
+        let career = await Career.findById(req.params.id);
+        career = multilingual(career, req);
+
+        if (career == null)
+            return next(createError.NotFound('Career not found!'));
+
+        res.json({
+            status: "success",
+            career
+        });
+    } catch (error) {
+        if (error.name == 'CastError')
+            return next(createError.NotFound('Career not found!'));
+        console.log(error.message);
+        next(error);
+    }
+});
+
+// contact
+// router.get("/contact", async (req, res, next) => {
+//     try {
+//         let page = await Page.findOne({ title: 'Contact' });
+//         page = multilingual(page, req);
+//         const content = page.content;
+//         const contact = await Contact.findOne();
+//         res.json({
+//             status: "success",
+//             content,
+//             contact
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         next(error);
+//     }
+// });
 
 // POST message
 router.post("/contact", async (req, res, next) => {

@@ -3,7 +3,8 @@ const { check, validationResult } = require('express-validator');
 
 const Page = require('../../models/pageModel');
 const FAQs = require('../../models/faqsModel');
-const Contact = require('../../models/contactModel');
+const Career = require('../../models/careerModel');
+// const Contact = require('../../models/contactModel');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
@@ -27,44 +28,44 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-// about us
-router.get("/about_us", checkAdmin, async (req, res) => {
-    try {
-        const page = await Page.findOne({ title: 'About Us' });
-        res.status(201).render("about", {
-            page,
-            image: req.admin.image
-        });
-    } catch (error) {
-        console.log(error);
-        req.flash('red', error.message);
-        res.redirect(req.originalUrl);
-    }
-});
+// // about us
+// router.get("/about_us", checkAdmin, async (req, res) => {
+//     try {
+//         const page = await Page.findOne({ title: 'About Us' });
+//         res.status(201).render("about", {
+//             page,
+//             image: req.admin.image
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         req.flash('red', error.message);
+//         res.redirect(req.originalUrl);
+//     }
+// });
 
-router.post('/about_us', checkAdmin, [
-    check('EnContent', 'English content must have a value').notEmpty(),
-    check('FrContent', 'French content must have a value').notEmpty(),
-], async function (req, res) {
-    const validationErrors = validationResult(req);
-    if (validationErrors.errors.length > 0) {
-        req.flash('red', validationErrors.errors[0].msg);
-        return res.redirect(req.originalUrl);
-    }
-    try {
-        const page = await Page.findOne({ title: 'About Us' });
-        page.en.content = req.body.EnContent;
-        page.fr.content = req.body.FrContent;
-        await page.save();
+// router.post('/about_us', checkAdmin, [
+//     check('EnContent', 'English content must have a value').notEmpty(),
+//     check('FrContent', 'French content must have a value').notEmpty(),
+// ], async function (req, res) {
+//     const validationErrors = validationResult(req);
+//     if (validationErrors.errors.length > 0) {
+//         req.flash('red', validationErrors.errors[0].msg);
+//         return res.redirect(req.originalUrl);
+//     }
+//     try {
+//         const page = await Page.findOne({ title: 'About Us' });
+//         page.en.content = req.body.EnContent;
+//         page.fr.content = req.body.FrContent;
+//         await page.save();
 
-        req.flash('green', 'About us updated successfully.');
-        res.redirect('/admin/cms/about_us');
-    } catch (error) {
-        console.log(error);
-        req.flash('red', error.message);
-        res.redirect(req.originalUrl);
-    }
-});
+//         req.flash('green', 'About us updated successfully.');
+//         res.redirect('/admin/cms/about_us');
+//     } catch (error) {
+//         console.log(error);
+//         req.flash('red', error.message);
+//         res.redirect(req.originalUrl);
+//     }
+// });
 
 // terms
 router.get("/terms_con", checkAdmin, async (req, res) => {
@@ -124,7 +125,7 @@ router.post('/privacy_policy', checkAdmin, [
     check('EnContent', 'English content must have a value').notEmpty(),
     check('FrContent', 'French content must have a value').notEmpty(),
 ], async function (req, res) {
-    const validationErrors = validationResult(req)
+    const validationErrors = validationResult(req);
     if (validationErrors.errors.length > 0) {
         req.flash('red', validationErrors.errors[0].msg);
         return res.redirect(req.originalUrl);
@@ -144,14 +145,12 @@ router.post('/privacy_policy', checkAdmin, [
     }
 });
 
-// contact
-router.get("/contact", checkAdmin, async (req, res) => {
+// cookie
+router.get("/cookie_policy", checkAdmin, async (req, res) => {
     try {
-        const page = await Page.findOne({ title: 'Contact' });
-        const contact = await Contact.findOne();
-        res.status(201).render("contact", {
+        const page = await Page.findOne({ title: 'Cookie Policy' });
+        res.status(201).render("cookie", {
             page,
-            contact,
             image: req.admin.image
         });
     } catch (error) {
@@ -161,40 +160,120 @@ router.get("/contact", checkAdmin, async (req, res) => {
     }
 });
 
-router.post('/contact', checkAdmin, [
+router.post('/cookie_policy', checkAdmin, [
     check('EnContent', 'English content must have a value').notEmpty(),
     check('FrContent', 'French content must have a value').notEmpty(),
-    check('phone', 'Phone must have a value').notEmpty(),
-    check('email', 'Email must have a valid value').isEmail(),
-    check('address', 'Address must have a value').notEmpty(),
 ], async function (req, res) {
+    const validationErrors = validationResult(req);
+    if (validationErrors.errors.length > 0) {
+        req.flash('red', validationErrors.errors[0].msg);
+        return res.redirect(req.originalUrl);
+    }
     try {
-        const page = await Page.findOne({ title: 'Contact' });
-        const contact = await Contact.findOne();
-
-        const validationErrors = validationResult(req);
-        if (validationErrors.errors.length > 0) {
-            req.flash('red', validationErrors.errors[0].msg);
-            return res.redirect(req.originalUrl);
-        }
-
+        const page = await Page.findOne({ title: 'Cookie Policy' });
         page.en.content = req.body.EnContent;
         page.fr.content = req.body.FrContent;
         await page.save();
 
-        contact.phone = req.body.phone;
-        contact.email = req.body.email;
-        contact.address = req.body.address;
-        await contact.save();
-
-        req.flash('green', 'Contact Us updated successfully.');
-        res.redirect('/admin/cms/contact');
+        req.flash('green', 'Cookie Policy updated successfully.');
+        res.redirect('/admin/cms/cookie_policy');
     } catch (error) {
         console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
 });
+
+// key risks
+router.get("/key_risks", checkAdmin, async (req, res) => {
+    try {
+        const page = await Page.findOne({ title: 'Key Risks' });
+        res.status(201).render("key_risks", {
+            page,
+            image: req.admin.image
+        });
+    } catch (error) {
+        console.log(error);
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
+    }
+});
+
+router.post("/key_risks", checkAdmin, [
+    check('enDesc', 'English description must have a value').notEmpty(),
+    check('frDesc', 'French description must have a value').notEmpty(),
+], async function (req, res) {
+    const validationErrors = validationResult(req);
+    if (validationErrors.errors.length > 0) {
+        req.flash('red', validationErrors.errors[0].msg);
+        return res.redirect(req.originalUrl);
+    }
+    try {
+        const page = await Page.findOne({ title: 'Key Risks' });
+        page.en.content = req.body.enDesc;
+        page.fr.content = req.body.frDesc;
+        await page.save();
+
+        req.flash('green', 'Key Risks updated successfully.');
+        res.redirect('/admin/cms/key_risks');
+    } catch (error) {
+        console.log(error);
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
+    }
+});
+
+// // contact
+// router.get("/contact", checkAdmin, async (req, res) => {
+//     try {
+//         const page = await Page.findOne({ title: 'Contact' });
+//         const contact = await Contact.findOne();
+//         res.status(201).render("contact", {
+//             page,
+//             contact,
+//             image: req.admin.image
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         req.flash('red', error.message);
+//         res.redirect(req.originalUrl);
+//     }
+// });
+
+// router.post('/contact', checkAdmin, [
+//     check('EnContent', 'English content must have a value').notEmpty(),
+//     check('FrContent', 'French content must have a value').notEmpty(),
+//     check('phone', 'Phone must have a value').notEmpty(),
+//     check('email', 'Email must have a valid value').isEmail(),
+//     check('address', 'Address must have a value').notEmpty(),
+// ], async function (req, res) {
+//     try {
+//         const page = await Page.findOne({ title: 'Contact' });
+//         const contact = await Contact.findOne();
+
+//         const validationErrors = validationResult(req);
+//         if (validationErrors.errors.length > 0) {
+//             req.flash('red', validationErrors.errors[0].msg);
+//             return res.redirect(req.originalUrl);
+//         }
+
+//         page.en.content = req.body.EnContent;
+//         page.fr.content = req.body.FrContent;
+//         await page.save();
+
+//         contact.phone = req.body.phone;
+//         contact.email = req.body.email;
+//         contact.address = req.body.address;
+//         await contact.save();
+
+//         req.flash('green', 'Contact Us updated successfully.');
+//         res.redirect('/admin/cms/contact');
+//     } catch (error) {
+//         console.log(error);
+//         req.flash('red', error.message);
+//         res.redirect(req.originalUrl);
+//     }
+// });
 
 // uploader
 router.post('/upload', upload.single('upload'), async (req, res) => {
@@ -294,7 +373,7 @@ router.get("/faqs/edit/:id", checkAdmin, async (req, res) => {
     }
 });
 
-// POST Edit project
+// POST edit faq
 router.post('/faqs/edit/:id', checkAdmin, [
     check('EnQue', 'English question must have a value').notEmpty(),
     check('EnAns', 'English answer must have a value').notEmpty(),
@@ -350,6 +429,166 @@ router.get("/faqs/delete/:id", checkAdmin, async (req, res) => {
             console.log(error);
             req.flash('red', error.message);
             res.redirect('/admin/cms/faqs');
+        }
+    }
+});
+
+// GET all careers
+router.get("/career", checkAdmin, async (req, res) => {
+    try {
+        const careers = await Career.find().sort('-_id');
+        res.status(201).render("career", {
+            careers,
+            image: req.admin.image
+        });
+    } catch (error) {
+        console.log(error);
+        req.flash('red', error.message);
+        res.redirect(req.originalUrl);
+    }
+});
+
+// GET add career
+router.get("/career/add", checkAdmin, async (req, res) => {
+    res.render("add_career", { image: req.admin.image });
+});
+
+// POST add faq
+router.post("/career/add", checkAdmin, [
+    check('EnTitle', 'English title must have a value').notEmpty(),
+    check('EnDescription', 'English description must have a value').notEmpty(),
+    check('FrTitle', 'French title must have a value').notEmpty(),
+    check('FrDescription', 'French description must have a value').notEmpty(),
+    check('category', 'category must have a value').notEmpty(),
+    check('location', 'location must have a value').notEmpty(),
+    check('type', 'type must have a value').notEmpty(),
+], async (req, res) => {
+    try {
+        const validationErrors = validationResult(req);
+        if (validationErrors.errors.length > 0) {
+            req.flash('red', validationErrors.errors[0].msg);
+            return res.redirect(req.originalUrl);
+        }
+
+        await Career.create({
+            en: {
+                title: req.body.EnTitle,
+                description: req.body.EnDescription,
+                responsibilities: req.body.EnRes,
+                requirements: req.body.EnReq,
+                benefits: req.body.EnBen,
+            },
+            fr: {
+                title: req.body.FrTitle,
+                description: req.body.FrDescription,
+                responsibilities: req.body.FrRes,
+                requirements: req.body.FrReq,
+                benefits: req.body.FrBen,
+            },
+            category: req.body.category,
+            location: req.body.location,
+            type: req.body.type,
+        });
+
+        req.flash('green', `Career added successfully.`);
+        res.redirect('/admin/cms/career');
+    } catch (error) {
+        req.flash('red', error.message);
+        res.redirect('/admin/cms/career');
+    }
+});
+
+// GET edit career
+router.get("/career/edit/:id", checkAdmin, async (req, res) => {
+    try {
+        const career = await Career.findById(req.params.id);
+        if (career == null) {
+            req.flash('red', `Career not found!`);
+            return res.redirect('/admin/cms/career');
+        }
+
+        res.status(201).render("edit_career", {
+            career,
+            image: req.admin.image
+        });
+    } catch (error) {
+        if (error.name === 'CastError') {
+            req.flash('red', `Career not found!`);
+            res.redirect('/admin/cms/career');
+        } else {
+            req.flash('red', error.message);
+            res.redirect('/admin/cms/career');
+        }
+    }
+});
+
+// POST edit career
+router.post('/career/edit/:id', checkAdmin, [
+    check('EnTitle', 'English title must have a value').notEmpty(),
+    check('EnDescription', 'English description must have a value').notEmpty(),
+    check('FrTitle', 'French title must have a value').notEmpty(),
+    check('FrDescription', 'French description must have a value').notEmpty(),
+    check('category', 'category must have a value').notEmpty(),
+    check('location', 'location must have a value').notEmpty(),
+    check('type', 'type must have a value').notEmpty(),
+], async (req, res) => {
+    try {
+        const validationErrors = validationResult(req);
+        if (validationErrors.errors.length > 0) {
+            req.flash('red', validationErrors.errors[0].msg);
+            return res.redirect(req.originalUrl);
+        }
+
+        const career = await Career.findById(req.params.id);
+        if (career == null) {
+            req.flash('red', `FAQ not found!`);
+            return res.redirect('/admin/cms/career');
+        }
+
+        career.en.title = req.body.EnTitle;
+        career.en.description = req.body.EnDescription;
+        career.en.responsibilities = req.body.EnRes;
+        career.en.requirements = req.body.EnReq;
+        career.en.benefits = req.body.EnBen;
+        career.fr.title = req.body.FrTitle;
+        career.fr.description = req.body.FrDescription;
+        career.fr.responsibilities = req.body.FrRes;
+        career.fr.requirements = req.body.FrReq;
+        career.fr.benefits = req.body.FrBen;
+        career.category = req.body.category;
+        career.location = req.body.location;
+        career.type = req.body.type;
+        await career.save();
+
+        req.flash('green', `Career edited successfully.`);
+        res.redirect('/admin/cms/career');
+    } catch (error) {
+        if (error.name === 'CastError') {
+            req.flash('red', `Career not found!`);
+            res.redirect('/admin/cms/career');
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+            res.redirect(req.originalUrl);
+        }
+    }
+});
+
+// GET delete career
+router.get("/career/delete/:id", checkAdmin, async (req, res) => {
+    try {
+        await Career.findByIdAndRemove(req.params.id);
+
+        req.flash('green', `Career deleted successfully.`);
+        res.redirect('/admin/cms/career');
+    } catch (error) {
+        if (error.name === 'CastError' || error.name === 'TypeError') {
+            req.flash('red', `Career not found!`);
+            res.redirect('/admin/cms/career');
+        } else {
+            console.log(error);
+            req.flash('red', error.message);
+            res.redirect('/admin/cms/career');
         }
     }
 });

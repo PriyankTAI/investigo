@@ -11,6 +11,7 @@ const Project = require('../../models/projectModel');
 const Blog = require('../../models/blogModel');
 const Newsletter = require('../../models/newsletterModel');
 const Application = require('../../models/applicationModel');
+const Career = require('../../models/careerModel');
 
 // multer
 const multer = require('multer');
