@@ -39,7 +39,7 @@
                             <h5 class="breadcrumbs-title mt-0 mb-0"><span>Key Updates</span></h5>
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
-                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/admin/update/project/add">Add Update</a>
+                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/admin/update/benefit/add">Add Update</a>
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,6 @@
                                                         <tr>
                                                             <th>Sr</th>
                                                             <th>Title</th>
-                                                            <th>Project</th>
                                                             <th>Date</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -71,11 +70,10 @@
                                                         <tr>
                                                             <td><%= i+1 %></td>
                                                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= updates[i].en.name %></td>
-                                                            <td><%= updates[i].project?.en.title %></td>
                                                             <td><%= updates[i].date.toLocaleDateString('en-GB') %></td>
                                                             <td style="max-width: 70px;">
-                                                                <a href="/admin/update/project/edit/<%= updates[i].id %>"><i class="material-icons">create</i></a>
-                                                                <a href="/admin/update/project/delete/<%= updates[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                                                                <a href="/admin/update/benefit/edit/<%= updates[i].id %>"><i class="material-icons">create</i></a>
+                                                                <a href="/admin/update/benefit/delete/<%= updates[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                                                             </td>
                                                         </tr>
                                                         <% } %>

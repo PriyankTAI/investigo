@@ -115,7 +115,8 @@ app.use(function (req, res, next) {
 
 app.use('/admin', require('./routes/admin/adminRoutes'));
 app.use('/admin/cms', require('./routes/admin/adminCmsPages'));
-app.use('/admin/cms', require('./routes/admin/adminEventAndUpdates'));
+app.use('/admin/event', require('./routes/admin/adminEvent'));
+app.use('/admin/update', require('./routes/admin/adminUpdates'));
 app.use('/admin/user', require('./routes/admin/adminUser'));
 app.use('/admin/withdraw', require('./routes/admin/adminWithdraw'));
 app.use('/admin/message', require('./routes/admin/adminMessages'));

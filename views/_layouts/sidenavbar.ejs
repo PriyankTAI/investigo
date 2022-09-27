@@ -147,7 +147,7 @@
                             <span data-i18n="Blog">Key Risks</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a class="<%= url.startsWith('/admin/cms/event') ? 'active' : '' %>" href="/admin/cms/event">
                             <i class="material-icons">radio_button_unchecked</i>
                             <span data-i18n="Blog">Events</span>
@@ -158,6 +158,84 @@
                             <i class="material-icons">radio_button_unchecked</i>
                             <span data-i18n="Blog">Key Updates</span>
                         </a>
+                    </li> -->
+                    <!-- <li class="<%= url.startsWith('/admin/cms/event/') ? 'active' : '' %>">
+                        <a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)" tabindex="0"><i class="material-icons">radio_button_unchecked</i>Events</a>
+                        <div class="collapsible-body">
+                            <ul class="collapsible" data-collapsible="accordion">
+                                <li>
+                                    <a class="<%= url.startsWith('/admin/cms/event/project') ? 'active' : '' %>" href="/admin/cms/event/project">
+                                        <i class="material-icons">radio_button_unchecked</i>
+                                        <span data-i18n="Blog">Project Events</span>
+                                    </a>
+                                    <a class="<%= url.startsWith('/admin/cms/event/benefit') ? 'active' : '' %>" href="/admin/cms/event/benefit">
+                                        <i class="material-icons">radio_button_unchecked</i>
+                                        <span data-i18n="Blog">Benefit Events</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="<%= url.startsWith('/admin/cms/update/') ? 'active' : '' %>">
+                        <a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)" tabindex="0"><i class="material-icons">radio_button_unchecked</i>Key Updates</a>
+                        <div class="collapsible-body">
+                            <ul class="collapsible" data-collapsible="accordion">
+                                <li>
+                                    <a class="<%= url.startsWith('/admin/cms/update/project') ? 'active' : '' %>" href="/admin/cms/update/project">
+                                        <i class="material-icons">radio_button_unchecked</i>
+                                        <span data-i18n="Blog">For Project</span>
+                                    </a>
+                                    <a class="<%= url.startsWith('/admin/cms/update/benefit') ? 'active' : '' %>" href="/admin/cms/update/benefit">
+                                        <i class="material-icons">radio_button_unchecked</i>
+                                        <span data-i18n="Blog">For My Benefit</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+        </li>
+        <li class="bold <%= url.startsWith('/admin/event/') || url.startsWith('/admin/update/') ? 'active' : '' %>">
+            <a class="collapsible-header waves-effect waves-cyan" href="javascript:void(0);">
+                <i class="material-icons">event</i>
+                <span class="menu-title" data-i18n="Pages">Event and Updates</span>
+            </a>
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li class="<%= url.startsWith('/admin/event/') ? 'active' : '' %>">
+                        <a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)" tabindex="0"><i class="material-icons">radio_button_unchecked</i>Events</a>
+                        <div class="collapsible-body">
+                            <ul class="collapsible" data-collapsible="accordion">
+                                <li>
+                                    <a class="<%= url.startsWith('/admin/event/project') ? 'active' : '' %>" href="/admin/event/project">
+                                        <i class="material-icons">radio_button_unchecked</i>
+                                        <span data-i18n="Blog">For Project</span>
+                                    </a>
+                                    <a class="<%= url.startsWith('/admin/event/benefit') ? 'active' : '' %>" href="/admin/event/benefit">
+                                        <i class="material-icons">radio_button_unchecked</i>
+                                        <span data-i18n="Blog">For My Benefit</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="<%= url.startsWith('/admin/update/') ? 'active' : '' %>">
+                        <a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)" tabindex="0"><i class="material-icons">radio_button_unchecked</i>Key Updates</a>
+                        <div class="collapsible-body">
+                            <ul class="collapsible" data-collapsible="accordion">
+                                <li>
+                                    <a class="<%= url.startsWith('/admin/update/project') ? 'active' : '' %>" href="/admin/update/project">
+                                        <i class="material-icons">radio_button_unchecked</i>
+                                        <span data-i18n="Blog">For Project</span>
+                                    </a>
+                                    <a class="<%= url.startsWith('/admin/update/benefit') ? 'active' : '' %>" href="/admin/update/benefit">
+                                        <i class="material-icons">radio_button_unchecked</i>
+                                        <span data-i18n="Blog">For My Benefit</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </div>

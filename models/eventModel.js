@@ -12,7 +12,10 @@ const eventSchema = new mongoose.Schema({
     project: {
         type: mongoose.Schema.ObjectId,
         ref: 'Project',
-        required: true,
+    },
+    forBenefits: {
+        type: Boolean,
+        default: false,
     },
     date: {
         type: Date,

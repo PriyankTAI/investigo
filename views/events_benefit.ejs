@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Key Updates | Investigo</title>
+    <title>Events | Investigo</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -36,10 +36,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Key Updates</span></h5>
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Events</span></h5>
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
-                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/admin/update/project/add">Add Update</a>
+                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/admin/event/benefit/add">Add Event</a>
                         </div>
                     </div>
                 </div>
@@ -61,21 +61,21 @@
                                                         <tr>
                                                             <th>Sr</th>
                                                             <th>Title</th>
-                                                            <th>Project</th>
+                                                            <th>Description</th>
                                                             <th>Date</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <% for( let i = 0; i < updates.length; i++ ) { %>
+                                                        <% for( let i = 0; i < events.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= updates[i].en.name %></td>
-                                                            <td><%= updates[i].project?.en.title %></td>
-                                                            <td><%= updates[i].date.toLocaleDateString('en-GB') %></td>
+                                                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= events[i].en.name %></td>
+                                                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= events[i].en.description %></td>
+                                                            <td><%= events[i].date.toLocaleDateString('en-GB') %></td>
                                                             <td style="max-width: 70px;">
-                                                                <a href="/admin/update/project/edit/<%= updates[i].id %>"><i class="material-icons">create</i></a>
-                                                                <a href="/admin/update/project/delete/<%= updates[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                                                                <a href="/admin/event/benefit/edit/<%= events[i].id %>"><i class="material-icons">create</i></a>
+                                                                <a href="/admin/event/benefit/delete/<%= events[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                                                             </td>
                                                         </tr>
                                                         <% } %>

@@ -200,4 +200,26 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
     }
 });
 
+// GET events and key updates
+router.get('/event-updates', async (req, res, next) => {
+    try {
+        let [events, updates] = await Promise.all([
+            Event.find({ forBenefits: true }).select('-__v -forBenefits'),
+            Update.find({ forBenefits: true }).select('-__v -forBenefits'),
+        ]);
+
+        events = events.map(el => multilingual(el, req));
+        updates = updates.map(el => multilingual(el, req));
+
+        res.json({
+            status: "success",
+            events,
+            updates,
+        });
+    } catch (error) {
+        console.log(error);
+        next(error)
+    }
+});
+
 module.exports = router;
