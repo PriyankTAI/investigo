@@ -137,9 +137,9 @@
                                                         <label for="totalAmount">Total amount</label>
                                                     </div>
                                                     <div class="input-field col m6 s12">
-                                                        <input placeholder="Annual Return" id="annualReturn" name="annualReturn" value="<%= project.annualReturn %>" type="text">
-                                                        <small><div id="annualReturnErr" class="error"></div></small>
-                                                        <label for="annualReturn">Annual Return</label>
+                                                        <input placeholder="Monthly Return" id="monthlyReturn" name="monthlyReturn" value="<%= project.monthlyReturn %>" type="text">
+                                                        <small><div id="monthlyReturnErr" class="error"></div></small>
+                                                        <label for="monthlyReturn">Monthly Return</label>
                                                     </div>
                                                     <!-- <div class="input-field col m6 s12">
                                                         <input placeholder="City" id="city" name="city" value="<%= project.city %>" type="text">
@@ -198,7 +198,7 @@
                 const categoryValue = document.getElementById('cat').value.trim();
                 const propertyValue = document.getElementById('property').value.trim();
                 const amountValue = document.getElementById('totalAmount').value.trim();
-                const annualReturnValue = document.getElementById('annualReturn').value.trim();
+                const monthlyReturnValue = document.getElementById('monthlyReturn').value.trim();
                 const locationValue = document.getElementById('location').value.trim();
                 // const cityValue = document.getElementById('city').value.trim();
                 const urlValue = document.getElementById('url').value.trim();
@@ -256,11 +256,11 @@
                     document.getElementById('error5').innerText = '';
                 }
 
-                if (annualReturnValue == '') {
-                    document.getElementById('annualReturnErr').innerText = 'Please enter annual return.';
+                if (monthlyReturnValue == '') {
+                    document.getElementById('monthlyReturnErr').innerText = 'Please enter monthly return.';
                     returnVal = false;
                 } else {
-                    document.getElementById('annualReturnErr').innerText = '';
+                    document.getElementById('monthlyReturnErr').innerText = '';
                 }
 
                 if (locationValue == '') {

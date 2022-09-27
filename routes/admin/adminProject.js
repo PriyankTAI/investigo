@@ -62,7 +62,7 @@ router.post('/add', checkAdmin, upload.fields([
     check('category', 'category must have a value').notEmpty(),
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
-    check('annualReturn', 'annual return must have a value').notEmpty(),
+    check('monthlyReturn', 'monthly return must have a value').notEmpty(),
     // check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
@@ -108,7 +108,7 @@ router.post('/add', checkAdmin, upload.fields([
             category: req.body.category,
             property: req.body.property,
             totalAmount: req.body.totalAmount,
-            annualReturn: req.body.annualReturn,
+            monthlyReturn: req.body.monthlyReturn,
             location: req.body.location,
             // city: req.body.city,
             url: req.body.url,
@@ -161,7 +161,7 @@ router.post('/edit/:id', checkAdmin, upload.fields([
     check('category', 'category must have a value').notEmpty(),
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
-    check('annualReturn', 'annual return must have a value').notEmpty(),
+    check('monthlyReturn', 'monthly return must have a value').notEmpty(),
     // check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
@@ -186,7 +186,7 @@ router.post('/edit/:id', checkAdmin, upload.fields([
         project.category = req.body.category;
         project.property = req.body.property;
         project.totalAmount = req.body.totalAmount;
-        project.annualReturn = req.body.annualReturn;
+        project.monthlyReturn = req.body.monthlyReturn;
         project.location = req.body.location;
         // project.city = req.body.city;
         project.url = req.body.url;

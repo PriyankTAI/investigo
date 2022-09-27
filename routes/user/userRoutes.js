@@ -11,7 +11,8 @@ const Project = require('../../models/projectModel');
 const Blog = require('../../models/blogModel');
 const Newsletter = require('../../models/newsletterModel');
 const Application = require('../../models/applicationModel');
-const Career = require('../../models/careerModel');
+const Event = require('../../models/eventModel');
+const Update = require('../../models/updateModel');
 
 // multer
 const multer = require('multer');
@@ -70,12 +71,21 @@ router.get('/project', async (req, res, next) => {
 // GET project by id
 router.get('/project/:id', async (req, res, next) => {
     try {
-        let project = await Project.findById(req.params.id).select('-__v');
-        project = multilingual(project, req);
+        let [project, events, updates] = await Promise.all([
+            Project.findById(req.params.id).select('-__v'),
+            Event.find({ project: req.params.id }).select('-__v -project'),
+            Update.find({ project: req.params.id }).select('-__v -project'),
+        ]);
 
-        if (project == null) {
+        if (project == null)
             return next(createError.NotFound('notFound.project'));
-        }
+
+        project = multilingual(project, req);
+        events = events.map(el => multilingual(el, req));
+        project.events = events;
+        updates = updates.map(el => multilingual(el, req));
+        project.updates = updates;
+
         res.json({
             status: "success",
             project
@@ -84,7 +94,7 @@ router.get('/project/:id', async (req, res, next) => {
         if (error.name == 'CastError') {
             return next(createError.NotFound('notFound.project'));
         }
-        console.log(error.message);
+        console.log(error);
         next(error);
     }
 });
