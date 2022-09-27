@@ -57,8 +57,10 @@ router.post('/add', checkAdmin, upload.fields([
 ]), [
     check('EnTitle', 'English title must have a value').notEmpty(),
     check('EnDesc', 'English description must have a value').notEmpty(),
+    check('EnReasons', 'English reasons must have a value').notEmpty(),
     check('FrTitle', 'French title must have a value').notEmpty(),
     check('FrDesc', 'French description must have a value').notEmpty(),
+    check('FrReasons', 'French reasons must have a value').notEmpty(),
     check('category', 'category must have a value').notEmpty(),
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
@@ -100,10 +102,12 @@ router.post('/add', checkAdmin, upload.fields([
             en: {
                 title: req.body.EnTitle,
                 description: req.body.EnDesc,
+                reasons: req.body.EnReasons,
             },
             fr: {
                 title: req.body.FrTitle,
                 description: req.body.FrDesc,
+                reasons: req.body.FrReasons,
             },
             category: req.body.category,
             property: req.body.property,
@@ -156,8 +160,10 @@ router.post('/edit/:id', checkAdmin, upload.fields([
 ]), [
     check('EnTitle', 'English title must have a value').notEmpty(),
     check('EnDesc', 'English description must have a value').notEmpty(),
+    check('EnReasons', 'English reasons must have a value').notEmpty(),
     check('FrTitle', 'French title must have a value').notEmpty(),
     check('FrDesc', 'French description must have a value').notEmpty(),
+    check('FrReasons', 'French reasons must have a value').notEmpty(),
     check('category', 'category must have a value').notEmpty(),
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
@@ -181,8 +187,10 @@ router.post('/edit/:id', checkAdmin, upload.fields([
 
         project.en.title = req.body.EnTitle;
         project.en.description = req.body.EnDesc;
+        project.en.reasons = req.body.EnReasons;
         project.fr.title = req.body.FrTitle;
         project.fr.description = req.body.FrDesc;
+        project.fr.reasons = req.body.FrReasons;
         project.category = req.body.category;
         project.property = req.body.property;
         project.totalAmount = req.body.totalAmount;

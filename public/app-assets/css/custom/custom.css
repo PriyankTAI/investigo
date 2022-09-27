@@ -27,6 +27,10 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	font-weight: 700;
 }
 
+.fixHeightTA {
+	max-height: 95px;
+}
+
 @media only screen and (max-width: 600px) {
     .btn-breadcrumbs {
 		margin-top: 1rem;

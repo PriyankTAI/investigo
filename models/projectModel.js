@@ -11,6 +11,10 @@ const projectSchema = mongoose.Schema({
             type: String,
             required: [true, 'English description is required'],
         },
+        reasons: {
+            type: String,
+            required: [true, 'English reasons are required'],
+        },
     },
     fr: {
         title: {
@@ -20,6 +24,10 @@ const projectSchema = mongoose.Schema({
         description: {
             type: String,
             required: [true, 'French description is required'],
+        },
+        reasons: {
+            type: String,
+            required: [true, 'French reasons are required'],
         },
     },
     category: {

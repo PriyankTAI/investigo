@@ -19,6 +19,9 @@
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/style.css">
     <!-- END: Page Level CSS-->
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/custom/custom.css">
+    <!-- END: Custom CSS-->
 </head>
 <!-- END: Head-->
 
@@ -68,10 +71,17 @@
                                                         </small>
                                                     </div>
                                                     <div class="input-field col s12">
-                                                        <textarea id="EnDesc" class="materialize-textarea" name="EnDesc" placeholder="Enter description"><%= project.en.description %></textarea>
+                                                        <textarea id="EnDesc" class="materialize-textarea fixHeightTA" name="EnDesc" placeholder="Enter description"><%= project.en.description %></textarea>
                                                         <label for="EnDesc">Description</label>
                                                         <small>
                                                             <div id="EnDescErr" class="error"></div>
+                                                        </small>
+                                                    </div>
+                                                    <div class="input-field col s12">
+                                                        <textarea id="EnReasons" class="materialize-textarea fixHeightTA" name="EnReasons" placeholder="Enter Reasons to invest"><%= project.en.reasons %></textarea>
+                                                        <label for="EnReasons">Reasons to invest</label>
+                                                        <small>
+                                                            <div id="EnReasonsErr" class="error"></div>
                                                         </small>
                                                     </div>
                                                 </div>
@@ -93,10 +103,17 @@
                                                         </small>
                                                     </div>
                                                     <div class="input-field col s12">
-                                                        <textarea id="FrDesc" class="materialize-textarea" name="FrDesc" placeholder="Enter description"><%= project.fr.description %></textarea>
+                                                        <textarea id="FrDesc" class="materialize-textarea fixHeightTA" name="FrDesc" placeholder="Enter description"><%= project.fr.description %></textarea>
                                                         <label for="FrDesc">Description</label>
                                                         <small>
                                                             <div id="FrDescErr" class="error"></div>
+                                                        </small>
+                                                    </div>
+                                                    <div class="input-field col s12">
+                                                        <textarea id="FrReasons" class="materialize-textarea fixHeightTA" name="FrReasons" placeholder="Enter Reasons to invest"><%= project.fr.reasons %></textarea>
+                                                        <label for="FrReasons">Reasons to invest</label>
+                                                        <small>
+                                                            <div id="FrReasonsErr" class="error"></div>
                                                         </small>
                                                     </div>
                                                 </div>
@@ -195,6 +212,8 @@
                 const FrTitleValue = document.getElementById('FrTitle').value.trim();
                 const EnDescValue = document.getElementById('EnDesc').value.trim();
                 const FrDescValue = document.getElementById('FrDesc').value.trim();
+                const EnReasonsValue = document.getElementById('EnReasons').value.trim();
+                const FrReasonsValue = document.getElementById('FrReasons').value.trim();
                 const categoryValue = document.getElementById('cat').value.trim();
                 const propertyValue = document.getElementById('property').value.trim();
                 const amountValue = document.getElementById('totalAmount').value.trim();
@@ -220,7 +239,7 @@
                 } else {
                     document.getElementById('FrTitleErr').innerText = '';
                 }
-                
+
                 if (EnDescValue == '') {
                     document.getElementById('EnDescErr').innerText = 'Please enter description.';
                     returnVal = false;
@@ -233,6 +252,20 @@
                     returnVal = false;
                 } else {
                     document.getElementById('FrDescErr').innerText = '';
+                }
+
+                if (EnReasonsValue == '') {
+                    document.getElementById('EnReasonsErr').innerText = 'Please enter reasons to invest.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('EnReasonsErr').innerText = '';
+                }
+
+                if (FrReasonsValue == '') {
+                    document.getElementById('FrReasonsErr').innerText = 'Please enter reasons to invest.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('FrReasonsErr').innerText = '';
                 }
 
                 if (categoryValue == '') {
