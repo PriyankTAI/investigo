@@ -113,7 +113,7 @@ router.post('/add', checkAdmin, upload.fields([
             property: req.body.property,
             totalAmount: req.body.totalAmount,
             monthlyReturn: req.body.monthlyReturn,
-            location: req.body.location.replaceAll(' ', ''),
+            location: req.body.location.replace(/\s*,\s*/g, ","),
             // city: req.body.city,
             url: req.body.url,
             image: `/uploads/project/${filename}`,
@@ -195,7 +195,7 @@ router.post('/edit/:id', checkAdmin, upload.fields([
         project.property = req.body.property;
         project.totalAmount = req.body.totalAmount;
         project.monthlyReturn = req.body.monthlyReturn;
-        project.location = req.body.location.replaceAll(' ', '');
+        project.location = req.body.location.replace(/\s*,\s*/g, ",");
         // project.city = req.body.city;
         project.url = req.body.url;
 
