@@ -85,12 +85,12 @@ const { Server } = require("socket.io");
 const io = new Server(server, { cors: { originl: '*' } });
 global.io = io;
 
-// io.on('connection', function (io) {
-//     console.log(`new connection: ${io.id}`);
-//     io.on('join', function (data) {
+// io.on('connection', function (socket) {
+//     console.log(`new connection: ${socket.id}`);
+//     socket.on('join', function (data) {
 //         console.log('join received');
-//         io.join(data.email);
-//         io.emit('admin2@gmail.com', { msg: 'finally..' })
+//         socket.join(data.email);
+//         socket.emit('admin2@gmail.com', { msg: 'finally..' })
 //     });
 // });
 

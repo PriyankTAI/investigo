@@ -73,8 +73,8 @@ router.get('/project/:id', async (req, res, next) => {
     try {
         let [project, events, updates] = await Promise.all([
             Project.findById(req.params.id).select('-__v'),
-            Event.find({ project: req.params.id }).select('-__v -project'),
-            Update.find({ project: req.params.id }).select('-__v -project'),
+            Event.find({ project: req.params.id }).select('-__v -project -forBenefits'),
+            Update.find({ project: req.params.id }).select('-__v -project -forBenefits'),
         ]);
 
         if (project == null)

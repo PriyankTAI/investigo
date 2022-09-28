@@ -7,33 +7,33 @@ const Order = require('../../models/orderModel');
 const PaymentMethod = require('../../models/paymentMethodModel');
 
 // Get all user
-// router.get('/', checkAdmin, async (req, res) => {
-//     const users = await User.find().sort('-_id');
-//     res.render("user", {
-//         users,
-//         image: req.admin.image
-//     });
-// });
-
-// Get all user pagination
 router.get('/', checkAdmin, async (req, res) => {
-    const page = req.query.page || 1;
-    const perPage = 10;
-    const skip = (page - 1) * perPage;
-
-    const [users, count] = await Promise.all([
-        User.find().sort('-_id').skip(skip).limit(perPage),
-        User.count()
-    ])
-
-    res.render("user_pagination", {
+    const users = await User.find().sort('-_id');
+    res.render("user", {
         users,
-        skip,
-        current: page,
-        pages: Math.ceil(count / perPage),
         image: req.admin.image
     });
 });
+
+// Get all user pagination
+// router.get('/', checkAdmin, async (req, res) => {
+//     const page = req.query.page || 1;
+//     const perPage = 10;
+//     const skip = (page - 1) * perPage;
+
+//     const [users, count] = await Promise.all([
+//         User.find().sort('-_id').skip(skip).limit(perPage),
+//         User.count()
+//     ])
+
+//     res.render("user_pagination", {
+//         users,
+//         skip,
+//         current: page,
+//         pages: Math.ceil(count / perPage),
+//         image: req.admin.image
+//     });
+// });
 
 // GET user by id
 router.get('/:id', checkAdmin, async (req, res) => {

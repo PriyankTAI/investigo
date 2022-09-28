@@ -335,7 +335,7 @@ router.post('/get-verify-otp', checkUser, async (req, res, next) => {
         });
     } catch (error) {
         if (error.code == 21408)
-            return next(createError.BadRequest('Invalid phone number.'));
+            return next(createError.BadRequest('verifyPhone.phoneInvalid'));
         console.log(error);
         next(error);
     }
@@ -351,7 +351,7 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
         // verify otp
         const otp = await Otp.findOne({ userId: req.user._id });
         if (!otp || otp.otp !== req.body.otp)
-            return next(createError.BadRequest('Failed to verify otp.'));
+            return next(createError.BadRequest('verifyPhone.failOtp'));
 
         // update user
         req.user.phoneVerified = true;
@@ -361,7 +361,7 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
 
         return res.status(200).json({
             status: "success",
-            message: "Phone number verified succefully.",
+            message: req.t("verifyPhone.success"),
             user: req.user
         });
     } catch (error) {
