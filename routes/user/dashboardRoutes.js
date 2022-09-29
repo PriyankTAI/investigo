@@ -353,10 +353,16 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
         if (!otp || otp.otp !== req.body.otp)
             return next(createError.BadRequest('verifyPhone.failOtp'));
 
+        let notifications = req.user.notifications;
+        notifications.push({
+            message: 'Phone number verified.'
+        });
+
         // update user
         req.user.phoneVerified = true;
         req.user.phone = req.user.numberToVerify;
         req.user.numberToVerify = undefined;
+        req.user.notifications = notifications;
         req.user.save();
 
         return res.status(200).json({

@@ -89,6 +89,17 @@ const userSchema = new mongoose.Schema({
     //     type: mongoose.Schema.ObjectId,
     //     ref: 'PaymentMethod',
     // }],
+    notifications: [{
+        message: String,
+        date: {
+            type: Date,
+            default: Date.now,
+        },
+        read: {
+            type: Boolean,
+            default: false,
+        },
+    }],
     date: {
         type: Date,
         default: Date.now()
@@ -135,8 +146,14 @@ userSchema.pre("save", async function (next) {
         }
         this.password = await bcrypt.hash(this.password, 10);
     }
+    if (this.notifications.length == 0) {
+        // add notifications
+        this.notifications.push({ message: 'Welcome to investigo' });
+        this.notifications.push({ message: 'Please complete your profile' });
+        this.notifications.push({ message: 'Please verify phone number' });
+    }
     next();
-})
+});
 
 // pre validate trim value
 userSchema.pre('validate', function (next) {

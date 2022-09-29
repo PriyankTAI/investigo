@@ -191,4 +191,39 @@ app.use((error, req, res, next) => {
 const port = process.env.PORT || 4000;
 server.listen(port, () => {
     console.log(`server is running on port ${port}`);
-})
+});
+
+// cron job (0 0 * * *)
+const cron = require('node-cron');
+const Order = require('./models/orderModel');
+const User = require('./models/userModel');
+
+cron.schedule('0 0 * * *', async () => {
+    console.log('Cron job running..........');
+    console.log(new Date());
+
+    let date = new Date(new Date().toISOString().split('T')[0]);
+    let tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    // console.log(date);
+    // console.log(tomorrow);
+    const orders = await Order.find({
+        "endDate": {
+            "$gte": date,
+            "$lt": tomorrow
+        }
+    });
+
+    orders.forEach(async order => {
+        await User.findByIdAndUpdate(
+            order.user,
+            {
+                $push: {
+                    notifications: {
+                        message: `Order ready to withdraw: ${order.id}`
+                    }
+                }
+            }
+        );
+    });
+});
