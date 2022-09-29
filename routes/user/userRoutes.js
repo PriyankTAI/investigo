@@ -17,6 +17,7 @@ const Update = require('../../models/updateModel');
 // multer
 const multer = require('multer');
 const fs = require('fs-extra');
+const checkUser = require('../../middleware/authMiddleware');
 const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
     // reject a file
@@ -215,6 +216,24 @@ router.get('/event-updates', async (req, res, next) => {
             status: "success",
             events,
             updates,
+        });
+    } catch (error) {
+        console.log(error);
+        next(error)
+    }
+});
+
+// GET mark all read
+router.get('/mark-all-read', checkUser, async (req, res, next) => {
+    try {
+        let notifications = req.user.notifications;
+        notifications.forEach(ele => ele.read = true);
+        req.user.notifications = notifications;
+        req.user.save();
+
+        res.json({
+            status: "success",
+            user: req.user
         });
     } catch (error) {
         console.log(error);
