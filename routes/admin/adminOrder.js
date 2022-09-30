@@ -4,9 +4,9 @@ const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const Order = require('../../models/orderModel');
 
-// Get all orders
-router.get('/', checkAdmin, async (req, res) => {
-    const orders = await Order.find()
+// Get all orders (complete orders)
+router.get('/order', checkAdmin, async (req, res) => {
+    const orders = await Order.find({ withdrawn: true })
         .populate('project package user')
         .sort('-_id');
 
@@ -17,7 +17,7 @@ router.get('/', checkAdmin, async (req, res) => {
 });
 
 // Get all orders pagination
-// router.get('/', checkAdmin, async (req, res) => {
+// router.get('/order', checkAdmin, async (req, res) => {
 //     const page = req.query.page || 1;
 //     const perPage = 10;
 //     const skip = (page - 1) * perPage;
@@ -37,7 +37,7 @@ router.get('/', checkAdmin, async (req, res) => {
 // });
 
 // GET order by id
-router.get('/:id', checkAdmin, async (req, res) => {
+router.get('/order/:id', checkAdmin, async (req, res) => {
     try {
         const order = await Order.findById(req.params.id)
             .populate('project package user')
@@ -61,5 +61,17 @@ router.get('/:id', checkAdmin, async (req, res) => {
         res.redirect('/admin/order');
     }
 })
+
+// GET current investments
+router.get('/investment', checkAdmin, async (req, res) => {
+    const investments = await Order.find({ withdrawn: false })
+        .populate('project package user')
+        .sort('-_id');
+
+    res.render("investment", {
+        investments,
+        image: req.admin.image
+    });
+});
 
 module.exports = router;

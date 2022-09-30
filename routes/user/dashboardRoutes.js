@@ -355,7 +355,8 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
 
         let notifications = req.user.notifications;
         notifications.push({
-            message: 'Phone number verified.'
+            title: 'Phone number verified succssfully.',
+            message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
         });
 
         // update user

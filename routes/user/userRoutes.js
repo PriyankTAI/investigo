@@ -233,11 +233,11 @@ router.get('/mark-all-read', checkUser, async (req, res, next) => {
 
         res.json({
             status: "success",
-            user: req.user
+            user: req.user,
         });
     } catch (error) {
         console.log(error);
-        next(error)
+        next(error);
     }
 });
 

@@ -90,6 +90,7 @@ const userSchema = new mongoose.Schema({
     //     ref: 'PaymentMethod',
     // }],
     notifications: [{
+        title: String,
         message: String,
         date: {
             type: Date,
@@ -148,9 +149,18 @@ userSchema.pre("save", async function (next) {
     }
     if (this.notifications.length == 0) {
         // add notifications
-        this.notifications.push({ message: 'Welcome to investigo' });
-        this.notifications.push({ message: 'Please complete your profile' });
-        this.notifications.push({ message: 'Please verify phone number' });
+        this.notifications.push({
+            title: 'Welcome to investigo',
+            message: 'We are happy to welcome you to our community spoment.',
+        });
+        this.notifications.push({
+            title: 'Please complete your profile',
+            message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+        });
+        this.notifications.push({
+            title: 'Please verify phone number',
+            message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+        });
     }
     next();
 });

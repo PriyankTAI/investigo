@@ -38,7 +38,7 @@ router.get('/', checkAdmin, async (req, res) => {
 // GET user by id
 router.get('/:id', checkAdmin, async (req, res) => {
     try {
-        const [user, paymentMethods, orders] = await Promise.all([
+        const [user, paymentMethods, allOrders] = await Promise.all([
             User.findById(req.params.id),
             PaymentMethod.find({ user: req.params.id }),
             Order.find({ user: req.params.id })
@@ -51,9 +51,17 @@ router.get('/:id', checkAdmin, async (req, res) => {
             return res.redirect('/admin/user');
         }
 
+        // current investment and completed orders
+        var current = [];
+        var orders = [];
+        allOrders.forEach(ele => {
+            ele.withdrawn == true ? orders.push(ele) : current.push(ele);
+        });
+
         res.render('user_view', {
             user,
             orders,
+            current,
             paymentMethods,
             image: req.admin.image
         });

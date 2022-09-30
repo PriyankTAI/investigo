@@ -124,7 +124,7 @@ app.use('/admin/application', require('./routes/admin/adminApplication'));
 app.use('/admin/package', require('./routes/admin/adminPackage'));
 app.use('/admin/project', require('./routes/admin/adminProject'));
 app.use('/admin/blog', require('./routes/admin/adminBlog'));
-app.use('/admin/order', require('./routes/admin/adminOrder'));
+app.use('/admin/', require('./routes/admin/adminOrder'));
 
 // 404 uploads
 app.all('/uploads/*', (req, res) => {
@@ -220,7 +220,8 @@ cron.schedule('0 0 * * *', async () => {
             {
                 $push: {
                     notifications: {
-                        message: `Order ready to withdraw: ${order.id}`
+                        title: 'Investment ready to withdraw',
+                        message: `Your investment of ${order.amount} is ready to withdraw now.`,
                     }
                 }
             }
