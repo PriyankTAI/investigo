@@ -2,6 +2,7 @@ const router = require('express').Router();
 const createError = require('http-errors');
 const customId = require("custom-id");
 const multilingual = require('../../helpers/multilingual');
+const multilingualUser = require('../../helpers/multilingual_user');
 
 // const checkUser = require('../../middleware/authMiddleware');
 
@@ -229,8 +230,9 @@ router.get('/mark-all-read', checkUser, async (req, res, next) => {
         let notifications = req.user.notifications;
         notifications.forEach(ele => ele.read = true);
         req.user.notifications = notifications;
-        req.user.save();
+        await req.user.save();
 
+        req.user = multilingualUser(req.user, req);
         res.json({
             status: "success",
             user: req.user,

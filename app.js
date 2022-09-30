@@ -220,8 +220,14 @@ cron.schedule('0 0 * * *', async () => {
             {
                 $push: {
                     notifications: {
-                        title: 'Investment ready to withdraw',
-                        message: `Your investment of ${order.amount} is ready to withdraw now.`,
+                        en: {
+                            title: 'Investment ready to withdraw',
+                            message: `Your investment of ${order.amount} is ready to withdraw now.`,
+                        },
+                        fr: {
+                            title: 'Investment ready to withdraw',
+                            message: `Your investment of ${order.amount} is ready to withdraw now.`,
+                        },
                     }
                 }
             }

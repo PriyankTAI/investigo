@@ -4,6 +4,7 @@ const fs = require('fs-extra');
 const sharp = require('sharp');
 const multilingual = require('../../helpers/multilingual');
 const { sendSms } = require('../../helpers/sendSms');
+const multilingualUser = require('../../helpers/multilingual_user');
 
 const checkUser = require('../../middleware/authMiddleware');
 
@@ -47,6 +48,8 @@ router.get('/profile', checkUser, async (req, res, next) => {
         req.user.password = undefined;
         req.user.blocked = undefined;
         req.user.secret = undefined;
+
+        req.user = multilingualUser(req.user, req);
         res.json({
             status: "success",
             user: req.user
@@ -85,12 +88,13 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
         req.body.twofa = undefined;
         req.body.password = undefined;
 
-        const user = await User.findOneAndUpdate(
+        let user = await User.findOneAndUpdate(
             { _id: req.user.id },
             req.body,
             { new: true, runValidators: true }
         ).select('-__v -password -secret -blocked');
 
+        user = multilingualUser(user, req);
         res.json({
             status: "success",
             user
@@ -355,8 +359,14 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
 
         let notifications = req.user.notifications;
         notifications.push({
-            title: 'Phone number verified succssfully.',
-            message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+            en: {
+                title: 'Phone number verified succssfully.',
+                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+            },
+            fr: {
+                title: 'Phone number verified succssfully.',
+                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+            },
         });
 
         // update user
@@ -364,8 +374,9 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
         req.user.phone = req.user.numberToVerify;
         req.user.numberToVerify = undefined;
         req.user.notifications = notifications;
-        req.user.save();
-
+        await req.user.save();
+       
+        req.user = multilingualUser(req.user, req);
         return res.status(200).json({
             status: "success",
             message: req.t("verifyPhone.success"),

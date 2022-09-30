@@ -5,6 +5,7 @@ const customId = require("custom-id");
 const { authenticator } = require('otplib') // generate totp
 const QRCode = require('qrcode') // change url to qr
 const { sendOtp } = require('../../helpers/sendEmail');
+const multilingualUser = require('../../helpers/multilingual_user');
 
 const checkUser = require('../../middleware/authMiddleware');
 
@@ -34,7 +35,7 @@ router.post("/register", async (req, res, next) => {
             return next(createError.BadRequest('error.emailReg'));
         }
         const id = customId({});
-        const user = new User({
+        let user = new User({
             fname: req.body.fname,
             lname: req.body.lname,
             email: req.body.email,
@@ -44,9 +45,10 @@ router.post("/register", async (req, res, next) => {
         });
         const token = await user.generateAuthToken(req.body.device);
         // await user.save();
+        user = multilingualUser(user, req);
         res.status(200).json({ status: "success", token, user });
     } catch (error) {
-        // console.log(error.message);
+        console.log(error);
         if (error.keyValue && error.keyValue.userId) {
             return next(createError.InternalServerError('error.server'));
         }
@@ -63,7 +65,8 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
     try {
         const { email, password, googleId, facebookId, device } = req.body;
-        const userExist = await User.findOne({ email }).select('-__v -blocked -secret');
+        let userExist = await User.findOne({ email }).select('-__v -blocked -secret');
+
         if (password) { // password
             if (!userExist) {
                 return next(createError.BadRequest('error.invalidCred'));
@@ -84,6 +87,7 @@ router.post("/login", async (req, res, next) => {
                 return res.status(200).json({ status: "success", message: req.t("2fa.required") });
             }
             const token = await userExist.generateAuthToken(device);
+            userExist = multilingualUser(userExist, req);
             return res.status(200).json({ status: "success", token, user: userExist });
         } else if (googleId) { // google
             if (userExist) {
@@ -102,10 +106,11 @@ router.post("/login", async (req, res, next) => {
                     return res.status(200).json({ status: "success", message: req.t("2fa.required") });
                 }
                 const token = await userExist.generateAuthToken(device);
+                userExist = multilingualUser(userExist, req);
                 return res.status(200).json({ status: "success", token, user: userExist });
             } else {
                 const id = customId({});
-                const user = new User({
+                let user = new User({
                     fname: req.body.fname,
                     lname: req.body.lname,
                     email: req.body.email,
@@ -114,6 +119,7 @@ router.post("/login", async (req, res, next) => {
                 });
                 const token = await user.generateAuthToken(device);
                 // await user.save();
+                user = multilingualUser(user, req);
                 return res.status(200).json({ status: "success", token, user });
             }
         } else if (facebookId) { // facebook
@@ -133,10 +139,11 @@ router.post("/login", async (req, res, next) => {
                     return res.status(200).json({ status: "success", message: req.t("2fa.required") });
                 }
                 const token = await userExist.generateAuthToken(device);
+                userExist = multilingualUser(userExist, req);
                 return res.status(200).json({ status: "success", token, user: userExist });
             } else {
                 const id = customId({});
-                const user = new User({
+                let user = new User({
                     fname: req.body.fname,
                     lname: req.body.lname,
                     email: req.body.email,
@@ -145,6 +152,7 @@ router.post("/login", async (req, res, next) => {
                 });
                 const token = await user.generateAuthToken(device);
                 // await user.save();
+                user = multilingualUser(user, req);
                 return res.status(200).json({ status: "success", token, user });
             }
         } else {
@@ -163,7 +171,7 @@ router.post("/login", async (req, res, next) => {
 router.post("/two-factor-login", async (req, res, next) => {
     try {
         const { email, code, device } = req.body;
-        const user = await User.findOne({ email }).select('-__v -blocked -password');
+        let user = await User.findOne({ email }).select('-__v -blocked -password');
 
         if (!user)
             return next(createError.BadRequest("Email not registered."));
@@ -175,6 +183,7 @@ router.post("/two-factor-login", async (req, res, next) => {
             return next(createError.BadRequest("2fa.failCode"));
 
         const token = await user.generateAuthToken(device);
+        user = multilingualUser(user, req);
         // hide secret
         user.secret = undefined;
         return res.status(200).json({ status: "success", token, user });
@@ -233,11 +242,13 @@ router.get("/logout/:id", checkUser, async (req, res, next) => {
         });
         await req.user.save();
 
+        req.user = multilingualUser(req.user, req);
+
         return res.status(200).json({
             status: "success",
             message: req.t("auth.logout"),
             token: req.token,
-            user: req.user
+            user: req.user,
         });
     } catch (error) {
         // console.log(error);
@@ -374,7 +385,7 @@ router.get('/get-2fa-qr', checkUser, async (req, res, next) => {
 // enable 2fa
 router.post('/enable-2fa', checkUser, async (req, res, next) => {
     try {
-        const user = req.user;
+        let user = req.user;
 
         if (user.twofa)
             return next(createError.Conflict('2fa.already'));
@@ -391,6 +402,8 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
         user.twofa = true;
         await user.save();
 
+        user = multilingualUser(user, req);
+
         // hide secret
         user.secret = undefined;
 
@@ -398,7 +411,7 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
             status: "Success",
             recoveryCode,
             message: req.t('2fa.enabled'),
-            user
+            user,
         });
     } catch (error) {
         console.log(error);
@@ -409,7 +422,7 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
 // disable 2fa
 router.post("/disable-2fa", checkUser, async (req, res, next) => {
     try {
-        const user = req.user;
+        let user = req.user;
 
         if (!user.twofa)
             return next(createError.Conflict('2fa.notEnabled'));
@@ -423,11 +436,12 @@ router.post("/disable-2fa", checkUser, async (req, res, next) => {
         user.recoveryCode = undefined;
         user.twofa = false;
         await user.save();
+        user = multilingualUser(user, req);
 
         return res.json({
             status: "Success",
             message: req.t('2fa.disabled'),
-            user
+            user,
         });
     } catch (error) {
         console.log(error);

@@ -90,8 +90,14 @@ const userSchema = new mongoose.Schema({
     //     ref: 'PaymentMethod',
     // }],
     notifications: [{
-        title: String,
-        message: String,
+        en: {
+            title: String,
+            message: String,
+        },
+        fr: {
+            title: String,
+            message: String,
+        },
         date: {
             type: Date,
             default: Date.now,
@@ -150,16 +156,34 @@ userSchema.pre("save", async function (next) {
     if (this.notifications.length == 0) {
         // add notifications
         this.notifications.push({
-            title: 'Welcome to investigo',
-            message: 'We are happy to welcome you to our community spoment.',
+            en: {
+                title: 'Welcome to investigo',
+                message: 'We are happy to welcome you to our community spoment.',
+            },
+            fr: {
+                title: 'Bienvenue sur enquête',
+                message: 'We are happy to welcome you to our community spoment.',
+            }
         });
         this.notifications.push({
-            title: 'Please complete your profile',
-            message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+            en: {
+                title: 'Please complete your profile',
+                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+            },
+            fr: {
+                title: 'Merci de compléter votre profil',
+                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+            },
         });
         this.notifications.push({
-            title: 'Please verify phone number',
-            message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+            en: {
+                title: 'Please verify phone number',
+                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+            },
+            fr: {
+                title: 'Veuillez vérifier le numéro de téléphone',
+                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+            },
         });
     }
     next();
