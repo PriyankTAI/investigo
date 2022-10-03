@@ -375,7 +375,7 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
         req.user.numberToVerify = undefined;
         req.user.notifications = notifications;
         await req.user.save();
-       
+
         req.user = multilingualUser(req.user, req);
         return res.status(200).json({
             status: "success",

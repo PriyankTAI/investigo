@@ -13,6 +13,7 @@ const User = require('../../models/userModel');
 const Order = require('../../models/orderModel');
 // const Message = require('../../models/messageModel');
 const Withdraw = require('../../models/withdrawModel');
+const Newsletter = require('../../models/newsletterModel');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -328,12 +329,29 @@ router.get('/admin/:id', checkAdmin, async (req, res) => {
         }
         res.redirect('/admin/admin');
     }
-})
+});
+
+// GET newsletter
+router.get('/newsletter', checkAdmin, async (req, res) => {
+    try {
+        const newsletters = await Newsletter.find().sort('-_id');
+        res.render('newsletter', {
+            newsletters,
+            image: req.admin.image,
+        });
+    } catch (error) {
+        req.flash('red', error.message);
+        res.redirect('/admin');
+    }
+});
 
 // get notifications
 router.get('/notification', async (req, res, next) => {
     try {
-        const withdraws = await Withdraw.find().sort('-_id').limit(5).populate('user');
+        const withdraws = await Withdraw.find()
+            .sort('-_id')
+            .limit(5)
+            .populate('user');
         res.json({ withdraws });
     } catch (error) {
         console.log(error);
