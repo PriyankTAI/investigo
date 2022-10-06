@@ -84,6 +84,10 @@ router.get('/', checkAdmin, async (req, res) => {
             allInterest += value;
         }
 
+        const d = new Date();
+        const mm = d.getMonth() + 1 > 9 ? d.getMonth() + 1 : '0' + d.getMonth() + 1;
+        const currentMonth = `${d.getFullYear()}-${mm}`;
+
         res.render("dashboard", {
             image: req.admin.image,
             users: users.length,
@@ -94,6 +98,7 @@ router.get('/', checkAdmin, async (req, res) => {
             newInvestment,
             allInterest: Math.round(allInterest),
             newInterest: Math.round(newInterest),
+            currentMonth
         });
     } catch (error) {
         console.log(error);
@@ -356,6 +361,32 @@ router.get('/notification', async (req, res, next) => {
     } catch (error) {
         console.log(error);
         next(error);
+    }
+});
+
+// get data
+router.get('/get-data', async (req, res) => {
+    try {
+        const month = req.query.interval.split('-')[1] - 1;
+        const year = req.query.interval.split('-')[0];
+        const fromDate = new Date(Date.UTC(year, month, 1));
+        const toDate = new Date(Date.UTC(fromDate.getFullYear(), fromDate.getMonth() + 1, 1));
+
+        const condition = { '$gte': fromDate, '$lt': toDate };
+        const [orders, users, allOrders] = await Promise.all([
+            Order.find({ "orderDate": condition }),
+            User.find({ "date": condition }),
+            Order.find().populate('package', 'dailyReturn'),
+        ]);
+
+        res.json({
+            orders,
+            users,
+            allOrders,
+        });
+    } catch (error) {
+        console.log(error);
+        res.send(error.message);
     }
 });
 
