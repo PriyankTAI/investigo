@@ -136,7 +136,7 @@
                                         <% } %>
 
                                         <% if (user.instagram || user.website || user.linkedin) { %>
-                                        <h6 class="mb-2 mt-2"><i class="material-icons">link</i> Social Links</h6>
+                                        <h6 class="mb-2 mt-2">Social Links</h6>
                                         <table class="striped">
                                             <tbody>
                                                 <% if (user.instagram) { %>
@@ -171,9 +171,11 @@
                                                             <tr>
                                                                 <th>Sr</th>
                                                                 <th>Package</th>
+                                                                <th>Amount</th>
                                                                 <th>Project</th>
                                                                 <th>Date invested</th>
                                                                 <th>Term end date</th>
+                                                                <th>Return</th>
                                                                 <th>View</th>
                                                             </tr>
                                                         </thead>
@@ -182,9 +184,11 @@
                                                             <tr>
                                                                 <td style="max-width: 30px;"><%= i+1 %></td>
                                                                 <td style="max-width: 50px;"><%= current[i].package.en.title %></td>
+                                                                <td style="max-width: 30px;"><%= current[i].package.price %></td>
                                                                 <td style="max-width: 80px;"><%= current[i].project.en.title %></td>
-                                                                <td style="max-width: 80px;"><%= current[i].orderDate.toDateString() %></td>
-                                                                <td style="max-width: 80px;"><%= current[i].endDate.toDateString() %></td>
+                                                                <td style="max-width: 70px;"><%= current[i].orderDate.toLocaleDateString('en-GB') %></td>
+                                                                <td style="max-width: 70px;"><%= current[i].endDate.toLocaleDateString('en-GB') %></td>
+                                                                <td style="max-width: 80px;"><%= Math.round((1 + (current[i].package.annualReturn / 100)) * current[i].amount) %></td>
                                                                 <td style="max-width: 80px;"><a href="/admin/order/<%= current[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                             </tr>
                                                             <% } %>
@@ -205,9 +209,11 @@
                                                             <tr>
                                                                 <th>Sr</th>
                                                                 <th>Package</th>
+                                                                <th>Amount</th>
                                                                 <th>Project</th>
                                                                 <th>Date invested</th>
                                                                 <th>Term end date</th>
+                                                                <th>Return</th>
                                                                 <th>View</th>
                                                             </tr>
                                                         </thead>
@@ -216,9 +222,11 @@
                                                             <tr>
                                                                 <td style="max-width: 30px;"><%= i+1 %></td>
                                                                 <td style="max-width: 50px;"><%= orders[i].package.en.title %></td>
+                                                                <td style="max-width: 30px;"><%= orders[i].package.price %></td>
                                                                 <td style="max-width: 80px;"><%= orders[i].project.en.title %></td>
-                                                                <td style="max-width: 80px;"><%= orders[i].orderDate.toDateString() %></td>
-                                                                <td style="max-width: 80px;"><%= orders[i].endDate.toDateString() %></td>
+                                                                <td style="max-width: 70px;"><%= orders[i].orderDate.toLocaleDateString('en-GB') %></td>
+                                                                <td style="max-width: 70px;"><%= orders[i].endDate.toLocaleDateString('en-GB') %></td>
+                                                                <td style="max-width: 80px;"><%= Math.round((1 + (orders[i].package.annualReturn / 100)) * orders[i].amount) %></td>
                                                                 <td style="max-width: 80px;"><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                             </tr>
                                                             <% } %>

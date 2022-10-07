@@ -73,6 +73,14 @@
                                                             <th>Project:</th>
                                                             <td><%= order.project.en.title %></td>
                                                         </tr>
+                                                        <tr>
+                                                            <th>Amount:</th>
+                                                            <td><%= order.package.price %></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Return:</th>
+                                                            <td><%= Math.round((1 + (order.package.annualReturn / 100)) * order.amount) %></td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                                 <h6 class="mb-2 mt-2">User details</h6>

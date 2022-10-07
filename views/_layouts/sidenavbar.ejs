@@ -89,6 +89,22 @@
             </a>
         </li>
         <li class="navigation-header">
+            <a class="navigation-header-text">Orders</a>
+            <i class="navigation-header-icon material-icons">more_horiz</i>
+        </li>
+        <li class="bold">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/order') ? 'active' : '' %>" href="/admin/order">
+                <i class="material-icons">receipt</i>
+                <span class="menu-title">Orders</span>
+            </a>
+        </li>
+        <li class="bold">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/investment') ? 'active' : '' %>" href="/admin/investment">
+                <i class="material-icons">monetization_on</i>
+                <span class="menu-title">Investment</span>
+            </a>
+        </li>
+        <li class="navigation-header">
             <a class="navigation-header-text">manage</a>
             <i class="navigation-header-icon material-icons">more_horiz</i>
         </li>
@@ -203,22 +219,11 @@
             </a>
             <div class="collapsible-body">
                 <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                    <li class="<%= url.startsWith('/admin/event/') ? 'active' : '' %>">
-                        <a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)" tabindex="0"><i class="material-icons">radio_button_unchecked</i>Events</a>
-                        <div class="collapsible-body">
-                            <ul class="collapsible" data-collapsible="accordion">
-                                <li>
-                                    <a class="<%= url.startsWith('/admin/event/project') ? 'active' : '' %>" href="/admin/event/project">
-                                        <i class="material-icons">radio_button_unchecked</i>
-                                        <span data-i18n="Blog">For Project</span>
-                                    </a>
-                                    <a class="<%= url.startsWith('/admin/event/benefit') ? 'active' : '' %>" href="/admin/event/benefit">
-                                        <i class="material-icons">radio_button_unchecked</i>
-                                        <span data-i18n="Blog">For My Benefit</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    <li>
+                        <a class="<%= url.startsWith('/admin/event') ? 'active' : '' %>" href="/admin/event">
+                            <i class="material-icons">radio_button_unchecked</i>
+                            <span data-i18n="Blog">Events</span>
+                        </a>
                     </li>
                     <li class="<%= url.startsWith('/admin/update/') ? 'active' : '' %>">
                         <a class="collapsible-header waves-effect waves-cyan" href="JavaScript:void(0)" tabindex="0"><i class="material-icons">radio_button_unchecked</i>Key Updates</a>
@@ -284,22 +289,6 @@
             <a class="waves-effect waves-cyan <%= url.startsWith('/admin/application') ? 'active' : '' %>" href="/admin/application">
                 <i class="material-icons">find_in_page</i>
                 <span class="menu-title">Job Applications</span>
-            </a>
-        </li>
-        <li class="navigation-header">
-            <a class="navigation-header-text">Orders</a>
-            <i class="navigation-header-icon material-icons">more_horiz</i>
-        </li>
-        <li class="bold">
-            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/order') ? 'active' : '' %>" href="/admin/order">
-                <i class="material-icons">receipt</i>
-                <span class="menu-title">Orders</span>
-            </a>
-        </li>
-        <li class="bold">
-            <a class="waves-effect waves-cyan <%= url.startsWith('/admin/investment') ? 'active' : '' %>" href="/admin/investment">
-                <i class="material-icons">monetization_on</i>
-                <span class="menu-title">Investment</span>
             </a>
         </li>
         <li class="navigation-header">

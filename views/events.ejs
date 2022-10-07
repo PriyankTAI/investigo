@@ -39,7 +39,7 @@
                             <h5 class="breadcrumbs-title mt-0 mb-0"><span>Events</span></h5>
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
-                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/admin/event/project/add">Add Event</a>
+                            <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/admin/event/add">Add Event</a>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,6 @@
                                                             <th>Sr</th>
                                                             <th>Title</th>
                                                             <th>Description</th>
-                                                            <th>Project</th>
                                                             <th>Date</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -73,11 +72,10 @@
                                                             <td><%= i+1 %></td>
                                                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= events[i].en.name %></td>
                                                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= events[i].en.description %></td>
-                                                            <td><%= events[i].project?.en.title %></td>
                                                             <td><%= events[i].date.toLocaleDateString('en-GB') %></td>
                                                             <td style="max-width: 70px;">
-                                                                <a href="/admin/event/project/edit/<%= events[i].id %>"><i class="material-icons">create</i></a>
-                                                                <a href="/admin/event/project/delete/<%= events[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                                                                <a href="/admin/event/edit/<%= events[i].id %>"><i class="material-icons">create</i></a>
+                                                                <a href="/admin/event/delete/<%= events[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
                                                             </td>
                                                         </tr>
                                                         <% } %>

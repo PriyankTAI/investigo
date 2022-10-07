@@ -9,14 +9,6 @@ const eventSchema = new mongoose.Schema({
         name: String,
         description: String,
     },
-    project: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Project',
-    },
-    forBenefits: {
-        type: Boolean,
-        default: false,
-    },
     date: {
         type: Date,
         default: Date.now,

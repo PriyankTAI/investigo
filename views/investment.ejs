@@ -70,9 +70,11 @@
                                                             <th>User email</th>
                                                             <th>UserId</th>
                                                             <th>Package</th>
+                                                            <th>Amount</th>
                                                             <th>Project</th>
                                                             <th>Date invested</th>
                                                             <th>Term end date</th>
+                                                            <th>Return</th>
                                                             <th>View</th>
                                                         </tr>
                                                     </thead>
@@ -83,9 +85,11 @@
                                                             <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= investments[i].user.email %></td>
                                                             <td><%= investments[i].user.userId %></td>
                                                             <td><%= investments[i].package.en.title %></td>
+                                                            <td><%= investments[i].package.price %></td>
                                                             <td><%= investments[i].project.en.title %></td>
                                                             <td><%= investments[i].orderDate.toLocaleDateString('en-GB') %></td>
                                                             <td><%= investments[i].endDate.toLocaleDateString('en-GB') %></td>
+                                                            <td><%= Math.round((1 + (investments[i].package.annualReturn / 100)) * investments[i].amount) %></td>
                                                             <td style="max-width: 50px;"><a href="/admin/order/<%= investments[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                         </tr>
                                                         <% } %>
