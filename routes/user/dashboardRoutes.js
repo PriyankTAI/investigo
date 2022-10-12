@@ -177,74 +177,17 @@ router.get('/order', checkUser, async (req, res, next) => {
 // GET completed-orders
 router.get('/completed-orders', checkUser, async (req, res, next) => {
     try {
-        let date = new Date();
-        date.setDate(date.getDate() + 1);
-
-        let orders = await Order.find({
-            user: req.user.id,
-            endDate: {
-                $lte: new Date(date).toDateString(),
-            },
-        })
+        let orders = await Order.find({ user: req.user.id, withdrawn: true })
             .populate("withdraw", "status")
             .populate("project", "image");
 
         res.json({
             status: "success",
+            total: orders.length,
             orders
         });
     } catch (error) {
         console.log(error);
-        next(error);
-    }
-});
-
-// GET all invesments
-router.get('/investment', checkUser, async (req, res, next) => {
-    try {
-        let orders = await Order.find({ user: req.user.id })
-            .populate('project', 'en.title fr.title image')
-            .populate('package', 'en.title fr.title monthlyReturn')
-            .select('paymentType orderDate amount endDate');
-
-        orders = orders.map(el => {
-            el = el.toObject();
-            el.project = multilingual(el.project, req);
-            el.package = multilingual(el.package, req);
-            return el;
-        });
-
-        res.json({
-            status: "success",
-            total: orders.length,
-            orders
-        });
-    } catch (error) {
-        console.log(error.message);
-        next(error);
-    }
-})
-
-// GET all transactions
-router.get('/transaction', checkUser, async (req, res, next) => {
-    try {
-        let orders = await Order.find({ user: req.user.id })
-            .populate('project', 'en.title fr.title image')
-            .select('paymentType orderDate');
-
-        orders = orders.map(el => {
-            el = el.toObject();
-            el.project = multilingual(el.project, req);
-            return el;
-        });
-
-        res.json({
-            status: "success",
-            total: orders.length,
-            orders
-        });
-    } catch (error) {
-        console.log(error.message);
         next(error);
     }
 });
