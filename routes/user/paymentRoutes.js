@@ -15,13 +15,13 @@ router.post("/create-order", checkUser, async (req, res, next) => {
         const package = await Package.findById(req.body.package);
         if (!package)
             return next(createError.BadRequest("Invalid package id."));
-        const amount = package.price;
+        const amount = package.price * 100;
 
         const response = await axios.post(
             process.env.REVOLUT_URL,
             {
                 amount: amount,
-                currency: "GBP",
+                currency: process.env.CURRENCY,
                 email: req.user.email,
             },
             {
