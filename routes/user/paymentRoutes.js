@@ -37,7 +37,7 @@ router.post("/create-order", checkUser, async (req, res, next) => {
             orderId: response.data.id,
         });
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
         next(error);
     }
 });
@@ -70,7 +70,7 @@ router.post("/place-order", checkUser, async (req, res, next) => {
             return next(createError.BadRequest("Invalid package id."));
         if (!project)
             return next(createError.BadRequest("Invalid project id."));
-        if (response.data.order_amount.value != package.price)
+        if (response.data.order_amount.value != package.price * 100)
             return next(
                 createError.BadRequest(
                     "Price paid and package price do not match!"
