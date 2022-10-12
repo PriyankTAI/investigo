@@ -19,9 +19,9 @@ const orderSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    intentId: {
+    orderId: {
         type: String,
-        required: [true, 'Please provide paymentIntent id.'],
+        required: [true, 'Please provide orderId.'],
         unique: true
     },
     withdrawn: {
@@ -35,7 +35,12 @@ const orderSchema = new mongoose.Schema({
     endDate: Date,
     paymentType: String,
     amount: Number,
+    returnAmount: Number,
+    term: {
+        type: Number,
+        default: 1,
+    },
     paymentId: String,
-})
+});
 
 module.exports = new mongoose.model("Order", orderSchema);

@@ -44,11 +44,11 @@ const projectSchema = mongoose.Schema({
     },
     invested: {
         type: Number,
-        default: 0
+        default: 100000,
     },
     investors: {
         type: Number,
-        default: 0
+        default: 0,
     },
     monthlyReturn: {
         type: String,
@@ -79,6 +79,10 @@ const projectSchema = mongoose.Schema({
     //     lat: String,
     //     lng: String
     // },
+    finished: {
+        type: Boolean,
+        default: false,
+    },
     date: {
         type: Date,
         default: Date.now,

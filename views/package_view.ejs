@@ -133,6 +133,9 @@
                                                             <th>User email</th>
                                                             <th>UserId</th>
                                                             <th>Project</th>
+                                                            <th>Date invested</th>
+                                                            <th>Term end date</th>
+                                                            <th>Return</th>
                                                             <th>View</th>
                                                         </tr>
                                                     </thead>
@@ -140,9 +143,12 @@
                                                         <% for( let i=0; i < orders.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td><%= orders[i].user.email %></td>
+                                                            <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= orders[i].user.email %></td>
                                                             <td><%= orders[i].user.userId %></td>
                                                             <td><%= orders[i].project.en.title %></td>
+                                                            <td><%= orders[i].orderDate.toLocaleDateString('en-GB') %></td>
+                                                            <td><%= orders[i].endDate.toLocaleDateString('en-GB') %></td>
+                                                            <td><%= orders[i].returnAmount %></td>
                                                             <td style="max-width: 108px;"><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                         </tr>
                                                         <% } %>

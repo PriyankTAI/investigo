@@ -154,7 +154,7 @@ router.get('/order', checkUser, async (req, res, next) => {
         let orders = await Order.find({ user: req.user.id })
             .populate('project', 'en.title fr.title image')
             .populate('package', 'en.title fr.title monthlyReturn dailyReturn annualReturn')
-            .select('paymentType orderDate amount endDate withdrawn');
+            .select('paymentType orderDate amount endDate withdrawn returnAmount');
 
         orders = orders.map(el => {
             el = el.toObject();
@@ -280,15 +280,15 @@ router.post('/withdraw', checkUser, async (req, res, next) => {
             return next(createError.BadRequest('notYet'));
 
         // calculate amount
-        const amount = Math.round(
-            (1 + (order.package.annualReturn / 100)) * order.amount
-        );
+        // const amount = Math.round(
+        //     (1 + (order.package.annualReturn / 100)) * order.amount
+        // );
 
         let withdraw = await Withdraw.create({
             user: req.user.id,
             order: req.body.order,
             paymentMethod: req.body.paymentMethod,
-            amount
+            amount: order.returnAmount,
         });
         withdraw = await withdraw.populate('user');
 

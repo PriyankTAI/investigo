@@ -195,42 +195,15 @@ server.listen(port, () => {
 
 // cron job (0 0 * * *)
 const cron = require('node-cron');
-const Order = require('./models/orderModel');
-const User = require('./models/userModel');
+const cronJobs = require('./helpers/cronFunctions');
 
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('0 0 * * *', () => {
     console.log('Cron job running..........');
     console.log(new Date());
 
-    let date = new Date(new Date().toISOString().split('T')[0]);
-    let tomorrow = new Date(date);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    // console.log(date);
-    // console.log(tomorrow);
-    const orders = await Order.find({
-        "endDate": {
-            "$gte": date,
-            "$lt": tomorrow
-        }
-    });
-
-    orders.forEach(async order => {
-        await User.findByIdAndUpdate(
-            order.user,
-            {
-                $push: {
-                    notifications: {
-                        en: {
-                            title: 'Investment ready to withdraw',
-                            message: `Your investment of ${order.amount} is ready to withdraw now.`,
-                        },
-                        fr: {
-                            title: 'Investment ready to withdraw',
-                            message: `Your investment of ${order.amount} is ready to withdraw now.`,
-                        },
-                    }
-                }
-            }
-        );
-    });
+    cronJobs.notifyToday();
+    cronJobs.notifyWeek();
+    cronJobs.renewProject();
+    cronJobs.investAgain();
 });
+// cronJobs.investAgain();

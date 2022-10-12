@@ -65,10 +65,23 @@ async function updateChart(value) {
             let orderDate = new Date(data.allOrders[j].orderDate.split("T")[0]);
             let endDate = new Date(data.allOrders[j].endDate.split("T")[0]);
             // if is active today, count daily interest
-            if (date > orderDate && date < endDate)
-                count +=
-                    (data.allOrders[j].package.dailyReturn / 100) *
-                    data.allOrders[j].amount;
+            if (date > orderDate && date < endDate) {
+                let term = 0;
+                while (date > orderDate) {
+                    orderDate = new Date(
+                        orderDate.setMonth(orderDate.getMonth() + 12)
+                    );
+                    term++;
+                }
+
+                let start = data.allOrders[j].package.price;
+                let annualReturn =
+                    1 + data.allOrders[j].package.annualReturn / 100;
+                for (let i = 0; i < term - 1; i++)
+                    start = Math.round(annualReturn * start * 100) / 100;
+
+                count += data.allOrders[j].package.dailyReturn / 100 * start;
+            }
         }
         count = Math.round(count * 100) / 100;
         interestArr.push(count);

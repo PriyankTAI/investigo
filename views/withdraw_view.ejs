@@ -100,11 +100,11 @@
                                                     <tbody>
                                                         <tr>
                                                             <th style="width: 200px;">Date:</th>
-                                                            <td><%= withdraw.order.orderDate.toLocaleDateString('en-GB') %></td>
+                                                            <td><%= withdraw.order?.orderDate.toLocaleDateString('en-GB') %></td>
                                                         </tr>
                                                         <tr>
                                                             <th>Amount:</th>
-                                                            <td><%= withdraw.order.amount %></td>
+                                                            <td><%= withdraw.order?.amount %></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

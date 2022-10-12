@@ -28,19 +28,19 @@ const upload = multer({
 
 // GET model
 const Project = require('../../models/projectModel');
-const Order = require('../../models/orderModel')
+const Order = require('../../models/orderModel');
 
 // GET project
 router.get("/", checkAdmin, async (req, res) => {
     try {
-        const projects = await Project.find().sort('-_id');
+        const projects = await Project.find({ finished: false }).sort('-_id');
         res.status(201).render("project", {
             projects,
             image: req.admin.image
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error occured")
+        res.status(500).send("An error occured");
     }
 });
 
@@ -72,6 +72,10 @@ router.post('/add', checkAdmin, upload.fields([
         const validationErrors = validationResult(req);
         if (validationErrors.errors.length > 0) {
             req.flash('red', validationErrors.errors[0].msg);
+            return res.redirect(req.originalUrl);
+        }
+        if (req.body.totalAmount < 100000) {
+            req.flash('red', 'Total amount can not be less than 100000.');
             return res.redirect(req.originalUrl);
         }
 
@@ -184,6 +188,10 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             req.flash('red', `Project not found!`);
             return res.redirect('/admin/project');
         }
+        if (req.body.totalAmount < project.invested) {
+            req.flash('red', 'Total amount can not be less than already invested amount.');
+            return res.redirect(req.originalUrl);
+        }
 
         project.en.title = req.body.EnTitle;
         project.en.description = req.body.EnDesc;
@@ -207,9 +215,9 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             if (!fs.existsSync('./public/uploads/project')) {
                 fs.mkdirSync('./public/uploads/project', { recursive: true });
             }
-            fs.remove(oldImage, function (err) {
-                if (err) { console.log(err); }
-            });
+            // fs.remove(oldImage, function (err) {
+            //     if (err) { console.log(err); }
+            // });
             await sharp(req.files.image[0].buffer)
                 // .resize({ width: 426, height: 242 })
                 .toFile(`./public/uploads/project/${filename}`);
@@ -223,9 +231,9 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             if (!fs.existsSync('./public/uploads/project')) {
                 fs.mkdirSync('./public/uploads/project', { recursive: true });
             }
-            fs.remove(oldImage, function (err) {
-                if (err) { console.log(err); }
-            })
+            // fs.remove(oldImage, function (err) {
+            //     if (err) { console.log(err); }
+            // })
             await sharp(req.files.icon[0].buffer)
                 .toFile(`./public/uploads/project/${filename}`);
         }
@@ -290,9 +298,9 @@ router.post('/gallery/:id/edit/:i', upload.single('image'), async (req, res) => 
             .toFile(`./public/uploads/project/${filename}`);
 
         // remove old file
-        fs.remove(`public${gallery[i]}`, function (err) {
-            if (err) { console.log(err); }
-        });
+        // fs.remove(`public${gallery[i]}`, function (err) {
+        //     if (err) { console.log(err); }
+        // });
 
         // update project
         gallery[i] = `/uploads/project/${filename}`;
@@ -313,9 +321,9 @@ router.get('/gallery/:id/delete/:i', async (req, res) => {
         const project = await Project.findById(id);
 
         // remove file
-        fs.remove(`public${project.gallery[i]}`, function (err) {
-            if (err) { console.log(err); }
-        });
+        // fs.remove(`public${project.gallery[i]}`, function (err) {
+        //     if (err) { console.log(err); }
+        // });
 
         // update project
         project.gallery = project.gallery.filter(e => e !== project.gallery[i]);

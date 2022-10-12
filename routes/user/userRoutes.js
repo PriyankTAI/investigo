@@ -56,7 +56,9 @@ router.get('/package', async (req, res, next) => {
 // GET all projects
 router.get('/project', async (req, res, next) => {
     try {
-        let projects = await Project.find().select('-__v').sort('-_id');
+        let projects = await Project.find({ finished: false })
+            .select('-__v')
+            .sort('-_id');
         projects = projects.map(el => multilingual(el, req));
 
         res.json({
@@ -73,9 +75,8 @@ router.get('/project', async (req, res, next) => {
 // GET project by id
 router.get('/project/:id', async (req, res, next) => {
     try {
-        let [project, events, updates] = await Promise.all([
+        let [project, updates] = await Promise.all([
             Project.findById(req.params.id).select('-__v'),
-            Event.find({ project: req.params.id }).select('-__v -project -forBenefits'),
             Update.find({ project: req.params.id }).select('-__v -project -forBenefits'),
         ]);
 
@@ -83,8 +84,6 @@ router.get('/project/:id', async (req, res, next) => {
             return next(createError.NotFound('notFound.project'));
 
         project = multilingual(project, req);
-        events = events.map(el => multilingual(el, req));
-        project.events = events;
         updates = updates.map(el => multilingual(el, req));
         project.updates = updates;
 
@@ -206,7 +205,7 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
 router.get('/event-updates', async (req, res, next) => {
     try {
         let [events, updates] = await Promise.all([
-            Event.find({ forBenefits: true }).select('-__v -forBenefits'),
+            Event.find().select('-__v'),
             Update.find({ forBenefits: true }).select('-__v -forBenefits'),
         ]);
 
@@ -220,7 +219,7 @@ router.get('/event-updates', async (req, res, next) => {
         });
     } catch (error) {
         console.log(error);
-        next(error)
+        next(error);
     }
 });
 

@@ -182,14 +182,14 @@
                                                         <tbody>
                                                             <% for( let i=0; i < current.length; i++ ) { %>
                                                             <tr>
-                                                                <td style="max-width: 30px;"><%= i+1 %></td>
-                                                                <td style="max-width: 50px;"><%= current[i].package.en.title %></td>
-                                                                <td style="max-width: 30px;"><%= current[i].package.price %></td>
-                                                                <td style="max-width: 80px;"><%= current[i].project.en.title %></td>
-                                                                <td style="max-width: 70px;"><%= current[i].orderDate.toLocaleDateString('en-GB') %></td>
-                                                                <td style="max-width: 70px;"><%= current[i].endDate.toLocaleDateString('en-GB') %></td>
-                                                                <td style="max-width: 80px;"><%= Math.round((1 + (current[i].package.annualReturn / 100)) * current[i].amount) %></td>
-                                                                <td style="max-width: 80px;"><a href="/admin/order/<%= current[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
+                                                                <td style="width: 50px;"><%= i+1 %></td>
+                                                                <td style="width: 70px;"><%= current[i].package.en.title %></td>
+                                                                <td style="width: 50px;"><%= current[i].package.price %></td>
+                                                                <td style="width: 150px;"><%= current[i].project.en.title %></td>
+                                                                <td style="width: 70px;"><%= current[i].orderDate.toLocaleDateString('en-GB') %></td>
+                                                                <td style="width: 70px;"><%= current[i].endDate.toLocaleDateString('en-GB') %></td>
+                                                                <td style="width: 80px;"><%= current[i].returnAmount %></td>
+                                                                <td style="width: 80px;"><a href="/admin/order/<%= current[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                             </tr>
                                                             <% } %>
                                                         </tbody>
@@ -220,14 +220,14 @@
                                                         <tbody>
                                                             <% for( let i=0; i < orders.length; i++ ) { %>
                                                             <tr>
-                                                                <td style="max-width: 30px;"><%= i+1 %></td>
-                                                                <td style="max-width: 50px;"><%= orders[i].package.en.title %></td>
-                                                                <td style="max-width: 30px;"><%= orders[i].package.price %></td>
-                                                                <td style="max-width: 80px;"><%= orders[i].project.en.title %></td>
-                                                                <td style="max-width: 70px;"><%= orders[i].orderDate.toLocaleDateString('en-GB') %></td>
-                                                                <td style="max-width: 70px;"><%= orders[i].endDate.toLocaleDateString('en-GB') %></td>
-                                                                <td style="max-width: 80px;"><%= Math.round((1 + (orders[i].package.annualReturn / 100)) * orders[i].amount) %></td>
-                                                                <td style="max-width: 80px;"><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
+                                                                <td style="width: 50px;"><%= i+1 %></td>
+                                                                <td style="width: 70px;"><%= orders[i].package.en.title %></td>
+                                                                <td style="width: 50px;"><%= orders[i].package.price %></td>
+                                                                <td style="width: 150px;"><%= orders[i].project.en.title %></td>
+                                                                <td style="width: 70px;"><%= orders[i].orderDate.toLocaleDateString('en-GB') %></td>
+                                                                <td style="width: 70px;"><%= orders[i].endDate.toLocaleDateString('en-GB') %></td>
+                                                                <td style="width: 80px;"><%= orders[i].returnAmount %></td>
+                                                                <td style="width: 80px;"><a href="/admin/order/<%= orders[i].id %>"><i class="material-icons">remove_red_eye</i></a></td>
                                                             </tr>
                                                             <% } %>
                                                         </tbody>

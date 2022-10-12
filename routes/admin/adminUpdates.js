@@ -25,7 +25,8 @@ router.get('/project', checkAdmin, async (req, res) => {
 // GET add project update
 router.get('/project/add', checkAdmin, async (req, res) => {
     try {
-        const projects = await Project.find().select('en.title');
+        const projects = await Project.find({ finished: false })
+            .select('en.title');
         res.render('add_update', {
             projects,
             image: req.admin.image,
@@ -73,7 +74,7 @@ router.get("/project/edit/:id", checkAdmin, async (req, res) => {
     try {
         const [update, projects] = await Promise.all([
             Update.findById(req.params.id).populate('project', 'en.title'),
-            Project.find().select('en.title'),
+            Project.find({ finished: false }).select('en.title'),
         ]);
 
         if (update == null) {

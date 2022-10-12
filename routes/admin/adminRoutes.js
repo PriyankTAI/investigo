@@ -376,7 +376,7 @@ router.get('/get-data', async (req, res) => {
         const [orders, users, allOrders] = await Promise.all([
             Order.find({ "orderDate": condition }),
             User.find({ "date": condition }),
-            Order.find().populate('package', 'dailyReturn'),
+            Order.find().populate('package', 'dailyReturn annualReturn price'),
         ]);
 
         res.json({
