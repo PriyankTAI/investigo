@@ -183,9 +183,11 @@ router.get('/completed-orders', checkUser, async (req, res, next) => {
         let orders = await Order.find({
             user: req.user.id,
             endDate: {
-                $lte: new Date(date).toDateString()
-            }
-        }).populate('withdraw', 'status');
+                $lte: new Date(date).toDateString(),
+            },
+        })
+            .populate("withdraw", "status")
+            .populate("project", "image");
 
         res.json({
             status: "success",
