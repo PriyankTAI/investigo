@@ -75,9 +75,10 @@ router.get('/project', async (req, res, next) => {
 // GET project by id
 router.get('/project/:id', async (req, res, next) => {
     try {
-        let [project, updates] = await Promise.all([
+        let [project, updates, events] = await Promise.all([
             Project.findById(req.params.id).select('-__v'),
             Update.find({ project: req.params.id }).select('-__v -project -forBenefits'),
+            Event.find().select('-__v'),
         ]);
 
         if (project == null)
@@ -86,6 +87,8 @@ router.get('/project/:id', async (req, res, next) => {
         project = multilingual(project, req);
         updates = updates.map(el => multilingual(el, req));
         project.updates = updates;
+        events = events.map(el => multilingual(el, req));
+        project.events = events;
 
         res.json({
             status: "success",
