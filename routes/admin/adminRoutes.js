@@ -68,20 +68,40 @@ router.get('/', checkAdmin, async (req, res) => {
         // interests
         var allInterest = 0;
         var newInterest = 0;
-        var second = Date.now();
+        var date = new Date(new Date().toISOString().split("T")[0]);
         for (let i = 0; i < orders.length; i++) {
-            var first = Date.parse(orders[i].orderDate.toJSON().substring(0, 10));
-            var days = Math.round((second - first) / (1000 * 60 * 60 * 24));
-            if (days >= 365) {
-                // calculate yearly interest
-                var value = (orders[i].package.annualReturn / 100) * orders[i].amount;
-            } else {
-                // calculate daily interest * days
-                var value = (orders[i].package.dailyReturn * days / 100) * orders[i].amount;
-                // today's interest
-                newInterest += (orders[i].package.dailyReturn / 100) * orders[i].amount;
+            let orderDate = new Date(
+                orders[i].orderDate.toISOString().split("T")[0]
+            );
+            let endDate = new Date(
+                orders[i].endDate.toISOString().split("T")[0]
+            );
+            // if is active today, count daily interest
+            if (!orders[i].withdrawn && date > orderDate && date <= endDate) {
+                let term = 0;
+                while (date > orderDate) {
+                    orderDate = new Date(
+                        orderDate.setMonth(orderDate.getMonth() + 12)
+                    );
+                    term++;
+                }
+                let start = orders[i].package.price;
+                let annualReturn = 1 + orders[i].package.annualReturn / 100;
+                for (let i = 0; i < term - 1; i++)
+                    start = Math.round(annualReturn * start * 100) / 100;
+
+                newInterest += (orders[i].package.dailyReturn / 100) * start;
+
+                var first = new Date(
+                    orderDate.setMonth(orderDate.getMonth() - 12)
+                );
+                const days = Math.round((date - first) / (1000 * 60 * 60 * 24));
+                const curr =
+                    ((orders[i].package.dailyReturn * days) / 100) *
+                    orders[i].amount;
+                const prev = start - orders[i].amount;
+                allInterest = allInterest + curr + prev;
             }
-            allInterest += value;
         }
 
         const d = new Date();
@@ -97,7 +117,7 @@ router.get('/', checkAdmin, async (req, res) => {
             allInvestment,
             newInvestment,
             allInterest: Math.round(allInterest),
-            newInterest: Math.round(newInterest),
+            newInterest: newInterest.toFixed(2),
             currentMonth
         });
     } catch (error) {
@@ -376,7 +396,8 @@ router.get('/get-data', async (req, res) => {
         const [orders, users, allOrders] = await Promise.all([
             Order.find({ "orderDate": condition }),
             User.find({ "date": condition }),
-            Order.find().populate('package', 'dailyReturn annualReturn price'),
+            Order.find({ withdrawn: false })
+                .populate('package', 'dailyReturn annualReturn price'),
         ]);
 
         res.json({

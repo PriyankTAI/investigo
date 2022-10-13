@@ -65,9 +65,9 @@ async function updateChart(value) {
             let orderDate = new Date(data.allOrders[j].orderDate.split("T")[0]);
             let endDate = new Date(data.allOrders[j].endDate.split("T")[0]);
             // if is active today, count daily interest
-            if (date > orderDate && date < endDate) {
+            if (date > orderDate && date <= endDate) {
                 let term = 0;
-                while (date > orderDate) {
+                while (date >= orderDate) {
                     orderDate = new Date(
                         orderDate.setMonth(orderDate.getMonth() + 12)
                     );
