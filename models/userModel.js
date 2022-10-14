@@ -150,7 +150,6 @@ userSchema.pre("findOneAndUpdate", async function (next) {
     if (this.getUpdate().phone) {
         const doc = await this.model.findOne(this.getQuery());
         if (this.getUpdate().phone !== doc.phone) {
-            console.log(`${doc.phone} => ${this.getUpdate().phone}`);
             doc.phoneVerified = false;
             await doc.save();
         }

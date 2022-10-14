@@ -4,7 +4,7 @@ const sendOtp = function (to, otp) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY)
     const msg = {
         to,
-        from: 'nik.theappideas@gmail.com',
+        from: 'investigobv@gmail.com',
         subject: 'Reset Password',
         html: `<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
                 <div style="margin:50px auto;width:70%;padding:20px 0">
