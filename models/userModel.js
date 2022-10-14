@@ -148,7 +148,11 @@ userSchema.methods.verifyCode = function (code) {
 // oops
 userSchema.pre("findOneAndUpdate", async function (next) {
     if (this.getUpdate().phone) {
-        console.log(this.getUpdate());
+        const docToUpdate = await this.model.findOne(this.getQuery());
+        if (this.getUpdate().phone !== docToUpdate.phone) {
+            docToUpdate.phoneVerified = false;
+            await docToUpdate.save();
+        }
     }
     next();
 });
