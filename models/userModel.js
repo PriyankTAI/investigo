@@ -145,13 +145,14 @@ userSchema.methods.verifyCode = function (code) {
     }
 }
 
-// oops
+// if phone is updated
 userSchema.pre("findOneAndUpdate", async function (next) {
     if (this.getUpdate().phone) {
-        const docToUpdate = await this.model.findOne(this.getQuery());
-        if (this.getUpdate().phone !== docToUpdate.phone) {
-            docToUpdate.phoneVerified = false;
-            await docToUpdate.save();
+        const doc = await this.model.findOne(this.getQuery());
+        if (this.getUpdate().phone !== doc.phone) {
+            console.log(`${doc.phone} => ${this.getUpdate().phone}`);
+            doc.phoneVerified = false;
+            await doc.save();
         }
     }
     next();
