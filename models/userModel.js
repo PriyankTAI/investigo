@@ -145,6 +145,14 @@ userSchema.methods.verifyCode = function (code) {
     }
 }
 
+// oops
+userSchema.pre("findOneAndUpdate", async function (next) {
+    if (this.getUpdate().phone) {
+        console.log(this.getUpdate());
+    }
+    next();
+});
+
 // converting password into hash
 userSchema.pre("save", async function (next) {
     if (this.isModified("password")) {
