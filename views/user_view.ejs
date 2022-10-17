@@ -110,6 +110,18 @@
                                                     <td><%= user.youAre %></td>
                                                 </tr>
                                                 <% } %>
+                                                <% if (user.tvaNumber) { %>
+                                                <tr>
+                                                    <th>TVA number:</th>
+                                                    <td><%= user.tvaNumber %></td>
+                                                </tr>
+                                                <% } %>
+                                                <% if (user.enterprise) { %>
+                                                <tr>
+                                                    <th>Enterprise:</th>
+                                                    <td><%= user.enterprise %></td>
+                                                </tr>
+                                                <% } %>
                                             </tbody>
                                         </table>
 

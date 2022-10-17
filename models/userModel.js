@@ -77,8 +77,11 @@ const userSchema = new mongoose.Schema({
     },
     youAre: {
         type: String,
-        enum: ['particular', 'individual']
+        enum: ['business', 'retail'],
+        required: [true, 'validation.youAre'],
     },
+    tvaNumber: String,
+    enterprise: String,
     image: String,
     instagram: String,
     linkedin: String,

@@ -17,6 +17,7 @@
         "pass": "Password is required.",
         "passInvalid": "Password should be atleast 6 characters long.",
         "device": "Device is required.",
+        "youAre": "Please select type of account.",
         "phone": "Phone is required.",
         "subject": "Subject is required.",
         "message": "Message is required.",

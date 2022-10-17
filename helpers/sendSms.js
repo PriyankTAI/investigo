@@ -8,8 +8,6 @@ const sendSms = async function (to, otp) {
         from: process.env.TWILIO_NUMBER,
         to,
     })
-    // .then(message => console.log(message.sid))
-    // .catch(err => console.log(err));
 }
 
 module.exports = {

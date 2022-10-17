@@ -34,6 +34,16 @@ router.post("/register", async (req, res, next) => {
             }
             return next(createError.BadRequest('error.emailReg'));
         }
+        if (
+            req.body.youAre == 'retail' &&
+            (req.body.tvaNumber || req.body.enterprise)
+        )
+            return next(createError.BadRequest('Invalid input.'));
+        if (req.body.youAre == 'business' && !req.body.tvaNumber)
+            return next(createError.BadRequest('Please provide TVA number.'));
+        if (req.body.youAre == 'business' && !req.body.enterprise)
+            return next(createError.BadRequest('Please provide name of enterprise.'));
+
         const id = customId({});
         let user = new User({
             fname: req.body.fname,
@@ -41,7 +51,9 @@ router.post("/register", async (req, res, next) => {
             email: req.body.email,
             password: req.body.password,
             userId: id,
-            youAre: req.body.youAre
+            youAre: req.body.youAre,
+            tvaNumber: req.body.tvaNumber,
+            enterprise: req.body.enterprise,
         });
         const token = await user.generateAuthToken(req.body.device);
         // await user.save();
@@ -109,11 +121,24 @@ router.post("/login", async (req, res, next) => {
                 userExist = multilingualUser(userExist, req);
                 return res.status(200).json({ status: "success", token, user: userExist });
             } else {
+                if (
+                    req.body.youAre == 'retail' &&
+                    (req.body.tvaNumber || req.body.enterprise)
+                )
+                    return next(createError.BadRequest('Invalid input.'));
+                if (req.body.youAre == 'business' && !req.body.tvaNumber)
+                    return next(createError.BadRequest('Please provide TVA number.'));
+                if (req.body.youAre == 'business' && !req.body.enterprise)
+                    return next(createError.BadRequest('Please provide name of enterprise.'));
+
                 const id = customId({});
                 let user = new User({
                     fname: req.body.fname,
                     lname: req.body.lname,
                     email: req.body.email,
+                    youAre: req.body.youAre,
+                    tvaNumber: req.body.tvaNumber,
+                    enterprise: req.body.enterprise,
                     userId: id,
                     googleId,
                 });
@@ -142,11 +167,24 @@ router.post("/login", async (req, res, next) => {
                 userExist = multilingualUser(userExist, req);
                 return res.status(200).json({ status: "success", token, user: userExist });
             } else {
+                if (
+                    req.body.youAre == 'retail' &&
+                    (req.body.tvaNumber || req.body.enterprise)
+                )
+                    return next(createError.BadRequest('Invalid input.'));
+                if (req.body.youAre == 'business' && !req.body.tvaNumber)
+                    return next(createError.BadRequest('Please provide TVA number.'));
+                if (req.body.youAre == 'business' && !req.body.enterprise)
+                    return next(createError.BadRequest('Please provide name of enterprise.'));
+
                 const id = customId({});
                 let user = new User({
                     fname: req.body.fname,
                     lname: req.body.lname,
                     email: req.body.email,
+                    youAre: req.body.youAre,
+                    tvaNumber: req.body.tvaNumber,
+                    enterprise: req.body.enterprise,
                     userId: id,
                     facebookId
                 });
