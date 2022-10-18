@@ -75,6 +75,7 @@ router.post("/register", async (req, res, next) => {
 
 // POST login
 router.post("/login", async (req, res, next) => {
+    console.log(req.body);
     try {
         const { email, password, googleId, facebookId, device } = req.body;
         let userExist = await User.findOne({ email }).select('-__v -blocked -secret');
