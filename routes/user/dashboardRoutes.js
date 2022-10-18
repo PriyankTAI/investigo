@@ -81,6 +81,15 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
                 .toFile('./public/uploads/users/' + filename);
         }
 
+        if (req.body.youAre == 'retailer') {
+            req.body.tvaNumber = undefined;
+            req.body.enterprise = undefined;
+        }
+        if (req.body.youAre == 'business' && !req.body.tvaNumber)
+            return next(createError.BadRequest('Please provide TVA number.'));
+        if (req.body.youAre == 'business' && !req.body.enterprise)
+            return next(createError.BadRequest('Please provide name of enterprise.'));
+
         // not allowed to change
         req.body.userId = undefined;
         req.body.blocked = undefined;

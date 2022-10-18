@@ -148,14 +148,23 @@ userSchema.methods.verifyCode = function (code) {
     }
 }
 
-// if phone is updated
-userSchema.pre("findOneAndUpdate", async function (next) {
-    if (this.getUpdate().phone) {
+// if phone / youAre is updated
+userSchema.pre('findOneAndUpdate', async function (next) {
+    if (this.getUpdate().phone || this.getUpdate().youAre) {
         const doc = await this.model.findOne(this.getQuery());
-        if (this.getUpdate().phone !== doc.phone) {
-            doc.phoneVerified = false;
-            await doc.save();
+        if (this.getUpdate().phone) {
+            if (this.getUpdate().phone !== doc.phone) doc.phoneVerified = false;
         }
+        if (this.getUpdate().youAre) {
+            if (
+                this.getUpdate().youAre !== doc.youAre &&
+                this.getUpdate().youAre == 'retailer'
+            ) {
+                doc.tvaNumber = undefined;
+                doc.enterprise = undefined;
+            }
+        }
+        await doc.save();
     }
     next();
 });
