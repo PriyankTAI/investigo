@@ -77,7 +77,7 @@ const userSchema = new mongoose.Schema({
     },
     youAre: {
         type: String,
-        enum: ['business', 'retail'],
+        enum: ['business', 'retailer'],
         required: [true, 'validation.youAre'],
     },
     tvaNumber: String,

@@ -35,7 +35,7 @@ router.post("/register", async (req, res, next) => {
             return next(createError.BadRequest('error.emailReg'));
         }
         if (
-            req.body.youAre == 'retail' &&
+            req.body.youAre == 'retailer' &&
             (req.body.tvaNumber || req.body.enterprise)
         )
             return next(createError.BadRequest('Invalid input.'));
@@ -75,7 +75,6 @@ router.post("/register", async (req, res, next) => {
 
 // POST login
 router.post("/login", async (req, res, next) => {
-    console.log(req.body);
     try {
         const { email, password, googleId, facebookId, device } = req.body;
         let userExist = await User.findOne({ email }).select('-__v -blocked -secret');
@@ -169,7 +168,7 @@ router.post("/login", async (req, res, next) => {
                 return res.status(200).json({ status: "success", token, user: userExist });
             } else {
                 if (
-                    req.body.youAre == 'retail' &&
+                    req.body.youAre == 'retailer' &&
                     (req.body.tvaNumber || req.body.enterprise)
                 )
                     return next(createError.BadRequest('Invalid input.'));
