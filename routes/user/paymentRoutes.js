@@ -30,11 +30,11 @@ router.post('/create-order', async (req, res, next) => {
 router.post('/place-order', checkUser, async (req, res, next) => {
     try {
         const response = await paypal.retriveOrder(req.body.orderId);
-        // if (response.status !== 'COMPLETED')
-        //     return res.send({
-        //         status: 'fail',
-        //         message: `Payment status: '${response.status}'`,
-        //     });
+        if (response.status !== 'COMPLETED')
+            return res.send({
+                status: 'fail',
+                message: `Payment status: '${response.status}'`,
+            });
 
         const [package, project] = await Promise.all([
             Package.findById(req.body.package),
