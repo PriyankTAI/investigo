@@ -33,15 +33,12 @@ exports.retriveOrder = async function (orderId) {
     const accessToken = await generateAccessToken();
     const url = `${BASE}/v2/checkout/orders/${orderId}`;
 
-    const response = await axios.get(
-        url,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
-        }
-    );
+    const response = await axios.get(url, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
     return response.data;
 };
 

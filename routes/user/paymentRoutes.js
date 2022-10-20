@@ -14,9 +14,8 @@ router.post('/create-order', async (req, res, next) => {
         const package = await Package.findById(req.body.package);
         if (!package)
             return next(createError.BadRequest('Invalid package id.'));
-        const amount = package.price * 100;
 
-        const order = await paypal.createOrder(amount);
+        const order = await paypal.createOrder(package.price);
         res.json({
             status: 'success',
             order,
@@ -31,12 +30,11 @@ router.post('/create-order', async (req, res, next) => {
 router.post('/place-order', checkUser, async (req, res, next) => {
     try {
         const response = await paypal.retriveOrder(req.body.orderId);
-
-        if (response.status !== 'COMPLETED')
-            return res.send({
-                status: 'fail',
-                message: `Payment status: '${response.status}'`,
-            });
+        // if (response.status !== 'COMPLETED')
+        //     return res.send({
+        //         status: 'fail',
+        //         message: `Payment status: '${response.status}'`,
+        //     });
 
         const [package, project] = await Promise.all([
             Package.findById(req.body.package),
@@ -47,7 +45,7 @@ router.post('/place-order', checkUser, async (req, res, next) => {
             return next(createError.BadRequest('Invalid package id.'));
         if (!project)
             return next(createError.BadRequest('Invalid project id.'));
-        if (response.data.order_amount.value != package.price * 100)
+        if (response.purchase_units[0].amount.value != package.price)
             return next(
                 createError.BadRequest(
                     'Price paid and package price do not match!'
@@ -56,7 +54,7 @@ router.post('/place-order', checkUser, async (req, res, next) => {
         if (project.totalAmount - project.invested < package.price)
             return next(createError.BadRequest('Project limit is reached.'));
 
-        // // create order
+        // create order
         const date = new Date(Date.now());
         date.setMonth(date.getMonth() + package.term);
 
