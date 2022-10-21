@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-const sharp = require('sharp');
+// const sharp = require('sharp');
 const multer = require('multer');
 const fs = require('fs-extra');
 const storage = multer.memoryStorage();
@@ -83,21 +83,21 @@ router.post('/add', checkAdmin, upload.fields([
             fs.mkdirSync('./public/uploads/project', { recursive: true });
 
         const filename = Date.now() + req.files.image[0].originalname.replace(" ", "");
-        await sharp(req.files.image[0].buffer)
-            // .resize({ width: 426, height: 242 })
-            .toFile(`./public/uploads/project/${filename}`);
+        // await sharp(req.files.image[0].buffer)
+        //     // .resize({ width: 426, height: 242 })
+        //     .toFile(`./public/uploads/project/${filename}`);
 
         const iconfilename = Date.now() + req.files.icon[0].originalname.replace(" ", "");
-        await sharp(req.files.icon[0].buffer)
-            .toFile(`./public/uploads/project/${iconfilename}`);
+        // await sharp(req.files.icon[0].buffer)
+        //     .toFile(`./public/uploads/project/${iconfilename}`);
 
         let gallery = [];
         if (req.files.gallery) {
             for (let i = 0; i < req.files.gallery.length; i++) {
                 let name = Date.now() + req.files.gallery[i].originalname.replace(" ", "");
-                await sharp(req.files.gallery[i].buffer)
-                    .resize({ width: 426, height: 242 })
-                    .toFile(`./public/uploads/project/${name}`);
+                // await sharp(req.files.gallery[i].buffer)
+                //     .resize({ width: 426, height: 242 })
+                //     .toFile(`./public/uploads/project/${name}`);
                 gallery.push(`/uploads/project/${name}`);
             }
         }
@@ -218,9 +218,9 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             // fs.remove(oldImage, function (err) {
             //     if (err) { console.log(err); }
             // });
-            await sharp(req.files.image[0].buffer)
-                // .resize({ width: 426, height: 242 })
-                .toFile(`./public/uploads/project/${filename}`);
+            // await sharp(req.files.image[0].buffer)
+            //     // .resize({ width: 426, height: 242 })
+            //     .toFile(`./public/uploads/project/${filename}`);
         }
 
         if (typeof req.files.icon !== 'undefined') {
@@ -234,8 +234,8 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             // fs.remove(oldImage, function (err) {
             //     if (err) { console.log(err); }
             // })
-            await sharp(req.files.icon[0].buffer)
-                .toFile(`./public/uploads/project/${filename}`);
+            // await sharp(req.files.icon[0].buffer)
+            //     .toFile(`./public/uploads/project/${filename}`);
         }
 
         await project.save();
@@ -263,9 +263,9 @@ router.post('/gallery/:id/add', upload.single('image'), async (req, res) => {
         if (!fs.existsSync('./public/uploads/project')) {
             fs.mkdirSync('./public/uploads/project', { recursive: true });
         }
-        await sharp(req.file.buffer)
-            .resize({ width: 426, height: 242 })
-            .toFile(`./public/uploads/project/${filename}`);
+        // await sharp(req.file.buffer)
+        //     .resize({ width: 426, height: 242 })
+        //     .toFile(`./public/uploads/project/${filename}`);
 
         // update project
         await Project.findByIdAndUpdate(
@@ -293,9 +293,9 @@ router.post('/gallery/:id/edit/:i', upload.single('image'), async (req, res) => 
         if (!fs.existsSync('./public/uploads/project')) {
             fs.mkdirSync('./public/uploads/project', { recursive: true });
         }
-        await sharp(req.file.buffer)
-            .resize({ width: 426, height: 242 })
-            .toFile(`./public/uploads/project/${filename}`);
+        // await sharp(req.file.buffer)
+        //     .resize({ width: 426, height: 242 })
+        //     .toFile(`./public/uploads/project/${filename}`);
 
         // remove old file
         // fs.remove(`public${gallery[i]}`, function (err) {

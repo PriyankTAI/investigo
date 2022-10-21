@@ -3,7 +3,7 @@ const { check, validationResult } = require('express-validator');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-const sharp = require('sharp');
+// const sharp = require('sharp');
 const multer = require('multer');
 const fs = require('fs-extra');
 const storage = multer.memoryStorage();
@@ -87,8 +87,8 @@ router.post('/add', checkAdmin, upload.single('image'), [
         if (!fs.existsSync('./public/uploads/package')) {
             fs.mkdirSync('./public/uploads/package', { recursive: true });
         }
-        await sharp(req.file.buffer)
-            .toFile(`./public/uploads/package/${filename}`);
+        // await sharp(req.file.buffer)
+        //     .toFile(`./public/uploads/package/${filename}`);
 
         req.flash('green', `Package added successfully`);
         res.redirect('/admin/package');
@@ -172,8 +172,8 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
             fs.remove(oldImage, function (err) {
                 if (err) { console.log(err); }
             })
-            await sharp(req.file.buffer)
-                .toFile(`./public/uploads/package/${filename}`);
+            // await sharp(req.file.buffer)
+            //     .toFile(`./public/uploads/package/${filename}`);
         } else {
             await package.save();
         }

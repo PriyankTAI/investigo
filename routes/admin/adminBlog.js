@@ -3,7 +3,7 @@ const router = require('express').Router();
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-const sharp = require('sharp');
+// const sharp = require('sharp');
 const multer = require('multer');
 const fs = require('fs-extra');
 const storage = multer.memoryStorage();
@@ -76,8 +76,8 @@ router.post('/add', checkAdmin, upload.single('image'), async (req, res) => {
             fs.mkdirSync('./public/uploads/blog', { recursive: true });
         }
 
-        await sharp(req.file.buffer)
-            .toFile('./public/uploads/blog/' + filename);
+        // await sharp(req.file.buffer)
+        //     .toFile('./public/uploads/blog/' + filename);
 
         req.flash('green', `Blog added successfully`);
         res.redirect('/admin/blog');
@@ -145,8 +145,8 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), async (req, res) =>
             fs.remove(oldImage, function (err) {
                 if (err) { console.log(err); }
             })
-            await sharp(req.file.buffer)
-                .toFile('./public/uploads/blog/' + filename);
+            // await sharp(req.file.buffer)
+            //     .toFile('./public/uploads/blog/' + filename);
         } else {
             await blog.save();
         }
@@ -188,8 +188,8 @@ router.post('/upload', upload.single('upload'), async (req, res) => {
         if (!fs.existsSync('./public/uploads/blog')) {
             fs.mkdirSync('./public/uploads/blog', { recursive: true });
         }
-        await sharp(req.file.buffer)
-            .toFile('./public/uploads/blog/' + filename);
+        // await sharp(req.file.buffer)
+        //     .toFile('./public/uploads/blog/' + filename);
 
         const url = `${process.env.BASE_URL}/uploads/blog/${filename}`;
         const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}');</script>`;

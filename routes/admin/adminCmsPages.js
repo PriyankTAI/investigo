@@ -8,7 +8,7 @@ const Career = require('../../models/careerModel');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-const sharp = require('sharp');
+// const sharp = require('sharp');
 const multer = require('multer');
 const fs = require('fs-extra');
 const storage = multer.memoryStorage();
@@ -282,9 +282,9 @@ router.post('/upload', upload.single('upload'), async (req, res) => {
         if (!fs.existsSync('./public/uploads/ckeditor')) {
             fs.mkdirSync('./public/uploads/ckeditor', { recursive: true });
         }
-        await sharp(req.file.buffer)
-            // .resize({ width: 1000, height: 723 })
-            .toFile('./public/uploads/ckeditor/' + filename);
+        // await sharp(req.file.buffer)
+        //     // .resize({ width: 1000, height: 723 })
+        //     .toFile('./public/uploads/ckeditor/' + filename);
 
         const url = `/uploads/ckeditor/${filename}`;
         const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}');</script>`;

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const sharp = require('sharp');
+// const sharp = require('sharp');
 const fs = require('fs-extra');
 const isToday = require('../../helpers/isToday');
 
@@ -272,9 +272,9 @@ router.post('/profile', checkAdmin, upload.single('image'), [
             fs.remove(oldImage, function (err) {
                 if (err) { console.log(err); }
             })
-            await sharp(req.file.buffer)
-                .resize({ width: 500, height: 500 })
-                .toFile('./public/uploads/admin/' + filename);
+            // await sharp(req.file.buffer)
+            //     .resize({ width: 500, height: 500 })
+            //     .toFile('./public/uploads/admin/' + filename);
         }
 
         await Admin.findOneAndUpdate({ _id: req.admin.id }, req.body, { new: true, runValidators: true });

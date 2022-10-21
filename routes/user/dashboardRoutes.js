@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const createError = require('http-errors');
-const fs = require('fs-extra');
-const sharp = require('sharp');
+const S3 = require('../../helpers/s3');
 const multilingual = require('../../helpers/multilingual');
 const { sendSms } = require('../../helpers/sendSms');
 const multilingualUser = require('../../helpers/multilingual_user');
@@ -64,21 +63,8 @@ router.get('/profile', checkUser, async (req, res, next) => {
 router.post('/profile', checkUser, upload.single('image'), async (req, res, next) => {
     try {
         if (typeof req.file !== 'undefined') {
-            oldImage = "public" + req.user.image;
-
-            let extArray = req.file.mimetype.split("/");
-            let extension = extArray[extArray.length - 1];
-            const filename = req.user.id + '.' + extension;
-            req.body.image = '/uploads/users/' + filename;
-            if (!fs.existsSync('./public/uploads/users')) {
-                fs.mkdirSync('./public/uploads/users', { recursive: true });
-            }
-            fs.remove(oldImage, function (err) {
-                if (err) { console.log(err); }
-            })
-            await sharp(req.file.buffer)
-                .resize({ width: 400, height: 400 })
-                .toFile('./public/uploads/users/' + filename);
+            const result = await S3.uploadFile(req.file);
+            req.body.image = result.Location;
         }
 
         if (req.body.youAre == 'retailer') {
