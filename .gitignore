@@ -3,3 +3,8 @@ node_modules
 todo.txt
 done.txt
 investigo.rar
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
