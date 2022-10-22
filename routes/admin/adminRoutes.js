@@ -214,7 +214,7 @@ router.post("/changepass", checkAdmin, async (req, res) => {
             req.flash('red', 'Password and confirm password does not match!');
             return res.redirect('/admin/changepass');
         }
-        const admin = await Admin.findOne();
+        const admin = await Admin.findById(req.admin.id);
         admin.password = newpass;
         await admin.save();
         req.flash('green', 'Password updated.');

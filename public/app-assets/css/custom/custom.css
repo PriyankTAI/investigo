@@ -52,4 +52,9 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     .btn-breadcrumbs {
 		margin-top: 1rem;
     }
+
+    /* hide charts */
+    .chartDiv {
+        display: none;
+    }
 }
