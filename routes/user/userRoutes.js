@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const createError = require('http-errors');
-const customId = require("custom-id");
+const S3 = require('../../helpers/s3');
 const multilingual = require('../../helpers/multilingual');
 const multilingualUser = require('../../helpers/multilingual_user');
 
@@ -177,22 +177,17 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
         if (req.file == undefined) {
             return next(createError.BadRequest('validation.resume'));
         }
-        const fileName = '/uploads/resume/' + customId({ randomLength: 1 }) + '_' + req.file.originalname;
-        const path = './public' + fileName;
+        const result = await S3.uploadFile(req.file);
+        const resume = result.Location;
+
         const application = new Application({
             fname: req.body.fname,
             lname: req.body.lname,
             email: req.body.email,
             phone: req.body.phone,
-            resume: fileName
+            resume,
         });
         await application.save();
-
-        // save resume to file
-        if (!fs.existsSync('./public/uploads/resume')) {
-            fs.mkdirSync('./public/uploads/resume', { recursive: true });
-        }
-        fs.writeFileSync(path, req.file.buffer);
 
         res.status(201).json({
             status: "success",

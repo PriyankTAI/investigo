@@ -29,7 +29,6 @@ router.get('/:id', checkAdmin, async (req, res) => {
         }
         res.render("admin_application_view", {
             application,
-            path: process.env.BASE_URL,
             image: req.admin.image
         })
     } catch (error) {

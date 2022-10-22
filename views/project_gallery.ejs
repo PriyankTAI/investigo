@@ -11,7 +11,7 @@
     <meta name="author" content="ThemeSelect">
     <title>Project Gallery | Investigo</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
-    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/favicon/favicon-32x32.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- BEGIN: VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
@@ -79,7 +79,7 @@
                             <% for( let i = 0; i < project.gallery.length; i++ ) { %>
                             <div class="col s12 m3 grid">
                                 <figure class="effect-zoe z-depth-2">
-                                    <img src="<%= project.gallery[i] %>" alt="gallery image" onerror="this.onerror=null; this.src='/uploads/no_image_available_416x242.jpg';" />
+                                    <img src="<%= project.gallery[i] %>" alt="gallery image" onerror="this.onerror=null; this.src='/uploads/no_image_available_426x242.jpg';" />
                                     <figcaption>
                                         <p class="icon-links">
                                             <a href="/admin/project/gallery/<%= project.id %>/delete/<%= i %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
