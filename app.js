@@ -207,6 +207,19 @@ server.listen(port, () => {
 const cron = require('node-cron');
 const cronJobs = require('./helpers/cronFunctions');
 
+// temp to test if cron is running on aws
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
+
+const sms = async function () {
+    return client.messages.create({
+        body: `Cron jobs ran at ${new Date()}`,
+        from: process.env.TWILIO_NUMBER,
+        to: '+919512615699',
+    })
+}
+
 cron.schedule('0 0 * * *', () => {
     console.log('Cron job running..........');
     console.log(new Date());
@@ -215,5 +228,6 @@ cron.schedule('0 0 * * *', () => {
     cronJobs.notifyWeek();
     cronJobs.renewProject();
     cronJobs.investAgain();
+
+    sms();
 });
-// cronJobs.investAgain();
