@@ -3,6 +3,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const isToday = require('../../helpers/isToday');
+const S3 = require('../../helpers/s3');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 

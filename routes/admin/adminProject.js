@@ -6,7 +6,6 @@ const S3 = require('../../helpers/s3');
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
 const multer = require('multer');
-const fs = require('fs-extra');
 const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
     // reject a file
@@ -207,12 +206,12 @@ router.post('/edit/:id', checkAdmin, upload.fields([
         project.url = req.body.url;
 
         if (typeof req.files.image !== 'undefined') {
-            const result = await S3.uploadFile(req.files.image);
+            const result = await S3.uploadFile(req.files.image[0]);
             project.image = result.Location;
         }
 
         if (typeof req.files.icon !== 'undefined') {
-            const result = await S3.uploadFile(req.files.icon);
+            const result = await S3.uploadFile(req.files.icon[0]);
             project.icon = result.Location;
         }
 
