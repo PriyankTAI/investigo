@@ -1,11 +1,10 @@
 const router = require('express').Router();
 const { check, validationResult } = require('express-validator');
+const S3 = require('../../helpers/s3');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-// const sharp = require('sharp');
 const multer = require('multer');
-const fs = require('fs-extra');
 const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
     // reject a file
@@ -63,7 +62,12 @@ router.post('/add', checkAdmin, upload.single('image'), [
             return res.redirect(req.originalUrl);
         }
 
-        const filename = Date.now() + req.file.originalname.replace(" ", "");
+        let image;
+        if (typeof req.file !== 'undefined') {
+            const result = await S3.uploadFile(req.file);
+            image = result.Location;
+        }
+
         const monthlyReturn = req.body.monthlyReturn || (req.body.annualReturn / 12).toFixed(2);
         const dailyReturn = req.body.dailyReturn || (req.body.annualReturn / 365).toFixed(4);
 
@@ -81,14 +85,8 @@ router.post('/add', checkAdmin, upload.single('image'), [
             dailyReturn,
             monthlyReturn,
             term: req.body.term,
-            image: `/uploads/package/${filename}`,
+            image,
         });
-
-        if (!fs.existsSync('./public/uploads/package')) {
-            fs.mkdirSync('./public/uploads/package', { recursive: true });
-        }
-        // await sharp(req.file.buffer)
-        //     .toFile(`./public/uploads/package/${filename}`);
 
         req.flash('green', `Package added successfully`);
         res.redirect('/admin/package');
@@ -96,7 +94,6 @@ router.post('/add', checkAdmin, upload.single('image'), [
         // console.log(error);
         req.flash('red', error.message);
         res.redirect('/admin/package');
-
     }
 });
 
@@ -161,22 +158,11 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         package.term = req.body.term;
 
         if (typeof req.file !== 'undefined') {
-            oldImage = "public" + package.image;
-
-            const filename = Date.now() + req.file.originalname.replace(" ", "");
-            package.image = `/uploads/package/${filename}`;
-            if (!fs.existsSync('./public/uploads/package')) {
-                fs.mkdirSync('./public/uploads/package', { recursive: true });
-            }
-            await package.save();
-            fs.remove(oldImage, function (err) {
-                if (err) { console.log(err); }
-            })
-            // await sharp(req.file.buffer)
-            //     .toFile(`./public/uploads/package/${filename}`);
-        } else {
-            await package.save();
+            const result = await S3.uploadFile(req.file);
+            package.image = result.Location;
         }
+
+        await package.save();
 
         req.flash('green', `Package edited successfully`);
         res.redirect('/admin/package');
@@ -191,28 +177,6 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
         }
     }
 });
-
-// GET delete package
-// router.get("/delete/:id", checkAdmin, async (req, res) => {
-//     try {
-//         const id = req.params.id;
-//         const package = await Package.findByIdAndRemove(id);
-//         image = "public" + package.image;
-//         fs.remove(image, function (err) {
-//             if (err) { console.log(err); }
-//         })
-//         req.flash('green', `Package deleted successfully`);
-//         res.redirect('/admin/package')
-//     } catch (error) {
-//         if (error.name === 'CastError' || error.name === 'TypeError') {
-//             req.flash('red', `Package not found!`);
-//             res.redirect('/admin/package');
-//         } else {
-//             console.log(error);
-//             res.send(error)
-//         }
-//     }
-// });
 
 // GET package by id
 router.get('/:id', checkAdmin, async (req, res) => {

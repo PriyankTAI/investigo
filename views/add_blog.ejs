@@ -45,105 +45,113 @@
                     </div>
                 </div>
             </div>
-            <div class="col s12">
+            <div class="">
                 <div class="container">
-                    <div class="section section-data-tables">
+                    <div class="section">
                         <div class="row">
+                            <div class="col s12">
+                                <%# messages %>
+                                <%- messages('messages', locals) %>
+                            </div>
+                        </div>
+                        <form method="POST" onsubmit="validate()" action="/admin/blog/add" id="form" enctype="multipart/form-data">
                             <div class="col s12">
                                 <div class="card">
                                     <div class="card-content">
                                         <div class="row">
                                             <div class="col s12">
-                                                <!-- <div class="col s12 mb-3">
-                                                    <ul class="tabs">
-                                                        <li class="tab col s3"><a href="#test1">English</a></li>
-                                                        <li class="tab col s3"><a href="#test2">French</a></li>
-                                                    </ul>
-                                                </div> -->
-                                                <%# errors %>
-                                                <%- messages('messages', locals) %>
-                                                <form method="POST" onsubmit="validate()" action="/admin/blog/add" id="form" enctype="multipart/form-data">
-                                                    <div class="col s6">
-                                                        <h4 class="card-title">English</h4>
-                                                        <div class="input-field">
-                                                            <input placeholder="English Title" id="title" name="title" type="text">
-                                                            <small>
-                                                                <div id="error1" class="error"></div>
-                                                            </small>
-                                                            <label for="title">Title</label>
-                                                        </div>
-                                                        <div class="input-field">
-                                                            <textarea id="textarea2" class="materialize-textarea" name="description" placeholder="Enter description in English"></textarea>
-                                                            <label for="textarea2">Description</label>
-                                                            <small>
-                                                                <div id="error3" class="error"></div>
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col s6">
-                                                        <h4 class="card-title">French</h4>
-                                                        <div class="input-field">
-                                                            <input placeholder="French Title" id="title" name="title" type="text">
-                                                            <small>
-                                                                <div id="error1" class="error"></div>
-                                                            </small>
-                                                            <label for="title">Title</label>
-                                                        </div>
-                                                        <div class="input-field">
-                                                            <textarea id="textarea2" class="materialize-textarea" name="description" placeholder="Enter description in French"></textarea>
-                                                            <label for="textarea2">Description</label>
-                                                            <small>
-                                                                <div id="error3" class="error"></div>
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="input-field col s12">
-                                                        <select id="cat" name="category">
-                                                            <option value="">Select category</option>
-                                                            <option value="News">News</option>
-                                                            <option value="Articals">Articals</option>
-                                                            <option value="Resources">Resources</option>
-                                                        </select>
-                                                        <label>Select category</label>
-                                                        <small>
-                                                            <div id="error5" class="error"></div>
-                                                        </small>
-                                                    </div>
-                                                    <div class="input-field col s12">
-                                                        Upload Image
-                                                        <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required />
-                                                        <small>
-                                                            <div id="error4" class="error"></div>
-                                                        </small>
-                                                    </div>
-
-                                                    <!-- <div id="test1" class="col s12">
-                                                        <div class="input-field">
-                                                            Content
-                                                            <textarea name="content" class="form-control ta" id="ta1" cols="30" rows="10" placeholder="content">lorem</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div id="test2" class="col s12">
-                                                        <div class="input-field">
-                                                            Content
-                                                            <textarea name="contentFr" class="form-control ta" id="ta2" cols="30" rows="10" placeholder="content">ipsum</textarea>
-                                                        </div>
-                                                    </div> -->
-                                                    <div class="input-field col m12 s12">
-                                                        <input placeholder="" id="form-tags-1" name="tags" type="text" value="">
-                                                        <label for="form-tags-1_tag" style="top: -5px;">Tags</label>
-                                                    </div>
-                                                    <div class="col s12">
-                                                        <button type="submit" class="btn purple">Submit</button>
-                                                        <a href="/admin/blog" class="btn btn-danger">Cancel</a>
-                                                    </div>
-                                                </form>
+                                                <h4 class="card-title">English</h4>
+                                                <div class="input-field col s12">
+                                                    <input placeholder="Title" id="EnTitle" name="EnTitle" type="text">
+                                                    <small>
+                                                        <div id="EnTitleErr" class="error"></div>
+                                                    </small>
+                                                    <label for="EnTitle">Title</label>
+                                                </div>
+                                                <div class="input-field col s12">
+                                                    <textarea id="EnDesc" class="materialize-textarea" name="EnDesc" placeholder="Enter description"></textarea>
+                                                    <label for="EnDesc">Description</label>
+                                                    <small>
+                                                        <div id="EnDescErr" class="error"></div>
+                                                    </small>
+                                                </div>
+                                                <div class="input-field col s12">
+                                                    Content
+                                                    <textarea name="EnContent" class="form-control ta" id="ta1" cols="30" rows="10" placeholder="content"></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <h4 class="card-title">French</h4>
+                                                <div class="input-field col s12">
+                                                    <input placeholder="French Title" id="FrTitle" name="FrTitle" type="text">
+                                                    <small>
+                                                        <div id="FrTitleErr" class="error"></div>
+                                                    </small>
+                                                    <label for="FrTitle">Title</label>
+                                                </div>
+                                                <div class="input-field col s12">
+                                                    <textarea id="FrDesc" class="materialize-textarea" name="FrDesc" placeholder="Enter description in French"></textarea>
+                                                    <label for="FrDesc">Description</label>
+                                                    <small>
+                                                        <div id="FrDescErr" class="error"></div>
+                                                    </small>
+                                                </div>
+                                                <div class="input-field col s12">
+                                                    Content
+                                                    <textarea name="FrContent" class="form-control ta" id="ta2" cols="30" rows="10" placeholder="content"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <!-- <h4 class="card-title"></h4> -->
+                                                <div class="input-field col s12">
+                                                    <select id="cat" name="category">
+                                                        <option value="">Select category</option>
+                                                        <option value="News">News</option>
+                                                        <option value="Articals">Articals</option>
+                                                        <option value="Resources">Resources</option>
+                                                    </select>
+                                                    <label>Select category</label>
+                                                    <small>
+                                                        <div id="catErr" class="error"></div>
+                                                    </small>
+                                                </div>
+                                                <div class="input-field col s12">
+                                                    Upload Image
+                                                    <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required />
+                                                    <small>
+                                                        <div id="error4" class="error"></div>
+                                                    </small>
+                                                </div>
+                                                <div class="input-field col m12 s12">
+                                                    <input placeholder="" id="form-tags-1" name="tags" type="text" value="">
+                                                    <label for="form-tags-1_tag" style="top: -5px;">Tags</label>
+                                                </div>
+                                                <div class="col s12">
+                                                    <button type="submit" class="btn purple" id="submitBtn">Submit</button>
+                                                    <a href="/admin/blog" class="btn btn-danger">Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="content-overlay"></div>
@@ -154,9 +162,6 @@
 
     <script>
         const formC = document.getElementById('form');
-        const titleC = document.getElementById('title');
-        const contentC = document.getElementById('textarea2');
-        const catC = document.getElementById('cat');
 
         formC.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -165,24 +170,40 @@
         function validate() {
             let returnVal = true;
 
-            const titleValue = titleC.value.trim();
-            const contentValue = contentC.value.trim();
-            const catValue = catC.value;
+            const EnTitleValue = document.getElementById('EnTitle').value.trim();
+            const EnDescValue = document.getElementById('EnDesc').value.trim();
+            const FrTitleValue = document.getElementById('FrTitle').value.trim();
+            const FrDescValue = document.getElementById('FrDesc').value.trim();
+            const catValue = document.getElementById('cat').value;
             const filevalue = document.getElementById('input-file-now').value;
             const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
 
-            if (titleValue == '') {
-                document.getElementById('error1').innerText = 'Please enter blog title.';
+            if (EnTitleValue == '') {
+                document.getElementById('EnTitleErr').innerText = 'Please enter blog title.';
                 returnVal = false;
             } else {
-                document.getElementById('error1').innerText = '';
+                document.getElementById('EnTitleErr').innerText = '';
             }
 
-            if (contentValue == '') {
-                document.getElementById('error3').innerText = 'Please enter blog description.';
+            if (FrTitleValue == '') {
+                document.getElementById('FrTitleErr').innerText = 'Please enter blog title.';
                 returnVal = false;
             } else {
-                document.getElementById('error3').innerText = '';
+                document.getElementById('FrTitleErr').innerText = '';
+            }
+
+            if (EnDescValue == '') {
+                document.getElementById('EnDescErr').innerText = 'Please enter blog description.';
+                returnVal = false;
+            } else {
+                document.getElementById('EnDescErr').innerText = '';
+            }
+
+            if (FrDescValue == '') {
+                document.getElementById('FrDescErr').innerText = 'Please enter blog description.';
+                returnVal = false;
+            } else {
+                document.getElementById('FrDescErr').innerText = '';
             }
 
             if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
@@ -193,13 +214,14 @@
             }
 
             if (catValue == '') {
-                document.getElementById('error5').innerText = 'Please select blog category.';
+                document.getElementById('catErr').innerText = 'Please select blog category.';
                 returnVal = false;
             } else {
-                document.getElementById('error5').innerText = '';
+                document.getElementById('catErr').innerText = '';
             }
 
             if (returnVal) {
+                document.getElementById('submitBtn').disabled = true;
                 formC.submit();
             }
         }

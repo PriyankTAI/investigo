@@ -2,8 +2,6 @@ const router = require('express').Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const sharp = require('sharp');
-const fs = require('fs-extra');
 const isToday = require('../../helpers/isToday');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
@@ -11,7 +9,6 @@ const checkAdmin = require('../../middleware/authAdminMiddleware');
 const Admin = require('../../models/adminModel');
 const User = require('../../models/userModel');
 const Order = require('../../models/orderModel');
-// const Message = require('../../models/messageModel');
 const Withdraw = require('../../models/withdrawModel');
 const Newsletter = require('../../models/newsletterModel');
 
@@ -260,21 +257,8 @@ router.post('/profile', checkAdmin, upload.single('image'), [
         }
 
         if (typeof req.file !== 'undefined') {
-            oldImage = `public${req.admin.image}`;
-
-            let extArray = req.file.mimetype.split("/");
-            let extension = extArray[extArray.length - 1];
-            const filename = req.admin.id + '.' + extension;
-            req.body.image = `/uploads/admin/${filename}`;
-            if (!fs.existsSync('./public/uploads/admin')) {
-                fs.mkdirSync('./public/uploads/admin', { recursive: true });
-            }
-            fs.remove(oldImage, function (err) {
-                if (err) { console.log(err); }
-            })
-            // await sharp(req.file.buffer)
-            //     .resize({ width: 500, height: 500 })
-            //     .toFile('./public/uploads/admin/' + filename);
+            const result = await S3.uploadFile(req.file);
+            req.body.image = result.Location;
         }
 
         await Admin.findOneAndUpdate({ _id: req.admin.id }, req.body, { new: true, runValidators: true });

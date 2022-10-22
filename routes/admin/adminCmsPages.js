@@ -1,16 +1,14 @@
 const router = require('express').Router();
 const { check, validationResult } = require('express-validator');
+const S3 = require('../../helpers/s3');
 
 const Page = require('../../models/pageModel');
 const FAQs = require('../../models/faqsModel');
 const Career = require('../../models/careerModel');
-// const Contact = require('../../models/contactModel');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-// const sharp = require('sharp');
 const multer = require('multer');
-const fs = require('fs-extra');
 const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
     // reject a file
@@ -27,45 +25,6 @@ const upload = multer({
     },
     fileFilter: fileFilter
 });
-
-// // about us
-// router.get("/about_us", checkAdmin, async (req, res) => {
-//     try {
-//         const page = await Page.findOne({ title: 'About Us' });
-//         res.status(201).render("about", {
-//             page,
-//             image: req.admin.image
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         req.flash('red', error.message);
-//         res.redirect(req.originalUrl);
-//     }
-// });
-
-// router.post('/about_us', checkAdmin, [
-//     check('EnContent', 'English content must have a value').notEmpty(),
-//     check('FrContent', 'French content must have a value').notEmpty(),
-// ], async function (req, res) {
-//     const validationErrors = validationResult(req);
-//     if (validationErrors.errors.length > 0) {
-//         req.flash('red', validationErrors.errors[0].msg);
-//         return res.redirect(req.originalUrl);
-//     }
-//     try {
-//         const page = await Page.findOne({ title: 'About Us' });
-//         page.en.content = req.body.EnContent;
-//         page.fr.content = req.body.FrContent;
-//         await page.save();
-
-//         req.flash('green', 'About us updated successfully.');
-//         res.redirect('/admin/cms/about_us');
-//     } catch (error) {
-//         console.log(error);
-//         req.flash('red', error.message);
-//         res.redirect(req.originalUrl);
-//     }
-// });
 
 // terms
 router.get("/terms_con", checkAdmin, async (req, res) => {
@@ -223,70 +182,15 @@ router.post("/key_risks", checkAdmin, [
     }
 });
 
-// // contact
-// router.get("/contact", checkAdmin, async (req, res) => {
-//     try {
-//         const page = await Page.findOne({ title: 'Contact' });
-//         const contact = await Contact.findOne();
-//         res.status(201).render("contact", {
-//             page,
-//             contact,
-//             image: req.admin.image
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         req.flash('red', error.message);
-//         res.redirect(req.originalUrl);
-//     }
-// });
-
-// router.post('/contact', checkAdmin, [
-//     check('EnContent', 'English content must have a value').notEmpty(),
-//     check('FrContent', 'French content must have a value').notEmpty(),
-//     check('phone', 'Phone must have a value').notEmpty(),
-//     check('email', 'Email must have a valid value').isEmail(),
-//     check('address', 'Address must have a value').notEmpty(),
-// ], async function (req, res) {
-//     try {
-//         const page = await Page.findOne({ title: 'Contact' });
-//         const contact = await Contact.findOne();
-
-//         const validationErrors = validationResult(req);
-//         if (validationErrors.errors.length > 0) {
-//             req.flash('red', validationErrors.errors[0].msg);
-//             return res.redirect(req.originalUrl);
-//         }
-
-//         page.en.content = req.body.EnContent;
-//         page.fr.content = req.body.FrContent;
-//         await page.save();
-
-//         contact.phone = req.body.phone;
-//         contact.email = req.body.email;
-//         contact.address = req.body.address;
-//         await contact.save();
-
-//         req.flash('green', 'Contact Us updated successfully.');
-//         res.redirect('/admin/cms/contact');
-//     } catch (error) {
-//         console.log(error);
-//         req.flash('red', error.message);
-//         res.redirect(req.originalUrl);
-//     }
-// });
-
 // uploader
 router.post('/upload', upload.single('upload'), async (req, res) => {
     try {
-        const filename = Date.now() + req.file.originalname;
-        if (!fs.existsSync('./public/uploads/ckeditor')) {
-            fs.mkdirSync('./public/uploads/ckeditor', { recursive: true });
-        }
-        // await sharp(req.file.buffer)
-        //     // .resize({ width: 1000, height: 723 })
-        //     .toFile('./public/uploads/ckeditor/' + filename);
+        let url;
+        if (typeof req.file !== 'undefined') {
+            const result = await S3.uploadFile(req.file);
+            url = result.Location;
+        };
 
-        const url = `/uploads/ckeditor/${filename}`;
         const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}');</script>`;
         res.send(send);
     } catch (error) {

@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator');
+const S3 = require('../../helpers/s3');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-// const sharp = require('sharp');
 const multer = require('multer');
 const fs = require('fs-extra');
 const storage = multer.memoryStorage();
@@ -20,9 +20,9 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({
     storage: storage,
-    // limits: {
-    //     fileSize: 1024 * 1024 * 20
-    // },
+    limits: {
+        fileSize: 1024 * 1024 * 10
+    },
     fileFilter: fileFilter
 });
 
@@ -65,7 +65,6 @@ router.post('/add', checkAdmin, upload.fields([
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
     check('monthlyReturn', 'monthly return must have a value').notEmpty(),
-    // check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
@@ -79,26 +78,29 @@ router.post('/add', checkAdmin, upload.fields([
             return res.redirect(req.originalUrl);
         }
 
-        if (!fs.existsSync('./public/uploads/project'))
-            fs.mkdirSync('./public/uploads/project', { recursive: true });
+        // image
+        let image;
+        if (typeof req.files.image[0] !== 'undefined') {
+            const result = await S3.uploadFile(req.files.image[0]);
+            image = result.Location;
+        }
 
-        const filename = Date.now() + req.files.image[0].originalname.replace(" ", "");
-        // await sharp(req.files.image[0].buffer)
-        //     // .resize({ width: 426, height: 242 })
-        //     .toFile(`./public/uploads/project/${filename}`);
+        // icon
+        let icon;
+        if (typeof req.files.icon[0] !== 'undefined') {
+            const result = await S3.uploadFile(req.files.icon[0]);
+            icon = result.Location;
+        }
 
-        const iconfilename = Date.now() + req.files.icon[0].originalname.replace(" ", "");
-        // await sharp(req.files.icon[0].buffer)
-        //     .toFile(`./public/uploads/project/${iconfilename}`);
-
+        // gallery
         let gallery = [];
         if (req.files.gallery) {
             for (let i = 0; i < req.files.gallery.length; i++) {
-                let name = Date.now() + req.files.gallery[i].originalname.replace(" ", "");
-                // await sharp(req.files.gallery[i].buffer)
-                //     .resize({ width: 426, height: 242 })
-                //     .toFile(`./public/uploads/project/${name}`);
-                gallery.push(`/uploads/project/${name}`);
+                if (typeof req.files.gallery[i] !== 'undefined') {
+                    const result = await S3.uploadFile(req.files.gallery[i]);
+                    let name = result.Location;
+                    gallery.push(name);
+                }
             }
         }
 
@@ -118,11 +120,10 @@ router.post('/add', checkAdmin, upload.fields([
             totalAmount: req.body.totalAmount,
             monthlyReturn: req.body.monthlyReturn,
             location: req.body.location.replace(/\s*,\s*/g, ",").trim(),
-            // city: req.body.city,
             url: req.body.url,
-            image: `/uploads/project/${filename}`,
-            icon: `/uploads/project/${iconfilename}`,
-            gallery
+            image,
+            icon,
+            gallery,
         });
 
         req.flash('green', `Project added successfully`);
@@ -172,7 +173,6 @@ router.post('/edit/:id', checkAdmin, upload.fields([
     check('property', 'property must have a value').notEmpty(),
     check('totalAmount', 'total amount must have a value').isNumeric(),
     check('monthlyReturn', 'monthly return must have a value').notEmpty(),
-    // check('city', 'city must have a value').notEmpty(),
     check('location', 'location must have a value').notEmpty(),
 ], async (req, res) => {
     try {
@@ -204,38 +204,16 @@ router.post('/edit/:id', checkAdmin, upload.fields([
         project.totalAmount = req.body.totalAmount;
         project.monthlyReturn = req.body.monthlyReturn;
         project.location = req.body.location.replace(/\s*,\s*/g, ",").trim();
-        // project.city = req.body.city;
         project.url = req.body.url;
 
         if (typeof req.files.image !== 'undefined') {
-            oldImage = "public" + project.image;
-
-            const filename = Date.now() + req.files.image[0].originalname.replace(" ", "");
-            project.image = `/uploads/project/${filename}`;
-            if (!fs.existsSync('./public/uploads/project')) {
-                fs.mkdirSync('./public/uploads/project', { recursive: true });
-            }
-            // fs.remove(oldImage, function (err) {
-            //     if (err) { console.log(err); }
-            // });
-            // await sharp(req.files.image[0].buffer)
-            //     // .resize({ width: 426, height: 242 })
-            //     .toFile(`./public/uploads/project/${filename}`);
+            const result = await S3.uploadFile(req.files.image);
+            project.image = result.Location;
         }
 
         if (typeof req.files.icon !== 'undefined') {
-            oldImage = "public" + project.icon;
-
-            const filename = Date.now() + req.files.icon[0].originalname.replace(" ", "");
-            project.icon = `/uploads/project/${filename}`;
-            if (!fs.existsSync('./public/uploads/project')) {
-                fs.mkdirSync('./public/uploads/project', { recursive: true });
-            }
-            // fs.remove(oldImage, function (err) {
-            //     if (err) { console.log(err); }
-            // })
-            // await sharp(req.files.icon[0].buffer)
-            //     .toFile(`./public/uploads/project/${filename}`);
+            const result = await S3.uploadFile(req.files.icon);
+            project.icon = result.Location;
         }
 
         await project.save();
@@ -259,18 +237,16 @@ router.post('/gallery/:id/add', upload.single('image'), async (req, res) => {
     const id = req.params.id;
     try {
         // upload file
-        const filename = Date.now() + req.file.originalname.replace(" ", "");
-        if (!fs.existsSync('./public/uploads/project')) {
-            fs.mkdirSync('./public/uploads/project', { recursive: true });
+        let url;
+        if (typeof req.file !== 'undefined') {
+            const result = await S3.uploadFile(req.file);
+            url = result.Location;
         }
-        // await sharp(req.file.buffer)
-        //     .resize({ width: 426, height: 242 })
-        //     .toFile(`./public/uploads/project/${filename}`);
 
         // update project
         await Project.findByIdAndUpdate(
             id,
-            { $push: { gallery: `/uploads/project/${filename}` } }
+            { $push: { gallery: url } }
         );
 
         res.redirect(`/admin/project/gallery/${id}`);
@@ -289,21 +265,14 @@ router.post('/gallery/:id/edit/:i', upload.single('image'), async (req, res) => 
         const gallery = project.gallery;
 
         // upload file
-        const filename = Date.now() + req.file.originalname.replace(" ", "");
-        if (!fs.existsSync('./public/uploads/project')) {
-            fs.mkdirSync('./public/uploads/project', { recursive: true });
+        let url;
+        if (typeof req.file !== 'undefined') {
+            const result = await S3.uploadFile(req.file);
+            url = result.Location;
         }
-        // await sharp(req.file.buffer)
-        //     .resize({ width: 426, height: 242 })
-        //     .toFile(`./public/uploads/project/${filename}`);
-
-        // remove old file
-        // fs.remove(`public${gallery[i]}`, function (err) {
-        //     if (err) { console.log(err); }
-        // });
 
         // update project
-        gallery[i] = `/uploads/project/${filename}`;
+        gallery[i] = url;
         await project.save();
 
         res.redirect(`/admin/project/gallery/${id}`);
@@ -319,11 +288,6 @@ router.get('/gallery/:id/delete/:i', async (req, res) => {
     const { id, i } = req.params;
     try {
         const project = await Project.findById(id);
-
-        // remove file
-        // fs.remove(`public${project.gallery[i]}`, function (err) {
-        //     if (err) { console.log(err); }
-        // });
 
         // update project
         project.gallery = project.gallery.filter(e => e !== project.gallery[i]);

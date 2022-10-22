@@ -145,6 +145,11 @@ app.all('*', (req, res, next) => {
 app.use((error, req, res, next) => {
     // console.log(error.name);
 
+    if (error.code == "LIMIT_FILE_SIZE") {
+        req.flash('red', 'file too large.');
+        return res.redirect(req.originalUrl);
+    }
+    
     // if (req.originalUrl.startsWith('/admin')) {
     //     if (req.originalUrl.startsWith('/admin/project/gallery/') && req._params) {
     //         req.flash('red', error.message);

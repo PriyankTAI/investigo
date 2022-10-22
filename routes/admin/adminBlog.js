@@ -1,11 +1,9 @@
 const router = require('express').Router();
-// const { check, validationResult } = require('express-validator');
+const S3 = require('../../helpers/s3');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 
-// const sharp = require('sharp');
 const multer = require('multer');
-const fs = require('fs-extra');
 const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
     // reject a file
@@ -45,14 +43,17 @@ router.get("/add", checkAdmin, async (req, res) => {
     if (!req.admin.name) {
         req.flash('orange', 'You should create your profile before adding a blog.');
     }
-    // res.render("add_blog", { image: req.admin.image });
-    res.render("add_blog_test", { image: req.admin.image });
+    res.render("add_blog", { image: req.admin.image });
 });
 
 // POST add blog
 router.post('/add', checkAdmin, upload.single('image'), async (req, res) => {
     try {
-        const filename = Date.now() + req.file.originalname.replace(" ", "");
+        let image;
+        if (typeof req.file !== 'undefined') {
+            const result = await S3.uploadFile(req.file);
+            image = result.Location;
+        }
         const tagsArray = req.body.tags.split(',').filter(item => item !== '');
 
         await Blog.create({
@@ -69,15 +70,8 @@ router.post('/add', checkAdmin, upload.single('image'), async (req, res) => {
             category: req.body.category,
             tags: tagsArray,
             creator: req.admin.id,
-            image: '/uploads/blog/' + filename
+            image,
         });
-
-        if (!fs.existsSync('./public/uploads/blog')) {
-            fs.mkdirSync('./public/uploads/blog', { recursive: true });
-        }
-
-        // await sharp(req.file.buffer)
-        //     .toFile('./public/uploads/blog/' + filename);
 
         req.flash('green', `Blog added successfully`);
         res.redirect('/admin/blog');
@@ -97,7 +91,7 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Blog not found!`);
             return res.redirect('/admin/blog');
         }
-        res.status(201).render("edit_blog_test", {
+        res.status(201).render("edit_blog", {
             blog,
             image: req.admin.image
         });
@@ -134,22 +128,11 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), async (req, res) =>
         blog.tags = tagsArray;
 
         if (typeof req.file !== 'undefined') {
-            oldImage = "public" + blog.image;
-
-            const filename = Date.now() + req.file.originalname.replace(" ", "");
-            blog.image = '/uploads/blog/' + filename;
-            if (!fs.existsSync('./public/uploads/blog')) {
-                fs.mkdirSync('./public/uploads/blog', { recursive: true });
-            }
-            await blog.save();
-            fs.remove(oldImage, function (err) {
-                if (err) { console.log(err); }
-            })
-            // await sharp(req.file.buffer)
-            //     .toFile('./public/uploads/blog/' + filename);
-        } else {
-            await blog.save();
+            const result = await S3.uploadFile(req.file);
+            blog.image = result.Location;
         }
+
+        await blog.save();
 
         req.flash('green', `Blog edited successfully`);
         res.redirect('/admin/blog');
@@ -163,11 +146,8 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), async (req, res) =>
 router.get("/delete/:id", checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
-        const blog = await Blog.findByIdAndRemove(id);
-        image = "public" + blog.image;
-        fs.remove(image, function (err) {
-            if (err) { console.log(err); }
-        })
+        await Blog.findByIdAndRemove(id);
+
         req.flash('green', `Blog deleted successfully`);
         res.redirect('/admin/blog');
     } catch (error) {
@@ -184,14 +164,12 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
 // uploader
 router.post('/upload', upload.single('upload'), async (req, res) => {
     try {
-        const filename = Date.now() + req.file.originalname.replace(" ", "");
-        if (!fs.existsSync('./public/uploads/blog')) {
-            fs.mkdirSync('./public/uploads/blog', { recursive: true });
+        let url;
+        if (typeof req.file !== 'undefined') {
+            const result = await S3.uploadFile(req.file);
+            url = result.Location;
         }
-        // await sharp(req.file.buffer)
-        //     .toFile('./public/uploads/blog/' + filename);
 
-        const url = `${process.env.BASE_URL}/uploads/blog/${filename}`;
         const send = `<script>window.parent.CKEDITOR.tools.callFunction('${req.query.CKEditorFuncNum}', '${url}');</script>`;
         res.send(send);
     } catch (error) {
