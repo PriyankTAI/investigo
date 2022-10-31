@@ -3,27 +3,10 @@ const createError = require('http-errors');
 const multilingual = require('../../helpers/multilingual');
 
 // models
-// const Contact = require('../../models/contactModel');
 const Page = require('../../models/pageModel');
 const FAQs = require('../../models/faqsModel');
 const Message = require('../../models/messageModel');
 const Career = require('../../models/careerModel');
-
-// about us
-// router.get("/about_us", async (req, res, next) => {
-//     try {
-//         let page = await Page.findOne({ title: 'About Us' });
-//         page = multilingual(page, req);
-//         const content = page.content;
-//         res.json({
-//             status: "success",
-//             content
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         next(error);
-//     }
-// });
 
 // faqs
 router.get("/faqs", async (req, res, next) => {
@@ -36,7 +19,6 @@ router.get("/faqs", async (req, res, next) => {
             content: faqs
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -52,7 +34,6 @@ router.get("/terms_con", async (req, res, next) => {
             content
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -68,7 +49,6 @@ router.get("/privacy_policy", async (req, res, next) => {
             content
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -100,7 +80,6 @@ router.get("/key_risks", async (req, res, next) => {
             content
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -120,7 +99,6 @@ router.get('/career', async (req, res, next) => {
             careers,
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -141,28 +119,9 @@ router.get('/career/:id', async (req, res, next) => {
     } catch (error) {
         if (error.name == 'CastError')
             return next(createError.NotFound('Career not found!'));
-        console.log(error.message);
         next(error);
     }
 });
-
-// contact
-// router.get("/contact", async (req, res, next) => {
-//     try {
-//         let page = await Page.findOne({ title: 'Contact' });
-//         page = multilingual(page, req);
-//         const content = page.content;
-//         const contact = await Contact.findOne();
-//         res.json({
-//             status: "success",
-//             content,
-//             contact
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         next(error);
-//     }
-// });
 
 // POST message
 router.post("/contact", async (req, res, next) => {

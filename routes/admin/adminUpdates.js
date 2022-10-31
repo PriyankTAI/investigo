@@ -17,7 +17,6 @@ router.get('/project', checkAdmin, async (req, res) => {
             image: req.admin.image,
         });
     } catch (error) {
-        console.log(error);
         res.status(500).send('An error occured');
     }
 });
@@ -32,7 +31,6 @@ router.get('/project/add', checkAdmin, async (req, res) => {
             image: req.admin.image,
         });
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect('/admin/update/project');
     }
@@ -131,7 +129,6 @@ router.post("/project/edit/:id", checkAdmin, [
             req.flash('red', 'Update not found!');
             return res.redirect('/admin/update/project');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             return res.redirect('/admin/update/project');
         }
@@ -150,7 +147,6 @@ router.get("/project/delete/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Update not found!`);
             res.redirect('/admin/update/project');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             res.redirect('/admin/update/project');
         }
@@ -167,7 +163,6 @@ router.get('/benefit', checkAdmin, async (req, res) => {
             image: req.admin.image,
         });
     } catch (error) {
-        console.log(error);
         res.status(500).send('An error occured');
     }
 });
@@ -265,7 +260,6 @@ router.post("/benefit/edit/:id", checkAdmin, [
             req.flash('red', 'Update not found!');
             return res.redirect('/admin/update/benefit');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             return res.redirect('/admin/update/benefit');
         }
@@ -284,7 +278,6 @@ router.get("/benefit/delete/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Update not found!`);
             res.redirect('/admin/update/benefit');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             res.redirect('/admin/update/benefit');
         }

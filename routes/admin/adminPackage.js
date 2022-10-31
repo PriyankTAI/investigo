@@ -35,7 +35,6 @@ router.get("/", checkAdmin, async (req, res) => {
             image: req.admin.image
         });
     } catch (error) {
-        console.log(error);
         res.status(500).send("An error occured")
     }
 });
@@ -91,7 +90,6 @@ router.post('/add', checkAdmin, upload.single('image'), [
         req.flash('green', `Package added successfully`);
         res.redirect('/admin/package');
     } catch (error) {
-        // console.log(error);
         req.flash('red', error.message);
         res.redirect('/admin/package');
     }
@@ -115,7 +113,6 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Package not found!`);
             res.redirect('/admin/package');
         } else {
-            console.log(error);
             res.send(error)
         }
     }
@@ -173,7 +170,6 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), [
             res.redirect('/admin/package');
         } else {
             res.send(error.message);
-            console.log(error);
         }
     }
 });
@@ -202,7 +198,6 @@ router.get('/:id', checkAdmin, async (req, res) => {
         if (error.name === 'CastError') {
             req.flash('red', `Package not found!`);
         } else {
-            console.log(error);
             req.flash('red', error.message);
         }
         res.redirect('/admin/package');

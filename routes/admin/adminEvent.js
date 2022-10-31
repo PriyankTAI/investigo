@@ -15,7 +15,6 @@ router.get('/', checkAdmin, async (req, res) => {
             image: req.admin.image,
         });
     } catch (error) {
-        console.log(error);
         res.status(500).send('An error occured');
     }
 });
@@ -120,7 +119,6 @@ router.post("/edit/:id", checkAdmin, [
             req.flash('red', 'Event not found!');
             return res.redirect('/admin/event');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             return res.redirect('/admin/event');
         }
@@ -139,7 +137,6 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Event not found!`);
             res.redirect('/admin/event');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             res.redirect('/admin/event');
         }

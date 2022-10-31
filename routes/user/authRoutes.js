@@ -56,7 +56,6 @@ router.post("/register", async (req, res, next) => {
             enterprise: req.body.enterprise,
         });
         const token = await user.generateAuthToken(req.body.device);
-        // await user.save();
         user = multilingualUser(user, req);
         res.status(200).json({ status: "success", token, user });
     } catch (error) {
@@ -67,11 +66,6 @@ router.post("/register", async (req, res, next) => {
         next(error);
     }
 })
-
-// NOTE:
-// if registered with method and tries another method
-// 1. combine methods (not safe)
-// 2. show message to login with right method (current)
 
 // POST login
 router.post("/login", async (req, res, next) => {
@@ -143,7 +137,6 @@ router.post("/login", async (req, res, next) => {
                     googleId,
                 });
                 const token = await user.generateAuthToken(device);
-                // await user.save();
                 user = multilingualUser(user, req);
                 return res.status(200).json({ status: "success", token, user });
             }
@@ -189,7 +182,6 @@ router.post("/login", async (req, res, next) => {
                     facebookId
                 });
                 const token = await user.generateAuthToken(device);
-                // await user.save();
                 user = multilingualUser(user, req);
                 return res.status(200).json({ status: "success", token, user });
             }
@@ -197,7 +189,6 @@ router.post("/login", async (req, res, next) => {
             return next(createError.BadRequest(`Please provide password, googleId or facebookId.`));
         }
     } catch (error) {
-        // console.log(error.message);
         if (error.keyValue && error.keyValue.userId) {
             return next(createError.InternalServerError('error.server'));
         }
@@ -226,7 +217,6 @@ router.post("/two-factor-login", async (req, res, next) => {
         user.secret = undefined;
         return res.status(200).json({ status: "success", token, user });
     } catch (error) {
-        // console.log(error);
         next(error);
     }
 });
@@ -245,7 +235,6 @@ router.get("/logout", checkUser, async (req, res, next) => {
             message: req.t("auth.logout")
         });
     } catch (error) {
-        // console.log(error);
         next(error);
     }
 });
@@ -253,10 +242,6 @@ router.get("/logout", checkUser, async (req, res, next) => {
 // POST logoutAll
 router.get("/logoutall", checkUser, async (req, res, next) => {
     try {
-        // remove all token exept this
-        // req.user.tokens = req.user.tokens.filter(e => {
-        //     return e.token === req.token;
-        // });
         // remove all tokens
         req.user.tokens = [];
         await req.user.save();
@@ -266,7 +251,6 @@ router.get("/logoutall", checkUser, async (req, res, next) => {
             message: req.t("auth.logoutAll")
         });
     } catch (error) {
-        // console.log(error);
         next(error);
     }
 });
@@ -289,7 +273,6 @@ router.get("/logout/:id", checkUser, async (req, res, next) => {
             user: req.user,
         });
     } catch (error) {
-        // console.log(error);
         next(error);
     }
 });
@@ -333,7 +316,6 @@ router.post("/changepass", checkUser, async (req, res, next) => {
             message: req.t('changePass.updated')
         });
     } catch (error) {
-        console.log(error.message);
         next(error);
     }
 });
@@ -364,7 +346,6 @@ router.post("/forgot", async (req, res, next) => {
             otp: otp.otp
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -384,7 +365,6 @@ router.post("/reset_pass", async (req, res, next) => {
             message: req.t('passChanged')
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -415,7 +395,6 @@ router.get('/get-2fa-qr', checkUser, async (req, res, next) => {
             res.json({ url });
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -452,7 +431,6 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
             user,
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -482,7 +460,6 @@ router.post("/disable-2fa", checkUser, async (req, res, next) => {
             user,
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -515,7 +492,6 @@ router.post('/recover', async (req, res, next) => {
             res.json({ url });
         })
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });

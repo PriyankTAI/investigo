@@ -69,7 +69,6 @@ router.get('/:id', checkAdmin, async (req, res) => {
         if (error.name === 'CastError') {
             req.flash('red', `User not found!`);
         } else {
-            console.log(error);
             req.flash('red', error.message);
         }
         res.redirect('/admin/user');
@@ -87,7 +86,6 @@ router.get('/block/:id', checkAdmin, async (req, res) => {
         if (error.name === 'CastError' || error.name === 'TypeError') {
             req.flash('red', `User not found!`);
         } else {
-            console.log(error);
             req.flash('red', error.message);
         }
         res.redirect('/admin/user');
@@ -105,7 +103,6 @@ router.get('/unblock/:id', checkAdmin, async (req, res) => {
         if (error.name === 'CastError' || error.name === 'TypeError') {
             req.flash('red', `User not found!`);
         } else {
-            console.log(error);
             req.flash('red', error.message);
         }
         res.redirect('/admin/user');

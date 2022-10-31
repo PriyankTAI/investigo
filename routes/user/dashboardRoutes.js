@@ -54,7 +54,6 @@ router.get('/profile', checkUser, async (req, res, next) => {
             user: req.user
         });
     } catch (error) {
-        console.log(error.message);
         next(error);
     }
 })
@@ -101,7 +100,6 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
         if (error.code == '11000' && Object.keys(error.keyValue) == 'email') {
             return next(createError.BadRequest('error.emailReg'));
         }
-        console.log(error.message);
         next(error);
     }
 });
@@ -116,7 +114,6 @@ router.get('/paymentMethod', checkUser, async (req, res, next) => {
             paymentMethods
         });
     } catch (error) {
-        console.log(error.message);
         next(error);
     }
 });
@@ -138,7 +135,6 @@ router.post('/paymentMethod', checkUser, async (req, res, next) => {
             message: req.t('payment')
         });
     } catch (error) {
-        // console.log(error.message);
         next(error);
     }
 });
@@ -164,7 +160,6 @@ router.get('/order', checkUser, async (req, res, next) => {
             orders
         });
     } catch (error) {
-        console.log(error.message);
         next(error);
     }
 });
@@ -182,7 +177,6 @@ router.get('/completed-orders', checkUser, async (req, res, next) => {
             orders
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -197,7 +191,6 @@ router.get('/withdraw', checkUser, async (req, res, next) => {
             withdraws
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -218,11 +211,6 @@ router.post('/withdraw', checkUser, async (req, res, next) => {
         // check date
         if (Date.now() < Date.parse(order.endDate.toJSON().substring(0, 10)))
             return next(createError.BadRequest('notYet'));
-
-        // calculate amount
-        // const amount = Math.round(
-        //     (1 + (order.package.annualReturn / 100)) * order.amount
-        // );
 
         let withdraw = await Withdraw.create({
             user: req.user.id,
@@ -248,7 +236,6 @@ router.post('/withdraw', checkUser, async (req, res, next) => {
     } catch (error) {
         if (error.code === 11000)
             return next(createError.BadRequest('error.withdrawOrder'));
-        console.log(error);
         next(error);
     }
 });
@@ -280,7 +267,6 @@ router.post('/get-verify-otp', checkUser, async (req, res, next) => {
     } catch (error) {
         if (error.code == 21408)
             return next(createError.BadRequest('verifyPhone.phoneInvalid'));
-        console.log(error);
         next(error);
     }
 });
@@ -323,7 +309,6 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
             user: req.user
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });

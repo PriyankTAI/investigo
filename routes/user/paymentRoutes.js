@@ -21,7 +21,6 @@ router.post('/create-order', async (req, res, next) => {
             order,
         });
     } catch (error) {
-        console.log(error);
         res.send(error);
     }
 });
@@ -91,7 +90,6 @@ router.post('/place-order', checkUser, async (req, res, next) => {
             return next(
                 createError.BadRequest('Invalid id for package or project.')
             );
-        console.log(error);
         next(error);
     }
 });

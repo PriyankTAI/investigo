@@ -119,7 +119,6 @@ router.get('/', checkAdmin, async (req, res) => {
             currentMonth
         });
     } catch (error) {
-        console.log(error);
         res.send(error.message);
     }
 });
@@ -175,7 +174,6 @@ router.post("/login", async (req, res) => {
         });
         res.redirect('/admin');
     } catch (error) {
-        console.log(error);
         res.status(400).send(error.message);
     }
 })
@@ -220,7 +218,6 @@ router.post("/changepass", checkAdmin, async (req, res) => {
         req.flash('green', 'Password updated.');
         return res.redirect('/admin/changepass');
     } catch (error) {
-        console.log(error);
         res.status(400).send(error.message);
     }
 })
@@ -240,7 +237,6 @@ router.get('/profile', checkAdmin, async (req, res) => {
             image: req.admin.image
         })
     } catch (error) {
-        console.log(error.message);
         req.flash('red', error.message);
         res.redirect('/admin');
     }
@@ -266,7 +262,6 @@ router.post('/profile', checkAdmin, upload.single('image'), [
         req.flash('green', 'Profile updated successfully.');
         res.redirect(req.originalUrl);
     } catch (error) {
-        console.log(error.message);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -281,7 +276,6 @@ router.get('/admin', checkAdmin, async (req, res) => {
             image: req.admin.image
         })
     } catch (error) {
-        console.log(error.message);
         req.flash('red', error.message);
         res.redirect('/admin');
     }
@@ -312,7 +306,6 @@ router.post('/admin/add', checkAdmin, async (req, res) => {
             req.flash('red', `Admin already exist with '${req.body.email}'.`);
             res.redirect(req.originalUrl);
         } else {
-            console.log(error);
             res.send(error.message);
         }
     }
@@ -334,7 +327,6 @@ router.get('/admin/:id', checkAdmin, async (req, res) => {
         if (error.name === 'CastError') {
             req.flash('red', `Admin not found!`);
         } else {
-            console.log(error);
             req.flash('red', error.message);
         }
         res.redirect('/admin/admin');
@@ -364,7 +356,6 @@ router.get('/notification', async (req, res, next) => {
             .populate('user');
         res.json({ withdraws });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -391,7 +382,6 @@ router.get('/get-data', async (req, res) => {
             allOrders,
         });
     } catch (error) {
-        console.log(error);
         res.send(error.message);
     }
 });

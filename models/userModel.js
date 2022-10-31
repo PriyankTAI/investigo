@@ -62,13 +62,6 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    // twofa: {
-    //     enabled: Boolean,
-    //     type: {
-    //         type: String,
-    //         enum: ['app', 'otp']
-    //     }
-    // },
     phone: String,
     numberToVerify: String,
     phoneVerified: {

@@ -35,7 +35,6 @@ router.get("/terms_con", checkAdmin, async (req, res) => {
             image: req.admin.image
         });
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -59,7 +58,6 @@ router.post('/terms_con', checkAdmin, [
         req.flash('green', 'Terms & Conditions updated successfully.');
         res.redirect('/admin/cms/terms_con');
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -74,7 +72,6 @@ router.get("/privacy_policy", checkAdmin, async (req, res) => {
             image: req.admin.image
         });
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -98,7 +95,6 @@ router.post('/privacy_policy', checkAdmin, [
         req.flash('green', 'Privacy Policy updated successfully.');
         res.redirect('/admin/cms/privacy_policy');
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -113,7 +109,6 @@ router.get("/cookie_policy", checkAdmin, async (req, res) => {
             image: req.admin.image
         });
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -137,7 +132,6 @@ router.post('/cookie_policy', checkAdmin, [
         req.flash('green', 'Cookie Policy updated successfully.');
         res.redirect('/admin/cms/cookie_policy');
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -152,7 +146,6 @@ router.get("/key_risks", checkAdmin, async (req, res) => {
             image: req.admin.image
         });
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -176,7 +169,6 @@ router.post("/key_risks", checkAdmin, [
         req.flash('green', 'Key Risks updated successfully.');
         res.redirect('/admin/cms/key_risks');
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -195,7 +187,6 @@ router.post('/upload', upload.single('upload'), async (req, res) => {
         res.send(send);
     } catch (error) {
         res.send(error.message);
-        console.log(error.message);
     }
 });
 
@@ -208,7 +199,6 @@ router.get("/faqs", checkAdmin, async (req, res) => {
             image: req.admin.image
         });
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -311,7 +301,6 @@ router.post('/faqs/edit/:id', checkAdmin, [
             req.flash('red', `FAQ not found!`);
             res.redirect('/admin/cms/faqs');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             res.redirect(req.originalUrl);
         }
@@ -330,7 +319,6 @@ router.get("/faqs/delete/:id", checkAdmin, async (req, res) => {
             req.flash('red', `FAQ not found!`);
             res.redirect('/admin/cms/faqs');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             res.redirect('/admin/cms/faqs');
         }
@@ -346,7 +334,6 @@ router.get("/career", checkAdmin, async (req, res) => {
             image: req.admin.image
         });
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(req.originalUrl);
     }
@@ -471,7 +458,6 @@ router.post('/career/edit/:id', checkAdmin, [
             req.flash('red', `Career not found!`);
             res.redirect('/admin/cms/career');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             res.redirect(req.originalUrl);
         }
@@ -490,7 +476,6 @@ router.get("/career/delete/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Career not found!`);
             res.redirect('/admin/cms/career');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             res.redirect('/admin/cms/career');
         }

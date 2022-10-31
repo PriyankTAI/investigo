@@ -38,7 +38,6 @@ router.get("/", checkAdmin, async (req, res) => {
             image: req.admin.image
         });
     } catch (error) {
-        console.log(error);
         res.status(500).send("An error occured");
     }
 });
@@ -128,7 +127,6 @@ router.post('/add', checkAdmin, upload.fields([
         req.flash('green', `Project added successfully`);
         res.redirect('/admin/project');
     } catch (error) {
-        console.log(error);
         res.send(error.message);
     }
 });
@@ -151,7 +149,6 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Project not found!`);
             res.redirect('/admin/project');
         } else {
-            console.log(error);
             res.send(error)
         }
     }
@@ -224,7 +221,6 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             req.flash('red', `Project not found!`);
             res.redirect('/admin/project');
         } else {
-            console.log(error);
             req.flash('red', error.message);
             res.redirect('/admin/project');
         }
@@ -250,7 +246,6 @@ router.post('/gallery/:id/add', upload.single('image'), async (req, res) => {
 
         res.redirect(`/admin/project/gallery/${id}`);
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(`/admin/project/gallery/${id}`);
     }
@@ -276,7 +271,6 @@ router.post('/gallery/:id/edit/:i', upload.single('image'), async (req, res) => 
 
         res.redirect(`/admin/project/gallery/${id}`);
     } catch (error) {
-        console.log(error.message);
         req.flash('red', error.message);
         res.redirect(`/admin/project/gallery/${id}`);
     }
@@ -294,7 +288,6 @@ router.get('/gallery/:id/delete/:i', async (req, res) => {
 
         res.redirect(`/admin/project/gallery/${id}`);
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect(`/admin/project/gallery/${id}`);
     }
@@ -318,7 +311,6 @@ router.get('/gallery/:id', checkAdmin, async (req, res) => {
         if (error.name === 'CastError') {
             req.flash('red', `Project not found!`);
         } else {
-            console.log(error);
             req.flash('red', error.message);
         }
         res.redirect('/admin/project');
@@ -361,7 +353,6 @@ router.get('/:id', checkAdmin, async (req, res) => {
         if (error.name === 'CastError') {
             req.flash('red', `Project not found!`);
         } else {
-            console.log(error);
             req.flash('red', error.message);
         }
         res.redirect('/admin/project');

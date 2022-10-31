@@ -13,7 +13,6 @@ router.get('/', checkAdmin, async (req, res) => {
             image: req.admin.image
         })
     } catch (error) {
-        console.log(error);
         res.send(error.message)
     }
 })
@@ -36,7 +35,6 @@ router.get('/:id', checkAdmin, async (req, res) => {
             req.flash('red', `Application not found!`);
             res.redirect('/admin/application');
         } else {
-            console.log(error);
             res.send(error)
         }
     }

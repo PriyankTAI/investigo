@@ -4,9 +4,8 @@ const S3 = require('../../helpers/s3');
 const multilingual = require('../../helpers/multilingual');
 const multilingualUser = require('../../helpers/multilingual_user');
 
-// const checkUser = require('../../middleware/authMiddleware');
+const checkUser = require('../../middleware/authMiddleware');
 
-// const User = require('../../models/userModel');
 const Package = require('../../models/packageModel');
 const Project = require('../../models/projectModel');
 const Blog = require('../../models/blogModel');
@@ -17,8 +16,6 @@ const Update = require('../../models/updateModel');
 
 // multer
 const multer = require('multer');
-const fs = require('fs-extra');
-const checkUser = require('../../middleware/authMiddleware');
 const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
     // reject a file
@@ -48,7 +45,6 @@ router.get('/package', async (req, res, next) => {
             packages
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -67,7 +63,6 @@ router.get('/project', async (req, res, next) => {
             projects
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -98,7 +93,6 @@ router.get('/project/:id', async (req, res, next) => {
         if (error.name == 'CastError') {
             return next(createError.NotFound('notFound.project'));
         }
-        console.log(error);
         next(error);
     }
 });
@@ -147,7 +141,6 @@ router.get('/blog/:id', async (req, res, next) => {
     } catch (error) {
         if (error.name == 'CastError')
             return next(createError.NotFound('notFound.blog'));
-        console.log(error.message);
         next(error);
     }
 });
@@ -166,7 +159,6 @@ router.post('/newsletter', async (req, res, next) => {
             message: req.t('newsletter.success')
         });
     } catch (error) {
-        // console.log(error);
         next(error);
     }
 });
@@ -194,7 +186,6 @@ router.post('/application', upload.single('resume'), async (req, res, next) => {
             message: req.t('application')
         });
     } catch (error) {
-        // console.log(error.message);
         next(error);
     }
 });
@@ -216,7 +207,6 @@ router.get('/event-updates', async (req, res, next) => {
             updates,
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
@@ -235,7 +225,6 @@ router.get('/mark-all-read', checkUser, async (req, res, next) => {
             user: req.user,
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });

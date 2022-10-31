@@ -16,7 +16,6 @@ router.get('/', checkAdmin, async (req, res) => {
             image: req.admin.image
         });
     } catch (error) {
-        console.log(error);
         res.send(error.message);
     }
 });
@@ -42,7 +41,6 @@ router.get('/:id', checkAdmin, async (req, res) => {
             req.flash('red', `Withdraw not found!`);
             res.redirect('/admin/withdraw');
         } else {
-            console.log(error);
             res.send(error);
         }
     }
@@ -59,7 +57,6 @@ router.get('/paid/:id', checkAdmin, async (req, res) => {
         if (error.name === 'CastError' || error.name === 'TypeError') {
             req.flash('red', `Withdraw not found!`);
         } else {
-            console.log(error);
             req.flash('red', error.message);
         }
         res.redirect('/admin/withdraw');

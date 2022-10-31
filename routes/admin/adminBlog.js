@@ -76,7 +76,6 @@ router.post('/add', checkAdmin, upload.single('image'), async (req, res) => {
         req.flash('green', `Blog added successfully`);
         res.redirect('/admin/blog');
     } catch (error) {
-        console.log(error);
         req.flash('red', error.message);
         res.redirect('/admin/blog');
     }
@@ -100,7 +99,6 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Blog not found!`);
             res.redirect('/admin/blog');
         } else {
-            console.log(error);
             res.send(error);
         }
     }
@@ -138,7 +136,6 @@ router.post('/edit/:id', checkAdmin, upload.single('image'), async (req, res) =>
         res.redirect('/admin/blog');
     } catch (error) {
         res.send(error.message);
-        console.log(error);
     }
 });
 
@@ -155,7 +152,6 @@ router.get("/delete/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Blog not found!`);
             res.redirect('/admin/blog');
         } else {
-            console.log(error);
             res.send(error);
         }
     }
@@ -174,7 +170,6 @@ router.post('/upload', upload.single('upload'), async (req, res) => {
         res.send(send);
     } catch (error) {
         res.send(error.message);
-        console.log(error.message);
     }
 });
 

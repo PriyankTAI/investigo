@@ -13,7 +13,6 @@ router.get('/', checkAdmin, async (req, res) => {
             image: req.admin.image
         })
     } catch (error) {
-        console.log(error);
         res.send(error.message)
     }
 })
@@ -36,7 +35,6 @@ router.get('/:id', checkAdmin, async (req, res) => {
             req.flash('red', `Message not found!`);
             res.redirect('/admin/message');
         } else {
-            console.log(error);
             res.send(error)
         }
     }

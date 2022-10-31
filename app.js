@@ -85,15 +85,6 @@ const { Server } = require("socket.io");
 const io = new Server(server, { cors: { originl: '*' } });
 global.io = io;
 
-// io.on('connection', function (socket) {
-//     console.log(`new connection: ${socket.id}`);
-//     socket.on('join', function (data) {
-//         console.log('join received');
-//         socket.join(data.email);
-//         socket.emit('admin2@gmail.com', { msg: 'finally..' })
-//     });
-// });
-
 // Development logging
 // if (process.env.NODE_ENV === 'development') {
 //     const morgan = require('morgan');
@@ -155,13 +146,6 @@ app.use((error, req, res, next) => {
         return res.redirect(req.originalUrl);
     }
 
-    // if (req.originalUrl.startsWith('/admin')) {
-    //     if (req.originalUrl.startsWith('/admin/project/gallery/') && req._params) {
-    //         req.flash('red', error.message);
-    //         return res.redirect(`/admin/project/gallery/${req._params.id}`);
-    //     }
-    // }
-
     if (error.name === "ValidationError") {
         let errors = {};
         Object.keys(error.errors).forEach((key) => {
@@ -190,7 +174,6 @@ app.use((error, req, res, next) => {
 
     if (error.message.toString().includes(': ') && error.name == "BadRequestError") {
         error.message = error.message.toString().split(': ').pop();
-        // console.log(error.message);
     }
     res.status(error.status || 500).json({
         status: "fail",
@@ -207,27 +190,9 @@ server.listen(port, () => {
 const cron = require('node-cron');
 const cronJobs = require('./helpers/cronFunctions');
 
-// temp to test if cron is running on aws
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
-
-const sms = async function () {
-    return client.messages.create({
-        body: `Cron jobs ran at ${new Date()}`,
-        from: process.env.TWILIO_NUMBER,
-        to: '+919512615699',
-    })
-}
-
 cron.schedule('0 0 * * *', () => {
-    console.log('Cron job running..........');
-    console.log(new Date());
-
     cronJobs.notifyToday();
     cronJobs.notifyWeek();
     cronJobs.renewProject();
     cronJobs.investAgain();
-
-    sms();
 });
