@@ -4,7 +4,7 @@ const client = require('twilio')(accountSid, authToken);
 
 const sendSms = async function (to, otp) {
     return client.messages.create({
-        body: `Your OTP verify your phone number ${otp}. OTP is valid for 5 minutes.`,
+        body: `Your OTP to verify your phone number is ${otp}. OTP is valid for 5 minutes.`,
         from: process.env.TWILIO_NUMBER,
         to,
     })

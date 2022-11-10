@@ -92,7 +92,7 @@ global.io = io;
 // }
 
 // routes
-app.get('/', (req, res) => res.send("Backend running..."));
+app.get('/', (req, res) => res.redirect("/admin"));
 app.use('/', require('./routes/user/authRoutes'));
 app.use('/', require('./routes/user/CmsPages'));
 app.use('/', require('./routes/user/userRoutes'));
