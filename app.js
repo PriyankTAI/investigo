@@ -91,6 +91,9 @@ global.io = io;
 //     app.use(morgan('dev'));
 // }
 
+// healthcheck
+app.get('/healthcheck', (req, res) => res.sendStatus(200));
+
 // routes
 app.get('/', (req, res) => res.redirect("/admin"));
 app.use('/', require('./routes/user/authRoutes'));
