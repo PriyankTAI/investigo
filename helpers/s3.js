@@ -17,6 +17,7 @@ exports.uploadFile = function (file) {
     const uploadParams = {
         Bucket: bucketName,
         Body: file.buffer,
+        ContentType: file.mimetype,
         Key: `${Date.now()}-${file.originalname}`,
     };
 

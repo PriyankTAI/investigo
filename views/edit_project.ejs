@@ -149,7 +149,7 @@
                                                         <small><div id="error3" class="error"></div></small>
                                                     </div>
                                                     <div class="input-field col m6 s12">
-                                                        <input placeholder="Total amount" id="totalAmount" name="totalAmount" value="<%= project.totalAmount %>" type="number">
+                                                        <input placeholder="Total amount" id="totalAmount" name="totalAmount" value="<%= project.totalAmount %>" type="text"oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                                         <small><div id="error5" class="error"></div></small>
                                                         <label for="totalAmount">Total amount</label>
                                                     </div>
@@ -158,11 +158,6 @@
                                                         <small><div id="monthlyReturnErr" class="error"></div></small>
                                                         <label for="monthlyReturn">Monthly Return</label>
                                                     </div>
-                                                    <!-- <div class="input-field col m6 s12">
-                                                        <input placeholder="City" id="city" name="city" value="<%= project.city %>" type="text">
-                                                        <small><div id="cityErr" class="error"></div></small>
-                                                        <label for="city">City</label>
-                                                    </div> -->
                                                     <div class="input-field col s12">
                                                         <input placeholder="Location" id="location" name="location" value="<%= project.location %>" type="text">
                                                         <small><div id="error6" class="error"></div></small>
@@ -219,7 +214,6 @@
                 const amountValue = document.getElementById('totalAmount').value.trim();
                 const monthlyReturnValue = document.getElementById('monthlyReturn').value.trim();
                 const locationValue = document.getElementById('location').value.trim();
-                // const cityValue = document.getElementById('city').value.trim();
                 const urlValue = document.getElementById('url').value.trim();
                 const filevalue = document.getElementById('input-file-now').value;
                 const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
@@ -302,13 +296,6 @@
                 } else {
                     document.getElementById('error6').innerText = '';
                 }
-
-                // if (cityValue == '') {
-                //     document.getElementById('cityErr').innerText = 'Please enter city.';
-                //     returnVal = false;
-                // } else {
-                //     document.getElementById('cityErr').innerText = '';
-                // }
 
                 if (filevalue == '') {
                     document.getElementById('error7').innerText = '';
