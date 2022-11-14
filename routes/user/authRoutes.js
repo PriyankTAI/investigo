@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const customId = require("custom-id");
 const { authenticator } = require('otplib') // generate totp
 const QRCode = require('qrcode') // change url to qr
-const { sendOtp } = require('../../helpers/sendEmail');
+const { sendOtp, sendRecoveryCode } = require('../../helpers/sendEmail');
 const multilingualUser = require('../../helpers/multilingual_user');
 
 const checkUser = require('../../middleware/authMiddleware');
@@ -59,7 +59,6 @@ router.post("/register", async (req, res, next) => {
         user = multilingualUser(user, req);
         res.status(200).json({ status: "success", token, user });
     } catch (error) {
-        console.log(error);
         if (error.keyValue && error.keyValue.userId) {
             return next(createError.InternalServerError('error.server'));
         }
@@ -419,6 +418,9 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
         user.twofa = true;
         await user.save();
 
+        // send mail
+        sendRecoveryCode(user.email, recoveryCode);
+
         user = multilingualUser(user, req);
 
         // hide secret
@@ -426,7 +428,6 @@ router.post('/enable-2fa', checkUser, async (req, res, next) => {
 
         return res.json({
             status: "Success",
-            recoveryCode,
             message: req.t('2fa.enabled'),
             user,
         });
@@ -473,10 +474,8 @@ router.post('/recover', async (req, res, next) => {
             return next(createError.BadRequest('notReg'));
 
         const secret = user.secret;
-        if (!secret) {
-            console.log(`user.secret is ${user.secret}!`);
+        if (!secret)
             return next(createError.BadRequest('2fa.notEnabled'));
-        }
 
         // check recovery code
         if (req.body.recoveryCode != user.recoveryCode)

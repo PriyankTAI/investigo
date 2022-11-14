@@ -1,6 +1,83 @@
 {
-    "name": "Name is required (in french)",
-    "home": {
-        "title": "Hola Mundo!"
-    }
+    "auth": {
+        "invalidToken": "Jeton non valide ou expiré, veuillez vous connecter à nouveau.",
+        "someError": "Une erreur s'est produite!",
+        "login": "S'il vous plait Connectez-vous d'abord.",
+        "loginAgain": "Vous êtes déconnecté, veuillez vous connecter à nouveau.",
+        "blocked": "Pardon! Vous êtes bloqué, veuillez contacter l'administrateur.",
+        "provideToken": "Veuillez fournir un jeton d'authentification.",
+        "logout": "Déconnecté avec succès.",
+        "logoutAll": "A enregistré tous les appareils."
+    },
+    "validation": {
+        "fname": "Le prénom est requis.",
+        "lname": "Le nom de famille est requis.",
+        "email": "Un e-mail est requis.",
+        "emailInvalid": "Le courriel est invalide.",
+        "pass": "Mot de passe requis.",
+        "passInvalid": "Le mot de passe doit comporter au moins 6 caractères.",
+        "device": "Device is required.",
+        "youAre": "Veuillez sélectionner le type de compte.",
+        "phone": "Le numéro de téléphone est requis.",
+        "subject": "Le sujet est requis.",
+        "message": "Un message est requis.",
+        "resume": "Veuillez fournir un curriculum vitae.",
+        "resumeFile": "Mauvais type de fichier! (Veuillez télécharger uniquement pdf, doc ou docx)",
+        "imageFile": "Mauvais type de fichier! (Veuillez télécharger uniquement jpg ou png.)",
+        "cardNum": "Le numéro de carte est requis.",
+        "cardNetwork": "Le réseau de cartes est requis.",
+        "cardExpiry": "Une date d'expiration est requise."
+    },
+    "error": {
+        "emailRegG": "Déjà enregistré avec Google.",
+        "emailRegF": "Déjà inscrit auprès de Facebook.",
+        "emailReg": "E-mail déjà enregistré.",
+        "nationalReg": "Le numéro national est déjà enregistré.",
+        "invalidCred": "Email ou mot de passe invalide!",
+        "loginGoogle": "Veuillez vous connecter avec google.",
+        "loginFacebook": "Veuillez vous connecter avec facebook.",
+        "loginCred": "Veuillez vous connecter avec e-mail et mot de passe.",
+        "withdrawOrder": "Withdraw already request for this order.",
+        "server": "Une erreur s'est produite. Veuillez réessayer."
+    },
+    "verifyPhone": {
+        "phoneInvalid": "Numéro de téléphone invalide.",
+        "failOtp": "Échec de la vérification OTP.",
+        "success": "Numéro de téléphone vérifié avec succès."
+    },
+    "changePass": {
+        "google": "Vous êtes un utilisateur de Google ne peut pas modifier le mot de passe.",
+        "facebook": "Vous êtes un utilisateur Facebook ne peut pas changer de mot de passe.",
+        "pass": "Password should be atleast 6 characters long.",
+        "newPass": "New Password should be atleast 6 characters long.",
+        "cfPass": "Confirm Password should be atleast 6 characters long.",
+        "wrongPass": "Mauvais mot de passe actuel.",
+        "samePass": "Le nouveau mot de passe ne peut pas être le même que le mot de passe actuel.",
+        "notMatch": "Password and confirm password do not match.",
+        "updated": "Mot de passe mis à jour."
+    },
+    "2fa": {
+        "already": "Two factor authentication already enabled.",
+        "enabled": "Authentification à deux facteurs activée.",
+        "disabled": "Authentification à deux facteurs désactivée.",
+        "required": "Two Factor authentication required.",
+        "notEnabled": "Two factor authentication is not enabled!",
+        "failCode": "Ne pas vérifier le code!",
+        "wrongRecovery": "Mauvais code de récupération."
+    },
+    "notReg": "Veuillez saisir le courrier électronique registerd.",
+    "passChanged": "Le mot de passe a été changé avec succès.",
+    "msg": "Message envoyé avec succès.",
+    "application": "Application registerd avec succès.",
+    "notFound": {
+        "blog": "Blog not found.",
+        "project": "Project not found."
+    },
+    "newsletter": {
+        "already": "L'e-mail est déjà dans notre liste de newsletter.",
+        "success": "E-mail ajouté à notre liste de newsletter."
+    },
+    "payment": "Méthode de paiement ajouté.",
+    "withdraw": "Retirer la demande créée.",
+    "notYet": "Je ne peux pas encore se retirer!"
 }

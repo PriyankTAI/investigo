@@ -1,11 +1,11 @@
 {
     "auth": {
-        "invalidToken": "Invalid token or expired.",
+        "invalidToken": "Invalid token or expired, please login again.",
         "someError": "Some error occured!",
         "login": "Please login first.",
         "loginAgain": "You are logged out, please login again.",
         "blocked": "Sorry! You are blocked, Please contact Admin.",
-        "provideToken": "Please Provide Auth token.",
+        "provideToken": "Please provide authentication token.",
         "logout": "logged out successfully.",
         "logoutAll": "logged out all devices."
     },
@@ -18,7 +18,7 @@
         "passInvalid": "Password should be atleast 6 characters long.",
         "device": "Device is required.",
         "youAre": "Please select type of account.",
-        "phone": "Phone is required.",
+        "phone": "Phone number is required.",
         "subject": "Subject is required.",
         "message": "Message is required.",
         "resume": "Please provide resume.",
@@ -42,7 +42,7 @@
     },
     "verifyPhone": {
         "phoneInvalid": "Invalid phone number.",
-        "failOtp": "Failed to verify otp.",
+        "failOtp": "Failed to verify OTP.",
         "success": "Phone number verified succefully."
     },
     "changePass": {
