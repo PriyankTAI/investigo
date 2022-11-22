@@ -13,6 +13,7 @@
     <!-- BEGIN: VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
     <!-- END: VENDOR CSS-->
     <!-- BEGIN: Page Level CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-dark-menu-template/materialize.css">
@@ -53,7 +54,7 @@
                                         <div class="row">
                                             <!-- errors -->
                                             <%- messages('messages', locals) %>
-                                            <form method="POST" onsubmit="validate()" action="/admin/event/add" id="form">
+                                            <form method="POST" onsubmit="validate()" action="/admin/event/add" id="form" enctype="multipart/form-data">
                                                 <div class="col m6 s12">
                                                     <h4 class="card-title">English</h4>
                                                     <div class="input-field">
@@ -95,6 +96,13 @@
                                                         <div id="FrAnsErr" class="error"></div>
                                                     </small>
                                                 </div>
+                                                <div class="input-field col s12">
+                                                    Upload image
+                                                    <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required />
+                                                    <small>
+                                                        <div id="error7" class="error"></div>
+                                                    </small>
+                                                </div>
                                                 <button type="submit" class="btn purple ml-1" id="submitBtn">Submit</button>
                                             </form>
                                         </div>
@@ -124,6 +132,8 @@
             const EnDescValue = document.getElementById('EnDesc').value.trim();
             const FrNameValue = document.getElementById('FrName').value.trim();
             const FrDescValue = document.getElementById('FrDesc').value.trim();
+            const filevalue = document.getElementById('input-file-now').value;
+            const ext = filevalue.substring(filevalue.lastIndexOf('.') + 1);
 
             if (EnNameValue == '') {
                 document.getElementById('EnNameErr').innerText = 'Please enter event name.';
@@ -153,6 +163,13 @@
                 document.getElementById('FrDescErr').innerText = '';
             }
 
+            if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+                document.getElementById('error7').innerText = '';
+            } else {
+                document.getElementById('error7').innerText = 'Wrong file type.';
+                returnVal = false;
+            }
+
             if (returnVal) {
                 document.getElementById('submitBtn').disabled = true;
                 formC.submit();
@@ -166,6 +183,8 @@
     <script src="/app-assets/js/plugins.js"></script>
     <script src="/app-assets/js/scripts/ui-alerts.js"></script>
     <!-- END THEME  JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
 </body>
 <%- include('_layouts/alert') %>
 

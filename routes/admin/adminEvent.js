@@ -1,8 +1,27 @@
 const router = require('express').Router();
+const S3 = require('../../helpers/s3');
 const { check, validationResult } = require('express-validator');
 
 const checkAdmin = require('../../middleware/authAdminMiddleware');
 const Event = require('../../models/eventModel');
+
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 10
+    },
+    fileFilter: fileFilter
+});
 
 // GET all events
 router.get('/', checkAdmin, async (req, res) => {
@@ -25,7 +44,7 @@ router.get('/add', checkAdmin, async (req, res) => {
 });
 
 // POST add event
-router.post('/add', checkAdmin, [
+router.post('/add', checkAdmin, upload.single('image'), [
     check('EnName', 'Name must have a value').notEmpty(),
     check('EnDesc', 'Description must have a value').notEmpty(),
     check('FrName', 'Name must have a value').notEmpty(),
@@ -38,6 +57,12 @@ router.post('/add', checkAdmin, [
             return res.redirect(req.originalUrl);
         }
 
+        let image;
+        if (typeof req.file !== 'undefined') {
+            const result = await S3.uploadFile(req.file);
+            image = result.Location;
+        }
+
         await Event.create({
             en: {
                 name: req.body.EnName,
@@ -48,6 +73,7 @@ router.post('/add', checkAdmin, [
                 description: req.body.FrDesc,
             },
             date: req.body.date ? req.body.date : undefined,
+            image,
         });
 
         req.flash('green', 'Event added successfully.');
@@ -85,7 +111,7 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
 });
 
 // POST edit event
-router.post("/edit/:id", checkAdmin, [
+router.post("/edit/:id", checkAdmin, upload.single('image'), [
     check('EnName', 'Name must have a value').notEmpty(),
     check('EnDesc', 'Description must have a value').notEmpty(),
     check('FrName', 'Name must have a value').notEmpty(),
@@ -110,6 +136,12 @@ router.post("/edit/:id", checkAdmin, [
         event.fr.name = req.body.FrName;
         event.fr.description = req.body.FrDesc;
         event.date = req.body.date ? req.body.date : undefined;
+      
+        if (typeof req.file !== 'undefined') {
+            const result = await S3.uploadFile(req.file);
+            event.image = result.Location;
+        }
+      
         await event.save();
 
         req.flash('green', 'Event edited successfully.');
