@@ -136,12 +136,12 @@ router.post("/edit/:id", checkAdmin, upload.single('image'), [
         event.fr.name = req.body.FrName;
         event.fr.description = req.body.FrDesc;
         event.date = req.body.date ? req.body.date : undefined;
-      
+
         if (typeof req.file !== 'undefined') {
             const result = await S3.uploadFile(req.file);
             event.image = result.Location;
         }
-      
+
         await event.save();
 
         req.flash('green', 'Event edited successfully.');

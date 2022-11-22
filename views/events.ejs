@@ -60,6 +60,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Sr</th>
+                                                            <th>Image</th>
                                                             <th>Title</th>
                                                             <th>Description</th>
                                                             <th>Date</th>
@@ -70,6 +71,7 @@
                                                         <% for( let i = 0; i < events.length; i++ ) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
+                                                            <td><img src="<%= events[i].image %>" alt="IMG" height="80" onerror="this.onerror=null; this.src='/uploads/no_image_available_3.jpg';"></td>
                                                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= events[i].en.name %></td>
                                                             <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= events[i].en.description %></td>
                                                             <td><%= events[i].date.toLocaleDateString('en-GB') %></td>
