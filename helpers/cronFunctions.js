@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Order = require("../models/orderModel");
-const User = require("../models/userModel");
-const Project = require("../models/projectModel");
+const Order = require('../models/orderModel');
+const User = require('../models/userModel');
+const Project = require('../models/projectModel');
 
 exports.notifyToday = async function () {
-    let from = new Date(new Date().toISOString().split("T")[0]);
+    let from = new Date(new Date().toISOString().split('T')[0]);
     let to = new Date(from);
     to.setDate(to.getDate() + 1);
     const orders = await Order.find({
@@ -20,12 +20,14 @@ exports.notifyToday = async function () {
             $push: {
                 notifications: {
                     en: {
-                        title: "Investment ready to withdraw",
-                        message: `Your investment of ${order.amount} is ready to withdraw now.`,
+                        title: 'Investment is available for withdrawal',
+                        message:
+                            'You can now take your returns. It may take two to three working days to reach your bank account.',
                     },
                     fr: {
-                        title: "Investment ready to withdraw",
-                        message: `Your investment of ${order.amount} is ready to withdraw now.`,
+                        title: 'Votre investissement est disponible pour le retrait',
+                        message:
+                            'Vous percevrez vos intérêts sur votre compte bancaire dans un délais de deux à trois jours ouvrables.',
                     },
                 },
             },
@@ -34,7 +36,7 @@ exports.notifyToday = async function () {
 };
 
 exports.notifyWeek = async function () {
-    let from = new Date(new Date().toISOString().split("T")[0]);
+    let from = new Date(new Date().toISOString().split('T')[0]);
     let to = new Date(from);
     from.setDate(from.getDate() + 7);
     to.setDate(to.getDate() + 8);
@@ -50,24 +52,13 @@ exports.notifyWeek = async function () {
             $push: {
                 notifications: {
                     en: {
-                        title: `Investment will be ready to withdraw on ${from.toLocaleString(
-                            "default",
-                            { day: "numeric", month: "long" }
-                        )}`,
-                        message: `your investment will be available to withdraw on ${from.toLocaleString(
-                            "default",
-                            { day: "numeric", month: "long" }
-                        )}, if not withdrawn on that date it will be invested for another year.`,
+                        title: 'Investment will be available to withdraw within a week',
+                        message:
+                            'Make sure to withdraw your investment on time before they are automatically reinvested. if so, have no worries,  you will earn high return on the next withdrawal date',
                     },
                     fr: {
-                        title: `Investment will be on ${from.toLocaleString(
-                            "default",
-                            { day: "numeric", month: "long" }
-                        )}`,
-                        message: `your investment will be available to withdraw on ${from.toLocaleString(
-                            "default",
-                            { day: "numeric", month: "long" }
-                        )}, if not withdrawn on that date it will be invested for another year.`,
+                        title: 'Votre investissement pourra être retiré dans la semaine',
+                        message: `Assurez-vous de retirer votre investissement à temps avant qu'il ne soit automatiquement réinvesti. Si c'est le cas, ne vous inquiétez pas, vous obtiendrez un rendement élevé à la prochaine date de retrait.`,
                     },
                 },
             },
@@ -98,7 +89,7 @@ exports.renewProject = async function () {
 
 exports.investAgain = async function () {
     // find where enddate was yesterday
-    let from = new Date(new Date().toISOString().split("T")[0]);
+    let from = new Date(new Date().toISOString().split('T')[0]);
     let to = new Date(from);
     from.setDate(from.getDate() - 1);
     const orders = await Order.find({
@@ -106,7 +97,7 @@ exports.investAgain = async function () {
             $gte: from,
             $lt: to,
         },
-    }).populate("package", "annualReturn price term");
+    }).populate('package', 'annualReturn price term');
 
     orders.forEach(async order => {
         // update endDate + term, term + 1, update return
@@ -118,7 +109,7 @@ exports.investAgain = async function () {
             (1 + order.package.annualReturn / 100) *
             order.returnAmount
         ).toFixed(2);
-        order.markModified("endDate"); // need this line to update date
+        order.markModified('endDate'); // need this line to update date
         await order.save();
         // notify user?
     });

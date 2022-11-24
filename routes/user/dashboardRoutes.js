@@ -286,12 +286,12 @@ router.post('/verify-phone', checkUser, async (req, res, next) => {
         let notifications = req.user.notifications;
         notifications.push({
             en: {
-                title: 'Phone number verified succssfully.',
-                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+                title: 'Phone number verified successfully',
+                message: 'Your phone number has been successfully validated.',
             },
             fr: {
-                title: 'Phone number verified succssfully.',
-                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+                title: 'Numéro de téléphone vérifié avec succès',
+                message: 'Votre numéro de téléphone a été validé avec succès.',
             },
         });
 

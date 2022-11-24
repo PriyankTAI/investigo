@@ -174,32 +174,32 @@ userSchema.pre("save", async function (next) {
         // add notifications
         this.notifications.push({
             en: {
-                title: 'Welcome to investigo',
-                message: 'We are happy to welcome you to our community spoment.',
+                title: 'Greetings from investigo',
+                message: 'We are delighted to have you join our community.',
             },
             fr: {
-                title: 'Bienvenue sur enquête',
-                message: 'We are happy to welcome you to our community spoment.',
+                title: 'Bienvenu chez Investigo',
+                message: 'Nous sommes ravis que vous rejoigniez notre communauté.',
             }
         });
         this.notifications.push({
             en: {
                 title: 'Please complete your profile',
-                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+                message: 'For security purposes, please keep your profile updated.',
             },
             fr: {
                 title: 'Merci de compléter votre profil',
-                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+                message: 'Pour des raisons de sécurité, veuillez maintenir votre profil à jour.',
             },
         });
         this.notifications.push({
             en: {
-                title: 'Please verify phone number',
-                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+                title: 'You are invited to verify your number',
+                message: 'In order to keep your account secure, please confirm your number.',
             },
             fr: {
-                title: 'Veuillez vérifier le numéro de téléphone',
-                message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, esse.',
+                title: 'Vous êtes invité à vérifier votre numéro de téléphone',
+                message: 'Afin de sécuriser votre compte, veuillez confirmer votre numéro de téléphone.',
             },
         });
     }
