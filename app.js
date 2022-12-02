@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const i18n = require('i18next');
 const i18nFsBackend = require('i18next-node-fs-backend');
 const i18nMiddleware = require('i18next-express-middleware');
+const { sendError } = require('./helpers/sendEmail');
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -178,6 +179,9 @@ app.use((error, req, res, next) => {
     if (error.message.toString().includes(': ') && error.name == "BadRequestError") {
         error.message = error.message.toString().split(': ').pop();
     }
+    // send in mail
+    if (!error.status)
+        sendError(error.message);
     res.status(error.status || 500).json({
         status: "fail",
         message: req.t(error.message),

@@ -61,7 +61,21 @@ const sendRecoveryCode = function (to, recoveryCode) {
         .catch(error => console.error(error));
 };
 
+const sendError = function (error) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+        to: 'nik.theappideas@gmail.com',
+        from: 'investigobv@gmail.com',
+        subject: 'Error message',
+        html: `<div>${error}</div>`,
+    };
+    sgMail
+        .send(msg)
+        .catch(error => console.error(error));
+};
+
 module.exports = {
     sendOtp,
-    sendRecoveryCode
+    sendRecoveryCode,
+    sendError
 };
