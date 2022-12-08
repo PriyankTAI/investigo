@@ -87,12 +87,13 @@
                                                     </div>
                                                     <div class="input-field col s12">
                                                         <select id="cat" name="category">
-                                                            <option value="" <%= faq.category == '' ? 'selected' : '' %>>Select category</option>
-                                                            <option value="Getting Started" <%= faq.category == 'Getting Started' ? 'selected' : '' %>>Getting Started</option>
-                                                            <option value="Adding Funds" <%= faq.category == 'Adding Funds' ? 'selected' : '' %>>Adding Funds</option>
-                                                            <option value="Investing" <%= faq.category == 'Investing' ? 'selected' : '' %>>Investing</option>
-                                                            <option value="Security" <%= faq.category == 'Security' ? 'selected' : '' %>>Security</option>
-                                                            <option value="Taxes" <%= faq.category == 'Taxes' ? 'selected' : '' %>>Taxes</option>
+                                                            <option value="" <%= faq.en.category == '' ? 'selected' : '' %>>Select category</option>
+                                                            <option value="General Questions" <%= faq.en.category == 'General Questions' ? 'selected' : '' %>>General Questions</option>
+                                                            <option value="Investing" <%= faq.en.category == 'Investing' ? 'selected' : '' %>>Investing</option>
+                                                            <option value="Auto Invest" <%= faq.en.category == 'Auto Invest' ? 'selected' : '' %>>Auto Invest</option>
+                                                            <option value="Withdrawal" <%= faq.en.category == 'Withdrawal' ? 'selected' : '' %>>Withdrawal</option>
+                                                            <option value="Verification" <%= faq.en.category == 'Verification' ? 'selected' : '' %>>Verification</option>
+                                                            <option value="Suggestions and Compliance" <%= faq.en.category == 'Suggestions and Compliance' ? 'selected' : '' %>>Suggestions and Compliance</option>
                                                         </select>
                                                         <label>Select category</label>
                                                         <small>

@@ -10,6 +10,10 @@ const faqsSchema = new mongoose.Schema({
             type: String,
             required: [true, "English answer is required."],
         },
+        category: {
+            type: String,
+            required: [true, "Category is required."],
+        },
     },
     fr: {
         question: {
@@ -20,10 +24,10 @@ const faqsSchema = new mongoose.Schema({
             type: String,
             required: [true, "French answer is required."],
         },
-    },
-    category: {
-        type: String,
-        required: [true, "Category is required."],
+        category: {
+            type: String,
+            required: [true, "Category is required."],
+        },
     },
 });
 

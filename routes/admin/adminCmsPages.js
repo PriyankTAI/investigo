@@ -26,6 +26,23 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
+const EnCats = [
+    'General Questions',
+    'Investing',
+    'Auto Invest',
+    'Withdrawal',
+    'Verification',
+    'Suggestions and Compliance'
+];
+const FrCats = [
+    'Questions Générales',
+    'Investir',
+    'Réinvestir',
+    'Retrait',
+    'Vérification',
+    'Suggestions and Conformité'
+];
+
 // terms
 router.get("/terms_con", checkAdmin, async (req, res) => {
     try {
@@ -223,16 +240,19 @@ router.post("/faqs/add", checkAdmin, [
             return res.redirect(req.originalUrl);
         }
 
+        const frCategory = FrCats[EnCats.indexOf(req.body.category)];
+
         await FAQs.create({
             en: {
                 question: req.body.EnQue,
                 answer: req.body.EnAns,
+                category: req.body.category,
             },
             fr: {
                 question: req.body.FrQue,
                 answer: req.body.FrAns,
+                category: frCategory,
             },
-            category: req.body.category,
         });
 
         req.flash('green', `FAQ added successfully.`);
@@ -287,11 +307,14 @@ router.post('/faqs/edit/:id', checkAdmin, [
             return res.redirect('/admin/cms/faqs');
         }
 
+        const frCategory = FrCats[EnCats.indexOf(req.body.category)];
+
         faq.en.question = req.body.EnQue;
         faq.en.answer = req.body.EnAns;
+        faq.en.category = req.body.category;
         faq.fr.question = req.body.FrQue;
         faq.fr.answer = req.body.FrAns;
-        faq.category = req.body.category;
+        faq.fr.category = frCategory;
         await faq.save();
 
         req.flash('green', `FAQ edited successfully.`);
@@ -344,7 +367,7 @@ router.get("/career/add", checkAdmin, async (req, res) => {
     res.render("add_career", { image: req.admin.image });
 });
 
-// POST add faq
+// POST add career
 router.post("/career/add", checkAdmin, [
     check('EnTitle', 'English title must have a value').notEmpty(),
     check('EnDescription', 'English description must have a value').notEmpty(),
