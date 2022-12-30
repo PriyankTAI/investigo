@@ -75,7 +75,7 @@ router.post('/add', checkAdmin, upload.fields([
             req.flash('red', 'Total amount can not be less than 100000.');
             return res.redirect(req.originalUrl);
         }
-        if (req.body.totalAmount < req.body.invested) {
+        if (parseInt(req.body.totalAmount) < parseInt(req.body.invested)) {
             req.flash('red', 'Total amount can not be less than already invested amount.');
             return res.redirect(req.originalUrl);
         }
