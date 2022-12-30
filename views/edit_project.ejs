@@ -158,6 +158,16 @@
                                                         <small><div id="monthlyReturnErr" class="error"></div></small>
                                                         <label for="monthlyReturn">Monthly Return</label>
                                                     </div>
+                                                    <div class="input-field col m6 s12">
+                                                        <input placeholder="Amount invested" id="invested" name="invested" type="text" value="<%= project.invested%>" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                                        <small><div id="investedErr" class="error"></div></small>
+                                                        <label for="invested">Amount invested</label>
+                                                    </div>
+                                                    <div class="input-field col m6 s12">
+                                                        <input placeholder="Investors" id="investors" name="investors" type="text" value="<%= project.investors %>" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                                        <small><div id="investorsErr" class="error"></div></small>
+                                                        <label for="investors">Investors</label>
+                                                    </div>
                                                     <div class="input-field col s12">
                                                         <input placeholder="Location" id="location" name="location" value="<%= project.location %>" type="text">
                                                         <small><div id="error6" class="error"></div></small>
@@ -213,6 +223,8 @@
                 const propertyValue = document.getElementById('property').value.trim();
                 const amountValue = document.getElementById('totalAmount').value.trim();
                 const monthlyReturnValue = document.getElementById('monthlyReturn').value.trim();
+                const investedValue = document.getElementById('invested').value;
+                const investorsValue = document.getElementById('investors').value;
                 const locationValue = document.getElementById('location').value.trim();
                 const urlValue = document.getElementById('url').value.trim();
                 const filevalue = document.getElementById('input-file-now').value;
@@ -288,6 +300,20 @@
                     returnVal = false;
                 } else {
                     document.getElementById('monthlyReturnErr').innerText = '';
+                }
+
+                if (investedValue == '') {
+                    document.getElementById('investedErr').innerText = 'Please enter invested amount.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('investedErr').innerText = '';
+                }
+
+                if (investorsValue == '') {
+                    document.getElementById('investorsErr').innerText = 'Please enter number of investors.';
+                    returnVal = false;
+                } else {
+                    document.getElementById('investorsErr').innerText = '';
                 }
 
                 if (locationValue == '') {

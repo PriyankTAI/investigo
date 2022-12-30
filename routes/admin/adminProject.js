@@ -75,6 +75,10 @@ router.post('/add', checkAdmin, upload.fields([
             req.flash('red', 'Total amount can not be less than 100000.');
             return res.redirect(req.originalUrl);
         }
+        if (req.body.totalAmount < req.body.invested) {
+            req.flash('red', 'Total amount can not be less than already invested amount.');
+            return res.redirect(req.originalUrl);
+        }
 
         // image
         let image;
@@ -117,6 +121,8 @@ router.post('/add', checkAdmin, upload.fields([
             property: req.body.property,
             totalAmount: req.body.totalAmount,
             monthlyReturn: req.body.monthlyReturn,
+            invested: req.body.invested || 100000,
+            investors: req.body.investors || 0,
             location: req.body.location.replace(/\s*,\s*/g, ",").trim(),
             url: req.body.url,
             image,
@@ -184,7 +190,7 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             req.flash('red', `Project not found!`);
             return res.redirect('/admin/project');
         }
-        if (req.body.totalAmount < project.invested) {
+        if (req.body.totalAmount < req.body.invested) {
             req.flash('red', 'Total amount can not be less than already invested amount.');
             return res.redirect(req.originalUrl);
         }
@@ -199,6 +205,8 @@ router.post('/edit/:id', checkAdmin, upload.fields([
         project.property = req.body.property;
         project.totalAmount = req.body.totalAmount;
         project.monthlyReturn = req.body.monthlyReturn;
+        project.invested = req.body.invested,
+        project.investors = req.body.investors,
         project.location = req.body.location.replace(/\s*,\s*/g, ",").trim();
         project.url = req.body.url;
 
