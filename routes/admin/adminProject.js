@@ -190,7 +190,7 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             req.flash('red', `Project not found!`);
             return res.redirect('/admin/project');
         }
-        if (req.body.totalAmount < req.body.invested) {
+        if (parseInt(req.body.totalAmount) < parseInt(req.body.invested)) {
             req.flash('red', 'Total amount can not be less than already invested amount.');
             return res.redirect(req.originalUrl);
         }
