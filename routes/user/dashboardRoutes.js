@@ -100,6 +100,9 @@ router.post('/profile', checkUser, upload.single('image'), async (req, res, next
         if (error.code == '11000' && Object.keys(error.keyValue) == 'email') {
             return next(createError.BadRequest('error.emailReg'));
         }
+        if (error.name == 'CastError') {
+            return next(createError.BadRequest(`${error.stringValue} is not valid ${error.path}.`));
+        }
         next(error);
     }
 });

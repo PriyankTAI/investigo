@@ -122,6 +122,18 @@
                                                     <td><%= user.enterprise %></td>
                                                 </tr>
                                                 <% } %>
+                                                <% if (user.dob) { %>
+                                                <tr>
+                                                    <th>DOB:</th>
+                                                    <td><%= user.date.toLocaleDateString('en-GB') %></td>
+                                                </tr>
+                                                <% } %>
+                                                <% if (user.gender) { %>
+                                                <tr>
+                                                    <th>Gender:</th>
+                                                    <td><%= user.gender %></td>
+                                                </tr>
+                                                <% } %>
                                             </tbody>
                                         </table>
 

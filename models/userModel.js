@@ -73,6 +73,8 @@ const userSchema = new mongoose.Schema({
         enum: ['business', 'retailer'],
         required: [true, 'validation.youAre'],
     },
+    dob: Date,
+    gender: String,
     tvaNumber: String,
     enterprise: String,
     image: String,
