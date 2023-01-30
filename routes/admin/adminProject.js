@@ -20,137 +20,143 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 1024 * 1024 * 10
+        fileSize: 1024 * 1024 * 10,
     },
-    fileFilter: fileFilter
+    fileFilter: fileFilter,
 });
 
 // GET model
 const Project = require('../../models/projectModel');
 const Order = require('../../models/orderModel');
 
-const EnProperties = [
-    'Residential',
-    'Commercial',
-];
-const FrProperties = [
-    'Résidentielin',
-    'Commercial',
-];
+const EnProperties = ['Residential', 'Commercial'];
+const FrProperties = ['Résidentiel', 'Commercial'];
 
 // GET project
-router.get("/", checkAdmin, async (req, res) => {
+router.get('/', checkAdmin, async (req, res) => {
     try {
         const projects = await Project.find({ finished: false }).sort('-_id');
-        res.status(201).render("project", {
+        res.status(201).render('project', {
             projects,
-            image: req.admin.image
+            image: req.admin.image,
         });
     } catch (error) {
-        res.status(500).send("An error occured");
+        res.status(500).send('An error occured');
     }
 });
 
 // GET add project
-router.get("/add", checkAdmin, (req, res) => {
-    res.render("add_project", { image: req.admin.image });
+router.get('/add', checkAdmin, (req, res) => {
+    res.render('add_project', { image: req.admin.image });
 });
 
 // POST add project
-router.post('/add', checkAdmin, upload.fields([
-    { name: 'image', maxCount: 1 },
-    { name: 'icon', maxCount: 1 },
-    { name: 'gallery' }
-]), [
-    check('EnTitle', 'English title must have a value').notEmpty(),
-    check('EnDesc', 'English description must have a value').notEmpty(),
-    check('EnReasons', 'English reasons must have a value').notEmpty(),
-    check('FrTitle', 'French title must have a value').notEmpty(),
-    check('FrDesc', 'French description must have a value').notEmpty(),
-    check('FrReasons', 'French reasons must have a value').notEmpty(),
-    check('category', 'category must have a value').notEmpty(),
-    check('property', 'property must have a value').notEmpty(),
-    check('totalAmount', 'total amount must have a value').isNumeric(),
-    check('monthlyReturn', 'monthly return must have a value').notEmpty(),
-    check('location', 'location must have a value').notEmpty(),
-], async (req, res) => {
-    try {
-        const validationErrors = validationResult(req);
-        if (validationErrors.errors.length > 0) {
-            req.flash('red', validationErrors.errors[0].msg);
-            return res.redirect(req.originalUrl);
-        }
-        if (req.body.totalAmount < 100000) {
-            req.flash('red', 'Total amount can not be less than 100000.');
-            return res.redirect(req.originalUrl);
-        }
-        if (parseInt(req.body.totalAmount) < parseInt(req.body.invested)) {
-            req.flash('red', 'Total amount can not be less than already invested amount.');
-            return res.redirect(req.originalUrl);
-        }
+router.post(
+    '/add',
+    checkAdmin,
+    upload.fields([
+        { name: 'image', maxCount: 1 },
+        { name: 'icon', maxCount: 1 },
+        { name: 'gallery' },
+    ]),
+    [
+        check('EnTitle', 'English title must have a value').notEmpty(),
+        check('EnDesc', 'English description must have a value').notEmpty(),
+        check('EnReasons', 'English reasons must have a value').notEmpty(),
+        check('FrTitle', 'French title must have a value').notEmpty(),
+        check('FrDesc', 'French description must have a value').notEmpty(),
+        check('FrReasons', 'French reasons must have a value').notEmpty(),
+        check('category', 'category must have a value').notEmpty(),
+        check('property', 'property must have a value').notEmpty(),
+        check('totalAmount', 'total amount must have a value').isNumeric(),
+        check('monthlyReturn', 'monthly return must have a value').notEmpty(),
+        check('location', 'location must have a value').notEmpty(),
+    ],
+    async (req, res) => {
+        try {
+            const validationErrors = validationResult(req);
+            if (validationErrors.errors.length > 0) {
+                req.flash('red', validationErrors.errors[0].msg);
+                return res.redirect(req.originalUrl);
+            }
+            if (req.body.totalAmount < 100000) {
+                req.flash('red', 'Total amount can not be less than 100000.');
+                return res.redirect(req.originalUrl);
+            }
+            if (parseInt(req.body.totalAmount) < parseInt(req.body.invested)) {
+                req.flash(
+                    'red',
+                    'Total amount can not be less than already invested amount.'
+                );
+                return res.redirect(req.originalUrl);
+            }
 
-        // image
-        let image;
-        if (typeof req.files.image[0] !== 'undefined') {
-            const result = await S3.uploadFile(req.files.image[0]);
-            image = result.Location;
-        }
+            // image
+            let image;
+            if (typeof req.files.image[0] !== 'undefined') {
+                const result = await S3.uploadFile(req.files.image[0]);
+                image = result.Location;
+            }
 
-        // icon
-        let icon;
-        if (typeof req.files.icon[0] !== 'undefined') {
-            const result = await S3.uploadFile(req.files.icon[0]);
-            icon = result.Location;
-        }
+            // icon
+            let icon;
+            if (typeof req.files.icon[0] !== 'undefined') {
+                const result = await S3.uploadFile(req.files.icon[0]);
+                icon = result.Location;
+            }
 
-        // gallery
-        let gallery = [];
-        if (req.files.gallery) {
-            for (let i = 0; i < req.files.gallery.length; i++) {
-                if (typeof req.files.gallery[i] !== 'undefined') {
-                    const result = await S3.uploadFile(req.files.gallery[i]);
-                    let name = result.Location;
-                    gallery.push(name);
+            // gallery
+            let gallery = [];
+            if (req.files.gallery) {
+                for (let i = 0; i < req.files.gallery.length; i++) {
+                    if (typeof req.files.gallery[i] !== 'undefined') {
+                        const result = await S3.uploadFile(
+                            req.files.gallery[i]
+                        );
+                        let name = result.Location;
+                        gallery.push(name);
+                    }
                 }
             }
+
+            const frProperty =
+                FrProperties[EnProperties.indexOf(req.body.property)];
+
+            await Project.create({
+                en: {
+                    title: req.body.EnTitle,
+                    description: req.body.EnDesc,
+                    reasons: req.body.EnReasons,
+                    property: req.body.property,
+                },
+                fr: {
+                    title: req.body.FrTitle,
+                    description: req.body.FrDesc,
+                    reasons: req.body.FrReasons,
+                    property: frProperty,
+                },
+                category: req.body.category,
+                totalAmount: req.body.totalAmount,
+                monthlyReturn: req.body.monthlyReturn,
+                invested: req.body.invested || 100000,
+                investors: req.body.investors || 0,
+                location: req.body.location.replace(/\s*,\s*/g, ',').trim(),
+                url: req.body.url,
+                image,
+                icon,
+                gallery,
+            });
+
+            req.flash('green', `Project added successfully`);
+            res.redirect('/admin/project');
+        } catch (error) {
+            res.send(error.message);
         }
-
-        const frProperty = FrProperties[EnProperties.indexOf(req.body.property)];
-
-        await Project.create({
-            en: {
-                title: req.body.EnTitle,
-                description: req.body.EnDesc,
-                reasons: req.body.EnReasons,
-                property: req.body.property,
-            },
-            fr: {
-                title: req.body.FrTitle,
-                description: req.body.FrDesc,
-                reasons: req.body.FrReasons,
-                property: frProperty,
-            },
-            category: req.body.category,
-            totalAmount: req.body.totalAmount,
-            monthlyReturn: req.body.monthlyReturn,
-            invested: req.body.invested || 100000,
-            investors: req.body.investors || 0,
-            location: req.body.location.replace(/\s*,\s*/g, ",").trim(),
-            url: req.body.url,
-            image,
-            icon,
-            gallery,
-        });
-
-        req.flash('green', `Project added successfully`);
-        res.redirect('/admin/project');
-    } catch (error) {
-        res.send(error.message);
     }
-});
+);
 
 // GET edit project
-router.get("/edit/:id", checkAdmin, async (req, res) => {
+router.get('/edit/:id', checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
         const project = await Project.findById(id);
@@ -158,97 +164,109 @@ router.get("/edit/:id", checkAdmin, async (req, res) => {
             req.flash('red', `Project not found!`);
             return res.redirect('/admin/project');
         }
-        res.status(201).render("edit_project", {
+        res.status(201).render('edit_project', {
             project,
-            image: req.admin.image
+            image: req.admin.image,
         });
     } catch (error) {
         if (error.name === 'CastError') {
             req.flash('red', `Project not found!`);
             res.redirect('/admin/project');
         } else {
-            res.send(error)
+            res.send(error);
         }
     }
 });
 
 // POST Edit project
-router.post('/edit/:id', checkAdmin, upload.fields([
-    { name: 'image', maxCount: 1 },
-    { name: 'icon', maxCount: 1 }
-]), [
-    check('EnTitle', 'English title must have a value').notEmpty(),
-    check('EnDesc', 'English description must have a value').notEmpty(),
-    check('EnReasons', 'English reasons must have a value').notEmpty(),
-    check('FrTitle', 'French title must have a value').notEmpty(),
-    check('FrDesc', 'French description must have a value').notEmpty(),
-    check('FrReasons', 'French reasons must have a value').notEmpty(),
-    check('category', 'category must have a value').notEmpty(),
-    check('property', 'property must have a value').notEmpty(),
-    check('totalAmount', 'total amount must have a value').isNumeric(),
-    check('monthlyReturn', 'monthly return must have a value').notEmpty(),
-    check('location', 'location must have a value').notEmpty(),
-], async (req, res) => {
-    try {
-        const validationErrors = validationResult(req);
-        if (validationErrors.errors.length > 0) {
-            req.flash('red', validationErrors.errors[0].msg);
-            return res.redirect(req.originalUrl);
-        }
+router.post(
+    '/edit/:id',
+    checkAdmin,
+    upload.fields([
+        { name: 'image', maxCount: 1 },
+        { name: 'icon', maxCount: 1 },
+    ]),
+    [
+        check('EnTitle', 'English title must have a value').notEmpty(),
+        check('EnDesc', 'English description must have a value').notEmpty(),
+        check('EnReasons', 'English reasons must have a value').notEmpty(),
+        check('FrTitle', 'French title must have a value').notEmpty(),
+        check('FrDesc', 'French description must have a value').notEmpty(),
+        check('FrReasons', 'French reasons must have a value').notEmpty(),
+        check('category', 'category must have a value').notEmpty(),
+        check('property', 'property must have a value').notEmpty(),
+        check('totalAmount', 'total amount must have a value').isNumeric(),
+        check('monthlyReturn', 'monthly return must have a value').notEmpty(),
+        check('location', 'location must have a value').notEmpty(),
+    ],
+    async (req, res) => {
+        try {
+            const validationErrors = validationResult(req);
+            if (validationErrors.errors.length > 0) {
+                req.flash('red', validationErrors.errors[0].msg);
+                return res.redirect(req.originalUrl);
+            }
 
-        const id = req.params.id;
-        const project = await Project.findById(id);
-        if (project == null) {
-            req.flash('red', `Project not found!`);
-            return res.redirect('/admin/project');
-        }
-        if (parseInt(req.body.totalAmount) < parseInt(req.body.invested)) {
-            req.flash('red', 'Total amount can not be less than already invested amount.');
-            return res.redirect(req.originalUrl);
-        }
+            const id = req.params.id;
+            const project = await Project.findById(id);
+            if (project == null) {
+                req.flash('red', `Project not found!`);
+                return res.redirect('/admin/project');
+            }
+            if (parseInt(req.body.totalAmount) < parseInt(req.body.invested)) {
+                req.flash(
+                    'red',
+                    'Total amount can not be less than already invested amount.'
+                );
+                return res.redirect(req.originalUrl);
+            }
 
-        const frProperty = FrProperties[EnProperties.indexOf(req.body.property)];
+            const frProperty =
+                FrProperties[EnProperties.indexOf(req.body.property)];
 
-        project.en.title = req.body.EnTitle;
-        project.en.description = req.body.EnDesc;
-        project.en.reasons = req.body.EnReasons;
-        project.en.property = req.body.property;
-        project.fr.title = req.body.FrTitle;
-        project.fr.description = req.body.FrDesc;
-        project.fr.reasons = req.body.FrReasons;
-        project.fr.property = frProperty;
-        project.category = req.body.category;
-        project.totalAmount = req.body.totalAmount;
-        project.monthlyReturn = req.body.monthlyReturn;
-        project.invested = req.body.invested,
-        project.investors = req.body.investors,
-        project.location = req.body.location.replace(/\s*,\s*/g, ",").trim();
-        project.url = req.body.url;
+            project.en.title = req.body.EnTitle;
+            project.en.description = req.body.EnDesc;
+            project.en.reasons = req.body.EnReasons;
+            project.en.property = req.body.property;
+            project.fr.title = req.body.FrTitle;
+            project.fr.description = req.body.FrDesc;
+            project.fr.reasons = req.body.FrReasons;
+            project.fr.property = frProperty;
+            project.category = req.body.category;
+            project.totalAmount = req.body.totalAmount;
+            project.monthlyReturn = req.body.monthlyReturn;
+            (project.invested = req.body.invested),
+                (project.investors = req.body.investors),
+                (project.location = req.body.location
+                    .replace(/\s*,\s*/g, ',')
+                    .trim());
+            project.url = req.body.url;
 
-        if (typeof req.files.image !== 'undefined') {
-            const result = await S3.uploadFile(req.files.image[0]);
-            project.image = result.Location;
-        }
+            if (typeof req.files.image !== 'undefined') {
+                const result = await S3.uploadFile(req.files.image[0]);
+                project.image = result.Location;
+            }
 
-        if (typeof req.files.icon !== 'undefined') {
-            const result = await S3.uploadFile(req.files.icon[0]);
-            project.icon = result.Location;
-        }
+            if (typeof req.files.icon !== 'undefined') {
+                const result = await S3.uploadFile(req.files.icon[0]);
+                project.icon = result.Location;
+            }
 
-        await project.save();
+            await project.save();
 
-        req.flash('green', `Project edited successfully`);
-        res.redirect('/admin/project');
-    } catch (error) {
-        if (error.name === 'CastError') {
-            req.flash('red', `Project not found!`);
+            req.flash('green', `Project edited successfully`);
             res.redirect('/admin/project');
-        } else {
-            req.flash('red', error.message);
-            res.redirect('/admin/project');
+        } catch (error) {
+            if (error.name === 'CastError') {
+                req.flash('red', `Project not found!`);
+                res.redirect('/admin/project');
+            } else {
+                req.flash('red', error.message);
+                res.redirect('/admin/project');
+            }
         }
     }
-});
+);
 
 // add image
 router.post('/gallery/:id/add', upload.single('image'), async (req, res) => {
@@ -262,10 +280,7 @@ router.post('/gallery/:id/add', upload.single('image'), async (req, res) => {
         }
 
         // update project
-        await Project.findByIdAndUpdate(
-            id,
-            { $push: { gallery: url } }
-        );
+        await Project.findByIdAndUpdate(id, { $push: { gallery: url } });
 
         res.redirect(`/admin/project/gallery/${id}`);
     } catch (error) {
@@ -275,29 +290,33 @@ router.post('/gallery/:id/add', upload.single('image'), async (req, res) => {
 });
 
 // edit image
-router.post('/gallery/:id/edit/:i', upload.single('image'), async (req, res) => {
-    const { id, i } = req.params;
-    try {
-        const project = await Project.findById(id);
-        const gallery = project.gallery;
+router.post(
+    '/gallery/:id/edit/:i',
+    upload.single('image'),
+    async (req, res) => {
+        const { id, i } = req.params;
+        try {
+            const project = await Project.findById(id);
+            const gallery = project.gallery;
 
-        // upload file
-        let url;
-        if (typeof req.file !== 'undefined') {
-            const result = await S3.uploadFile(req.file);
-            url = result.Location;
+            // upload file
+            let url;
+            if (typeof req.file !== 'undefined') {
+                const result = await S3.uploadFile(req.file);
+                url = result.Location;
+            }
+
+            // update project
+            gallery[i] = url;
+            await project.save();
+
+            res.redirect(`/admin/project/gallery/${id}`);
+        } catch (error) {
+            req.flash('red', error.message);
+            res.redirect(`/admin/project/gallery/${id}`);
         }
-
-        // update project
-        gallery[i] = url;
-        await project.save();
-
-        res.redirect(`/admin/project/gallery/${id}`);
-    } catch (error) {
-        req.flash('red', error.message);
-        res.redirect(`/admin/project/gallery/${id}`);
     }
-});
+);
 
 // delete image
 router.get('/gallery/:id/delete/:i', async (req, res) => {
@@ -328,7 +347,7 @@ router.get('/gallery/:id', checkAdmin, async (req, res) => {
 
         res.render('project_gallery', {
             project,
-            image: req.admin.image
+            image: req.admin.image,
         });
     } catch (error) {
         if (error.name === 'CastError') {
@@ -353,11 +372,18 @@ router.get('/:id', checkAdmin, async (req, res) => {
                 {
                     $group: {
                         _id: '$package',
-                        numberOfOrders: { $sum: 1 }
-                    }
+                        numberOfOrders: { $sum: 1 },
+                    },
                 },
                 { $sort: { _id: 1 } },
-                { $lookup: { from: 'packages', localField: '_id', foreignField: '_id', as: 'package' } }
+                {
+                    $lookup: {
+                        from: 'packages',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: 'package',
+                    },
+                },
             ]),
         ]);
 
@@ -370,7 +396,7 @@ router.get('/:id', checkAdmin, async (req, res) => {
             project,
             orders,
             docs,
-            image: req.admin.image
+            image: req.admin.image,
         });
     } catch (error) {
         if (error.name === 'CastError') {
