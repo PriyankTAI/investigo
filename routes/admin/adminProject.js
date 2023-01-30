@@ -29,6 +29,15 @@ const upload = multer({
 const Project = require('../../models/projectModel');
 const Order = require('../../models/orderModel');
 
+const EnProperties = [
+    'Residential',
+    'Commercial',
+];
+const FrProperties = [
+    'Résidentielin',
+    'Commercial',
+];
+
 // GET project
 router.get("/", checkAdmin, async (req, res) => {
     try {
@@ -106,19 +115,22 @@ router.post('/add', checkAdmin, upload.fields([
             }
         }
 
+        const frProperty = FrProperties[EnProperties.indexOf(req.body.property)];
+
         await Project.create({
             en: {
                 title: req.body.EnTitle,
                 description: req.body.EnDesc,
                 reasons: req.body.EnReasons,
+                property: req.body.property,
             },
             fr: {
                 title: req.body.FrTitle,
                 description: req.body.FrDesc,
                 reasons: req.body.FrReasons,
+                property: frProperty,
             },
             category: req.body.category,
-            property: req.body.property,
             totalAmount: req.body.totalAmount,
             monthlyReturn: req.body.monthlyReturn,
             invested: req.body.invested || 100000,
@@ -195,14 +207,17 @@ router.post('/edit/:id', checkAdmin, upload.fields([
             return res.redirect(req.originalUrl);
         }
 
+        const frProperty = FrProperties[EnProperties.indexOf(req.body.property)];
+
         project.en.title = req.body.EnTitle;
         project.en.description = req.body.EnDesc;
         project.en.reasons = req.body.EnReasons;
+        project.en.property = req.body.property;
         project.fr.title = req.body.FrTitle;
         project.fr.description = req.body.FrDesc;
         project.fr.reasons = req.body.FrReasons;
+        project.fr.property = frProperty;
         project.category = req.body.category;
-        project.property = req.body.property;
         project.totalAmount = req.body.totalAmount;
         project.monthlyReturn = req.body.monthlyReturn;
         project.invested = req.body.invested,

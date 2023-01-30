@@ -141,9 +141,9 @@
                                                     </div>
                                                     <div class="input-field col m6 s12">
                                                         <select id="property" name="property">
-                                                            <option value="" <%= project.property == '' ? 'selected' : '' %>>Select Property</option>
-                                                            <option value="Commercial" <%= project.property == 'Commercial' ? 'selected' : '' %>>Commercial</option>
-                                                            <option value="Residential" <%= project.property == 'Residential' ? 'selected' : '' %>>Residential</option>
+                                                            <option value="" <%= project.en.property == '' ? 'selected' : '' %>>Select Property</option>
+                                                            <option value="Commercial" <%= project.en.property == 'Commercial' ? 'selected' : '' %>>Commercial</option>
+                                                            <option value="Residential" <%= project.en.property == 'Residential' ? 'selected' : '' %>>Residential</option>
                                                         </select>
                                                         <label>Select property</label>
                                                         <small><div id="error3" class="error"></div></small>
