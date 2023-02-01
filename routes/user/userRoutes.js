@@ -85,6 +85,13 @@ router.get('/project/:id', async (req, res, next) => {
         events = events.map(el => multilingual(el, req));
         project.events = events;
 
+
+        if (project.url.includes('src="')) {
+            let url = project.url.split('src="');
+            url = url[1].split('"');
+            if (url[0]) project.url = url[0];
+        }
+
         res.json({
             status: "success",
             project
