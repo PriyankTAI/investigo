@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const jwt = require("jsonwebtoken");
-const validator = require("validator");
+const jwt = require('jsonwebtoken');
+const validator = require('validator');
 const createError = require('http-errors');
 const { authenticator } = require('otplib');
 
@@ -10,12 +10,12 @@ const userSchema = new mongoose.Schema({
     facebookId: String,
     userId: {
         type: String,
-        unique: true
+        unique: true,
     },
     national: {
         type: String,
         unique: true,
-        sparse: true
+        sparse: true,
     },
     fname: {
         type: String,
@@ -32,30 +32,32 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         validate(value) {
             if (!validator.isEmail(value)) {
-                throw new Error("validation.emailInvalid")
+                throw new Error('validation.emailInvalid');
             }
-        }
+        },
     },
     password: {
         type: String,
         validate(value) {
             if (!validator.isLength(value, { min: 6, max: 1000 })) {
-                throw Error("validation.passInvalid");
+                throw Error('validation.passInvalid');
             }
-        }
+        },
     },
     lastLogin: Date,
-    tokens: [{
-        token: String,
-        device: {
-            type: String,
-            required: [true, 'validation.device'],
+    tokens: [
+        {
+            token: String,
+            device: {
+                type: String,
+                required: [true, 'validation.device'],
+            },
+            date: {
+                type: Date,
+                default: Date.now,
+            },
         },
-        date: {
-            type: Date,
-            default: Date.now
-        }
-    }],
+    ],
     secret: String,
     recoveryCode: String,
     twofa: {
@@ -73,6 +75,8 @@ const userSchema = new mongoose.Schema({
         enum: ['business', 'retailer'],
         required: [true, 'validation.youAre'],
     },
+    address: String,
+    country: String,
     dob: Date,
     gender: String,
     tvaNumber: String,
@@ -87,32 +91,34 @@ const userSchema = new mongoose.Schema({
     //     type: mongoose.Schema.ObjectId,
     //     ref: 'PaymentMethod',
     // }],
-    notifications: [{
-        en: {
-            title: String,
-            message: String,
+    notifications: [
+        {
+            en: {
+                title: String,
+                message: String,
+            },
+            fr: {
+                title: String,
+                message: String,
+            },
+            date: {
+                type: Date,
+                default: Date.now,
+            },
+            read: {
+                type: Boolean,
+                default: false,
+            },
         },
-        fr: {
-            title: String,
-            message: String,
-        },
-        date: {
-            type: Date,
-            default: Date.now,
-        },
-        read: {
-            type: Boolean,
-            default: false,
-        },
-    }],
+    ],
     date: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
     },
     blocked: {
         type: Boolean,
-        default: false
-    }
+        default: false,
+    },
 });
 
 // generating tokens
@@ -131,7 +137,7 @@ userSchema.methods.generateAuthToken = async function (device) {
         // console.log(error);
         throw createError.BadRequest(error);
     }
-}
+};
 
 // verify 2fa code
 userSchema.methods.verifyCode = function (code) {
@@ -141,7 +147,7 @@ userSchema.methods.verifyCode = function (code) {
         // console.log(error);
         createError.BadRequest(error);
     }
-}
+};
 
 // if phone / youAre is updated
 userSchema.pre('findOneAndUpdate', async function (next) {
@@ -165,8 +171,8 @@ userSchema.pre('findOneAndUpdate', async function (next) {
 });
 
 // converting password into hash
-userSchema.pre("save", async function (next) {
-    if (this.isModified("password")) {
+userSchema.pre('save', async function (next) {
+    if (this.isModified('password')) {
         if (this.password == undefined) {
             return next(createError.BadRequest('validation.pass'));
         }
@@ -181,27 +187,32 @@ userSchema.pre("save", async function (next) {
             },
             fr: {
                 title: 'Bienvenu chez Investigo',
-                message: 'Nous sommes ravis que vous rejoigniez notre communauté.',
-            }
+                message:
+                    'Nous sommes ravis que vous rejoigniez notre communauté.',
+            },
         });
         this.notifications.push({
             en: {
                 title: 'Please complete your profile',
-                message: 'For security purposes, please keep your profile updated.',
+                message:
+                    'For security purposes, please keep your profile updated.',
             },
             fr: {
                 title: 'Merci de compléter votre profil',
-                message: 'Pour des raisons de sécurité, veuillez maintenir votre profil à jour.',
+                message:
+                    'Pour des raisons de sécurité, veuillez maintenir votre profil à jour.',
             },
         });
         this.notifications.push({
             en: {
                 title: 'You are invited to verify your number',
-                message: 'In order to keep your account secure, please confirm your number.',
+                message:
+                    'In order to keep your account secure, please confirm your number.',
             },
             fr: {
                 title: 'Vous êtes invité à vérifier votre numéro de téléphone',
-                message: 'Afin de sécuriser votre compte, veuillez confirmer votre numéro de téléphone.',
+                message:
+                    'Afin de sécuriser votre compte, veuillez confirmer votre numéro de téléphone.',
             },
         });
     }
@@ -222,4 +233,4 @@ userSchema.pre('validate', function (next) {
     next();
 });
 
-module.exports = new mongoose.model("User", userSchema);
+module.exports = new mongoose.model('User', userSchema);
