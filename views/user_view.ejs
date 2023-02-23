@@ -128,6 +128,12 @@
                                                     <td><%= user.address %></td>
                                                 </tr>
                                                 <% } %>
+                                                <% if (user.zipCode) { %>
+                                                <tr>
+                                                    <th>Zip code:</th>
+                                                    <td><%= user.zipCode %></td>
+                                                </tr>
+                                                <% } %>
                                                 <% if (user.country) { %>
                                                 <tr>
                                                     <th>Country:</th>

@@ -76,6 +76,7 @@ const userSchema = new mongoose.Schema({
         required: [true, 'validation.youAre'],
     },
     address: String,
+    zipCode: String,
     country: String,
     dob: Date,
     gender: String,
