@@ -122,6 +122,18 @@
                                                     <td><%= user.enterprise %></td>
                                                 </tr>
                                                 <% } %>
+                                                <% if (user.address) { %>
+                                                <tr>
+                                                    <th>Address:</th>
+                                                    <td><%= user.address %></td>
+                                                </tr>
+                                                <% } %>
+                                                <% if (user.country) { %>
+                                                <tr>
+                                                    <th>Country:</th>
+                                                    <td><%= user.country %></td>
+                                                </tr>
+                                                <% } %>
                                                 <% if (user.dob) { %>
                                                 <tr>
                                                     <th>DOB:</th>
