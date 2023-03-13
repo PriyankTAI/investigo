@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <title>Login | Investigo</title>
     <link rel="apple-touch-icon" href="/app-assets/images/favicon/apple-touch-icon-152x152.png">
-    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/Icon-Final.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- BEGIN: VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
@@ -19,7 +19,8 @@
     <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/login.css">
     <!-- END: Page Level CSS-->
 </head>
- <!-- END:  -->
+<!-- END:  -->
+
 <body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 1-column login-bg blank-page blank-page" data-open="click" data-menu="vertical-dark-menu" data-col="1-column">
     <div class="row">
         <div class="col s12">
@@ -34,13 +35,15 @@
                             </div>
                             <!-- messages -->
                             <%- messages('messages', locals) %>
-                           
+
                             <div class="row margin">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix pt-2">person_outline</i>
                                     <input id="email" type="text" name="email">
                                     <label for="email" class="center-align">Email</label>
-                                    <small><div id="error1" class="error" style="margin-left: 3rem;"></div></small>
+                                    <small>
+                                        <div id="error1" class="error" style="margin-left: 3rem;"></div>
+                                    </small>
                                 </div>
                             </div>
                             <div class="row margin">
@@ -48,7 +51,9 @@
                                     <i class="material-icons prefix pt-2">lock_outline</i>
                                     <input id="pass" type="password" name="password">
                                     <label for="pass">Password</label>
-                                    <small><div id="error2" class="error" style="margin-left: 3rem;"></div></small>
+                                    <small>
+                                        <div id="error2" class="error" style="margin-left: 3rem;"></div>
+                                    </small>
                                 </div>
                             </div>
                             <div class="row">
@@ -66,11 +71,12 @@
 
     <script>
         const form = document.getElementById('loginform');
-        
+
         // form
         form.addEventListener('submit', (e) => {
             e.preventDefault();
         })
+
         function validate() {
             let returnVal = true;
 
