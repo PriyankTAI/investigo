@@ -7978,7 +7978,7 @@ nav.display-none.search-sm .nav-wrapper form .input-field i {
 @media only screen and (max-width: 600px) {
     .sidenav-main .brand-sidebar .brand-logo {
         /* padding: 16px 12px 20px 12px; */
-        padding: 7px 12px;
+        padding: 4px 12px;
     }
     .sidenav-main .btn-sidenav-toggle {
         position: relative;
